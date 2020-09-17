@@ -102,6 +102,16 @@
     <Content Include="css\theme\pinklady.css" />
     <Content Include="css\theme\somebook.css" />
     <Content Include="css\theme\zenburn.css" />
+    <Content Include="FunDayTrip_v1_Model.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FunDayTrip_v1_Model.edmx</DependentUpon>
+      <LastGenOutput>FunDayTrip_v1_Model.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="FunDayTrip_v1_Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FunDayTrip_v1_Model.edmx</DependentUpon>
+      <LastGenOutput>FunDayTrip_v1_Model.cs</LastGenOutput>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="js\BootSideMenu.js" />
     <Content Include="Web.config" />
@@ -109,14 +119,135 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="FunDayTrip_v1_Model.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FunDayTrip_v1_Model.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FunDayTrip_v1_Model.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FunDayTrip_v1_Model.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FunDayTrip_v1_Model.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tAd.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tAdmin.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tAlbum.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tBalance.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tBank.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tBlock.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tComment.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tCoordinate.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tFollow.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tFuntionAuth.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tGame.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tGameGroup.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tGameQA.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tGameStep.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tGameUnlock.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tIcon.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tLocation.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tLR_Relation.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tMember.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tMessage.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tNote.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tPhoto.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tPoint.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tProfitMember.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tProfitType.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tReport.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tRole.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tRoute.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tShareAuth.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tStatistic.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tTag.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tTagMsgRelation.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tUnlock.cs">
+      <DependentUpon>FunDayTrip_v1_Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\CAddLocationViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
+    <EntityDeploy Include="FunDayTrip_v1_Model.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FunDayTrip_v1_Model.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="FunDayTrip_v1_Model.edmx.diagram">
+      <DependentUpon>FunDayTrip_v1_Model.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Views\Home\Index.cshtml" />
     <None Include="Web.Debug.config">

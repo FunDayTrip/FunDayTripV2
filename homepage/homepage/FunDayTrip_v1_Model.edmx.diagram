@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="10fc77b23ba34fcf9c2c03e63e18e8aa" Name="Diagram1" ZoomLevel="36">
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tAd" Width="1.5" PointX="10.5" PointY="29.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tAdmin" Width="1.5" PointX="3" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tAlbum" Width="1.5" PointX="7.5" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tBalance" Width="1.5" PointX="9.75" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tBank" Width="1.5" PointX="7.5" PointY="34" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tBlock" Width="1.5" PointX="7.5" PointY="37.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tComment" Width="1.5" PointX="7.5" PointY="25.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tCoordinate" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tFollow" Width="1.5" PointX="7.5" PointY="40.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tFuntionAuth" Width="1.5" PointX="0.75" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tGame" Width="1.5" PointX="8.25" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tGameGroup" Width="1.5" PointX="10.5" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tGameQA" Width="1.5" PointX="10.5" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tGameStep" Width="1.5" PointX="10.5" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tGameUnlock" Width="1.5" PointX="15.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tIcon" Width="1.5" PointX="3" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tLocation" Width="1.5" PointX="5.25" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tLR_Relation" Width="1.5" PointX="18.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tMember" Width="1.5" PointX="3" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tMessage" Width="1.5" PointX="7.5" PointY="46" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tNote" Width="1.5" PointX="7.5" PointY="49.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tPhoto" Width="1.5" PointX="12.5" PointY="33.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tPoint" Width="1.5" PointX="7.5" PointY="56.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tProfitMember" Width="1.5" PointX="8" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tProfitType" Width="1.5" PointX="5.75" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tReport" Width="1.5" PointX="15.75" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tRole" Width="1.5" PointX="28.625" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tRoute" Width="1.5" PointX="13.5" PointY="27.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tShareAuth" Width="1.5" PointX="3" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tStatistic" Width="1.5" PointX="18.75" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tTag" Width="1.5" PointX="16.5" PointY="37.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tTagMsgRelation" Width="1.5" PointX="18.75" PointY="35.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tUnlock" Width="1.5" PointX="15.75" PointY="34" IsExpanded="true" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tAd_tLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tAd_tRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tAd_tRole_Role_Admin" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tAdmin_tFuntionAuth" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tRole_tAdmin" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tAlbum_TotLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tAlbum_TotShareAuth" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tBalance_tBank" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tBalance_tRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tBank_tRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tBlock_tRole_Self" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tBlock_tRole_Target" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tComment_tLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tComment_tRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tComment_tRoute" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tReport_tComment" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tLocation_tCoordinate" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tFollow_tRole_Self" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tFollow_tRole_Target" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tMember_tMember" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tProfitMember_tFuntionAuth" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tGame_tLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tGameGroup_tGame" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tGameQA_tGame" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tGameStep_tGame" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tGameGroup_tRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tGameUnlock_tGameGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tGameUnlock_tRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tLocation_tIcon" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tRoute_tIcon" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tLocation_tShareAuth" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tLR_Relation_tLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tPhoto_tLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tReport_tLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tStatistic_tLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tTagMsgRelations_tLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tUnlock_tLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tLR_Relation_tRoute" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tRole_tMember" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tRole_tMember1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tMessage_tRole_From" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tMessage_tRole_To" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tNote_tRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tNote_tRole_Admin" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tPhoto_tRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tReport_tPhoto" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tTagMsgRelations_tPhoto" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tPoint_tRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tProfitMember_tProfitType" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tRole_tProfitMember" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tReport_tRole_Admin" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tReport_tRole_Reported" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tReport_tRole_Reporter" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tReport_tRoute" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tRoute_tRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tStatistic_tRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tUnlock_tRole" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tRoute_tShareAuth" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tStatistic_tRoute" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tTagMsgRelations_tRoute" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tUnlock_tRoute" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tTagMsgRelations_tTag" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
