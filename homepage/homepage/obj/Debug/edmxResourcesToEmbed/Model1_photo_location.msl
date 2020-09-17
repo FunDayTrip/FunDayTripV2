@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="testModelStoreContainer" CdmEntityContainer="testEntities">
+    <EntitySetMapping Name="tLocations">
+      <EntityTypeMapping TypeName="testModel.tLocation">
+        <MappingFragment StoreEntitySet="tLocation">
+          <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_Coordinate" ColumnName="fId_Coordinate" />
+          <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
+          <ScalarProperty Name="fId_Icon" ColumnName="fId_Icon" />
+          <ScalarProperty Name="fType_Location" ColumnName="fType_Location" />
+          <ScalarProperty Name="fName_Location" ColumnName="fName_Location" />
+          <ScalarProperty Name="fDescript_Location" ColumnName="fDescript_Location" />
+          <ScalarProperty Name="fTime_Location" ColumnName="fTime_Location" />
+          <ScalarProperty Name="fDelete_Location" ColumnName="fDelete_Location" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tPhotoes">
+      <EntityTypeMapping TypeName="testModel.tPhoto">
+        <MappingFragment StoreEntitySet="tPhoto">
+          <ScalarProperty Name="fId_Photo" ColumnName="fId_Photo" />
+          <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fTitle_Photo" ColumnName="fTitle_Photo" />
+          <ScalarProperty Name="fDescript_Photo" ColumnName="fDescript_Photo" />
+          <ScalarProperty Name="fPath_Photo" ColumnName="fPath_Photo" />
+          <ScalarProperty Name="fTime_Photo" ColumnName="fTime_Photo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

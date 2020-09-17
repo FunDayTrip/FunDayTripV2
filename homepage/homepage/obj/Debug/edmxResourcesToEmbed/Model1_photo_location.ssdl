@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Alias="Self" Namespace="testModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012">
+  <EntityType Name="tLocation">
+    <Key>
+      <PropertyRef Name="fId_Location" />
+    </Key>
+    <Property Name="fId_Location" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="fId_Role" Type="int" />
+    <Property Name="fId_Coordinate" Type="int" />
+    <Property Name="fId_ShareAuth" Type="int" />
+    <Property Name="fId_Icon" Type="int" />
+    <Property Name="fType_Location" Type="int" />
+    <Property Name="fName_Location" MaxLength="50" Type="nvarchar" />
+    <Property Name="fDescript_Location" MaxLength="50" Type="nvarchar" />
+    <Property Name="fTime_Location" MaxLength="50" Type="nvarchar" />
+    <Property Name="fAdd_Location" MaxLength="50" Type="nvarchar" />
+    <Property Name="fDelete_Location" MaxLength="10" Type="nchar" />
+  </EntityType>
+  <EntityType Name="tPhoto">
+    <Key>
+      <PropertyRef Name="fId_Photo" />
+    </Key>
+    <Property Name="fId_Photo" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="fId_Location" Type="int" />
+    <Property Name="fId_Role" Type="int" />
+    <Property Name="fTitle_Photo" MaxLength="50" Type="nvarchar" />
+    <Property Name="fDescript_Photo" MaxLength="50" Type="nvarchar" />
+    <Property Name="fPath_Photo" MaxLength="50" Type="nvarchar" />
+    <Property Name="fTime_Photo" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_tPhoto_tLocation">
+    <End Type="Self.tLocation" Multiplicity="0..1" Role="tLocation" />
+    <End Type="Self.tPhoto" Multiplicity="*" Role="tPhoto" />
+    <ReferentialConstraint>
+      <Principal Role="tLocation">
+        <PropertyRef Name="fId_Location" />
+      </Principal>
+      <Dependent Role="tPhoto">
+        <PropertyRef Name="fId_Location" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="testModelStoreContainer">
+    <EntitySet Name="tLocation" EntityType="Self.tLocation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tPhoto" EntityType="Self.tPhoto" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tPhoto_tLocation" Association="Self.FK_tPhoto_tLocation">
+      <End EntitySet="tLocation" Role="tLocation" />
+      <End EntitySet="tPhoto" Role="tPhoto" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

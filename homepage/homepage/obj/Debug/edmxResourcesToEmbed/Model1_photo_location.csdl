@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="testModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tLocation">
+    <Key>
+      <PropertyRef Name="fId_Location" />
+    </Key>
+    <Property Name="fId_Location" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Role" Type="Int32" />
+    <Property Name="fId_Coordinate" Type="Int32" />
+    <Property Name="fId_ShareAuth" Type="Int32" />
+    <Property Name="fId_Icon" Type="Int32" />
+    <Property Name="fType_Location" Type="Int32" />
+    <Property Name="fName_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fDescript_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fTime_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fDelete_Location" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="tPhotoes" Relationship="testModel.FK_tPhoto_tLocation" FromRole="tLocation" ToRole="tPhoto" />
+  </EntityType>
+  <EntityType Name="tPhoto">
+    <Key>
+      <PropertyRef Name="fId_Photo" />
+    </Key>
+    <Property Name="fId_Photo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Location" Type="Int32" />
+    <Property Name="fId_Role" Type="Int32" />
+    <Property Name="fTitle_Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fDescript_Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fPath_Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fTime_Photo" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tLocation" Relationship="testModel.FK_tPhoto_tLocation" FromRole="tPhoto" ToRole="tLocation" />
+  </EntityType>
+  <EntityContainer Name="testEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tLocations" EntityType="Self.tLocation" />
+    <EntitySet Name="tPhotoes" EntityType="Self.tPhoto" />
+    <AssociationSet Name="FK_tPhoto_tLocation" Association="testModel.FK_tPhoto_tLocation">
+      <End Role="tLocation" EntitySet="tLocations" />
+      <End Role="tPhoto" EntitySet="tPhotoes" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_tPhoto_tLocation">
+    <End Type="testModel.tLocation" Role="tLocation" Multiplicity="0..1" />
+    <End Type="testModel.tPhoto" Role="tPhoto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tLocation">
+        <PropertyRef Name="fId_Location" />
+      </Principal>
+      <Dependent Role="tPhoto">
+        <PropertyRef Name="fId_Location" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
