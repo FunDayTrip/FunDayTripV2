@@ -1,4 +1,5 @@
-﻿
+﻿@model homepage.ViewModel.CAddLocationViewModel
+@using homepage.ViewModel
 @{
     Layout = null;
 }
@@ -8,7 +9,7 @@
 <html>
 <head>
 
-
+    @*20200916_15*@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,12 +46,6 @@
             width: 100%;
 
         }
-
-    </style>
-</head>
-<body>
-    <style>
-
         #info {
             display: block;
             position: relative;
@@ -88,133 +83,375 @@
             border-radius: 80px;
             border: none;
             z-index: 500;
-            background
+        }
+
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
         }
     </style>
+</head>
+<body>
 
-    <form method="post">
-        @*地圖*@
-        <div id='map'></div>
-        <script>
-            //mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
-            var map = new mapboxgl.Map({
-                container: 'map', // container id
-                style: 'mapbox://styles/mapbox/streets-v11',
-                center: [-74.5, 40], // starting position
-                zoom: 9 // starting zoom
-            });
+    @*地圖*@
+    <div id='map'></div>
 
+    <script>
+//全域變數===============================
+        //經緯度變數
+        var _lng, _lat;
+        var Addedmarker;
 
-        </script>
-
-        <div id="LeftSideMenu">
-            <h2>FunDayTrip</h2>
-            <div class="list-group">
-                <a href="#" class="list-group-item active">探索</a>
-
-                <a href="#item-1-1" class="list-group-item" data-toggle="collapse">地點</a>
-                <div class="list-group collapse" id="item-1-1">
-                    <a href="#" class="list-group-item">所有</a>
-                    <a href="#" class="list-group-item">我的</a>
-                    <a href="#" class="list-group-item">追蹤中</a>
-                </div>
+//要求顯示地圖============================
+        mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-74.5, 40], // starting position
+            zoom: 9 // starting zoom
+        });
 
 
-                <a href="#item-1-2" class="list-group-item" data-toggle="collapse">路線</a>
-                <div class="list-group collapse" id="item-1-2">
-                    <a href="#" class="list-group-item">所有</a>
-                    <a href="#" class="list-group-item">我的</a>
-                    <a href="#" class="list-group-item">追蹤中</a>
-                </div>
+//地圖一載入==================================
+        map.on('load', function () {
+            map.loadImage(
+                'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+                // Add an image to use as a custom marker
+                function (error, image) {
+                    if (error) throw error;
+                    map.addImage('custom-marker', image);
 
-                <a href="#item-1-3" class="list-group-item" data-toggle="collapse">相簿</a>
-                <div class="list-group collapse" id="item-1-3">
-                    <a href="#" class="list-group-item">所有</a>
-                    <a href="#" class="list-group-item">我的</a>
-                    <a href="#" class="list-group-item">追蹤中</a>
-                </div>
+                    map.addSource('places', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': [
+                                {
+                                    'type': 'Feature',
+                                    'properties': {
+                                        'description':
+                                            '<strong>Make it Mount Pleasant</strong><p>' +
+                                            'Make it Mount Pleasant is a handmade and vintage' +
+                                            'market and afternoon of live entertainment and kids activities <p><img src="@ViewBag.kk" alt="Girl in a jacket" width="200" height="100">'
+                                    },
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [-77.038659, 38.931567]
+                                    }
+                                }
+                            ]
+                        }
+                    });
 
-                <a href="#" class="list-group-item">遊戲</a>
-                <a href="#" class="list-group-item">追蹤/粉絲</a>
-                <a href="#" class="list-group-item">功能導覽</a>
-                <a href="#" class="list-group-item">新增廣告</a>
-                <a href="#" class="list-group-item">統計與分析</a>
-                <a href="#" class="list-group-item" style="nav-down:root">聯絡管理員</a>
-                
+                    // Add a layer showing the places.
+                    map.addLayer({
+                        'id': 'places',
+                        'type': 'symbol',
+                        'source': 'places',
+                        'layout': {
+                            'icon-image': 'custom-marker',
+                            'icon-allow-overlap': false
+                        }
+                    });
+                }
+            );
+
+
+            //地圖上click事件
+            map.on('click', 'places', showHaveBeenAddedLocation);
+
+
+        });
+
+        var popup = new mapboxgl.Popup({
+            closeButton: true,
+            closeOnClick: false
+        });
+
+        //顯示已經在地圖上的點
+        function showHaveBeenAddedLocation(e) {
+
+            map.getCanvas().style.cursor = 'pointer';
+
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var description = e.features[0].properties.description;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+            popup.setLngLat(coordinates).setHTML(description).addTo(map);
+        };
+
+        //var el = document.createElement('div');
+        //el.innerHTML = "Marker1";
+        //el.id = 'marker';
+
+
+        ////讀取出已新增地點的marker
+        //for (i = 1; i < 3; i++) {
+        //    a = - 74.5 * i;
+        //    Addedmarker = new mapboxgl.Marker({ color: 'red' })
+        //        .setLngLat([a, 40])
+        //        .addTo(map);
+        //}
+
+        //// use GetElement to get HTML Element from marker and add event
+        //Addedmarker.getElement().addEventListener('click', () => {
+        //    alert("Clicked");
+        //});
+    </script>
+    @*  左側內容(上)  ===========================*@
+    <div id="LeftSideMenu">
+        <h2>FunDayTrip</h2>
+        <div class="list-group">
+            <a href="#" class="list-group-item active">探索</a>
+
+            <a href="#item-1-1" class="list-group-item" data-toggle="collapse">地點</a>
+            <div class="list-group collapse" id="item-1-1">
+                <a href="#" class="list-group-item">所有</a>
+                <a href="#" class="list-group-item" id="MyLocation">我的</a>
+                <a href="#" class="list-group-item">追蹤中</a>
             </div>
 
-            
+
+            <a href="#item-1-2" class="list-group-item" data-toggle="collapse">路線</a>
+            <div class="list-group collapse" id="item-1-2">
+                <a href="#" class="list-group-item">所有</a>
+                <a href="#" class="list-group-item">我的</a>
+                <a href="#" class="list-group-item">追蹤中</a>
+            </div>
+
+            <a href="#item-1-3" class="list-group-item" data-toggle="collapse">相簿</a>
+            <div class="list-group collapse" id="item-1-3">
+                <a href="#" class="list-group-item">所有</a>
+                <a href="#" class="list-group-item">我的</a>
+                <a href="#" class="list-group-item">追蹤中</a>
+            </div>
+
+            <a href="#" class="list-group-item">遊戲</a>
+            <a href="#" class="list-group-item">追蹤/粉絲</a>
+            <a href="javascript:con()" class="list-group-item">功能導覽</a>
+            <a href="#" class="list-group-item">新增廣告</a>
+            <a href="#" class="list-group-item">統計與分析</a>
+            <a href="#" class="list-group-item" style="nav-down:root">聯絡管理員</a>
 
         </div>
+    </div>
 
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-
-                    <h6>get coordinates</h6>
-
-                    <span id="info2" style="background-color:bisque"></span>
-
-                    @*個人資料對話方塊*@
-                    <button id="toggle2" type="button" class="showHideButton">User</button>
-                    <div class="showHide"></div>
+    @*右側內容  顯示地點的內容資訊======================*@
+    <div id="RightSideMenu">
+        <span>
+            discription:<br>
+        </span>
 
 
+    </div>
+    @*在右側測試輸入資料可到資料庫  新增地點     *@
+
+
+
+    @*地圖內容/按鍵(上)=====================*@
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h6 id="info2">get coordinates</h6>
+                <button id="addNewLocationButton" type="button">放置新增圖釘</button>
+                @*個人資料對話方塊*@
+                <button id="toggle2" type="button" class="showHideButton">User</button>
+                <div class="showHide" id="showHide"></div>
+                @*編輯地點方塊-------*@
+
+                @*跳出新增視窗*@
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" id="closeAddLocationForm">&times;</span>
+                        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+
+
+                            <div style="padding:15px">
+                                <h2>新增地點</h2>
+                                <label>標題</label>
+                                <input type="text" name="LocationTitle" />
+                                <br />
+                                <label>地名</label>
+                                <input type="text" name="LocationName" />
+                                <br />
+                                <span id="info2" style="background-color:bisque"></span>
+                                <br />
+                                <label for="file">上傳照片</label>
+                                <br />
+                                <input type="file" accept="image/*" onchange="loadFile(event)">
+                                <img id="output" style="width:200px;height:300px" />
+                                <br>
+
+                                <br />
+                                <label>說明</label>
+                                <br />
+
+                                <textarea name="LocationDescription"></textarea>
+                                <br />
+                                <div>
+                                    <button>確定</button>
+                                </div>
+                            </div>
+
+                            @*預覽照片*@
+                            <script>
+                                var loadFile = function (event) {
+                                    var output = document.getElementById('output');
+                                    output.src = URL.createObjectURL(event.target.files[0]);
+                                    output.onload = function () {
+                                        URL.revokeObjectURL(output.src) // free memory
+                                    }
+                                };
+                            </script>
+
+                        }
+                    </div>
                 </div>
+
             </div>
         </div>
+    </div>
+    @* 設定地圖中內容的事件 ==================*@
+    <script>
 
+        var EnableCreateLocation = false;
 
-        <script>
-            //個人資料方塊!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            $(document).ready(function () {
-                $("#toggle2").click(function () {
-                    $(".showHide").toggle();
-                });
+        //個人資料方塊
+        $(document).ready(function () {
+            $("#toggle2").click(function () {
+                $("#showHide").toggle();
             });
+        });
+        //取得新增資料表單
+        var modal = document.getElementById("myModal");
 
-            //地圖
-        map.on('click', function (e) {
+        //關閉新增資料表單
+        var span = document.getElementsByClassName("close")[0];
+        $("#closeAddLocationForm").on("click", function () {
+            modal.style.display = "none";
+        });
+
+        //左側按鍵彈跳視窗
+        function con() {
+            modal.style.display = "block";
+        };
+
+
+
+        //點選新增地點,才可添加marker
+        var _marker;//地圖上marker變數
+        $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
+
+        //函式:新增地點一開始的畫面
+        function enableAddLocation() {
+            _marker = new mapboxgl.Marker()
+                .setLngLat([-74.5, 40])
+                .addTo(map);
+            //地圖上點選地點,在此綁定map click 另一個handler
+            map.on('click', positioningClickLocate);
+            //地圖上雙擊決定添加的地點
+            map.on("dblclick", alertIfAddLocation);  //有問題:沒有按"放置圖釘紐"仍會觸發alert
+        };
+
+        //函式:alert尋問是否要新增此地點
+        function alertIfAddLocation() {
+            reply = window.confirm("要新增此地點嗎?");
+            if (reply) {
+                console.log("yes");
+                modal.style.display = "block";
+
+
+            } else {
+                console.log("no");
+                _marker.remove();
+                $("#addNewLocationButton").one("click", enableAddLocation);
+            }
+        }
+
+        //新增時,在地圖上要新增的點
+        function positioningClickLocate(e) {
 
             document.getElementById('info2').innerHTML =
                 // e.point is the x, y coordinates of the mousemove event relative
                 // to the top-left corner of the map
-                "x: " + e.point.x + "     y: " + parseFloat(e.point.y) +
-                '<br />' +
+                //"x: " + e.point.x + "     y: " + parseFloat(e.point.y) +
+                //'<br />' +
                 // e.lngLat is the longitude, latitude geographical position of the event
-                "lng: " + parseFloat(e.lngLat.lng) + "     lat:" + parseFloat(e.lngLat.lat);
-            console.log(e);
+                "lng: " + parseFloat(e.lngLat.lng) +
+                "<br/>lat: " + parseFloat(e.lngLat.lat);
 
-            pop = new mapboxgl.Popup({ closeOnClick: true })
-                .setLngLat([e.lngLat.lng, e.lngLat.lat])
-                .setHTML('<img src="https://i.imgur.com/dXnjCNM.jpg" alt="Girl in a jacket" width="200" height="100">'
-                    + '<button type="submit">submit</button>'
-                    + '<button id="post">post</button><p>'
-                    + '@Html.Editor("txtLocationName")'
-                    + '<div id="demo">show:</div>')
-                .addTo(map);
+            _lng = parseFloat(e.lngLat.lng);
+            _lat = parseFloat(e.lngLat.lat);
+
+            _marker.setLngLat([_lng, _lat]);
+        };
+
+
+
+
+    </script>
+
+
+    @*側部滑動菜單  =======================*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../js/BootSideMenu.js"></script>
+
+    <script type="text/javascript">
+        $('#LeftSideMenu').BootSideMenu({
+            side: "left",
+            pushBody: true,
+            autoClose: false,
+            closeOnClick: true
+        });
+        $('#RightSideMenu').BootSideMenu({
+            side: "right",
+            pushBody: true,
+            autoClose: false,
+            closeOnClick: false
         });
 
-        </script>
+    </script>
 
 
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="../../js/BootSideMenu.js"></script>
-
-        <script type="text/javascript">
-            $('#LeftSideMenu').BootSideMenu({
-                side: "left",
-                pushBody: true,
-                autoClose: false,
-                closeOnClick: false
-            });
-
-        </script>
-
-
-    </form>
 </body>
 </html>
