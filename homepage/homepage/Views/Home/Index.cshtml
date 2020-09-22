@@ -1,7 +1,13 @@
 ﻿@model homepage.ViewModel.CAddLocationViewModel
 @using homepage.ViewModel
+@using homepage.Models
 @{
     Layout = null;
+    if (Session[CDictionary.SK_MemberId] == null)
+    {
+        Session[CDictionary.SK_MemberId] = CDictionary.SK_anonymous;
+    }
+
 }
 
 <!DOCTYPE html>
@@ -131,7 +137,7 @@
         var Addedmarker;
 
 //要求顯示地圖============================
-        mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
+        //mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
         var map = new mapboxgl.Map({
             container: 'map', // container id
             style: 'mapbox://styles/mapbox/streets-v11',
@@ -291,9 +297,35 @@
             <div class="col-md-12">
                 <h6 id="info2">get coordinates</h6>
                 <button id="addNewLocationButton" type="button">放置新增圖釘</button>
-                @*個人資料對話方塊*@
-                <button id="toggle2" type="button" class="showHideButton">User</button>
-                <div class="showHide" id="showHide"></div>
+                @*開啟個人資料對話方塊*@
+                <button id="toggle2" type="button" class="showHideButton">User</button>               
+                @*輸入登入資訊 by 王詠平 0921*@
+                <div class="showHide" id="showHide">
+                    <div>
+                        @*如果沒有登入*@
+                        @if (Session[CDictionary.SK_MemberId].ToString() == CDictionary.SK_anonymous)
+                        {
+                            <input type="text" id="account" value="ming123@gmail.com">
+                            <input type="password" id="password" value="ming123">
+                            <button type="submit" id="loginBtn">登入</button>
+                        }
+                        @*如果已經登入，顯示登入資訊*@
+                        @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
+                        {
+                            CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
+                            <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" />
+                            <div >@memberLogin.fNickName_Member</div>
+                            <div id="login_email">@memberLogin.fEmail_Member</div>
+                            <button type="submit" id="logoutBtn">登出</button>
+                            <hr />
+                        }
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+
+
                 @*編輯地點方塊-------*@
 
                 @*跳出新增視窗*@
@@ -450,7 +482,55 @@
         });
 
     </script>
+    <script>
+    @* 登入 *@
+    $('#loginBtn').on('click', login);
+    function login() {
 
+            var login_data = {
+                email: $("#account").val(),
+                pwd: $("#password").val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("login", "Home")',
+                type: "POST",
+                dataType: "json",
+                data: login_data
+            }).done(function (response) {
+                //alert("account: " + login_data.email + " password: " + login_data.pwd);
+                //console.log(response.fEmail_Member);
+                alert(response.loginMessage);
+                window.location.reload()
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                $("body").append(xhr.status);
+                $("body").append(xhr.responseText);
+                alert(thrownError);
+            })
+    };
+
+    //登出
+    $('#logoutBtn').on('click', logout);
+        function logout() {
+            var login_data = {
+                email: $("#login_email").val(),
+            };
+        $.ajax({
+            url: '@Url.Action("logout", "Home")',
+            type: "POST",
+            dataType: "text",
+            data: login_data
+        }).done(function (response) {
+            alert(response);
+            window.location.reload()
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            $("body").append(xhr.status);
+            $("body").append(xhr.responseText);
+            alert(thrownError);
+        })
+    };
+
+    </script>
 
 
 </body>

@@ -1,0 +1,1236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_FunDayTripModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tAd">
+    <Key>
+      <PropertyRef Name="fId_Ad" />
+    </Key>
+    <Property Name="fId_Ad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_Admin_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_Location" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fContent_Ad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fPhoto_Ad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fSolution_Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fStatus_Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tLocation" Relationship="Self.FK_tAd_tLocation" FromRole="tAd" ToRole="tLocation" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tAd_tRole" FromRole="tAd" ToRole="tRole" />
+    <NavigationProperty Name="tRole1" Relationship="Self.FK_tAd_tRole_Role_Admin" FromRole="tAd" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tAdmin">
+    <Key>
+      <PropertyRef Name="fId_Admin" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Admin" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
+    <Property Name="fName_Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fEmail_Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fPassword_Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fAdd_Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fGender_Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fBirthday_Admin" Type="DateTime" Precision="3" />
+    <Property Name="fPhone_Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tFuntionAuth" Relationship="Self.FK_tAdmin_tFuntionAuth" FromRole="tAdmin" ToRole="tFuntionAuth" />
+  </EntityType>
+  <EntityType Name="tAlbum">
+    <Key>
+      <PropertyRef Name="fId_Album" />
+    </Key>
+    <Property Name="fId_Album" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Location" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" />
+    <Property Name="fName_Album" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fDescript_Album" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fDelete_Album" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tLocation" Relationship="Self.FK_tAlbum_TotLocation" FromRole="tAlbum" ToRole="tLocation" />
+    <NavigationProperty Name="tShareAuth" Relationship="Self.FK_tAlbum_TotShareAuth" FromRole="tAlbum" ToRole="tShareAuth" />
+  </EntityType>
+  <EntityType Name="tBalance">
+    <Key>
+      <PropertyRef Name="fId_Balance" />
+    </Key>
+    <Property Name="fId_Balance" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_Bank" Type="Int32" Nullable="false" />
+    <Property Name="fCreditCard_Balance" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fStatus_Balance" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fToken_Balance" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fPayTime_Balance" Type="DateTime" Precision="3" />
+    <Property Name="fVerify_Balance" Type="DateTime" Precision="3" />
+    <Property Name="fRemark_Balance" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tBank" Relationship="Self.FK_tBalance_tBank" FromRole="tBalance" ToRole="tBank" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tBalance_tRole" FromRole="tBalance" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tBank">
+    <Key>
+      <PropertyRef Name="fId_Bank" />
+    </Key>
+    <Property Name="fId_Bank" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <Property Name="fBank_Bank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fName_Bank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fAccount_Bank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fNumber_Bank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fValidate_Bank" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tBalances" Relationship="Self.FK_tBalance_tBank" FromRole="tBank" ToRole="tBalance" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tBank_tRole" FromRole="tBank" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tBlock">
+    <Key>
+      <PropertyRef Name="fId_Block" />
+    </Key>
+    <Property Name="fId_Block" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Self_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_Target_Role" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tBlock_tRole_Self" FromRole="tBlock" ToRole="tRole" />
+    <NavigationProperty Name="tRole1" Relationship="Self.FK_tBlock_tRole_Target" FromRole="tBlock" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tComment">
+    <Key>
+      <PropertyRef Name="fId_Comment" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Comment" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_Location_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fId_Type_Location_Route" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <Property Name="fComment_Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fRate_Comment" Type="Int32" />
+    <Property Name="fTime_Comment" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tComment_tRole" FromRole="tComment" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tCoordinate">
+    <Key>
+      <PropertyRef Name="fId_Coordinate" />
+    </Key>
+    <Property Name="fId_Coordinate" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fName_Coordinate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fX_Coordinate" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="fY_Coordinate" Type="Decimal" Precision="18" Scale="10" />
+    <NavigationProperty Name="tLocations" Relationship="Self.FK_tLocation_tCoordinate" FromRole="tCoordinate" ToRole="tLocation" />
+  </EntityType>
+  <EntityType Name="tFollow">
+    <Key>
+      <PropertyRef Name="fId_Follow" />
+    </Key>
+    <Property Name="fId_Follow" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Self_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_Target_Role" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tFollow_tRole_Self" FromRole="tFollow" ToRole="tRole" />
+    <NavigationProperty Name="tRole1" Relationship="Self.FK_tFollow_tRole_Target" FromRole="tFollow" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tFuntionAuth">
+    <Key>
+      <PropertyRef Name="fId_FunctionAuth" />
+    </Key>
+    <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fAuth_FunctionAuth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tAdmins" Relationship="Self.FK_tAdmin_tFuntionAuth" FromRole="tFuntionAuth" ToRole="tAdmin" />
+    <NavigationProperty Name="tMembers" Relationship="Self.FK_tMember_tMember" FromRole="tFuntionAuth" ToRole="tMember" />
+    <NavigationProperty Name="tProfitMembers" Relationship="Self.FK_tProfitMember_tFuntionAuth" FromRole="tFuntionAuth" ToRole="tProfitMember" />
+  </EntityType>
+  <EntityType Name="tGame">
+    <Key>
+      <PropertyRef Name="fId_Game" />
+    </Key>
+    <Property Name="fId_Game" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Location" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fType_Game" Type="Int32" />
+    <Property Name="fName_Game" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fOrder_Game" Type="Int32" />
+    <NavigationProperty Name="tLocation" Relationship="Self.FK_tGame_tLocation" FromRole="tGame" ToRole="tLocation" />
+    <NavigationProperty Name="tGameGroups" Relationship="Self.FK_tGameGroup_tGame" FromRole="tGame" ToRole="tGameGroup" />
+    <NavigationProperty Name="tGameQAs" Relationship="Self.FK_tGameQA_tGame" FromRole="tGame" ToRole="tGameQA" />
+    <NavigationProperty Name="tGameSteps" Relationship="Self.FK_tGameStep_tGame" FromRole="tGame" ToRole="tGameStep" />
+  </EntityType>
+  <EntityType Name="tGameGroup">
+    <Key>
+      <PropertyRef Name="fId_GameGroup" />
+    </Key>
+    <Property Name="fId_GameGroup" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Game" Type="Int32" Nullable="false" />
+    <Property Name="fName_GameGroup" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fGameLV_GameGroup" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fDescript_GameGroup" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tGame" Relationship="Self.FK_tGameGroup_tGame" FromRole="tGameGroup" ToRole="tGame" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tGameGroup_tRole" FromRole="tGameGroup" ToRole="tRole" />
+    <NavigationProperty Name="tGameUnlocks" Relationship="Self.FK_tGameUnlock_tGameGroup" FromRole="tGameGroup" ToRole="tGameUnlock" />
+  </EntityType>
+  <EntityType Name="tGameQA">
+    <Key>
+      <PropertyRef Name="fId_GameQA" />
+    </Key>
+    <Property Name="fId_GameQA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Game" Type="Int32" Nullable="false" />
+    <Property Name="fQuestion_GameQA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fOption_1_GameQA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fOption_2_GameQA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fOption_3_GameQA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fOption_4_GameQA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fAnswer_GameQA" Type="Int32" />
+    <Property Name="fReward_GameQA" Type="Int32" />
+    <NavigationProperty Name="tGame" Relationship="Self.FK_tGameQA_tGame" FromRole="tGameQA" ToRole="tGame" />
+  </EntityType>
+  <EntityType Name="tGameStep">
+    <Key>
+      <PropertyRef Name="fId_GameStep" />
+    </Key>
+    <Property Name="fId_GameStep" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Game" Type="Int32" Nullable="false" />
+    <Property Name="fTitle_GameStep" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fContent_GameStep" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fReward_GameStep" Type="Int32" />
+    <NavigationProperty Name="tGame" Relationship="Self.FK_tGameStep_tGame" FromRole="tGameStep" ToRole="tGame" />
+  </EntityType>
+  <EntityType Name="tGameUnlock">
+    <Key>
+      <PropertyRef Name="fId_GameUnlock" />
+    </Key>
+    <Property Name="fId_GameUnlock" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_GameGroup" Type="Int32" Nullable="false" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <Property Name="fDate_GameUnlock" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tGameGroup" Relationship="Self.FK_tGameUnlock_tGameGroup" FromRole="tGameUnlock" ToRole="tGameGroup" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tGameUnlock_tRole" FromRole="tGameUnlock" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tIcon">
+    <Key>
+      <PropertyRef Name="fId_Icon" />
+    </Key>
+    <Property Name="fId_Icon" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fStyle_Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fPath_Icon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tLocations" Relationship="Self.FK_tLocation_tIcon" FromRole="tIcon" ToRole="tLocation" />
+    <NavigationProperty Name="tRoutes" Relationship="Self.FK_tRoute_tIcon" FromRole="tIcon" ToRole="tRoute" />
+  </EntityType>
+  <EntityType Name="tLocation">
+    <Key>
+      <PropertyRef Name="fId_Location" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Location" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_Coordinate" Type="Int32" Nullable="false" />
+    <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" />
+    <Property Name="fId_Icon" Type="Int32" Nullable="false" />
+    <Property Name="fType_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fName_Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fDescript_Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fTime_Location" Type="DateTime" Precision="3" />
+    <Property Name="fAdd_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fDelete_Location" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tAds" Relationship="Self.FK_tAd_tLocation" FromRole="tLocation" ToRole="tAd" />
+    <NavigationProperty Name="tAlbums" Relationship="Self.FK_tAlbum_TotLocation" FromRole="tLocation" ToRole="tAlbum" />
+    <NavigationProperty Name="tCoordinate" Relationship="Self.FK_tLocation_tCoordinate" FromRole="tLocation" ToRole="tCoordinate" />
+    <NavigationProperty Name="tGames" Relationship="Self.FK_tGame_tLocation" FromRole="tLocation" ToRole="tGame" />
+    <NavigationProperty Name="tIcon" Relationship="Self.FK_tLocation_tIcon" FromRole="tLocation" ToRole="tIcon" />
+    <NavigationProperty Name="tShareAuth" Relationship="Self.FK_tLocation_tShareAuth" FromRole="tLocation" ToRole="tShareAuth" />
+    <NavigationProperty Name="tLR_Relation" Relationship="Self.FK_tLR_Relation_tLocation" FromRole="tLocation" ToRole="tLR_Relation" />
+    <NavigationProperty Name="tPhotoes" Relationship="Self.FK_tPhoto_tLocation" FromRole="tLocation" ToRole="tPhoto" />
+  </EntityType>
+  <EntityType Name="tLR_Relation">
+    <Key>
+      <PropertyRef Name="fId_LRRelation" />
+    </Key>
+    <Property Name="fId_LRRelation" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fId_Location" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fOrder_LRRelation" Type="Int32" />
+    <NavigationProperty Name="tLocation" Relationship="Self.FK_tLR_Relation_tLocation" FromRole="tLR_Relation" ToRole="tLocation" />
+    <NavigationProperty Name="tRoute" Relationship="Self.FK_tLR_Relation_tRoute" FromRole="tLR_Relation" ToRole="tRoute" />
+  </EntityType>
+  <EntityType Name="tMember">
+    <Key>
+      <PropertyRef Name="fId_Member" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Member" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
+    <Property Name="fNickName_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fEmail_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fPassword_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fAdd_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fGender_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fBirthday_Member" Type="DateTime" Precision="3" />
+    <Property Name="fPhone_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fCountry_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fFirstName_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fLastName_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fGameLV_Member" Type="Int32" />
+    <Property Name="fPhoto_Member" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fGpsX_Member" Type="Decimal" Precision="18" Scale="10" />
+    <Property Name="fGpsY_Member" Type="Decimal" Precision="18" Scale="10" />
+    <NavigationProperty Name="tFuntionAuth" Relationship="Self.FK_tMember_tMember" FromRole="tMember" ToRole="tFuntionAuth" />
+    <NavigationProperty Name="tRoles" Relationship="Self.FK_tRole_tMember" FromRole="tMember" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tMessage">
+    <Key>
+      <PropertyRef Name="fId_Message" />
+    </Key>
+    <Property Name="fId_Message" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_From_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_To_Role" Type="Int32" Nullable="false" />
+    <Property Name="fMessage_Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fTime_Message" Type="DateTime" Precision="3" />
+    <Property Name="fIp_Message" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="fStatus_Message" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tMessage_tRole_From" FromRole="tMessage" ToRole="tRole" />
+    <NavigationProperty Name="tRole1" Relationship="Self.FK_tMessage_tRole_To" FromRole="tMessage" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tNote">
+    <Key>
+      <PropertyRef Name="fId_Note" />
+    </Key>
+    <Property Name="fId_Note" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_Admin_Role" Type="Int32" Nullable="false" />
+    <Property Name="fMessage_Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fTime_Note" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tNote_tRole" FromRole="tNote" ToRole="tRole" />
+    <NavigationProperty Name="tRole1" Relationship="Self.FK_tNote_tRole_Admin" FromRole="tNote" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tPhoto">
+    <Key>
+      <PropertyRef Name="fId_Photo" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Photo" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_Location" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <Property Name="fTitle_Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fDescript_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fPath_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fTime_Photo" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tLocation" Relationship="Self.FK_tPhoto_tLocation" FromRole="tPhoto" ToRole="tLocation" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tPhoto_tRole" FromRole="tPhoto" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tPoint">
+    <Key>
+      <PropertyRef Name="fId_Point" />
+    </Key>
+    <Property Name="fId_Point" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <Property Name="fPoint_Point" Type="Int32" />
+    <Property Name="fTime_Point" Type="DateTime" Precision="3" />
+    <Property Name="fType_Point" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tPoint_tRole" FromRole="tPoint" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tProfitMember">
+    <Key>
+      <PropertyRef Name="fId_ProfitMember" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_ProfitMember" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
+    <Property Name="fId_ProfitType" Type="Int32" Nullable="false" />
+    <Property Name="fName_ProfitMember" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fEmail_ProfitMember" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fAdd_ProfitMember" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fPhone_ProfitMember" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fPhoto_ProfitMember" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tFuntionAuth" Relationship="Self.FK_tProfitMember_tFuntionAuth" FromRole="tProfitMember" ToRole="tFuntionAuth" />
+    <NavigationProperty Name="tProfitType" Relationship="Self.FK_tProfitMember_tProfitType" FromRole="tProfitMember" ToRole="tProfitType" />
+  </EntityType>
+  <EntityType Name="tProfitType">
+    <Key>
+      <PropertyRef Name="fId_ProfitType" />
+    </Key>
+    <Property Name="fId_ProfitType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fName_ProfitType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tProfitMembers" Relationship="Self.FK_tProfitMember_tProfitType" FromRole="tProfitType" ToRole="tProfitMember" />
+  </EntityType>
+  <EntityType Name="tReport">
+    <Key>
+      <PropertyRef Name="fId_Report" />
+    </Key>
+    <Property Name="fId_Report" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Reporter_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_Reported_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_Admin_Role" Type="Int32" />
+    <Property Name="fId_Location_Route_Comment_Photo" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fId_Type_Location_Route_Comment_Photo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fReason_Report" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fTimeReport_Report" Type="DateTime" Precision="3" />
+    <Property Name="fTimeModify_Report" Type="DateTime" Precision="3" />
+    <Property Name="fStatus_Report" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tReport_tRole_Admin" FromRole="tReport" ToRole="tRole" />
+    <NavigationProperty Name="tRole1" Relationship="Self.FK_tReport_tRole_Reported" FromRole="tReport" ToRole="tRole" />
+    <NavigationProperty Name="tRole2" Relationship="Self.FK_tReport_tRole_Reporter" FromRole="tReport" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tRole">
+    <Key>
+      <PropertyRef Name="fId_Role" />
+    </Key>
+    <Property Name="fId_Role" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Master_Role" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fId_Slave_Role" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fId_Slave_Type_Role" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fNickName_Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="fEntryDate_Role" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tAds" Relationship="Self.FK_tAd_tRole" FromRole="tRole" ToRole="tAd" />
+    <NavigationProperty Name="tAds1" Relationship="Self.FK_tAd_tRole_Role_Admin" FromRole="tRole" ToRole="tAd" />
+    <NavigationProperty Name="tBalances" Relationship="Self.FK_tBalance_tRole" FromRole="tRole" ToRole="tBalance" />
+    <NavigationProperty Name="tBanks" Relationship="Self.FK_tBank_tRole" FromRole="tRole" ToRole="tBank" />
+    <NavigationProperty Name="tBlocks" Relationship="Self.FK_tBlock_tRole_Self" FromRole="tRole" ToRole="tBlock" />
+    <NavigationProperty Name="tBlocks1" Relationship="Self.FK_tBlock_tRole_Target" FromRole="tRole" ToRole="tBlock" />
+    <NavigationProperty Name="tComments" Relationship="Self.FK_tComment_tRole" FromRole="tRole" ToRole="tComment" />
+    <NavigationProperty Name="tFollows" Relationship="Self.FK_tFollow_tRole_Self" FromRole="tRole" ToRole="tFollow" />
+    <NavigationProperty Name="tFollows1" Relationship="Self.FK_tFollow_tRole_Target" FromRole="tRole" ToRole="tFollow" />
+    <NavigationProperty Name="tGameGroups" Relationship="Self.FK_tGameGroup_tRole" FromRole="tRole" ToRole="tGameGroup" />
+    <NavigationProperty Name="tGameUnlocks" Relationship="Self.FK_tGameUnlock_tRole" FromRole="tRole" ToRole="tGameUnlock" />
+    <NavigationProperty Name="tMember" Relationship="Self.FK_tRole_tMember" FromRole="tRole" ToRole="tMember" />
+    <NavigationProperty Name="tMessages" Relationship="Self.FK_tMessage_tRole_From" FromRole="tRole" ToRole="tMessage" />
+    <NavigationProperty Name="tMessages1" Relationship="Self.FK_tMessage_tRole_To" FromRole="tRole" ToRole="tMessage" />
+    <NavigationProperty Name="tNotes" Relationship="Self.FK_tNote_tRole" FromRole="tRole" ToRole="tNote" />
+    <NavigationProperty Name="tNotes1" Relationship="Self.FK_tNote_tRole_Admin" FromRole="tRole" ToRole="tNote" />
+    <NavigationProperty Name="tPhotoes" Relationship="Self.FK_tPhoto_tRole" FromRole="tRole" ToRole="tPhoto" />
+    <NavigationProperty Name="tPoints" Relationship="Self.FK_tPoint_tRole" FromRole="tRole" ToRole="tPoint" />
+    <NavigationProperty Name="tReports" Relationship="Self.FK_tReport_tRole_Admin" FromRole="tRole" ToRole="tReport" />
+    <NavigationProperty Name="tReports1" Relationship="Self.FK_tReport_tRole_Reported" FromRole="tRole" ToRole="tReport" />
+    <NavigationProperty Name="tReports2" Relationship="Self.FK_tReport_tRole_Reporter" FromRole="tRole" ToRole="tReport" />
+    <NavigationProperty Name="tRoutes" Relationship="Self.FK_tRoute_tRole" FromRole="tRole" ToRole="tRoute" />
+    <NavigationProperty Name="tStatistics" Relationship="Self.FK_tStatistic_tRole" FromRole="tRole" ToRole="tStatistic" />
+    <NavigationProperty Name="tUnlocks" Relationship="Self.FK_tUnlock_tRole" FromRole="tRole" ToRole="tUnlock" />
+  </EntityType>
+  <EntityType Name="tRoute">
+    <Key>
+      <PropertyRef Name="fId_Route" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" />
+    <Property Name="fId_Icon" Type="Int32" Nullable="false" />
+    <Property Name="fType_Route" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fName_Route" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fDescript_Route" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fPath_Route" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fTime_Route" Type="DateTime" Precision="3" />
+    <Property Name="fDelete_Route" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tIcon" Relationship="Self.FK_tRoute_tIcon" FromRole="tRoute" ToRole="tIcon" />
+    <NavigationProperty Name="tLR_Relation" Relationship="Self.FK_tLR_Relation_tRoute" FromRole="tRoute" ToRole="tLR_Relation" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tRoute_tRole" FromRole="tRoute" ToRole="tRole" />
+    <NavigationProperty Name="tShareAuth" Relationship="Self.FK_tRoute_tShareAuth" FromRole="tRoute" ToRole="tShareAuth" />
+  </EntityType>
+  <EntityType Name="tShareAuth">
+    <Key>
+      <PropertyRef Name="fId_ShareAuth" />
+    </Key>
+    <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fAuth_ShareAuth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tAlbums" Relationship="Self.FK_tAlbum_TotShareAuth" FromRole="tShareAuth" ToRole="tAlbum" />
+    <NavigationProperty Name="tLocations" Relationship="Self.FK_tLocation_tShareAuth" FromRole="tShareAuth" ToRole="tLocation" />
+    <NavigationProperty Name="tRoutes" Relationship="Self.FK_tRoute_tShareAuth" FromRole="tShareAuth" ToRole="tRoute" />
+  </EntityType>
+  <EntityType Name="tStatistic">
+    <Key>
+      <PropertyRef Name="fId_Statistic" />
+    </Key>
+    <Property Name="fId_Statistic" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_Location_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fId_Type_Location_Route" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tStatistic_tRole" FromRole="tStatistic" ToRole="tRole" />
+  </EntityType>
+  <EntityType Name="tTag">
+    <Key>
+      <PropertyRef Name="fId_Tag" />
+    </Key>
+    <Property Name="fId_Tag" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fName_Tag" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tTagMsgRelations" Relationship="Self.FK_tTagMsgRelations_tTag" FromRole="tTag" ToRole="tTagMsgRelations" />
+  </EntityType>
+  <EntityType Name="tTagMsgRelation">
+    <Key>
+      <PropertyRef Name="fId_TagMsgRelations" />
+    </Key>
+    <Property Name="fId_TagMsgRelations" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Location_Route_Photo" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fId_Type_Location_Route_Photo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fId_Tag" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tTag" Relationship="Self.FK_tTagMsgRelations_tTag" FromRole="tTagMsgRelations" ToRole="tTag" />
+  </EntityType>
+  <EntityType Name="tUnlock">
+    <Key>
+      <PropertyRef Name="fId_Unlock" />
+    </Key>
+    <Property Name="fId_Unlock" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fId_Role" Type="Int32" Nullable="false" />
+    <Property Name="fId_Location_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fId_Type_Location_Route" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="fTime_Unlock" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tRole" Relationship="Self.FK_tUnlock_tRole" FromRole="tUnlock" ToRole="tRole" />
+  </EntityType>
+  <Association Name="FK_tAd_tLocation">
+    <End Role="tLocation" Type="Self.tLocation" Multiplicity="1" />
+    <End Role="tAd" Type="Self.tAd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tLocation">
+        <PropertyRef Name="fId_Location" />
+      </Principal>
+      <Dependent Role="tAd">
+        <PropertyRef Name="fId_Location" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tAd_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tAd" Type="Self.tAd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tAd">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tAd_tRole_Role_Admin">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tAd" Type="Self.tAd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tAd">
+        <PropertyRef Name="fId_Admin_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tAdmin_tFuntionAuth">
+    <End Role="tFuntionAuth" Type="Self.tFuntionAuth" Multiplicity="1" />
+    <End Role="tAdmin" Type="Self.tAdmin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tFuntionAuth">
+        <PropertyRef Name="fId_FunctionAuth" />
+      </Principal>
+      <Dependent Role="tAdmin">
+        <PropertyRef Name="fId_FunctionAuth" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tAlbum_TotLocation">
+    <End Role="tLocation" Type="Self.tLocation" Multiplicity="1" />
+    <End Role="tAlbum" Type="Self.tAlbum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tLocation">
+        <PropertyRef Name="fId_Location" />
+      </Principal>
+      <Dependent Role="tAlbum">
+        <PropertyRef Name="fId_Location" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tAlbum_TotShareAuth">
+    <End Role="tShareAuth" Type="Self.tShareAuth" Multiplicity="1" />
+    <End Role="tAlbum" Type="Self.tAlbum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tShareAuth">
+        <PropertyRef Name="fId_ShareAuth" />
+      </Principal>
+      <Dependent Role="tAlbum">
+        <PropertyRef Name="fId_ShareAuth" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tBalance_tBank">
+    <End Role="tBank" Type="Self.tBank" Multiplicity="1" />
+    <End Role="tBalance" Type="Self.tBalance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tBank">
+        <PropertyRef Name="fId_Bank" />
+      </Principal>
+      <Dependent Role="tBalance">
+        <PropertyRef Name="fId_Bank" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tBalance_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tBalance" Type="Self.tBalance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tBalance">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tBank_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tBank" Type="Self.tBank" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tBank">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tBlock_tRole_Self">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tBlock" Type="Self.tBlock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tBlock">
+        <PropertyRef Name="fId_Self_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tBlock_tRole_Target">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tBlock" Type="Self.tBlock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tBlock">
+        <PropertyRef Name="fId_Target_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tComment_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tComment" Type="Self.tComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tComment">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tLocation_tCoordinate">
+    <End Role="tCoordinate" Type="Self.tCoordinate" Multiplicity="1" />
+    <End Role="tLocation" Type="Self.tLocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tCoordinate">
+        <PropertyRef Name="fId_Coordinate" />
+      </Principal>
+      <Dependent Role="tLocation">
+        <PropertyRef Name="fId_Coordinate" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tFollow_tRole_Self">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tFollow" Type="Self.tFollow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tFollow">
+        <PropertyRef Name="fId_Self_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tFollow_tRole_Target">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tFollow" Type="Self.tFollow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tFollow">
+        <PropertyRef Name="fId_Target_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tMember_tMember">
+    <End Role="tFuntionAuth" Type="Self.tFuntionAuth" Multiplicity="1" />
+    <End Role="tMember" Type="Self.tMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tFuntionAuth">
+        <PropertyRef Name="fId_FunctionAuth" />
+      </Principal>
+      <Dependent Role="tMember">
+        <PropertyRef Name="fId_FunctionAuth" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tProfitMember_tFuntionAuth">
+    <End Role="tFuntionAuth" Type="Self.tFuntionAuth" Multiplicity="1" />
+    <End Role="tProfitMember" Type="Self.tProfitMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tFuntionAuth">
+        <PropertyRef Name="fId_FunctionAuth" />
+      </Principal>
+      <Dependent Role="tProfitMember">
+        <PropertyRef Name="fId_FunctionAuth" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tGame_tLocation">
+    <End Role="tLocation" Type="Self.tLocation" Multiplicity="1" />
+    <End Role="tGame" Type="Self.tGame" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tLocation">
+        <PropertyRef Name="fId_Location" />
+      </Principal>
+      <Dependent Role="tGame">
+        <PropertyRef Name="fId_Location" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tGameGroup_tGame">
+    <End Role="tGame" Type="Self.tGame" Multiplicity="1" />
+    <End Role="tGameGroup" Type="Self.tGameGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tGame">
+        <PropertyRef Name="fId_Game" />
+      </Principal>
+      <Dependent Role="tGameGroup">
+        <PropertyRef Name="fId_Game" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tGameQA_tGame">
+    <End Role="tGame" Type="Self.tGame" Multiplicity="1" />
+    <End Role="tGameQA" Type="Self.tGameQA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tGame">
+        <PropertyRef Name="fId_Game" />
+      </Principal>
+      <Dependent Role="tGameQA">
+        <PropertyRef Name="fId_Game" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tGameStep_tGame">
+    <End Role="tGame" Type="Self.tGame" Multiplicity="1" />
+    <End Role="tGameStep" Type="Self.tGameStep" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tGame">
+        <PropertyRef Name="fId_Game" />
+      </Principal>
+      <Dependent Role="tGameStep">
+        <PropertyRef Name="fId_Game" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tGameGroup_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tGameGroup" Type="Self.tGameGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tGameGroup">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tGameUnlock_tGameGroup">
+    <End Role="tGameGroup" Type="Self.tGameGroup" Multiplicity="1" />
+    <End Role="tGameUnlock" Type="Self.tGameUnlock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tGameGroup">
+        <PropertyRef Name="fId_GameGroup" />
+      </Principal>
+      <Dependent Role="tGameUnlock">
+        <PropertyRef Name="fId_GameGroup" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tGameUnlock_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tGameUnlock" Type="Self.tGameUnlock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tGameUnlock">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tLocation_tIcon">
+    <End Role="tIcon" Type="Self.tIcon" Multiplicity="1" />
+    <End Role="tLocation" Type="Self.tLocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tIcon">
+        <PropertyRef Name="fId_Icon" />
+      </Principal>
+      <Dependent Role="tLocation">
+        <PropertyRef Name="fId_Icon" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tRoute_tIcon">
+    <End Role="tIcon" Type="Self.tIcon" Multiplicity="1" />
+    <End Role="tRoute" Type="Self.tRoute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tIcon">
+        <PropertyRef Name="fId_Icon" />
+      </Principal>
+      <Dependent Role="tRoute">
+        <PropertyRef Name="fId_Icon" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tLocation_tShareAuth">
+    <End Role="tShareAuth" Type="Self.tShareAuth" Multiplicity="1" />
+    <End Role="tLocation" Type="Self.tLocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tShareAuth">
+        <PropertyRef Name="fId_ShareAuth" />
+      </Principal>
+      <Dependent Role="tLocation">
+        <PropertyRef Name="fId_ShareAuth" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tLR_Relation_tLocation">
+    <End Role="tLocation" Type="Self.tLocation" Multiplicity="1" />
+    <End Role="tLR_Relation" Type="Self.tLR_Relation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tLocation">
+        <PropertyRef Name="fId_Location" />
+      </Principal>
+      <Dependent Role="tLR_Relation">
+        <PropertyRef Name="fId_Location" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tPhoto_tLocation">
+    <End Role="tLocation" Type="Self.tLocation" Multiplicity="1" />
+    <End Role="tPhoto" Type="Self.tPhoto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tLocation">
+        <PropertyRef Name="fId_Location" />
+      </Principal>
+      <Dependent Role="tPhoto">
+        <PropertyRef Name="fId_Location" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tLR_Relation_tRoute">
+    <End Role="tRoute" Type="Self.tRoute" Multiplicity="1" />
+    <End Role="tLR_Relation" Type="Self.tLR_Relation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRoute">
+        <PropertyRef Name="fId_Route" />
+      </Principal>
+      <Dependent Role="tLR_Relation">
+        <PropertyRef Name="fId_Route" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tRole_tMember">
+    <End Role="tMember" Type="Self.tMember" Multiplicity="1" />
+    <End Role="tRole" Type="Self.tRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tMember">
+        <PropertyRef Name="fId_Member" />
+      </Principal>
+      <Dependent Role="tRole">
+        <PropertyRef Name="fId_Master_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tMessage_tRole_From">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tMessage" Type="Self.tMessage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tMessage">
+        <PropertyRef Name="fId_From_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tMessage_tRole_To">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tMessage" Type="Self.tMessage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tMessage">
+        <PropertyRef Name="fId_To_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tNote_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tNote" Type="Self.tNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tNote">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tNote_tRole_Admin">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tNote" Type="Self.tNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tNote">
+        <PropertyRef Name="fId_Admin_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tPhoto_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tPhoto" Type="Self.tPhoto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tPhoto">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tPoint_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tPoint" Type="Self.tPoint" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tPoint">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tProfitMember_tProfitType">
+    <End Role="tProfitType" Type="Self.tProfitType" Multiplicity="1" />
+    <End Role="tProfitMember" Type="Self.tProfitMember" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tProfitType">
+        <PropertyRef Name="fId_ProfitType" />
+      </Principal>
+      <Dependent Role="tProfitMember">
+        <PropertyRef Name="fId_ProfitType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tReport_tRole_Admin">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="0..1" />
+    <End Role="tReport" Type="Self.tReport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tReport">
+        <PropertyRef Name="fId_Admin_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tReport_tRole_Reported">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tReport" Type="Self.tReport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tReport">
+        <PropertyRef Name="fId_Reported_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tReport_tRole_Reporter">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tReport" Type="Self.tReport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tReport">
+        <PropertyRef Name="fId_Reporter_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tRoute_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tRoute" Type="Self.tRoute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tRoute">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tStatistic_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tStatistic" Type="Self.tStatistic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tStatistic">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tUnlock_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tUnlock" Type="Self.tUnlock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tUnlock">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tRoute_tShareAuth">
+    <End Role="tShareAuth" Type="Self.tShareAuth" Multiplicity="1" />
+    <End Role="tRoute" Type="Self.tRoute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tShareAuth">
+        <PropertyRef Name="fId_ShareAuth" />
+      </Principal>
+      <Dependent Role="tRoute">
+        <PropertyRef Name="fId_ShareAuth" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tTagMsgRelations_tTag">
+    <End Role="tTag" Type="Self.tTag" Multiplicity="1" />
+    <End Role="tTagMsgRelations" Type="Self.tTagMsgRelation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tTag">
+        <PropertyRef Name="fId_Tag" />
+      </Principal>
+      <Dependent Role="tTagMsgRelations">
+        <PropertyRef Name="fId_Tag" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DB_FunDayTripEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tAds" EntityType="Self.tAd" />
+    <EntitySet Name="tAdmins" EntityType="Self.tAdmin" />
+    <EntitySet Name="tAlbums" EntityType="Self.tAlbum" />
+    <EntitySet Name="tBalances" EntityType="Self.tBalance" />
+    <EntitySet Name="tBanks" EntityType="Self.tBank" />
+    <EntitySet Name="tBlocks" EntityType="Self.tBlock" />
+    <EntitySet Name="tComments" EntityType="Self.tComment" />
+    <EntitySet Name="tCoordinates" EntityType="Self.tCoordinate" />
+    <EntitySet Name="tFollows" EntityType="Self.tFollow" />
+    <EntitySet Name="tFuntionAuths" EntityType="Self.tFuntionAuth" />
+    <EntitySet Name="tGames" EntityType="Self.tGame" />
+    <EntitySet Name="tGameGroups" EntityType="Self.tGameGroup" />
+    <EntitySet Name="tGameQAs" EntityType="Self.tGameQA" />
+    <EntitySet Name="tGameSteps" EntityType="Self.tGameStep" />
+    <EntitySet Name="tGameUnlocks" EntityType="Self.tGameUnlock" />
+    <EntitySet Name="tIcons" EntityType="Self.tIcon" />
+    <EntitySet Name="tLocations" EntityType="Self.tLocation" />
+    <EntitySet Name="tLR_Relation" EntityType="Self.tLR_Relation" />
+    <EntitySet Name="tMembers" EntityType="Self.tMember" />
+    <EntitySet Name="tMessages" EntityType="Self.tMessage" />
+    <EntitySet Name="tNotes" EntityType="Self.tNote" />
+    <EntitySet Name="tPhotoes" EntityType="Self.tPhoto" />
+    <EntitySet Name="tPoints" EntityType="Self.tPoint" />
+    <EntitySet Name="tProfitMembers" EntityType="Self.tProfitMember" />
+    <EntitySet Name="tProfitTypes" EntityType="Self.tProfitType" />
+    <EntitySet Name="tReports" EntityType="Self.tReport" />
+    <EntitySet Name="tRoles" EntityType="Self.tRole" />
+    <EntitySet Name="tRoutes" EntityType="Self.tRoute" />
+    <EntitySet Name="tShareAuths" EntityType="Self.tShareAuth" />
+    <EntitySet Name="tStatistics" EntityType="Self.tStatistic" />
+    <EntitySet Name="tTags" EntityType="Self.tTag" />
+    <EntitySet Name="tTagMsgRelations" EntityType="Self.tTagMsgRelation" />
+    <EntitySet Name="tUnlocks" EntityType="Self.tUnlock" />
+    <AssociationSet Name="FK_tAd_tLocation" Association="Self.FK_tAd_tLocation">
+      <End Role="tLocation" EntitySet="tLocations" />
+      <End Role="tAd" EntitySet="tAds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tAd_tRole" Association="Self.FK_tAd_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tAd" EntitySet="tAds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tAd_tRole_Role_Admin" Association="Self.FK_tAd_tRole_Role_Admin">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tAd" EntitySet="tAds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tAdmin_tFuntionAuth" Association="Self.FK_tAdmin_tFuntionAuth">
+      <End Role="tFuntionAuth" EntitySet="tFuntionAuths" />
+      <End Role="tAdmin" EntitySet="tAdmins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tAlbum_TotLocation" Association="Self.FK_tAlbum_TotLocation">
+      <End Role="tLocation" EntitySet="tLocations" />
+      <End Role="tAlbum" EntitySet="tAlbums" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tAlbum_TotShareAuth" Association="Self.FK_tAlbum_TotShareAuth">
+      <End Role="tShareAuth" EntitySet="tShareAuths" />
+      <End Role="tAlbum" EntitySet="tAlbums" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tBalance_tBank" Association="Self.FK_tBalance_tBank">
+      <End Role="tBank" EntitySet="tBanks" />
+      <End Role="tBalance" EntitySet="tBalances" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tBalance_tRole" Association="Self.FK_tBalance_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tBalance" EntitySet="tBalances" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tBank_tRole" Association="Self.FK_tBank_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tBank" EntitySet="tBanks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tBlock_tRole_Self" Association="Self.FK_tBlock_tRole_Self">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tBlock" EntitySet="tBlocks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tBlock_tRole_Target" Association="Self.FK_tBlock_tRole_Target">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tBlock" EntitySet="tBlocks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tComment_tRole" Association="Self.FK_tComment_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tComment" EntitySet="tComments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tLocation_tCoordinate" Association="Self.FK_tLocation_tCoordinate">
+      <End Role="tCoordinate" EntitySet="tCoordinates" />
+      <End Role="tLocation" EntitySet="tLocations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tFollow_tRole_Self" Association="Self.FK_tFollow_tRole_Self">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tFollow" EntitySet="tFollows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tFollow_tRole_Target" Association="Self.FK_tFollow_tRole_Target">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tFollow" EntitySet="tFollows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tMember_tMember" Association="Self.FK_tMember_tMember">
+      <End Role="tFuntionAuth" EntitySet="tFuntionAuths" />
+      <End Role="tMember" EntitySet="tMembers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tProfitMember_tFuntionAuth" Association="Self.FK_tProfitMember_tFuntionAuth">
+      <End Role="tFuntionAuth" EntitySet="tFuntionAuths" />
+      <End Role="tProfitMember" EntitySet="tProfitMembers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tGame_tLocation" Association="Self.FK_tGame_tLocation">
+      <End Role="tLocation" EntitySet="tLocations" />
+      <End Role="tGame" EntitySet="tGames" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tGameGroup_tGame" Association="Self.FK_tGameGroup_tGame">
+      <End Role="tGame" EntitySet="tGames" />
+      <End Role="tGameGroup" EntitySet="tGameGroups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tGameQA_tGame" Association="Self.FK_tGameQA_tGame">
+      <End Role="tGame" EntitySet="tGames" />
+      <End Role="tGameQA" EntitySet="tGameQAs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tGameStep_tGame" Association="Self.FK_tGameStep_tGame">
+      <End Role="tGame" EntitySet="tGames" />
+      <End Role="tGameStep" EntitySet="tGameSteps" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tGameGroup_tRole" Association="Self.FK_tGameGroup_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tGameGroup" EntitySet="tGameGroups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tGameUnlock_tGameGroup" Association="Self.FK_tGameUnlock_tGameGroup">
+      <End Role="tGameGroup" EntitySet="tGameGroups" />
+      <End Role="tGameUnlock" EntitySet="tGameUnlocks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tGameUnlock_tRole" Association="Self.FK_tGameUnlock_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tGameUnlock" EntitySet="tGameUnlocks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tLocation_tIcon" Association="Self.FK_tLocation_tIcon">
+      <End Role="tIcon" EntitySet="tIcons" />
+      <End Role="tLocation" EntitySet="tLocations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tRoute_tIcon" Association="Self.FK_tRoute_tIcon">
+      <End Role="tIcon" EntitySet="tIcons" />
+      <End Role="tRoute" EntitySet="tRoutes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tLocation_tShareAuth" Association="Self.FK_tLocation_tShareAuth">
+      <End Role="tShareAuth" EntitySet="tShareAuths" />
+      <End Role="tLocation" EntitySet="tLocations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tLR_Relation_tLocation" Association="Self.FK_tLR_Relation_tLocation">
+      <End Role="tLocation" EntitySet="tLocations" />
+      <End Role="tLR_Relation" EntitySet="tLR_Relation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tPhoto_tLocation" Association="Self.FK_tPhoto_tLocation">
+      <End Role="tLocation" EntitySet="tLocations" />
+      <End Role="tPhoto" EntitySet="tPhotoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tLR_Relation_tRoute" Association="Self.FK_tLR_Relation_tRoute">
+      <End Role="tRoute" EntitySet="tRoutes" />
+      <End Role="tLR_Relation" EntitySet="tLR_Relation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tRole_tMember" Association="Self.FK_tRole_tMember">
+      <End Role="tMember" EntitySet="tMembers" />
+      <End Role="tRole" EntitySet="tRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tMessage_tRole_From" Association="Self.FK_tMessage_tRole_From">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tMessage" EntitySet="tMessages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tMessage_tRole_To" Association="Self.FK_tMessage_tRole_To">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tMessage" EntitySet="tMessages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tNote_tRole" Association="Self.FK_tNote_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tNote" EntitySet="tNotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tNote_tRole_Admin" Association="Self.FK_tNote_tRole_Admin">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tNote" EntitySet="tNotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tPhoto_tRole" Association="Self.FK_tPhoto_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tPhoto" EntitySet="tPhotoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tPoint_tRole" Association="Self.FK_tPoint_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tPoint" EntitySet="tPoints" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tProfitMember_tProfitType" Association="Self.FK_tProfitMember_tProfitType">
+      <End Role="tProfitType" EntitySet="tProfitTypes" />
+      <End Role="tProfitMember" EntitySet="tProfitMembers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tReport_tRole_Admin" Association="Self.FK_tReport_tRole_Admin">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tReport" EntitySet="tReports" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tReport_tRole_Reported" Association="Self.FK_tReport_tRole_Reported">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tReport" EntitySet="tReports" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tReport_tRole_Reporter" Association="Self.FK_tReport_tRole_Reporter">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tReport" EntitySet="tReports" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tRoute_tRole" Association="Self.FK_tRoute_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tRoute" EntitySet="tRoutes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tStatistic_tRole" Association="Self.FK_tStatistic_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tStatistic" EntitySet="tStatistics" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tUnlock_tRole" Association="Self.FK_tUnlock_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tUnlock" EntitySet="tUnlocks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tRoute_tShareAuth" Association="Self.FK_tRoute_tShareAuth">
+      <End Role="tShareAuth" EntitySet="tShareAuths" />
+      <End Role="tRoute" EntitySet="tRoutes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tTagMsgRelations_tTag" Association="Self.FK_tTagMsgRelations_tTag">
+      <End Role="tTag" EntitySet="tTags" />
+      <End Role="tTagMsgRelations" EntitySet="tTagMsgRelations" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
