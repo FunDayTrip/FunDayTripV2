@@ -142,6 +142,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CDictionary.cs" />
+    <Compile Include="Models\CNotes.cs" />
+    <Compile Include="Models\CNotesFactory.cs" />
+    <Compile Include="Models\CRoles.cs" />
+    <Compile Include="Models\CRolesFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tAd.cs">
       <DependentUpon>dbFunDayTripModel.tt</DependentUpon>

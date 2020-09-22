@@ -1,4 +1,5 @@
-﻿using System;
+﻿using homepage.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,12 @@ namespace homepage.ViewModel
         public string fNickName_Member { get; set; }
         public string fEmail_Member { get; set; }
         public string fPassword_Member { get; set; }
+        public int fNotesCount_Member { get; set; }
+        public List<tNote> fNotes_Member { get; set; }
+        public List<tRole> fRoles_Member { get; set; }
+        public int fActiveRoleId_Member { get; set; }
+        public string fRoleName_Member { get; set; }
+
 
     }
 }

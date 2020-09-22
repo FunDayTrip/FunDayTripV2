@@ -123,6 +123,29 @@
             font-size: 28px;
             font-weight: bold;
         }
+        /*通知按鈕*/
+        .noteBtn {
+            width: 32px;
+            height:32px;
+            position: relative;
+            display: inline-block;
+            margin:0px;
+        }
+        /*通知數量*/
+        .noteNum {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            padding: 2px 2px;
+            border-radius: 50%;
+            background: red;
+            color: white;
+            font-size:xx-small;
+        }
+        .info_panel{
+            overflow:auto;
+        }
+
     </style>
 </head>
 <body>
@@ -307,17 +330,37 @@
                         {
                             <input type="text" id="account" value="ming123@gmail.com">
                             <input type="password" id="password" value="ming123">
-                            <button type="submit" id="loginBtn">登入</button>
+                            <button type="submit" id="loginBtn">登入</button><br />
+                            <button type="submit" id="signupBtn">註冊帳號</button>
+                            <button type="submit" id="forgetPwdBtn">忘記密碼</button>
                         }
                         @*如果已經登入，顯示登入資訊*@
                         @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
                         {
                             CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
-                            <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" />
-                            <div >@memberLogin.fNickName_Member</div>
+                            <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="float:left" />
+                            <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
+                            <div id="login_name">@memberLogin.fNickName_Member</div>
                             <div id="login_email">@memberLogin.fEmail_Member</div>
-                            <button type="submit" id="logoutBtn">登出</button>
+                            <button id="logoutBtn" style="float:right">登出</button><br />
+                            <input type="text" id="active_role" style="display:none" value="@memberLogin.fActiveRoleId_Member">
+                            <div id="active_role_name">@memberLogin.fRoleName_Member</div>
+                            <button id="change_role" style="float:left">切換身分</button>
+                            <button id="edit_profile" style="float:right">編輯個人檔案</button><br />
                             <hr />
+
+                            //通知按鈕
+                    <div class="noteBtn">
+                        <input type="image" id="noteBtn" name="noteBtn" onclick="showNotes()" img src="https://i.imgur.com/ShdEgwx.png" width="32" height="32">
+                        <span id="noteNum" name="noteNum" class="noteNum">
+                            @memberLogin.fNotesCount_Member
+                        </span>
+                    </div>
+                            <hr />
+                            <div id="info_panel" class="info_panel">
+                                <ul id="note_list"></ul>
+                                <ul id="role_list"></ul>
+                            </div>
                         }
                     </div>
                     <div>
@@ -528,8 +571,49 @@
             $("body").append(xhr.responseText);
             alert(thrownError);
         })
-    };
+        };
 
+        //通知按鈕
+        function showNotes() {
+            var role_id = { role_id: $("#active_role").val() };
+            $.ajax({
+                url:'@Url.Action("readNotes", "Home")',
+                type: "POST",
+                dataType: "json",
+                data: role_id
+            }).done(function (response) {
+                $("#info_panel").html('<ul id="note_list"></ul>');
+                for (let i = 0; i < response.length; i++) {
+                    console.log(response[i].fMessage_Note);
+                    $("#note_list").append("<li id=note_li" + i + ">" + response[i].fMessage_Note + "</li>");
+                };
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                $("body").append(xhr.status);
+                $("body").append(xhr.responseText);
+                alert(thrownError);
+            })
+        };
+        //切換身分按鈕
+        $('#change_role').on('click', showRoles);
+        function showRoles() {
+            var member_id = { member_id: $("#login_id").val() };
+            $.ajax({
+                url:'@Url.Action("readRoles", "Home")',
+                type: "POST",
+                dataType: "json",
+                data: member_id
+            }).done(function (response) {
+                $("#info_panel").html('<ul id="role_list"></ul>');
+                for (let i = 0; i < response.length; i++) {
+                    console.log(response[i].fNickName_Role);
+                    $("#role_list").append("<li id=role_li" + i + ">" + response[i].fNickName_Role + "</li>");
+                };
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                $("body").append(xhr.status);
+                $("body").append(xhr.responseText);
+                alert(thrownError);
+            })
+        };
     </script>
 
 

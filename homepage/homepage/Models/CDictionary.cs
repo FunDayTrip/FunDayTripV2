@@ -12,5 +12,6 @@ namespace homepage.Models
         public static readonly string SK_MemberLogin = "SK_MemberLogin";
         public static readonly string SK_LoginMessage = "SK_LoginMessage";
         public static readonly string SK_anonymous = "SK_anonymous";
+        public static readonly string SK_ActiveRole = "SK_ActiveRole";
     }
 }

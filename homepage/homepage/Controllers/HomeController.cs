@@ -88,6 +88,7 @@ namespace homepage.Controllers
             var q = from m in dbFundaytrip.tMembers
                     where m.fEmail_Member == email
                     select m;
+
             CLoginViewModel loginMember = new CLoginViewModel();
 
             if (!q.Any())
@@ -102,9 +103,25 @@ namespace homepage.Controllers
                 loginMember.fEmail_Member = q.FirstOrDefault().fEmail_Member;
                 loginMember.fPassword_Member = q.FirstOrDefault().fPassword_Member;
 
+
+                //讀取角色
+                List<tRole> rolesList = new CRolesFactory().readRoles(loginMember.fId_Member);
+                loginMember.fActiveRoleId_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fId_Role;
+                loginMember.fRoleName_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fNickName_Role;
+                //foreach (var rr in rolesList)
+                //{
+                //    rolesList.Add(rr);
+                //}
+
+                //讀取通知
+                List<tNote> notesList = new CNotesFactory().readNotes(loginMember.fActiveRoleId_Member);
+                loginMember.fNotesCount_Member = notesList.Count;
+
+                //放入Session
                 Session[CDictionary.SK_MemberId] = loginMember.fId_Member;
                 Session[CDictionary.SK_MemberLogin] = loginMember;
-
+                Session[CDictionary.SK_ActiveRole] = loginMember.fActiveRoleId_Member;
+                
             }
             else if (q.FirstOrDefault().fPassword_Member != pwd)
             {
@@ -126,7 +143,31 @@ namespace homepage.Controllers
 
             return logoutMember.loginMessage;
         }
+        [HttpPost]
+        public JsonResult readNotes(int role_id)
+        {
+            var q = from n in dbFundaytrip.tNotes
+                    where n.fId_Role == role_id
+                    select n;
 
+            List<CNotes> note = new List<CNotes>();
+            foreach(var n in q.ToList())
+            {
+                CNotes nc = new CNotes();
+                nc.fMessage_Note = n.fMessage_Note;
+                note.Add(nc);
+            }
+
+            return Json(note);
+        }
+        [HttpPost]
+        public JsonResult readRoles(string member_id)
+        {
+            List<CRoles> roles = new List<CRoles>();          
+            
+            
+            return Json(roles);            
+        }
 
     }
 }
