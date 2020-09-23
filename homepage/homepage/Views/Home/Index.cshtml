@@ -321,7 +321,19 @@
                 <h6 id="info2">get coordinates</h6>
                 <button id="addNewLocationButton" type="button">放置新增圖釘</button>
                 @*開啟個人資料對話方塊*@
-                <button id="toggle2" type="button" class="showHideButton">User</button>               
+                <button id="toggle2" type="button" class="showHideButton">User</button>
+
+                @*@if (Session[CDictionary.SK_MemberId].ToString() == CDictionary.SK_anonymous)
+                {
+                    <button id="toggle2" type="button" class="showHideButton">User</button>
+                }
+                @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
+                {
+                    CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
+                    <button id="toggle2" type="button" class="showHideButton">@memberLogin.fActiveRoleName_Member</button>
+
+                }*@
+
                 @*輸入登入資訊 by 王詠平 0921*@
                 <div class="showHide" id="showHide">
                     <div>
@@ -605,7 +617,8 @@
                 $("#info_panel").html('<ul id="role_list"></ul>');
                 for (let i = 0; i < response.length; i++) {
                     console.log(response[i].fNickName_Role);
-                    $("#role_list").append("<li><button data-value=" + response[i].fId_Role + " onclick='changeRole()'>" + response[i].fNickName_Role + "</button></li>");
+                    $("#role_list").append("<li><button value='"+response[i].fId_Role +"' onclick='changeRole(this)'>" + response[i].fNickName_Role + "</button></li>");
+ 
                 };
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 $("body").append(xhr.status);
@@ -614,17 +627,16 @@
             })
         };
         //切換身分連結
-        function changeRole() {
-            var role_id = {role_id: $(this).val()};
+        function changeRole(myobj) {
+            var role_id = { role_id: myobj.value};
             $.ajax({
                 url: '@Url.Action("changeRole", "Home")',
                 type: "POST",
                 dataType: "text",
                 data: role_id
             }).done(function (response) {
-                alert("要切換身分為: " + $(this).text());
                 alert("已切換身分為: " + response);
-                window.location.reload()
+                document.getElementById("active_role_name").innerHTML = "目前身分:" + response;
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 console.log(role_id);
                 $("body").append(xhr.status);

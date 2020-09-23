@@ -18,6 +18,7 @@ namespace homepage.Controllers
     public class HomeController : Controller
     {
         DB_FunDayTripEntities dbFundaytrip = new DB_FunDayTripEntities();
+        CLoginViewModel loginMember = new CLoginViewModel();
 
 
 
@@ -89,7 +90,7 @@ namespace homepage.Controllers
                     where m.fEmail_Member == email
                     select m;
 
-            CLoginViewModel loginMember = new CLoginViewModel();
+            //CLoginViewModel loginMember = new CLoginViewModel();
 
             if (!q.Any())
             {
@@ -172,6 +173,7 @@ namespace homepage.Controllers
         public string changeRole(int role_id)
         {
             CRole rol = new CRolesFactory().getRole(role_id);
+            
             Session[CDictionary.SK_ActiveRoleId] = rol.fId_Role;
             Session[CDictionary.SK_ActiveRoleName] = rol.fNickName_Role;
             return rol.fNickName_Role;
