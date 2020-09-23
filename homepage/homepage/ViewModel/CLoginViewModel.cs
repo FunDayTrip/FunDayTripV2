@@ -17,7 +17,7 @@ namespace homepage.ViewModel
         public List<tNote> fNotes_Member { get; set; }
         public List<tRole> fRoles_Member { get; set; }
         public int fActiveRoleId_Member { get; set; }
-        public string fRoleName_Member { get; set; }
+        public string fActiveRoleName_Member { get; set; }
 
 
     }

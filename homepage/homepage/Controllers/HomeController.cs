@@ -105,9 +105,9 @@ namespace homepage.Controllers
 
 
                 //讀取角色
-                List<tRole> rolesList = new CRolesFactory().readRoles(loginMember.fId_Member);
+                List<CRole> rolesList = new CRolesFactory().readRoles(loginMember.fId_Member);
                 loginMember.fActiveRoleId_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fId_Role;
-                loginMember.fRoleName_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fNickName_Role;
+                loginMember.fActiveRoleName_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fNickName_Role;
                 //foreach (var rr in rolesList)
                 //{
                 //    rolesList.Add(rr);
@@ -120,7 +120,7 @@ namespace homepage.Controllers
                 //放入Session
                 Session[CDictionary.SK_MemberId] = loginMember.fId_Member;
                 Session[CDictionary.SK_MemberLogin] = loginMember;
-                Session[CDictionary.SK_ActiveRole] = loginMember.fActiveRoleId_Member;
+                Session[CDictionary.SK_ActiveRoleId] = loginMember.fActiveRoleId_Member;
                 
             }
             else if (q.FirstOrDefault().fPassword_Member != pwd)
@@ -163,10 +163,18 @@ namespace homepage.Controllers
         [HttpPost]
         public JsonResult readRoles(string member_id)
         {
-            List<CRoles> roles = new List<CRoles>();          
+            List<CRole> roles = new CRolesFactory().readRoles(member_id);          
             
             
             return Json(roles);            
+        }
+        [HttpPost]
+        public string changeRole(int role_id)
+        {
+            CRole rol = new CRolesFactory().getRole(role_id);
+            Session[CDictionary.SK_ActiveRoleId] = rol.fId_Role;
+            Session[CDictionary.SK_ActiveRoleName] = rol.fNickName_Role;
+            return rol.fNickName_Role;
         }
 
     }
