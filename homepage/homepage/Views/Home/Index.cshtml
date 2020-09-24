@@ -343,7 +343,8 @@
                             <input type="text" id="account" value="ming123@gmail.com">
                             <input type="password" id="password" value="ming123">
                             <button type="submit" id="loginBtn">登入</button><br />
-                            <button type="submit" id="signupBtn">註冊帳號</button>
+                            @Html.ActionLink("註冊會員","signUp","Member")
+                            @*<button type="submit" id="signupBtn">註冊帳號</button>*@
                             <button type="submit" id="forgetPwdBtn">忘記密碼</button>
                         }
                         @*如果已經登入，顯示登入資訊*@
@@ -357,22 +358,27 @@
                             <button id="logoutBtn" style="float:right">登出</button><br />
                             <input type="text" id="active_role" style="display:none" value="@memberLogin.fActiveRoleId_Member">
                             <div id="login_name">會員名稱:@memberLogin.fNickName_Member</div>
+                            <a id="login_point" href="javascript:showPoint()">點數: @memberLogin.fPointTotal_Member</a>
                             <button id="change_role" style="float:left" onclick="showRoles()">切換身分</button>
                             <button id="edit_profile" style="float:right">編輯個人檔案</button><br />
                             <hr />
 
                             //通知按鈕
-                            <div class="noteBtn">
-                                <input type="image" id="noteBtn" name="noteBtn" onclick="showNotes()" img src="https://i.imgur.com/ShdEgwx.png" width="32" height="32">
-                                <span id="noteNum" name="noteNum" class="noteNum">
-                                    @memberLogin.fNotesCount_Member
-                                </span>
-                            </div>
-                            <hr />
-                            <div id="info_panel" class="info_panel">
-                                <ul id="note_list"></ul>
-                                <ul id="role_list"></ul>
-                            </div>
+                    <div class="noteBtn">
+                        <input type="image" id="noteBtn" name="noteBtn" onclick="showNotes()" img src="https://i.imgur.com/ShdEgwx.png" width="32" height="32">
+                        @if (memberLogin.fNotesCount_Member > 0)
+                        {
+                            <span id="noteNum" name="noteNum" class="noteNum">
+                                @memberLogin.fNotesCount_Member
+                            </span>
+                        }
+                    </div>
+                    <hr />
+                    <div id="info_panel" class="info_panel">
+                        <ul id="note_list"></ul>
+                        <ul id="role_list"></ul>
+                    </div>
+                    //通知按鈕
                         }
                     </div>
                     <div>
@@ -587,18 +593,25 @@
 
         //通知按鈕
         function showNotes() {
-            var role_id = { role_id: $("#active_role").val() };
+            var role_id = { role_id: $("#active_role").val(), read: true };
             $.ajax({
-                url:'@Url.Action("readNotes", "Home")',
-                type: "POST",
+                url:'@Url.Action("get", "Note")',
+                type: "get",
                 dataType: "json",
                 data: role_id
             }).done(function (response) {
                 $("#info_panel").html('<ul id="note_list"></ul>');
                 for (let i = 0; i < response.length; i++) {
+                    let note_item = "<li id=note_li" + i+">";
+                    note_item += "[" + response[i].fMessage_Note + "]";
+                    note_item += "[" + response[i].fTimeReadable_Note + "]";
+                    note_item += "</li>";
+                    $("#note_list").append(note_item);
+                    $("#noteNum").removeClass("noteNum");
                     console.log(response[i].fMessage_Note);
-                    $("#note_list").append("<li id=note_li" + i + ">" + response[i].fMessage_Note + "</li>");
                 };
+                document.getElementById("noteNum").innerHTML = "";
+
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 $("body").append(xhr.status);
                 $("body").append(xhr.responseText);
@@ -609,16 +622,23 @@
         function showRoles() {
             var member_id = { member_id: $("#login_id").val() };
             $.ajax({
-                url:'@Url.Action("readRoles", "Home")',
-                type: "POST",
+                url:'@Url.Action("get", "Role")',
+                type: "GET",
                 dataType: "json",
                 data: member_id
             }).done(function (response) {
                 $("#info_panel").html('<ul id="role_list"></ul>');
                 for (let i = 0; i < response.length; i++) {
+                    let role_item = "";
+                    role_item += "<li>";
+                    role_item += "<button value='" + response[i].fId_Role + "'";
+                    role_item += "name = '" + response[i].fNickName_Role + "'";
+                    role_item += "onclick='changeRole(this)'>";
+                    role_item += response[i].fNickName_Role;
+                    role_item += "</button></li>";
                     console.log(response[i].fNickName_Role);
-                    $("#role_list").append("<li><button value='"+response[i].fId_Role +"' onclick='changeRole(this)'>" + response[i].fNickName_Role + "</button></li>");
- 
+                    $("#role_list").append(role_item)
+
                 };
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 $("body").append(xhr.status);
@@ -628,7 +648,9 @@
         };
         //切換身分連結
         function changeRole(myobj) {
-            var role_id = { role_id: myobj.value};
+            var role_id = { role_id: myobj.value };
+            alert("即將切換為: " + myobj.name);
+
             $.ajax({
                 url: '@Url.Action("changeRole", "Home")',
                 type: "POST",
@@ -644,8 +666,31 @@
                 alert(thrownError);
             })
         };
-
-
+        //讀取點數細節
+        function showPoint() {
+            $.ajax({
+                url: '@Url.Action("get", "Point")',
+                type: "GET",
+                dataType: "json",
+                data: { role_id: $("#active_role").val() }, 
+            }).done(function (response){
+                $("#info_panel").html('<ul id="points_list"></ul>');
+                for (let i = 0; i < response.length; i++) {
+                    console.log(response[i]);
+                    let point_item = "<li>";
+                    point_item += "[" + response[i].fPoint_Point + "] ";
+                    point_item += "[" + response[i].fType_Point + "] ";
+                    point_item += "[" + response[i].fTimeReadable_Point + "] ";
+                    point_item += "</li>";
+                    $("#points_list").append(point_item);
+                };
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                console.log(role_id);
+                $("body").append(xhr.status);
+                $("body").append(xhr.responseText);
+                alert(thrownError);
+            })
+        };
     </script>
 
 

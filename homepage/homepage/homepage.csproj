@@ -99,6 +99,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\d8b0de09-fd3e-40e1-9476-c99c09c04484.png" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\userPhoto.png" />
+    <Content Include="Content\灑紅節改.jpg" />
+    <Content Include="Content\鐵道旅行.jpg" />
     <Content Include="css\BootSideMenu.css" />
     <Content Include="css\theme\darkblue.css" />
     <Content Include="css\theme\dracula.css" />
@@ -123,6 +132,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\NoteController.cs" />
+    <Compile Include="Controllers\PointController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="dbFunDayTripModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -142,8 +155,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CDictionary.cs" />
+    <Compile Include="Models\CMember.cs" />
     <Compile Include="Models\CNotes.cs" />
     <Compile Include="Models\CNotesFactory.cs" />
+    <Compile Include="Models\CPoint.cs" />
+    <Compile Include="Models\CPointFactory.cs" />
     <Compile Include="Models\CRole.cs" />
     <Compile Include="Models\CRolesFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -258,8 +274,13 @@
     <Content Include="dbFunDayTripModel.edmx.diagram">
       <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Member\signUp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -269,8 +290,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\" />
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\Note\" />
+    <Folder Include="Views\Point\" />
+    <Folder Include="Views\Profile\" />
+    <Folder Include="Views\Role\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

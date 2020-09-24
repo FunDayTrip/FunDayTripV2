@@ -19,6 +19,7 @@ namespace homepage
         public int fId_Admin_Role { get; set; }
         public string fMessage_Note { get; set; }
         public Nullable<System.DateTime> fTime_Note { get; set; }
+        public Nullable<int> fIsRead_Note { get; set; }
     
         public virtual tRole tRole { get; set; }
         public virtual tRole tRole1 { get; set; }

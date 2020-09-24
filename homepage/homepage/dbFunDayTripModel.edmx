@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DB_FunDayTripModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DB_FunDayTripModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tAd">
           <Key>
             <PropertyRef Name="fId_Ad" />
@@ -208,7 +208,7 @@
             <PropertyRef Name="fId_Member" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fId_Member" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="fId_Member" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="fId_FunctionAuth" Type="int" Nullable="false" />
           <Property Name="fNickName_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="fEmail_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -246,6 +246,7 @@
           <Property Name="fId_Admin_Role" Type="int" Nullable="false" />
           <Property Name="fMessage_Note" Type="nvarchar(max)" />
           <Property Name="fTime_Note" Type="datetime" />
+          <Property Name="fIsRead_Note" Type="int" />
         </EntityType>
         <EntityType Name="tPhoto">
           <Key>
@@ -1146,8 +1147,7 @@
             <End Role="tUnlock" EntitySet="tUnlock" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_FunDayTripModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1396,7 +1396,7 @@
             <PropertyRef Name="fId_Member" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Member" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="fId_Member" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
           <Property Name="fNickName_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="fEmail_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -1440,6 +1440,7 @@
           <Property Name="fTime_Note" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tRole" Relationship="Self.FK_tNote_tRole" FromRole="tNote" ToRole="tRole" />
           <NavigationProperty Name="tRole1" Relationship="Self.FK_tNote_tRole_Admin" FromRole="tNote" ToRole="tRole" />
+          <Property Name="fIsRead_Note" Type="Int32" />
         </EntityType>
         <EntityType Name="tPhoto">
           <Key>
@@ -2645,6 +2646,7 @@
           <EntitySetMapping Name="tNotes">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tNote">
               <MappingFragment StoreEntitySet="tNote">
+                <ScalarProperty Name="fIsRead_Note" ColumnName="fIsRead_Note" />
                 <ScalarProperty Name="fId_Note" ColumnName="fId_Note" />
                 <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
                 <ScalarProperty Name="fId_Admin_Role" ColumnName="fId_Admin_Role" />

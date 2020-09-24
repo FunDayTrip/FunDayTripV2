@@ -20,8 +20,6 @@ namespace homepage.Controllers
         DB_FunDayTripEntities dbFundaytrip = new DB_FunDayTripEntities();
         CLoginViewModel loginMember = new CLoginViewModel();
 
-
-
         // GET: Home
         public ActionResult Index()
         {
@@ -106,7 +104,7 @@ namespace homepage.Controllers
 
 
                 //讀取角色
-                List<CRole> rolesList = new CRolesFactory().readRoles(loginMember.fId_Member);
+                List<CRole> rolesList = new CRolesFactory().getRoleList(loginMember.fId_Member);
                 loginMember.fActiveRoleId_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fId_Role;
                 loginMember.fActiveRoleName_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fNickName_Role;
                 //foreach (var rr in rolesList)
@@ -116,12 +114,16 @@ namespace homepage.Controllers
 
                 //讀取通知
                 List<tNote> notesList = new CNotesFactory().readNotes(loginMember.fActiveRoleId_Member);
-                loginMember.fNotesCount_Member = notesList.Count;
-
+                loginMember.fNotesCount_Member = notesList.Count(x => x.fIsRead_Note == 0);
+                //讀取點數
+                var member_point = new CPointFactory().getPoint(loginMember.fActiveRoleId_Member);
+                loginMember.fPointTotal_Member = Convert.ToInt32(member_point.Sum(s => s.fPoint_Point));
+                
                 //放入Session
                 Session[CDictionary.SK_MemberId] = loginMember.fId_Member;
                 Session[CDictionary.SK_MemberLogin] = loginMember;
                 Session[CDictionary.SK_ActiveRoleId] = loginMember.fActiveRoleId_Member;
+                
                 
             }
             else if (q.FirstOrDefault().fPassword_Member != pwd)
@@ -159,16 +161,9 @@ namespace homepage.Controllers
                 note.Add(nc);
             }
 
-            return Json(note);
+            return Json(note.OrderByDescending(n => n.fTime_Note));
         }
-        [HttpPost]
-        public JsonResult readRoles(string member_id)
-        {
-            List<CRole> roles = new CRolesFactory().readRoles(member_id);          
-            
-            
-            return Json(roles);            
-        }
+
         [HttpPost]
         public string changeRole(int role_id)
         {

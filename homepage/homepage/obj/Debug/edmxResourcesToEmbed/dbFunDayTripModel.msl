@@ -256,6 +256,7 @@
     <EntitySetMapping Name="tNotes">
       <EntityTypeMapping TypeName="DB_FunDayTripModel.tNote">
         <MappingFragment StoreEntitySet="tNote">
+          <ScalarProperty Name="fIsRead_Note" ColumnName="fIsRead_Note" />
           <ScalarProperty Name="fId_Note" ColumnName="fId_Note" />
           <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
           <ScalarProperty Name="fId_Admin_Role" ColumnName="fId_Admin_Role" />

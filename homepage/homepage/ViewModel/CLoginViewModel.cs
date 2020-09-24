@@ -18,7 +18,9 @@ namespace homepage.ViewModel
         public List<tRole> fRoles_Member { get; set; }
         public int fActiveRoleId_Member { get; set; }
         public string fActiveRoleName_Member { get; set; }
-
+        public int fId_FuntionAuth_Member { get; set; }
+        public int fPointTotal_Member { get; set; }
+        
 
     }
 }
