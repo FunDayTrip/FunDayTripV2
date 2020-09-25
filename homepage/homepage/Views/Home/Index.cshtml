@@ -343,7 +343,7 @@
                             <input type="text" id="account" value="ming123@gmail.com">
                             <input type="password" id="password" value="ming123">
                             <button type="submit" id="loginBtn">登入</button><br />
-                            @Html.ActionLink("註冊會員","signUp","Member")
+                            @Html.ActionLink("註冊會員", "signUp", "Member")
                             @*<button type="submit" id="signupBtn">註冊帳號</button>*@
                             <button type="submit" id="forgetPwdBtn">忘記密碼</button>
                         }
@@ -360,25 +360,26 @@
                             <div id="login_name">會員名稱:@memberLogin.fNickName_Member</div>
                             <a id="login_point" href="javascript:showPoint()">點數: @memberLogin.fPointTotal_Member</a>
                             <button id="change_role" style="float:left" onclick="showRoles()">切換身分</button>
-                            <button id="edit_profile" style="float:right">編輯個人檔案</button><br />
+                            @Html.ActionLink("編輯個人檔案", "edit", "Member")
+                            @*<button id="edit_profile" style="float:right" >編輯個人檔案</button><br />*@
                             <hr />
 
                             //通知按鈕
-                    <div class="noteBtn">
-                        <input type="image" id="noteBtn" name="noteBtn" onclick="showNotes()" img src="https://i.imgur.com/ShdEgwx.png" width="32" height="32">
-                        @if (memberLogin.fNotesCount_Member > 0)
-                        {
-                            <span id="noteNum" name="noteNum" class="noteNum">
-                                @memberLogin.fNotesCount_Member
-                            </span>
-                        }
-                    </div>
-                    <hr />
-                    <div id="info_panel" class="info_panel">
-                        <ul id="note_list"></ul>
-                        <ul id="role_list"></ul>
-                    </div>
-                    //通知按鈕
+                            <div class="noteBtn">
+                                <input type="image" id="noteBtn" name="noteBtn" onclick="showNotes()" img src="https://i.imgur.com/ShdEgwx.png" width="32" height="32">
+                                @if (memberLogin.fNotesCount_Member > 0)
+                                {
+                                    <span id="noteNum" name="noteNum" class="noteNum">
+                                        @memberLogin.fNotesCount_Member
+                                    </span>
+                                }
+                            </div>
+                            <hr />
+                            <div id="info_panel" class="info_panel">
+                                <ul id="note_list"></ul>
+                                <ul id="role_list"></ul>
+                            </div>
+                            //通知按鈕
                         }
                     </div>
                     <div>
@@ -607,17 +608,16 @@
                     note_item += "[" + response[i].fTimeReadable_Note + "]";
                     note_item += "</li>";
                     $("#note_list").append(note_item);
-                    $("#noteNum").removeClass("noteNum");
+                    $("#noteNum").hide();
                     console.log(response[i].fMessage_Note);
-                };
-                document.getElementById("noteNum").innerHTML = "";
-
+                };                
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 $("body").append(xhr.status);
                 $("body").append(xhr.responseText);
                 alert(thrownError);
             })
         };
+
         //切換身分按鈕
         function showRoles() {
             var member_id = { member_id: $("#login_id").val() };

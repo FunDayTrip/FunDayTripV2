@@ -82,9 +82,54 @@ namespace homepage.Controllers
             //說明:說果資料模型驗證沒過重新導向會員註冊頁面
             return View();
         }
+        //編輯會員資料 0925 by 郭松明/王詠平
         public ActionResult edit()
         {
-            return View();
+            //傳入Session 中的member ID
+            string memeber_id = Convert.ToString(Session[CDictionary.SK_MemberId]);
+            if(memeber_id == CDictionary.SK_anonymous)
+            {
+                //如果是未登入，則返回首頁
+                return RedirectToAction("Index","Home");
+            }
+            else
+            {
+                tMember data = dbFundaytrip.tMembers.FirstOrDefault(m => m.fId_Member == memeber_id);
+                return View(data);
+            }
         }
+        [HttpPost]
+        public ActionResult edit(CMember change)
+        {
+            tMember oldData = dbFundaytrip.tMembers.FirstOrDefault(m => m.fId_Member == change.fId_Member);
+            if (oldData == null)
+            {
+                return RedirectToAction("edit");
+            }
+            oldData.fNickName_Member = change.fNickName_Member;
+            oldData.fAdd_Member = change.fAdd_Member;
+            oldData.fPhone_Member = change.fPhone_Member;
+            oldData.fCountry_Member = change.fCountry_Member;
+            oldData.fFirstName_Member = change.fFirstName_Member;
+            oldData.fLastName_Member = change.fLastName_Member;
+
+            //說明:圖片有更改時才執行 
+            if (change.image == null)
+            {
+                dbFundaytrip.SaveChanges();
+                return RedirectToAction("Edit");
+            }
+            else
+            {
+                string photoName = Guid.NewGuid().ToString();
+                photoName += Path.GetExtension(change.image.FileName);
+                change.image.SaveAs(Server.MapPath("~/Content/" + photoName));
+                change.fPhoto_Member = "../Content/" + photoName;
+                oldData.fPhoto_Member = change.fPhoto_Member;
+                dbFundaytrip.SaveChanges();
+                return RedirectToAction("Edit");
+            }
+        }
+
     }
 }
