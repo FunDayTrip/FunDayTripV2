@@ -178,7 +178,7 @@ namespace homepage.Controllers
             Session[CDictionary.SK_ActiveRoleName] = rol.fNickName_Role;
             return rol.fNickName_Role;
         }
-        public JsonResult showfollow(int role_id)
+        public JsonResult showFollow(int role_id)
         {
             var q = from p in dbFundaytrip.tFollows
                     where p.fId_Self_Role == role_id
@@ -189,15 +189,30 @@ namespace homepage.Controllers
             foreach (var x in q.ToList())
             {
                 CFollowlistViewModel FV = new CFollowlistViewModel();
-                FV.follow_Self_Name = x.tRole.fNickName_Role;
-                FV.follow_Self_ID = x.tRole.fId_Role;
-                FV.follow_Target_Name = x.tRole1.fNickName_Role;
-                FV.follow_Target_ID = x.tRole1.fId_Role;
+                FV.follow_Self_Name = x.tRole1.fNickName_Role;
+                FV.follow_Self_ID = x.tRole1.fId_Role;
                 f.Add(FV);
             }
             return Json(f);
         }
-        public void pushmessage(int fId_To_Role, int fId_From_Role, string message)
+        public JsonResult showFan(int role_id)
+        {
+            var q = from p in dbFundaytrip.tFollows
+                    where p.fId_Target_Role == role_id
+                    select p;
+            
+
+            List<CFanslistViewModel> f = new List<CFanslistViewModel>();
+            foreach (var x in q.ToList())
+            {
+                CFanslistViewModel FN = new CFanslistViewModel();
+                FN.follow_Target_Name = x.tRole.fNickName_Role;
+                FN.follow_Target_ID = x.tRole.fId_Role;
+                f.Add(FN);
+            }
+            return Json(f);
+        }
+        public void pushMessage(int fId_To_Role, int fId_From_Role, string message)
         {
            DB_FunDayTripEntities db =new DB_FunDayTripEntities();
             tMessage CM = new tMessage();
@@ -213,6 +228,37 @@ namespace homepage.Controllers
 
             db.SaveChanges();
         }
+        public JsonResult showHistoryMessage(int from_role_id,int to_role_id)
+        {
+            var q = from p in dbFundaytrip.tMessages
+                    where p.fId_From_Role == from_role_id && p.fId_To_Role == to_role_id
+                    select p;
+           
+            List<CHistoryMessage> f = new List<CHistoryMessage>();            
+            foreach (var x in q.ToList())
+            {
+                CHistoryMessage CH = new CHistoryMessage();
+                CH.fMessage_From = x.fMessage_Message;
+                CH.fMessage_Time = Convert.ToString(x.fTime_Message);
+                CH.fId = x.fId_Message;
+                f.Add(CH);
+            }
+            var q1 = from z in dbFundaytrip.tMessages
+                     where z.fId_To_Role == from_role_id && z.fId_From_Role == to_role_id
+                     select z;
+            foreach (var y in q1.ToList())
+            {
+                CHistoryMessage CH = new CHistoryMessage();
+                CH.fMessage_To = y.fMessage_Message;
+                CH.fMessage_Time = Convert.ToString(y.fTime_Message);
+                CH.fId = y.fId_Message;
+                f.Add(CH);
+            }
+            //f.OrderBy(x => x.fId);
+
+            return Json(f);
+        }
+       
     }
       
 }

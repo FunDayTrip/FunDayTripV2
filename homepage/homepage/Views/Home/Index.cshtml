@@ -158,6 +158,44 @@
     <script>
 
         function creatchatroom(obj) {
+            var id = {
+                from_role_id: $("#active_role").val(),
+                to_role_id: obj.value
+            };
+
+            $.ajax({
+                url: "/Home/showHistoryMessage",
+                type: "POST",
+                dataType: "json",
+                data: id,
+                success: function (response) {
+                    console.log(response);
+                    //for (let i = 0; i < response.length; i++) {
+                    //    if (response[i].fMessage_From == null)
+                    //        continue;
+                    //    console.log(response[i].fMessage_From);    
+                    //    var hsmessageFrom = '<div class="messageHer">';
+                    //    hsmessageFrom += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                    //    hsmessageFrom += '<span>' + response[i].fMessage_From + '</span >';
+                    //    hsmessageFrom += '<div class="clearFix" ></div >';
+                    //    hsmessageFrom += '</div>';
+                    //    $('#MSG').append(hsmessageFrom);
+                    //}
+                    //for (let j = 0; j < response.length; j++) {
+                    //    if (response[j].fMessage_From != null)
+                    //        continue;
+                    //    console.log(response[j].fMessage_To);
+                    //    var hsmessageTo = '<div class="messageMe">';
+                    //    hsmessageTo += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                    //    hsmessageTo += '<span>' + response[j].fMessage_To + '</span >';
+                    //    hsmessageTo += '<div class="clearFix" ></div >';
+                    //    hsmessageTo += '</div>';
+                    //    $('#MSG').append(hsmessageTo);
+
+                    //}
+                }
+            });
+
             document.getElementById("CHAT").innerHTML = '';
             let CHT = '<div class="container">';
             CHT += '<div class="row">';
@@ -186,7 +224,7 @@
             CHT += '</div>';
 
             $('#CHAT').append(CHT);
-
+             
             $(".panel.panel-chat > .panel-heading > .chatMinimize").click(function () {
                 if ($(this).parent().parent().hasClass('mini')) {
                     $(this).parent().parent().removeClass('mini').addClass('normal');
@@ -211,42 +249,25 @@
             $(".panel.panel-chat > .panel-heading > .chatClose").click(function () {
                 $(this).parent().parent().remove();
             });
-
-
         };
-        //----------------20200925 SignalR 送給Client端資料 by曾開誠-----------------
-        var hub = $.connection.myHub;
-
-        $.connection.hub.start().done(ChangeString)
-        hub.client.hello = function (name, content) {
-            if ($("#active_role").val() === name) {
-                console.log(name);
-                console.log(content);
-                var messagetextold = '<div class="messageMe">';
-                messagetextold += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-                messagetextold += '<span>' + content + '</span >';
-                messagetextold += '<div class="clearFix" ></div >';
-                messagetextold += '</div>';
-                $('#MSG').append(messagetextold);
-            }
-        };
+   
         //-------------------2020/09/24 textarea打字往上append by曾開誠--------------
         function ChangeString() {
-            var StringTextBox = document.getElementById("StringTextBox");
-            var NewStringValue = StringTextBox.value;
-            var toid = document.getElementById("ss");
-            var toidvalue = toid.innerHTML;
-            var fromid = document.getElementById("active_role");
-            var fromidvalue = fromid.value;
+            let StringTextBox = document.getElementById("StringTextBox");
+            let NewStringValue = StringTextBox.value;
+            let toid = document.getElementById("ss");
+            let toidvalue = toid.innerHTML;
+            let fromid = document.getElementById("active_role");
+            let fromidvalue = fromid.value;
             if (NewStringValue == "") return;
 
-            var msg = {
+            let msg = {
                 message: NewStringValue,
                 fId_From_Role: fromidvalue,
                 fId_To_Role: toidvalue
             };
             $.ajax({
-                url: "/Home/pushmessage",
+                url: "/Home/pushMessage",
                 type: "POST",
                 dataType: "text",
                 data: msg,
@@ -261,8 +282,24 @@
             $('#MSG').append(messagetext);
             StringTextBox.value = "";
 
-            hub.server.hello(document.getElementById("ss").innerHTML, NewStringValue);
+            hub.server.hello(document.getElementById("ss").innerHTML, NewStringValue);//fun啟動後再繫結name,content
+        };
+        //----------------20200925 SignalR 送給Client端資料 by曾開誠-----------------
+        var hub = $.connection.myHub;
 
+        $.connection.hub.start().done()
+
+        hub.client.hello = function (name, content) {
+            if ($("#active_role").val() === name) {
+                console.log(name);
+                console.log(content);
+                var messagetextold = '<div class="messageMe">';
+                messagetextold += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                messagetextold += '<span>' + content + '</span >';
+                messagetextold += '<div class="clearFix" ></div >';
+                messagetextold += '</div>';
+                $('#MSG').append(messagetextold);
+            }
         };
     </script>
     @*---------------------------------聊天室生成---------------------------------*@
@@ -546,8 +583,9 @@
                     <div class="modal-content">
                         <span class="close">&times;</span>
                         <div style="justify-content:center;">
-                            <button onclick="showfollower()" type="submit">追隨中</button>
-                            <ul id="follower_list"></ul>
+                            <button class="btn btn-info" onclick="showfollower()" type="submit">追隨中</button>
+                            <button class="btn btn-info" onclick="showfans()" type="submit">粉絲</button>
+                            <div id="follower_list"></div>
                         </div>
                     </div>
                 </div>
@@ -593,7 +631,7 @@
         var data = { role_id: $("#active_role").val() };
         function showfollower() {
             $.ajax({
-                url: "/Home/showfollow",
+                url: "/Home/showFollow",
                 type: "POST",
                 dataType: "json",
                 data: data,
@@ -601,14 +639,19 @@
                     console.log(response);
                     $("#follower_list").html("");
                     for (let i = 0; i < response.length; i++) {
-                        let CD = '<li style="display:inline-block;">' + response[i].follow_Target_Name + '</li>';
-                        CD += '<button onclick="creatchatroom(this)" name="';
-                        CD += response[i].follow_Target_Name;
+                        let CD = '<tr>';
+                        CD += '<td>' + response[i].follow_Self_Name + '</td>';
+                        CD += '<td>';
+                        CD += '<button class="btn btn-link" onclick="creatchatroom(this)" name="';  
+                        //style="border-bottom:dashed;margin-bottom:5px;border-color:blue;"
+                        CD += response[i].follow_Self_Name;
                         CD += '"';
-                        CD += ' value="';
-                        CD += response[i].follow_Target_ID;
-                        CD += '">';
+                        CD += 'value="';
+                        CD += response[i].follow_Self_ID;
+                        CD += '">';                       
                         CD += '聊天</button>';
+                        CD += '</td>';
+                        CD += '</tr>';
 
                         CD += '<div></div>'
                         $("#follower_list").prepend(CD);
@@ -616,7 +659,38 @@
                 }
             });
         };
+         //粉絲/追蹤頁面按下粉絲按鈕 by曾開誠
+        function showfans() {
+            $.ajax({
+                url: "/Home/showFan",
+                type: "POST",
+                dataType: "json",
+                data: data,
+                success: function (response) {
+                    console.log(response);
+                    $("#follower_list").html("");
+                    for (let i = 0; i < response.length; i++) {
+                        let CD = '<tr>';
+                        CD += '<td>' + response[i].follow_Target_Name + '</td>';
+                        CD += '<td>';
+                        CD += '<button class="btn btn-link" onclick="creatchatroom(this)" name="';
+                        //style="border-bottom:dashed;margin-bottom:5px;border-color:blue;"
+                        CD += response[i].follow_Target_Name;
+                        CD += '"';
+                        CD += 'value="';
+                        CD += response[i].follow_Target_ID;
+                        CD += '">';
+                        CD += '聊天</button>';
+                        CD += '</td>';
+                        CD += '</tr>';
 
+                        CD += '<div></div>'
+
+                        $("#follower_list").prepend(CD);
+                    }
+                }
+            });
+        };
         //點選新增地點,才可添加marker
         var _marker;//地圖上marker變數
         $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面

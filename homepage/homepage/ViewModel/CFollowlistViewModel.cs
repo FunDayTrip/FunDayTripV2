@@ -10,9 +10,6 @@ namespace homepage.ViewModel
         public string follow_Self_Name { get; set; }
         public int follow_Self_ID { get; set; }
         public string follow_Self_IMG { get; set; }
-        public string follow_Target_Name { get; set; }
-        public int follow_Target_ID { get; set; }
-        public string follow_Target_IMG { get; set; }
 
     }
 }
