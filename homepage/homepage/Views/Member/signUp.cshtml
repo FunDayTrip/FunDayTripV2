@@ -202,9 +202,10 @@
     @*說明:fEmail_Member欄位*@
     <div class="form-row" style="margin-left:45px;">
         <div class="form-group col-md-5">
-            <label>帳號</label>
+            <label>Email</label>
             <input id="email" class="form-control" type="text" name="fEmail_Member" />
             @Html.ValidationMessageFor(model => model.fEmail_Member, "", new { @class = "text-danger" })
+            <span id="email_warn"></span>
         </div>
     </div>
 
@@ -312,7 +313,23 @@
     <div id="ButtomDiv"></div>
 
 </form>
+    <script>
+        //判斷email是否重複
+        $('#email').on('change', checkEmail);
+        function checkEmail() {
+            $.ajax({
+                url: '@Url.Action("checkEmail","Member")',
+                type: "GET",
+                dataType: "text",
+                data: { email: $('#email').val() }
+            }).done(function (response) {
+                $('#email_warn').css("color","red")
+                $('#email_warn').html(response);
+            })
+        };
 
+
+    </script>
 
 
 </body>

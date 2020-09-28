@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Text.RegularExpressions;
+
 
 namespace homepage.Controllers
 {
@@ -38,9 +40,21 @@ namespace homepage.Controllers
                 //說明:由於傳回資料不是用tMember型別而是自創的CMember型別，欄位不對稱，
                 //所以view傳回端資料data需一個一個代入資料庫tMember。
 
-                //仍需確認email是否重複
 
+
+                
                 DB_FunDayTripEntities db = new DB_FunDayTripEntities();
+
+                var q = from m in db.tMembers
+                        where m.fEmail_Member == data.fEmail_Member
+                        select m;
+
+                //確認email是否重複，若重複則返回
+                if (q.Any())
+                {
+                    return View();
+                }
+
                 tMember tmember = new tMember();
                 tmember.fNickName_Member = data.fNickName_Member;
                 tmember.fEmail_Member = data.fEmail_Member;
@@ -131,5 +145,70 @@ namespace homepage.Controllers
             }
         }
 
+        //說明: 停用帳號的控制器
+        public ActionResult suspension(string id)
+        {
+
+            if (ModelState.IsValid)
+            {
+                tMember data = dbFundaytrip.tMembers.FirstOrDefault(x => x.fId_Member == id);
+
+                //說明: 把一般會員全線改為3，停用帳號
+                data.fId_FunctionAuth = 3;
+                dbFundaytrip.SaveChanges();
+
+                //說明:代入session到homePage以顯示alert
+                Session["stopped"] = "stopped";
+
+                //說明: 停用帳號後轉到登入頁面
+                return RedirectToAction("Index","Home");
+            }
+            else
+            {
+                //說明: 取消的話停留原畫面
+                return RedirectToAction("edit");
+            }
+        }
+
+        //說明:變更密碼AJAX方法
+        public string changePW(string id, string pw1, string pw2)
+        {
+            string result = "";
+            tMember data = dbFundaytrip.tMembers.FirstOrDefault(dbID => dbID.fId_Member.ToString() == id);
+
+            //說明: 兩個密碼欄位相等的話
+            if (pw1 == pw2)
+            {
+                data.fPassword_Member = pw1;
+                dbFundaytrip.SaveChanges();
+                result = "密碼變更成功";
+            }
+            else
+            {
+                result = "輸入的新密碼與確認密碼不符";
+            }
+
+            return result;
+        }
+        [HttpGet]
+        public string checkEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return "請輸入Email";
+            }
+            else if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+            {            
+                return "請輸入有效的Email格式";
+            }
+            else if (dbFundaytrip.tMembers.Any(e => e.fEmail_Member == email))
+            {
+                return "此Email已被註冊";
+            }
+            else
+            {
+                return "OK";
+            }
+        }
     }
 }

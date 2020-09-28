@@ -115,17 +115,17 @@
       <PropertyRef Name="fId_Game" />
     </Key>
     <Property Name="fId_Game" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="fId_Location" Type="nvarchar" MaxLength="11" Nullable="false" />
+    <Property Name="fId_Coordinate" Type="int" Nullable="false" />
     <Property Name="fType_Game" Type="int" />
     <Property Name="fName_Game" Type="nvarchar" MaxLength="50" />
     <Property Name="fOrder_Game" Type="int" />
+    <Property Name="fId_GameGroup" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="tGameGroup">
     <Key>
       <PropertyRef Name="fId_GameGroup" />
     </Key>
     <Property Name="fId_GameGroup" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="fId_Game" Type="int" Nullable="false" />
     <Property Name="fName_GameGroup" Type="nvarchar" MaxLength="50" />
     <Property Name="fGameLV_GameGroup" Type="nvarchar" MaxLength="50" />
     <Property Name="fDescript_GameGroup" Type="nvarchar(max)" />
@@ -203,7 +203,7 @@
       <PropertyRef Name="fId_Member" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="fId_Member" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fId_Member" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
     <Property Name="fId_FunctionAuth" Type="int" Nullable="false" />
     <Property Name="fNickName_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="fEmail_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -539,27 +539,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tGame_tLocation">
-    <End Role="tLocation" Type="Self.tLocation" Multiplicity="1" />
-    <End Role="tGame" Type="Self.tGame" Multiplicity="*" />
+  <Association Name="FK_tGame_tCoordinate">
+    <End Role="tCoordinate" Type="Self.tCoordinate" Multiplicity="1" />
+    <End Role="tGame" Type="Self.tGame" Multiplicity="0..1" />
     <ReferentialConstraint>
-      <Principal Role="tLocation">
-        <PropertyRef Name="fId_Location" />
+      <Principal Role="tCoordinate">
+        <PropertyRef Name="fId_Coordinate" />
       </Principal>
       <Dependent Role="tGame">
-        <PropertyRef Name="fId_Location" />
+        <PropertyRef Name="fId_Game" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_tGameGroup_tGame">
-    <End Role="tGame" Type="Self.tGame" Multiplicity="1" />
-    <End Role="tGameGroup" Type="Self.tGameGroup" Multiplicity="*" />
+  <Association Name="FK_tGame_tGameGroup">
+    <End Role="tGameGroup" Type="Self.tGameGroup" Multiplicity="1" />
+    <End Role="tGame" Type="Self.tGame" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="tGame">
-        <PropertyRef Name="fId_Game" />
+      <Principal Role="tGameGroup">
+        <PropertyRef Name="fId_GameGroup" />
       </Principal>
-      <Dependent Role="tGameGroup">
-        <PropertyRef Name="fId_Game" />
+      <Dependent Role="tGame">
+        <PropertyRef Name="fId_GameGroup" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -644,6 +644,18 @@
       </Principal>
       <Dependent Role="tLocation">
         <PropertyRef Name="fId_Icon" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tLocation_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
+    <End Role="tLocation" Type="Self.tLocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tLocation">
+        <PropertyRef Name="fId_Role" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1013,13 +1025,13 @@
       <End Role="tRole" EntitySet="tRole" />
       <End Role="tFollow" EntitySet="tFollow" />
     </AssociationSet>
-    <AssociationSet Name="FK_tGame_tLocation" Association="Self.FK_tGame_tLocation">
-      <End Role="tLocation" EntitySet="tLocation" />
+    <AssociationSet Name="FK_tGame_tCoordinate" Association="Self.FK_tGame_tCoordinate">
+      <End Role="tCoordinate" EntitySet="tCoordinate" />
       <End Role="tGame" EntitySet="tGame" />
     </AssociationSet>
-    <AssociationSet Name="FK_tGameGroup_tGame" Association="Self.FK_tGameGroup_tGame">
-      <End Role="tGame" EntitySet="tGame" />
+    <AssociationSet Name="FK_tGame_tGameGroup" Association="Self.FK_tGame_tGameGroup">
       <End Role="tGameGroup" EntitySet="tGameGroup" />
+      <End Role="tGame" EntitySet="tGame" />
     </AssociationSet>
     <AssociationSet Name="FK_tGameGroup_tRole" Association="Self.FK_tGameGroup_tRole">
       <End Role="tRole" EntitySet="tRole" />
@@ -1047,6 +1059,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_tLocation_tIcon" Association="Self.FK_tLocation_tIcon">
       <End Role="tIcon" EntitySet="tIcon" />
+      <End Role="tLocation" EntitySet="tLocation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tLocation_tRole" Association="Self.FK_tLocation_tRole">
+      <End Role="tRole" EntitySet="tRole" />
       <End Role="tLocation" EntitySet="tLocation" />
     </AssociationSet>
     <AssociationSet Name="FK_tLocation_tShareAuth" Association="Self.FK_tLocation_tShareAuth">

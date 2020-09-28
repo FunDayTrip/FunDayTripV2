@@ -19,7 +19,6 @@ namespace homepage
         {
             this.tAds = new HashSet<tAd>();
             this.tAlbums = new HashSet<tAlbum>();
-            this.tGames = new HashSet<tGame>();
             this.tLR_Relation = new HashSet<tLR_Relation>();
             this.tPhotoes = new HashSet<tPhoto>();
         }
@@ -42,9 +41,8 @@ namespace homepage
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tAlbum> tAlbums { get; set; }
         public virtual tCoordinate tCoordinate { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tGame> tGames { get; set; }
         public virtual tIcon tIcon { get; set; }
+        public virtual tRole tRole { get; set; }
         public virtual tShareAuth tShareAuth { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tLR_Relation> tLR_Relation { get; set; }

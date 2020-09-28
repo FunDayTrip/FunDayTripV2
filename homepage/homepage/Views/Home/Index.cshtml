@@ -291,7 +291,7 @@
                 <a href="#" class="list-group-item">追蹤中</a>
             </div>
 
-            <a href="#" class="list-group-item">遊戲</a>
+            <a href="@Url.Action("Navigation", "Game")" class="list-group-item" target="_blank">遊戲</a>
             <a href="#" class="list-group-item">追蹤/粉絲</a>
             <a href="javascript:con()" class="list-group-item">功能導覽</a>
             <a href="#" class="list-group-item">新增廣告</a>
@@ -654,11 +654,12 @@
             $.ajax({
                 url: '@Url.Action("changeRole", "Home")',
                 type: "POST",
-                dataType: "text",
+                dataType: "json",
                 data: role_id
             }).done(function (response) {
-                alert("已切換身分為: " + response);
-                document.getElementById("active_role_name").innerHTML = "目前身分:" + response;
+                alert("已切換身分為: " + response.fNickName_Role);
+                $('#active_role').attr('value', response.fId_Role);
+                document.getElementById("active_role_name").innerHTML = "目前身分:" + response.fNickName_Role;
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 console.log(role_id);
                 $("body").append(xhr.status);

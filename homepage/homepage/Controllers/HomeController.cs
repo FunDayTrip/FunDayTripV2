@@ -165,13 +165,13 @@ namespace homepage.Controllers
         }
 
         [HttpPost]
-        public string changeRole(int role_id)
+        public JsonResult changeRole(int role_id)
         {
             CRole rol = new CRolesFactory().getRole(role_id);
             
             Session[CDictionary.SK_ActiveRoleId] = rol.fId_Role;
             Session[CDictionary.SK_ActiveRoleName] = rol.fNickName_Role;
-            return rol.fNickName_Role;
+            return Json(rol);
         }
 
     }

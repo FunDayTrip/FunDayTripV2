@@ -25,6 +25,7 @@ namespace homepage
         public Nullable<decimal> fX_Coordinate { get; set; }
         public Nullable<decimal> fY_Coordinate { get; set; }
     
+        public virtual tGame tGame { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tLocation> tLocations { get; set; }
     }

@@ -28,6 +28,7 @@ namespace homepage
             this.tFollows1 = new HashSet<tFollow>();
             this.tGameGroups = new HashSet<tGameGroup>();
             this.tGameUnlocks = new HashSet<tGameUnlock>();
+            this.tLocations = new HashSet<tLocation>();
             this.tMessages = new HashSet<tMessage>();
             this.tMessages1 = new HashSet<tMessage>();
             this.tNotes = new HashSet<tNote>();
@@ -71,6 +72,8 @@ namespace homepage
         public virtual ICollection<tGameGroup> tGameGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tGameUnlock> tGameUnlocks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tLocation> tLocations { get; set; }
         public virtual tMember tMember { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tMessage> tMessages { get; set; }
