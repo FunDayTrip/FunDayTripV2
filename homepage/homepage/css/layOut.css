@@ -1,0 +1,59 @@
+﻿/*body {
+}
+*/
+.user {
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+#info {
+    display: block;
+    position: relative;
+    margin: 0px auto;
+    width: 50%;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    color: #222;
+    background: #fff;
+}
+
+.mapboxgl-popup {
+    max-width: 600px;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+/*個人資料方塊&按鈕*/
+.showHide {
+    position: fixed;
+    right: 5px;
+    top: 40px;
+    background: pink;
+    width: 250px;
+    height: 300px;
+}
+
+.showHideButton {
+    position: fixed;
+    right: 5px;
+    top: 20px;
+    cursor: pointer;
+    border-radius: 80px;
+    border: none;
+    z-index: 500;
+}

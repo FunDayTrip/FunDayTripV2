@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\BootSideMenu.css" />
+    <Content Include="css\layOut.css" />
     <Content Include="css\theme\darkblue.css" />
     <Content Include="css\theme\dracula.css" />
     <Content Include="css\theme\pinklady.css" />
