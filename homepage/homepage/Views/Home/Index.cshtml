@@ -170,29 +170,27 @@
                 data: id,
                 success: function (response) {
                     console.log(response);
-                    //for (let i = 0; i < response.length; i++) {
-                    //    if (response[i].fMessage_From == null)
-                    //        continue;
-                    //    console.log(response[i].fMessage_From);    
-                    //    var hsmessageFrom = '<div class="messageHer">';
-                    //    hsmessageFrom += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-                    //    hsmessageFrom += '<span>' + response[i].fMessage_From + '</span >';
-                    //    hsmessageFrom += '<div class="clearFix" ></div >';
-                    //    hsmessageFrom += '</div>';
-                    //    $('#MSG').append(hsmessageFrom);
-                    //}
-                    //for (let j = 0; j < response.length; j++) {
-                    //    if (response[j].fMessage_From != null)
-                    //        continue;
-                    //    console.log(response[j].fMessage_To);
-                    //    var hsmessageTo = '<div class="messageMe">';
-                    //    hsmessageTo += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-                    //    hsmessageTo += '<span>' + response[j].fMessage_To + '</span >';
-                    //    hsmessageTo += '<div class="clearFix" ></div >';
-                    //    hsmessageTo += '</div>';
-                    //    $('#MSG').append(hsmessageTo);
+                    for (let i = 0; i < response.length; i++) {
+                        if (response[i].fMessage_To == null) {
+                            let hsmessagetext = '<div class="messageHer">';
+                            hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                            hsmessagetext += '<span>' + response[i].fMessage_From + '</span >';
+                            hsmessagetext += '<div class="clearFix" ></div >';
+                            hsmessagetext += '</div>';
 
-                    //}
+                            $('#MSG').append(hsmessagetext);
+                        }
+
+                        else if (response[i].fMessage_From == null) {
+                            let hsmessagetext = '<div class="messageMe">';
+                            hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                            hsmessagetext += '<span>' + response[i].fMessage_To + '</span >';
+                            hsmessagetext += '<div class="clearFix" ></div >';
+                            hsmessagetext += '</div>';
+
+                            $('#MSG').append(hsmessagetext);
+                        }
+                    }
                 }
             });
 
@@ -224,7 +222,7 @@
             CHT += '</div>';
 
             $('#CHAT').append(CHT);
-             
+
             $(".panel.panel-chat > .panel-heading > .chatMinimize").click(function () {
                 if ($(this).parent().parent().hasClass('mini')) {
                     $(this).parent().parent().removeClass('mini').addClass('normal');
@@ -250,7 +248,7 @@
                 $(this).parent().parent().remove();
             });
         };
-   
+
         //-------------------2020/09/24 textarea打字往上append by曾開誠--------------
         function ChangeString() {
             let StringTextBox = document.getElementById("StringTextBox");
@@ -466,72 +464,72 @@
                 @*開啟個人資料對話方塊*@
                 <button id="toggle2" type="button" class="showHideButton">User</button>
                 @*輸入登入資訊 by 王詠平 0921*@
-            <div class="showHide" id="showHide">
-                <div>
-                    @*如果沒有登入*@
-                    @if (Session[CDictionary.SK_MemberId].ToString() == CDictionary.SK_anonymous)
-                    {
-                        <input type="text" id="account" value="ming123@gmail.com">
-                        <input type="password" id="password" value="ming123">
-                        <button type="submit" id="loginBtn">登入</button>
-                        <br />
-                        <button type="submit" id="signupBtn">註冊帳號</button>
-                        <button type="submit" id="forgetPwdBtn">忘記密碼</button>
-                    }
-                    @*如果已經登入，顯示登入資訊*@
-                    @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
-                    {
-                        CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
-                        <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="float:left" />
-                        <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
-                        <div id="active_role_name">目前身分:@memberLogin.fActiveRoleName_Member</div>
-                        <div id="login_email">@memberLogin.fEmail_Member</div>
-                        <button id="logoutBtn" style="float:right">登出</button>
-                        <br />
-                        <input type="text" id="active_role" style="display:none" value="@memberLogin.fActiveRoleId_Member">
-                        <div id="login_name">會員名稱:@memberLogin.fNickName_Member</div>
-                        <button id="change_role" style="float:left" onclick="showRoles()">切換身分</button>
-                        <button id="edit_profile" style="float:right">編輯個人檔案</button>
-                        <br />
-                        <hr />
+                <div class="showHide" id="showHide">
+                    <div>
+                        @*如果沒有登入*@
+                        @if (Session[CDictionary.SK_MemberId].ToString() == CDictionary.SK_anonymous)
+                        {
+                            <input type="text" id="account" value="ming123@gmail.com">
+                            <input type="password" id="password" value="ming123">
+                            <button type="submit" id="loginBtn">登入</button>
+                            <br />
+                            <button type="submit" id="signupBtn">註冊帳號</button>
+                            <button type="submit" id="forgetPwdBtn">忘記密碼</button>
+                        }
+                        @*如果已經登入，顯示登入資訊*@
+                        @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
+                        {
+                            CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
+                            <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="float:left" />
+                            <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
+                            <div id="active_role_name">目前身分:@memberLogin.fActiveRoleName_Member</div>
+                            <div id="login_email">@memberLogin.fEmail_Member</div>
+                            <button id="logoutBtn" style="float:right">登出</button>
+                            <br />
+                            <input type="text" id="active_role" style="display:none" value="@memberLogin.fActiveRoleId_Member">
+                            <div id="login_name">會員名稱:@memberLogin.fNickName_Member</div>
+                            <button id="change_role" style="float:left" onclick="showRoles()">切換身分</button>
+                            <button id="edit_profile" style="float:right">編輯個人檔案</button>
+                            <br />
+                            <hr />
 
-                        //通知按鈕
-                        <div class="noteBtn">
-                            <input type="image" id="noteBtn" name="noteBtn" onclick="showNotes()" img src="https://i.imgur.com/ShdEgwx.png" width="32" height="32">
-                            <span id="noteNum" name="noteNum" class="noteNum">
-                                @memberLogin.fNotesCount_Member
-                            </span>
-                        </div>
-                        <hr />
-                        <div id="info_panel" class="info_panel">
-                            <ul id="note_list"></ul>
-                            <ul id="role_list"></ul>
-                        </div>
-                    }
-                </div>
-                @*聊天室方塊 by曾開誠 註解已改為動態生成 function creatchatroom <div id="CHAT"不可刪>*@
-                <div id="CHAT">
-                    @*<div class="container">
-                <div class="row">
-                    <div class="panel panel-chat">
-                        <div class="panel-heading">
-                            <a href="#" class="chatMinimize" onclick="return false"><span>Özgür Gürbüz</span></a>
-                            <a href="#" class="chatClose" onclick="return false"><i class="glyphicon glyphicon-remove"></i></a>
-                            <div class="clearFix"></div>
-                        </div>
-                        <div class="panel-body">
-                            <div class="clearFix" id="MSG"></div>
-                        </div>
-                        <div class="panel-footer">
-                            <textarea id="StringTextBox" name="textMessage" maxlength="50" cols="0" rows="0" style="float: left; width: 90%;"></textarea>
-                            <input class="c" type="button" style="float: right;" value="送出" onclick="ChangeString()">
-                            <span style="clear: both;"></span>
-                        </div>
+                            //通知按鈕
+                            <div class="noteBtn">
+                                <input type="image" id="noteBtn" name="noteBtn" onclick="showNotes()" img src="https://i.imgur.com/ShdEgwx.png" width="32" height="32">
+                                <span id="noteNum" name="noteNum" class="noteNum">
+                                    @memberLogin.fNotesCount_Member
+                                </span>
+                            </div>
+                            <hr />
+                            <div id="info_panel" class="info_panel">
+                                <ul id="note_list"></ul>
+                                <ul id="role_list"></ul>
+                            </div>
+                        }
+                    </div>
+                    @*聊天室方塊 by曾開誠 註解已改為動態生成 function creatchatroom <div id="CHAT"不可刪>*@
+                    <div id="CHAT">
+                        @*<div class="container">
+                                <div class="row">
+                                    <div class="panel panel-chat">
+                                        <div class="panel-heading">
+                                            <a href="#" class="chatMinimize" onclick="return false"><span>Özgür Gürbüz</span></a>
+                                            <a href="#" class="chatClose" onclick="return false"><i class="glyphicon glyphicon-remove"></i></a>
+                                            <div class="clearFix"></div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="clearFix" id="MSG"></div>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <textarea id="StringTextBox" name="textMessage" maxlength="50" cols="0" rows="0" style="float: left; width: 90%;"></textarea>
+                                            <input class="c" type="button" style="float: right;" value="送出" onclick="ChangeString()">
+                                            <span style="clear: both;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
                     </div>
                 </div>
-            </div>*@
-                </div>
-            </div>
                 @*編輯地點方塊-------*@
                 @*跳出新增視窗*@
                 <div id="myModal" class="modal">
@@ -642,13 +640,13 @@
                         let CD = '<tr>';
                         CD += '<td>' + response[i].follow_Self_Name + '</td>';
                         CD += '<td>';
-                        CD += '<button class="btn btn-link" onclick="creatchatroom(this)" name="';  
+                        CD += '<button class="btn btn-link" onclick="creatchatroom(this)" name="';
                         //style="border-bottom:dashed;margin-bottom:5px;border-color:blue;"
                         CD += response[i].follow_Self_Name;
                         CD += '"';
                         CD += 'value="';
                         CD += response[i].follow_Self_ID;
-                        CD += '">';                       
+                        CD += '">';
                         CD += '聊天</button>';
                         CD += '</td>';
                         CD += '</tr>';
@@ -659,7 +657,7 @@
                 }
             });
         };
-         //粉絲/追蹤頁面按下粉絲按鈕 by曾開誠
+        //粉絲/追蹤頁面按下粉絲按鈕 by曾開誠
         function showfans() {
             $.ajax({
                 url: "/Home/showFan",

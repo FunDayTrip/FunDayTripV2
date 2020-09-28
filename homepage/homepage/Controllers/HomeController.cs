@@ -254,9 +254,9 @@ namespace homepage.Controllers
                 CH.fId = y.fId_Message;
                 f.Add(CH);
             }
-            //f.OrderBy(x => x.fId);
+            var res = f.OrderBy(x => x.fId);
 
-            return Json(f);
+            return Json(res);
         }
        
     }
