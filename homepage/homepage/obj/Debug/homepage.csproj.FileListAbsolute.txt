@@ -325,7 +325,6 @@ D:\=====   期末專題   =====\test1\UPLOADGIT\test1\homepage\homepage\obj\Debu
 D:\=====   期末專題   =====\test1\UPLOADGIT\test1\homepage\homepage\obj\Debug\homepage.csproj.CopyComplete
 D:\=====   期末專題   =====\test1\UPLOADGIT\test1\homepage\homepage\obj\Debug\homepage.dll
 D:\=====   期末專題   =====\test1\UPLOADGIT\test1\homepage\homepage\obj\Debug\homepage.pdb
-<<<<<<< HEAD
 C:\Users\User\Documents\GitHub\FunDayTrip\homepage\homepage\bin\homepage.dll.config
 C:\Users\User\Documents\GitHub\FunDayTrip\homepage\homepage\bin\homepage.dll
 C:\Users\User\Documents\GitHub\FunDayTrip\homepage\homepage\bin\homepage.pdb
@@ -578,7 +577,6 @@ C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunD
 C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\obj\Debug\homepage.csproj.CopyComplete
 C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\obj\Debug\homepage.dll
 C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\obj\Debug\homepage.pdb
-=======
 C:\Users\User\Documents\GitHub\fundaytrip2\homepage\homepage\bin\homepage.dll
 C:\Users\User\Documents\GitHub\fundaytrip2\homepage\homepage\bin\homepage.pdb
 C:\Users\User\Documents\GitHub\fundaytrip2\homepage\homepage\bin\roslyn\csc.exe
@@ -847,4 +845,16 @@ C:\Users\ken\Desktop\yy\FunDayTrip\homepage\homepage\bin\Microsoft.AspNet.Signal
 C:\Users\ken\Desktop\yy\FunDayTrip\homepage\homepage\bin\Microsoft.Owin.xml
 C:\Users\ken\Desktop\yy\FunDayTrip\homepage\homepage\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\ken\Desktop\yy\FunDayTrip\homepage\homepage\bin\Microsoft.Owin.Security.xml
->>>>>>> origin/聊天室(歷史訊息DONE)
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Microsoft.Owin.dll
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Microsoft.Owin.Security.dll
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Owin.dll
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Microsoft.AspNet.SignalR.Core.pdb
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Microsoft.Owin.xml
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\peace\OneDrive - implement viral e-services\Desktop\fundaytrip0929\FunDayTrip\homepage\homepage\bin\Microsoft.Owin.Security.xml

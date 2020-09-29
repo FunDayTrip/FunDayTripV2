@@ -208,7 +208,7 @@
             <PropertyRef Name="fId_Member" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fId_Member" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="fId_Member" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="fId_FunctionAuth" Type="int" Nullable="false" />
           <Property Name="fNickName_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="fEmail_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -1636,7 +1636,7 @@
             <PropertyRef Name="fId_Member" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Member" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="fId_Member" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
           <Property Name="fNickName_Member" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fEmail_Member" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />

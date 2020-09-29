@@ -166,7 +166,7 @@ namespace homepage.Controllers
         [HttpPost]
         public JsonResult readRoles(string member_id)
         {
-            List<CRole> roles = new CRolesFactory().readRoles(member_id);
+            List<CRole> roles = new CRolesFactory().getRoleList(member_id);
 
 
             return Json(roles);

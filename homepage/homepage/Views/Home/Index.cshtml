@@ -277,7 +277,6 @@
 
             $('#MSG').append(messagetext);
             StringTextBox.value = "";
-
             hub.server.hello(document.getElementById("ss").innerHTML, NewStringValue);//fun啟動後再繫結name,content
         };
         //----------------20200925 SignalR 送給Client端資料 by曾開誠-----------------
@@ -481,11 +480,6 @@
 
                 <span id="info2" style="background-color:bisque"></span>*@
 
-                @*個人資料對話方塊*@
-                <button id="toggle2" type="button" class="showHideButton">User</button>
-                <div class="showHide"></div>
-
-
             </div>
         </div>
     </div>
@@ -548,28 +542,29 @@
                             //通知按鈕
                         }
                     </div>
-                    @*聊天室方塊 by曾開誠 註解已改為動態生成 function creatchatroom <div id="CHAT"不可刪>*@
-                    <div id="CHAT">
-                        @*<div class="container">
-                                <div class="row">
-                                    <div class="panel panel-chat">
-                                        <div class="panel-heading">
-                                            <a href="#" class="chatMinimize" onclick="return false"><span>Özgür Gürbüz</span></a>
-                                            <a href="#" class="chatClose" onclick="return false"><i class="glyphicon glyphicon-remove"></i></a>
-                                            <div class="clearFix"></div>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="clearFix" id="MSG"></div>
-                                        </div>
-                                        <div class="panel-footer">
-                                            <textarea id="StringTextBox" name="textMessage" maxlength="50" cols="0" rows="0" style="float: left; width: 90%;"></textarea>
-                                            <input class="c" type="button" style="float: right;" value="送出" onclick="ChangeString()">
-                                            <span style="clear: both;"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>*@
+
+                </div>
+                @*聊天室方塊 by曾開誠 註解已改為動態生成 function creatchatroom <div id="CHAT"不可刪>*@
+                <div id="CHAT">
+                    @*<div class="container">
+                <div class="row">
+                    <div class="panel panel-chat">
+                        <div class="panel-heading">
+                            <a href="#" class="chatMinimize" onclick="return false"><span>Özgür Gürbüz</span></a>
+                            <a href="#" class="chatClose" onclick="return false"><i class="glyphicon glyphicon-remove"></i></a>
+                            <div class="clearFix"></div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="clearFix" id="MSG"></div>
+                        </div>
+                        <div class="panel-footer">
+                            <textarea id="StringTextBox" name="textMessage" maxlength="50" cols="0" rows="0" style="float: left; width: 90%;"></textarea>
+                            <input class="c" type="button" style="float: right;" value="送出" onclick="ChangeString()">
+                            <span style="clear: both;"></span>
+                        </div>
                     </div>
+                </div>
+            </div>*@
                 </div>
                 @*編輯地點方塊-------*@
                 @*跳出新增視窗*@
@@ -632,12 +627,12 @@
 
             </div>
         </div>
+        @*showhide 個人頁面*@
     </div>
     @*</div>*@
 
     @* 設定地圖中內容的事件 ==================*@
     <script>
-
         var EnableCreateLocation = false;
 
         //個人資料方塊
@@ -664,7 +659,12 @@
         };
         //粉絲/追蹤彈跳視窗
         function followcon() {
-            follow_modal.style.display = "block";
+            if ($("#active_role").val() == false) {
+                alert("請先登入");
+            }
+            else {
+                follow_modal.style.display = "block";
+            }
         };
         //粉絲/追蹤頁面按下追隨中按鈕 by曾開誠
         var data = { role_id: $("#active_role").val() };
@@ -799,27 +799,26 @@
     @* 登入 *@
     $('#loginBtn').on('click', login);
     function login() {
-
             var login_data = {
                 email: $("#account").val(),
                 pwd: $("#password").val()
             };
 
-            $.ajax({
-                url: '@Url.Action("login", "Home")',
-                type: "POST",
-                dataType: "json",
-                data: login_data
-            }).done(function (response) {
-                //alert("account: " + login_data.email + " password: " + login_data.pwd);
-                //console.log(response.fEmail_Member);
-                alert(response.loginMessage);
-                window.location.reload()
-            }).fail(function (xhr, ajaxOptions, thrownError) {
-                $("body").append(xhr.status);
-                $("body").append(xhr.responseText);
-                alert(thrownError);
-            })
+        $.ajax({
+            url: '@Url.Action("login", "Home")',
+            type: "POST",
+            dataType: "json",
+            data: login_data
+        }).done(function (response) {
+            //alert("account: " + login_data.email + " password: " + login_data.pwd);
+            //console.log(response.fEmail_Member);
+            alert(response.loginMessage);
+            window.location.reload()
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            $("body").append(xhr.status);
+            $("body").append(xhr.responseText);
+            alert(thrownError);
+        });
     };
 
     //登出

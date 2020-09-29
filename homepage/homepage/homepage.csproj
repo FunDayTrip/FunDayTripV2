@@ -133,11 +133,8 @@
     <Content Include="Content\灑紅節改.jpg" />
     <Content Include="Content\鐵道旅行.jpg" />
     <Content Include="css\BootSideMenu.css" />
-<<<<<<< HEAD
     <Content Include="css\FixedPosition.css" />
-=======
     <Content Include="css\test.css" />
->>>>>>> origin/聊天室(歷史訊息DONE)
     <Content Include="css\theme\darkblue.css" />
     <Content Include="css\theme\dracula.css" />
     <Content Include="css\theme\pinklady.css" />
@@ -155,7 +152,6 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="js\BootSideMenu.js" />
-<<<<<<< HEAD
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -253,13 +249,11 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-=======
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.4.1.js" />
     <Content Include="Scripts\jquery.signalR-2.4.1.min.js" />
->>>>>>> origin/聊天室(歷史訊息DONE)
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -291,15 +285,12 @@
     </Compile>
     <Compile Include="Models\CCoordinate.cs" />
     <Compile Include="Models\CDictionary.cs" />
-<<<<<<< HEAD
     <Compile Include="Models\CGame.cs" />
     <Compile Include="Models\CGameFactory.cs" />
     <Compile Include="Models\CGameGroup.cs" />
     <Compile Include="Models\CGameNavigationViewModel.cs" />
     <Compile Include="Models\CMember.cs" />
-=======
     <Compile Include="Models\CMessage.cs" />
->>>>>>> origin/聊天室(歷史訊息DONE)
     <Compile Include="Models\CNotes.cs" />
     <Compile Include="Models\CNotesFactory.cs" />
     <Compile Include="Models\CPoint.cs" />
@@ -476,24 +467,6 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
-  <!--<ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
-        <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>65268</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44371/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
-        </WebProjectProperties>
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>-->
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>此專案參考這部電腦上所缺少的 NuGet 套件。請啟用 NuGet 套件還原，以下載該套件。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
