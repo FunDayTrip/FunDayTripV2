@@ -348,7 +348,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-homepage/.vs/homepage/v16/.suo
-homepage/homepage/bin/homepage.dll
-homepage/homepage/obj/Debug/homepage.pdb
-homepage/homepage/obj/Debug/homepage.dll
