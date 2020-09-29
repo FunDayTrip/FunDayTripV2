@@ -504,7 +504,7 @@
                             <button type="submit" id="loginBtn">登入</button><br />
                             @Html.ActionLink("註冊會員", "signUp", "Member")
                             @*<button type="submit" id="signupBtn">註冊帳號</button>*@
-                            <button type="submit" id="forgetPwdBtn">忘記密碼</button>
+                            <button type="submit" id="forgetPwdBtn" onclick="window.open('../ForgetPassword.aspx', 'FP', 'width=500,height=50,top=300,left=500,fullscreen=no,resizable=0');">忘記密碼</button>
                         }
                         @*如果已經登入，顯示登入資訊*@
                         @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)

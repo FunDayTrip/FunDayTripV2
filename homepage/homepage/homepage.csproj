@@ -150,6 +150,7 @@
       <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
       <LastGenOutput>dbFunDayTripModel.cs</LastGenOutput>
     </Content>
+    <Content Include="ForgetPassword.aspx" />
     <Content Include="Global.asax" />
     <Content Include="js\BootSideMenu.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -279,6 +280,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="ForgetPassword.aspx.cs">
+      <DependentUpon>ForgetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForgetPassword.aspx.designer.cs">
+      <DependentUpon>ForgetPassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
