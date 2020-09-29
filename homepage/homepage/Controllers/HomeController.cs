@@ -23,24 +23,24 @@ namespace homepage.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            SqlConnection con = new SqlConnection();
-            con.ConnectionString = @"Data Source=.;Initial Catalog=dbDemo;Integrated Security=True";
-            con.Open();
+            //SqlConnection con = new SqlConnection();
+            //con.ConnectionString = @"Data Source=.;Initial Catalog=dbDemo;Integrated Security=True";
+            //con.Open();
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = con;
-            string sql = "SELECT fDate FROM tTransaction WHERE fId = 2005";
-            cmd.CommandText = sql;
+            //SqlCommand cmd = new SqlCommand();
+            //cmd.Connection = con;
+            //string sql = "SELECT fDate FROM tTransaction WHERE fId = 2005";
+            //cmd.CommandText = sql;
 
-            SqlDataReader reader = cmd.ExecuteReader();
-            CAddLocationViewModel locationViewModel = new CAddLocationViewModel();
-            while (reader.Read())
-            {
+            //SqlDataReader reader = cmd.ExecuteReader();
+            //CAddLocationViewModel locationViewModel = new CAddLocationViewModel();
+            //while (reader.Read())
+            //{
 
-                ViewBag.kk = reader["fDate"].ToString();
-            }
+            //    ViewBag.kk = reader["fDate"].ToString();
+            //}
 
-            con.Close();
+            //con.Close();
             return View();
         }
         [HttpPost]
@@ -122,9 +122,9 @@ namespace homepage.Controllers
                 //放入Session
                 Session[CDictionary.SK_MemberId] = loginMember.fId_Member;
                 Session[CDictionary.SK_MemberLogin] = loginMember;
-                Session[CDictionary.SK_ActiveRoleId] = loginMember.fActiveRoleId_Member;
+                Session[CDictionary.SK_ActiveRoleId] = loginMember.fActiveRoleId_Member;             
                 
-                
+
             }
             else if (q.FirstOrDefault().fPassword_Member != pwd)
             {
@@ -154,7 +154,7 @@ namespace homepage.Controllers
                     select n;
 
             List<CNotes> note = new List<CNotes>();
-            foreach(var n in q.ToList())
+            foreach (var n in q.ToList())
             {
                 CNotes nc = new CNotes();
                 nc.fMessage_Note = n.fMessage_Note;
@@ -163,16 +163,105 @@ namespace homepage.Controllers
 
             return Json(note.OrderByDescending(n => n.fTime_Note));
         }
+        [HttpPost]
+        public JsonResult readRoles(string member_id)
+        {
+            List<CRole> roles = new CRolesFactory().readRoles(member_id);
+
+
+            return Json(roles);
+        }
 
         [HttpPost]
         public JsonResult changeRole(int role_id)
         {
             CRole rol = new CRolesFactory().getRole(role_id);
-            
+
             Session[CDictionary.SK_ActiveRoleId] = rol.fId_Role;
             Session[CDictionary.SK_ActiveRoleName] = rol.fNickName_Role;
             return Json(rol);
         }
+        public JsonResult showFollow(int role_id)
+        {
+            var q = from p in dbFundaytrip.tFollows
+                    where p.fId_Self_Role == role_id
+                    select p;
 
+
+            List<CFollowlistViewModel> f = new List<CFollowlistViewModel>();
+            foreach (var x in q.ToList())
+            {
+                CFollowlistViewModel FV = new CFollowlistViewModel();
+                FV.follow_Self_Name = x.tRole1.fNickName_Role;
+                FV.follow_Self_ID = x.tRole1.fId_Role;
+                f.Add(FV);
+            }
+            return Json(f);
+        }
+        public JsonResult showFan(int role_id)
+        {
+            var q = from p in dbFundaytrip.tFollows
+                    where p.fId_Target_Role == role_id
+                    select p;
+            
+
+            List<CFanslistViewModel> f = new List<CFanslistViewModel>();
+            foreach (var x in q.ToList())
+            {
+                CFanslistViewModel FN = new CFanslistViewModel();
+                FN.follow_Target_Name = x.tRole.fNickName_Role;
+                FN.follow_Target_ID = x.tRole.fId_Role;
+                f.Add(FN);
+            }
+            return Json(f);
+        }
+        public void pushMessage(int fId_To_Role, int fId_From_Role, string message)
+        {
+           DB_FunDayTripEntities db =new DB_FunDayTripEntities();
+            tMessage CM = new tMessage();
+
+
+
+            CM.fId_To_Role = fId_To_Role;
+            CM.fId_From_Role = fId_From_Role;
+            CM.fMessage_Message = message;
+            CM.fTime_Message = DateTime.Now;
+
+            db.tMessages.Add(CM);
+
+            db.SaveChanges();
+        }
+        public JsonResult showHistoryMessage(int from_role_id,int to_role_id)
+        {
+            var q = from p in dbFundaytrip.tMessages
+                    where p.fId_From_Role == from_role_id && p.fId_To_Role == to_role_id
+                    select p;
+           
+            List<CHistoryMessage> f = new List<CHistoryMessage>();            
+            foreach (var x in q.ToList())
+            {
+                CHistoryMessage CH = new CHistoryMessage();
+                CH.fMessage_From = x.fMessage_Message;
+                CH.fMessage_Time = Convert.ToString(x.fTime_Message);
+                CH.fId = x.fId_Message;
+                f.Add(CH);
+            }
+            var q1 = from z in dbFundaytrip.tMessages
+                     where z.fId_To_Role == from_role_id && z.fId_From_Role == to_role_id
+                     select z;
+            foreach (var y in q1.ToList())
+            {
+                CHistoryMessage CH = new CHistoryMessage();
+                CH.fMessage_To = y.fMessage_Message;
+                CH.fMessage_Time = Convert.ToString(y.fTime_Message);
+                CH.fId = y.fId_Message;
+                f.Add(CH);
+            }
+            var res = f.OrderBy(x => x.fId);
+
+            return Json(res);
+        }
+       
     }
+      
 }

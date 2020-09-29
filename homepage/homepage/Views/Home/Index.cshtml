@@ -39,6 +39,8 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
     <link href="~/css/layOut.css" rel="stylesheet" />
+    @*-------------聊天室CSS---------------*@
+    <link rel="stylesheet" type="text/css" href="~/css/test.css" />
 
 
 
@@ -147,9 +149,156 @@
     </style>
 </head>
 
-
 <body>
+    @*---------------------------------聊天室生成 2020/09/24 by曾開誠---------------------------------*@
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
 
+        function creatchatroom(obj) {
+            var id = {
+                from_role_id: $("#active_role").val(),
+                to_role_id: obj.value
+            };
+
+            $.ajax({
+                url: "/Home/showHistoryMessage",
+                type: "POST",
+                dataType: "json",
+                data: id,
+                success: function (response) {
+                    console.log(response);
+                    for (let i = 0; i < response.length; i++) {
+                        if (response[i].fMessage_To == null) {
+                            let hsmessagetext = '<div class="messageHer">';
+                            hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                            hsmessagetext += '<span>' + response[i].fMessage_From + '</span >';
+                            hsmessagetext += '<div class="clearFix" ></div >';
+                            hsmessagetext += '</div>';
+
+                            $('#MSG').append(hsmessagetext);
+                        }
+
+                        else if (response[i].fMessage_From == null) {
+                            let hsmessagetext = '<div class="messageMe">';
+                            hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                            hsmessagetext += '<span>' + response[i].fMessage_To + '</span >';
+                            hsmessagetext += '<div class="clearFix" ></div >';
+                            hsmessagetext += '</div>';
+
+                            $('#MSG').append(hsmessagetext);
+                        }
+                    }
+                }
+            });
+
+            document.getElementById("CHAT").innerHTML = '';
+            let CHT = '<div class="container">';
+            CHT += '<div class="row">';
+            CHT += '<div class="panel panel-chat">';
+            CHT += '<div class="panel-heading">';
+            CHT += '<a href="#" class="chatMinimize" onclick="return false">';
+            CHT += '<span>';
+            CHT += obj.name;
+            CHT += '</span ></a>';
+            CHT += '<span id="ss" style="display:none">'
+            CHT += obj.value;
+            CHT += '</span>';
+            CHT += ' <a href="#" class="chatClose" onclick="return false"><i class="glyphicon glyphicon-remove"></i></a>';
+            CHT += '<div class="clearFix"></div>';
+            CHT += '</div>';
+            CHT += '<div class="panel-body">';
+            CHT += '<div class="clearFix" id="MSG"></div>';
+            CHT += ' </div>';
+            CHT += ' <div class="panel-footer">';
+            CHT += ' <textarea id="StringTextBox" name="textMessage" maxlength="50" cols="0" rows="0" style="float: left; width: 90%;"></textarea>';
+            CHT += '<input class="c" type="button" style="float: right;" value="送出" onclick="ChangeString()">';
+            CHT += '<span style="clear: both;"></span>';
+            CHT += '</div>';
+            CHT += '</div>';
+            CHT += '</div>';
+            CHT += '</div>';
+
+            $('#CHAT').append(CHT);
+
+            $(".panel.panel-chat > .panel-heading > .chatMinimize").click(function () {
+                if ($(this).parent().parent().hasClass('mini')) {
+                    $(this).parent().parent().removeClass('mini').addClass('normal');
+
+                    $('.panel.panel-chat > .panel-body').animate({ height: "250px" }, 500).show();
+
+                    $('.panel.panel-chat > .panel-footer').animate({ height: "75px" }, 500).show();
+                }
+                else {
+                    $(this).parent().parent().removeClass('normal').addClass('mini');
+
+                    $('.panel.panel-chat > .panel-body').animate({ height: "0" }, 500);
+
+                    $('.panel.panel-chat > .panel-footer').animate({ height: "0" }, 500);
+
+                    setTimeout(function () {
+                        $('.panel.panel-chat > .panel-body').hide();
+                        $('.panel.panel-chat > .panel-footer').hide();
+                    }, 500);
+                }
+            });
+            $(".panel.panel-chat > .panel-heading > .chatClose").click(function () {
+                $(this).parent().parent().remove();
+            });
+        };
+
+        //-------------------2020/09/24 textarea打字往上append by曾開誠--------------
+        function ChangeString() {
+            let StringTextBox = document.getElementById("StringTextBox");
+            let NewStringValue = StringTextBox.value;
+            let toid = document.getElementById("ss");
+            let toidvalue = toid.innerHTML;
+            let fromid = document.getElementById("active_role");
+            let fromidvalue = fromid.value;
+            if (NewStringValue == "") return;
+
+            let msg = {
+                message: NewStringValue,
+                fId_From_Role: fromidvalue,
+                fId_To_Role: toidvalue
+            };
+            $.ajax({
+                url: "/Home/pushMessage",
+                type: "POST",
+                dataType: "text",
+                data: msg,
+            });
+
+            var messagetext = '<div class="messageHer">';
+            messagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+            messagetext += '<span>' + NewStringValue + '</span >';
+            messagetext += '<div class="clearFix" ></div >';
+            messagetext += '</div>';
+
+            $('#MSG').append(messagetext);
+            StringTextBox.value = "";
+
+            hub.server.hello(document.getElementById("ss").innerHTML, NewStringValue);//fun啟動後再繫結name,content
+        };
+        //----------------20200925 SignalR 送給Client端資料 by曾開誠-----------------
+        var hub = $.connection.myHub;
+
+        $.connection.hub.start().done()
+
+        hub.client.hello = function (name, content) {
+            if ($("#active_role").val() === name) {
+                console.log(name);
+                console.log(content);
+                var messagetextold = '<div class="messageMe">';
+                messagetextold += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                messagetextold += '<span>' + content + '</span >';
+                messagetextold += '<div class="clearFix" ></div >';
+                messagetextold += '</div>';
+                $('#MSG').append(messagetextold);
+            }
+        };
+    </script>
+    @*---------------------------------聊天室生成---------------------------------*@
     @*地圖*@
     <div id='map'></div>
 
@@ -218,19 +367,13 @@
                     });
                 }
             );
-
-
             //地圖上click事件
             map.on('click', 'places', showHaveBeenAddedLocation);
-
-
         });
-
         var popup = new mapboxgl.Popup({
             closeButton: true,
             closeOnClick: false
         });
-
         //顯示已經在地圖上的點
         function showHaveBeenAddedLocation(e) {
 
@@ -277,7 +420,8 @@
             </div>
 
             <a href="@Url.Action("Navigation", "Game")" class="list-group-item" target="_blank">遊戲</a>
-            <a href="#" class="list-group-item">追蹤/粉絲</a>
+            @*------------------開啟追蹤/粉絲頁面---------------------------*@
+            <a href="javascript:followcon()" class="list-group-item">追蹤/粉絲</a>
             <a href="javascript:con()" class="list-group-item">功能導覽</a>
             <a href="#" class="list-group-item">新增廣告</a>
             <a href="#" class="list-group-item">統計與分析</a>
@@ -355,18 +499,6 @@
                 <button id="addNewLocationButton" type="button">放置新增圖釘</button>
                 @*開啟個人資料對話方塊*@
                 <button id="toggle2" type="button" class="showHideButton">User</button>
-
-                @*@if (Session[CDictionary.SK_MemberId].ToString() == CDictionary.SK_anonymous)
-                {
-                    <button id="toggle2" type="button" class="showHideButton">User</button>
-                }
-                @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
-                {
-                    CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
-                    <button id="toggle2" type="button" class="showHideButton">@memberLogin.fActiveRoleName_Member</button>
-
-                }*@
-
                 @*輸入登入資訊 by 王詠平 0921*@
                 <div class="showHide" id="showHide">
                     <div>
@@ -388,7 +520,8 @@
                             <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
                             <div id="active_role_name">目前身分:@memberLogin.fActiveRoleName_Member</div>
                             <div id="login_email">@memberLogin.fEmail_Member</div>
-                            <button id="logoutBtn" style="float:right">登出</button><br />
+                            <button id="logoutBtn" style="float:right">登出</button>
+                            <br />
                             <input type="text" id="active_role" style="display:none" value="@memberLogin.fActiveRoleId_Member">
                             <div id="login_name">會員名稱:@memberLogin.fNickName_Member</div>
                             <a id="login_point" href="javascript:showPoint()">點數: @memberLogin.fPointTotal_Member</a>
@@ -415,22 +548,36 @@
                             //通知按鈕
                         }
                     </div>
-                    <div>
-
+                    @*聊天室方塊 by曾開誠 註解已改為動態生成 function creatchatroom <div id="CHAT"不可刪>*@
+                    <div id="CHAT">
+                        @*<div class="container">
+                                <div class="row">
+                                    <div class="panel panel-chat">
+                                        <div class="panel-heading">
+                                            <a href="#" class="chatMinimize" onclick="return false"><span>Özgür Gürbüz</span></a>
+                                            <a href="#" class="chatClose" onclick="return false"><i class="glyphicon glyphicon-remove"></i></a>
+                                            <div class="clearFix"></div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="clearFix" id="MSG"></div>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <textarea id="StringTextBox" name="textMessage" maxlength="50" cols="0" rows="0" style="float: left; width: 90%;"></textarea>
+                                            <input class="c" type="button" style="float: right;" value="送出" onclick="ChangeString()">
+                                            <span style="clear: both;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
                     </div>
                 </div>
-
-
                 @*編輯地點方塊-------*@
-
                 @*跳出新增視窗*@
                 <div id="myModal" class="modal">
                     <div class="modal-content">
-                        <span class="close" id="closeAddLocationForm">&times;</span>
+                        <span class="close">&times;</span>
                         @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
-
-
                             <div style="padding:15px">
                                 <h2>新增地點</h2>
                                 <label>標題</label>
@@ -457,7 +604,6 @@
                                     <button>確定</button>
                                 </div>
                             </div>
-
                             @*預覽照片*@
                             <script>
                                 var loadFile = function (event) {
@@ -468,14 +614,27 @@
                                     }
                                 };
                             </script>
-
                         }
                     </div>
                 </div>
+                @*-----------------------------------追蹤粉絲頁面 by曾開誠09/23-------------------------------*@
+                <div id="follow_modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div style="justify-content:center;">
+                            <button class="btn btn-info" onclick="showfollower()" type="submit">追隨中</button>
+                            <button class="btn btn-info" onclick="showfans()" type="submit">粉絲</button>
+                            <div id="follower_list"></div>
+                        </div>
+                    </div>
+                </div>
+                @*-----------------------------------追蹤粉絲頁面 by曾開誠09/23-------------------------------*@
 
             </div>
         </div>
     </div>
+    @*</div>*@
+
     @* 設定地圖中內容的事件 ==================*@
     <script>
 
@@ -492,17 +651,85 @@
 
         //關閉新增資料表單
         var span = document.getElementsByClassName("close")[0];
-        $("#closeAddLocationForm").on("click", function () {
+
+        //左側彈出視窗 X按鈕
+        $(".close").on("click", function () {
             modal.style.display = "none";
+            follow_modal.style.display = "none";
         });
 
         //左側按鍵彈跳視窗
         function con() {
             modal.style.display = "block";
         };
+        //粉絲/追蹤彈跳視窗
+        function followcon() {
+            follow_modal.style.display = "block";
+        };
+        //粉絲/追蹤頁面按下追隨中按鈕 by曾開誠
+        var data = { role_id: $("#active_role").val() };
+        function showfollower() {
+            $.ajax({
+                url: "/Home/showFollow",
+                type: "POST",
+                dataType: "json",
+                data: data,
+                success: function (response) {
+                    console.log(response);
+                    $("#follower_list").html("");
+                    for (let i = 0; i < response.length; i++) {
+                        let CD = '<tr>';
+                        CD += '<td>' + response[i].follow_Self_Name + '</td>';
+                        CD += '<td>';
+                        CD += '<button class="btn btn-link" onclick="creatchatroom(this)" name="';
+                        //style="border-bottom:dashed;margin-bottom:5px;border-color:blue;"
+                        CD += response[i].follow_Self_Name;
+                        CD += '"';
+                        CD += 'value="';
+                        CD += response[i].follow_Self_ID;
+                        CD += '">';
+                        CD += '聊天</button>';
+                        CD += '</td>';
+                        CD += '</tr>';
 
+                        CD += '<div></div>'
+                        $("#follower_list").prepend(CD);
+                    }
+                }
+            });
+        };
+        //粉絲/追蹤頁面按下粉絲按鈕 by曾開誠
+        function showfans() {
+            $.ajax({
+                url: "/Home/showFan",
+                type: "POST",
+                dataType: "json",
+                data: data,
+                success: function (response) {
+                    console.log(response);
+                    $("#follower_list").html("");
+                    for (let i = 0; i < response.length; i++) {
+                        let CD = '<tr>';
+                        CD += '<td>' + response[i].follow_Target_Name + '</td>';
+                        CD += '<td>';
+                        CD += '<button class="btn btn-link" onclick="creatchatroom(this)" name="';
+                        //style="border-bottom:dashed;margin-bottom:5px;border-color:blue;"
+                        CD += response[i].follow_Target_Name;
+                        CD += '"';
+                        CD += 'value="';
+                        CD += response[i].follow_Target_ID;
+                        CD += '">';
+                        CD += '聊天</button>';
+                        CD += '</td>';
+                        CD += '</tr>';
 
+                        CD += '<div></div>'
 
+                        $("#follower_list").prepend(CD);
+                    }
+                }
+            });
+        };
         //點選新增地點,才可添加marker
         var _marker;//地圖上marker變數
         $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
@@ -717,7 +944,5 @@
             })
         };
     </script>
-
-
 </body>
 </html>
