@@ -1,0 +1,286 @@
+﻿@model IEnumerable<homepage.Models.CGameNavigationViewModel>
+@{
+    ViewBag.Title = "Game Navigation";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    @*mapbox*@
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+    @*mapbox plugins directions*@
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css" />
+    @*mapbox plugins language*@
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v0.10.1/mapbox-gl-language.js'></script>
+
+
+    @*ajax*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    @*JQuery&JQueryUI*@
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+    <style>
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            height: 10%;
+            width: 100%;
+            background-color: rgba(192, 192, 192, 0.85);
+            color: black;
+            text-align: center;
+        }
+
+        .footer_withcontent {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            height: 50%;
+            width: 100%;
+            background-color: rgba(192, 192, 192, 0.85);
+            color: black;
+            text-align: center;
+        }
+
+        .toggleUp {
+            margin-top: 0.5em;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        #game_list{
+            z-index:99;
+        }
+    </style>
+</head>
+<body>
+    @*Navbar*@
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">FunDayTrip 探索遊戲</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav" style="display:none">
+                    <!-- <li class="active"><a href="#">Home</a></li>
+                    <li class="dropdown" >
+                      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Page 1-1</a></li>
+                        <li><a href="#">Page 1-2</a></li>
+                        <li><a href="#">Page 1-3</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="#">Page 2</a></li>
+                    <li><a href="#">Page 3</a></li> -->
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    @*地圖內容*@
+    <div id="content_container" class="container">
+        <div id="map"></div>
+
+
+    </div>
+    <div>
+        <ul id="game_list">
+            @*@foreach (var item in Model)
+            {
+                <li>
+                    <a href="#">@Html.DisplayFor(modelItem => item.fGroup_GameNav.fName_GameGroup)</a>
+                    <span>緯度:@Html.DisplayFor(modelItem => item.fItems_GameNav.FirstOrDefault().fY_Coordinate)</span>
+                    <span>經度:@Html.DisplayFor(modelItem => item.fItems_GameNav.FirstOrDefault().fX_Coordinate)</span>
+                </li>
+            }*@
+        </ul>
+
+    </div>
+
+    @*內容框*@
+    <div id="foot-content" class="footer">
+        <div id="content-toggle" class="toggleUp"><span id="content-icon" class="glyphicon glyphicon-chevron-up"></span></div>
+        <div id="current_position" value="">目前位置:</div>
+        <button id="reposition">定位</button>
+    </div>
+
+    <script>
+        var now_x = 0;
+        var now_y = 0;
+        //目前位置
+        //$("#reposition").on("click", position_now);
+        function position_now() {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                let x = position.coords.longitude;
+                let y = position.coords.latitude;
+                $("#current_position").html("目前位置: " + x.toFixed(6) + ", " + y.toFixed(6));
+                now_x = x;
+                now_y = y;
+                console.log(position.coords.latitude, position.coords.longitude);
+            });
+        };
+        position_now();
+
+        //地圖初始化==========================
+        mapboxgl.accessToken = 'pk.eyJ1IjoicGVhY2V3YW5nIiwiYSI6ImNrZmx6YWl6cTB6YWcyd21xMzFqNTZ5YzYifQ.WxjLSvp5k6yCWELcbMWeMw';
+        //顯示中文地圖
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v10',
+            center: [121.5173115, 25.045181],
+            zoom: 11
+        });
+        var language = new MapboxLanguage({ defaultLanguage: 'zh' });
+        map.addControl(language);
+
+        //===================================
+        //地點所有資訊組成json，顯示在地圖
+        var groupArray = [];
+        var gamesArray = [];
+
+        $.ajax({
+            url: "@Url.Action("getGames","Game")",
+            type: "POST",
+            dataType: "json",
+            //data: { }
+        }).done(function (response) {
+            //console.log(response);
+            for (var i = 0; i < response.length; i++) {
+                console.log(response);
+                Coords_Group = [response[i].fItems_GameNav[0].fX_Coordinate, response[i].fItems_GameNav[0].fY_Coordinate];
+                Id_Group = response[i].fGroup_GameNav.fId_GameGroup;
+
+                groupJson =
+                {
+                    'type': 'Feature',
+                    'properties': {
+                        'description': Id_Group
+                    },
+                    'geometry': {
+                        'type': 'Point',
+                        'coordinates': Coords_Group
+                    }
+                };
+                groupArray.push(groupJson);
+
+                for (var j = 0; j < response[i].length; j++) {
+                    Coords_Games = response[i].fItems_GameNav[j].fX_Coordinate, response[i].fItems_GameNav[j].fY_Coordinate;
+                    Id_Games = response[i].fItems_GameNav[j].fId_Game;
+
+                    gameJson =
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'description': Id_Games
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': Coords_Games
+                        }
+                    };
+
+                    gamesArray.push(gameJson);
+                };
+
+            };
+        }).fail(function (xhr) {
+            console.log(xhr.status + xhr.responseText);
+        });
+
+        //地圖載入
+        map.on("load", function () {
+            //地點加入地圖====================
+            map.loadImage(
+                'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+                function (error, image) {
+                    if (error) throw error;
+                    map.addImage('custom-marker', image);
+
+                    map.addSource('places', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': groupArray
+                        }
+                    });//End：map.addSource
+
+                    map.addLayer({
+                        'id': 'places',
+                        'type': 'symbol',
+                        'source': 'places',
+                        'layout': {
+                            'icon-image': 'custom-marker',
+                            'icon-allow-overlap': true
+                        }
+                    });//End：map.addLayer
+                });
+            //路線加入地圖=========
+            map.addSource('routes', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'FeatureCollection',
+                    'features': gamesArray
+                }
+            });
+            map.addLayer({
+                'id': 'routes',
+                'type': 'line',
+                'source': 'routes',
+                layout: {
+                    "line-join": "round",
+                    "line-cap": "round"
+                },
+                paint: {
+                    "line-color": "#dc143c",
+                    "line-width": 6
+                }
+            });//End：map.addLayer
+
+
+        });
+            //====================
+
+
+        //內容框上拉
+        $("#foot-content").on("click", function () {
+            $(this).toggleClass("footer_withcontent", 1000, "swing", function () {
+                $("#content-icon").toggleClass("glyphicon-chevron-down", 1500, "swing");
+            });
+        });
+
+    </script>
+
+</body>
+</html>

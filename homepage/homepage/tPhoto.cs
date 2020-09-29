@@ -14,13 +14,6 @@ namespace homepage
     
     public partial class tPhoto
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tPhoto()
-        {
-            this.tReports = new HashSet<tReport>();
-            this.tTagMsgRelations = new HashSet<tTagMsgRelation>();
-        }
-    
         public int ID { get; set; }
         public string fId_Photo { get; set; }
         public string fId_Location { get; set; }
@@ -32,9 +25,5 @@ namespace homepage
     
         public virtual tLocation tLocation { get; set; }
         public virtual tRole tRole { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tReport> tReports { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tTagMsgRelation> tTagMsgRelations { get; set; }
     }
 }

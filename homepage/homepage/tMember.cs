@@ -18,7 +18,6 @@ namespace homepage
         public tMember()
         {
             this.tRoles = new HashSet<tRole>();
-            this.tRoles1 = new HashSet<tRole>();
         }
     
         public int ID { get; set; }
@@ -42,7 +41,5 @@ namespace homepage
         public virtual tFuntionAuth tFuntionAuth { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tRole> tRoles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tRole> tRoles1 { get; set; }
     }
 }

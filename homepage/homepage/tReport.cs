@@ -19,17 +19,14 @@ namespace homepage
         public int fId_Reported_Role { get; set; }
         public Nullable<int> fId_Admin_Role { get; set; }
         public string fId_Location_Route_Comment_Photo { get; set; }
+        public string fId_Type_Location_Route_Comment_Photo { get; set; }
         public string fReason_Report { get; set; }
         public Nullable<System.DateTime> fTimeReport_Report { get; set; }
         public Nullable<System.DateTime> fTimeModify_Report { get; set; }
         public string fStatus_Report { get; set; }
     
-        public virtual tComment tComment { get; set; }
-        public virtual tLocation tLocation { get; set; }
-        public virtual tPhoto tPhoto { get; set; }
         public virtual tRole tRole { get; set; }
         public virtual tRole tRole1 { get; set; }
         public virtual tRole tRole2 { get; set; }
-        public virtual tRoute tRoute { get; set; }
     }
 }

@@ -19,14 +19,8 @@ namespace homepage
         {
             this.tAds = new HashSet<tAd>();
             this.tAlbums = new HashSet<tAlbum>();
-            this.tComments = new HashSet<tComment>();
-            this.tGames = new HashSet<tGame>();
             this.tLR_Relation = new HashSet<tLR_Relation>();
             this.tPhotoes = new HashSet<tPhoto>();
-            this.tReports = new HashSet<tReport>();
-            this.tStatistics = new HashSet<tStatistic>();
-            this.tTagMsgRelations = new HashSet<tTagMsgRelation>();
-            this.tUnlocks = new HashSet<tUnlock>();
         }
     
         public int ID { get; set; }
@@ -46,24 +40,13 @@ namespace homepage
         public virtual ICollection<tAd> tAds { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tAlbum> tAlbums { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tComment> tComments { get; set; }
         public virtual tCoordinate tCoordinate { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tGame> tGames { get; set; }
         public virtual tIcon tIcon { get; set; }
+        public virtual tRole tRole { get; set; }
         public virtual tShareAuth tShareAuth { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tLR_Relation> tLR_Relation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tPhoto> tPhotoes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tReport> tReports { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tStatistic> tStatistics { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tTagMsgRelation> tTagMsgRelations { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tUnlock> tUnlocks { get; set; }
     }
 }

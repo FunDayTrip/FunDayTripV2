@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DB_FunDayTripModelStoreContainer" CdmEntityContainer="DB_FunDayTripEntities">
+    <EntitySetMapping Name="tAds">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tAd">
+        <MappingFragment StoreEntitySet="tAd">
+          <ScalarProperty Name="fStatus_Ad" ColumnName="fStatus_Ad" />
+          <ScalarProperty Name="fSolution_Ad" ColumnName="fSolution_Ad" />
+          <ScalarProperty Name="fPhoto_Ad" ColumnName="fPhoto_Ad" />
+          <ScalarProperty Name="fContent_Ad" ColumnName="fContent_Ad" />
+          <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+          <ScalarProperty Name="fId_Admin_Role" ColumnName="fId_Admin_Role" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_Ad" ColumnName="fId_Ad" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tAdmins">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tAdmin">
+        <MappingFragment StoreEntitySet="tAdmin">
+          <ScalarProperty Name="fPhone_Admin" ColumnName="fPhone_Admin" />
+          <ScalarProperty Name="fBirthday_Admin" ColumnName="fBirthday_Admin" />
+          <ScalarProperty Name="fGender_Admin" ColumnName="fGender_Admin" />
+          <ScalarProperty Name="fAdd_Admin" ColumnName="fAdd_Admin" />
+          <ScalarProperty Name="fPassword_Admin" ColumnName="fPassword_Admin" />
+          <ScalarProperty Name="fEmail_Admin" ColumnName="fEmail_Admin" />
+          <ScalarProperty Name="fName_Admin" ColumnName="fName_Admin" />
+          <ScalarProperty Name="fId_FunctionAuth" ColumnName="fId_FunctionAuth" />
+          <ScalarProperty Name="fId_Admin" ColumnName="fId_Admin" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tAlbums">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tAlbum">
+        <MappingFragment StoreEntitySet="tAlbum">
+          <ScalarProperty Name="fDelete_Album" ColumnName="fDelete_Album" />
+          <ScalarProperty Name="fDescript_Album" ColumnName="fDescript_Album" />
+          <ScalarProperty Name="fName_Album" ColumnName="fName_Album" />
+          <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
+          <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+          <ScalarProperty Name="fId_Album" ColumnName="fId_Album" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tBalances">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tBalance">
+        <MappingFragment StoreEntitySet="tBalance">
+          <ScalarProperty Name="fRemark_Balance" ColumnName="fRemark_Balance" />
+          <ScalarProperty Name="fVerify_Balance" ColumnName="fVerify_Balance" />
+          <ScalarProperty Name="fPayTime_Balance" ColumnName="fPayTime_Balance" />
+          <ScalarProperty Name="fToken_Balance" ColumnName="fToken_Balance" />
+          <ScalarProperty Name="fStatus_Balance" ColumnName="fStatus_Balance" />
+          <ScalarProperty Name="fCreditCard_Balance" ColumnName="fCreditCard_Balance" />
+          <ScalarProperty Name="fId_Bank" ColumnName="fId_Bank" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_Balance" ColumnName="fId_Balance" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tBanks">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tBank">
+        <MappingFragment StoreEntitySet="tBank">
+          <ScalarProperty Name="fValidate_Bank" ColumnName="fValidate_Bank" />
+          <ScalarProperty Name="fNumber_Bank" ColumnName="fNumber_Bank" />
+          <ScalarProperty Name="fAccount_Bank" ColumnName="fAccount_Bank" />
+          <ScalarProperty Name="fName_Bank" ColumnName="fName_Bank" />
+          <ScalarProperty Name="fBank_Bank" ColumnName="fBank_Bank" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_Bank" ColumnName="fId_Bank" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tBlocks">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tBlock">
+        <MappingFragment StoreEntitySet="tBlock">
+          <ScalarProperty Name="fId_Target_Role" ColumnName="fId_Target_Role" />
+          <ScalarProperty Name="fId_Self_Role" ColumnName="fId_Self_Role" />
+          <ScalarProperty Name="fId_Block" ColumnName="fId_Block" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tComments">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tComment">
+        <MappingFragment StoreEntitySet="tComment">
+          <ScalarProperty Name="fTime_Comment" ColumnName="fTime_Comment" />
+          <ScalarProperty Name="fRate_Comment" ColumnName="fRate_Comment" />
+          <ScalarProperty Name="fComment_Comment" ColumnName="fComment_Comment" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_Type_Location_Route" ColumnName="fId_Type_Location_Route" />
+          <ScalarProperty Name="fId_Location_Route" ColumnName="fId_Location_Route" />
+          <ScalarProperty Name="fId_Comment" ColumnName="fId_Comment" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tCoordinates">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tCoordinate">
+        <MappingFragment StoreEntitySet="tCoordinate">
+          <ScalarProperty Name="fY_Coordinate" ColumnName="fY_Coordinate" />
+          <ScalarProperty Name="fX_Coordinate" ColumnName="fX_Coordinate" />
+          <ScalarProperty Name="fName_Coordinate" ColumnName="fName_Coordinate" />
+          <ScalarProperty Name="fId_Coordinate" ColumnName="fId_Coordinate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tFollows">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tFollow">
+        <MappingFragment StoreEntitySet="tFollow">
+          <ScalarProperty Name="fId_Target_Role" ColumnName="fId_Target_Role" />
+          <ScalarProperty Name="fId_Self_Role" ColumnName="fId_Self_Role" />
+          <ScalarProperty Name="fId_Follow" ColumnName="fId_Follow" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tFuntionAuths">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tFuntionAuth">
+        <MappingFragment StoreEntitySet="tFuntionAuth">
+          <ScalarProperty Name="fAuth_FunctionAuth" ColumnName="fAuth_FunctionAuth" />
+          <ScalarProperty Name="fId_FunctionAuth" ColumnName="fId_FunctionAuth" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tGames">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tGame">
+        <MappingFragment StoreEntitySet="tGame">
+          <ScalarProperty Name="fId_GameGroup" ColumnName="fId_GameGroup" />
+          <ScalarProperty Name="fOrder_Game" ColumnName="fOrder_Game" />
+          <ScalarProperty Name="fName_Game" ColumnName="fName_Game" />
+          <ScalarProperty Name="fType_Game" ColumnName="fType_Game" />
+          <ScalarProperty Name="fId_Coordinate" ColumnName="fId_Coordinate" />
+          <ScalarProperty Name="fId_Game" ColumnName="fId_Game" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tGameGroups">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameGroup">
+        <MappingFragment StoreEntitySet="tGameGroup">
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fDescript_GameGroup" ColumnName="fDescript_GameGroup" />
+          <ScalarProperty Name="fGameLV_GameGroup" ColumnName="fGameLV_GameGroup" />
+          <ScalarProperty Name="fName_GameGroup" ColumnName="fName_GameGroup" />
+          <ScalarProperty Name="fId_GameGroup" ColumnName="fId_GameGroup" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tGameQAs">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameQA">
+        <MappingFragment StoreEntitySet="tGameQA">
+          <ScalarProperty Name="fReward_GameQA" ColumnName="fReward_GameQA" />
+          <ScalarProperty Name="fAnswer_GameQA" ColumnName="fAnswer_GameQA" />
+          <ScalarProperty Name="fOption_4_GameQA" ColumnName="fOption_4_GameQA" />
+          <ScalarProperty Name="fOption_3_GameQA" ColumnName="fOption_3_GameQA" />
+          <ScalarProperty Name="fOption_2_GameQA" ColumnName="fOption_2_GameQA" />
+          <ScalarProperty Name="fOption_1_GameQA" ColumnName="fOption_1_GameQA" />
+          <ScalarProperty Name="fQuestion_GameQA" ColumnName="fQuestion_GameQA" />
+          <ScalarProperty Name="fId_Game" ColumnName="fId_Game" />
+          <ScalarProperty Name="fId_GameQA" ColumnName="fId_GameQA" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tGameSteps">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameStep">
+        <MappingFragment StoreEntitySet="tGameStep">
+          <ScalarProperty Name="fReward_GameStep" ColumnName="fReward_GameStep" />
+          <ScalarProperty Name="fContent_GameStep" ColumnName="fContent_GameStep" />
+          <ScalarProperty Name="fTitle_GameStep" ColumnName="fTitle_GameStep" />
+          <ScalarProperty Name="fId_Game" ColumnName="fId_Game" />
+          <ScalarProperty Name="fId_GameStep" ColumnName="fId_GameStep" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tGameUnlocks">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameUnlock">
+        <MappingFragment StoreEntitySet="tGameUnlock">
+          <ScalarProperty Name="fDate_GameUnlock" ColumnName="fDate_GameUnlock" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_GameGroup" ColumnName="fId_GameGroup" />
+          <ScalarProperty Name="fId_GameUnlock" ColumnName="fId_GameUnlock" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tIcons">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tIcon">
+        <MappingFragment StoreEntitySet="tIcon">
+          <ScalarProperty Name="fPath_Icon" ColumnName="fPath_Icon" />
+          <ScalarProperty Name="fStyle_Icon" ColumnName="fStyle_Icon" />
+          <ScalarProperty Name="fId_Icon" ColumnName="fId_Icon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tLocations">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tLocation">
+        <MappingFragment StoreEntitySet="tLocation">
+          <ScalarProperty Name="fDelete_Location" ColumnName="fDelete_Location" />
+          <ScalarProperty Name="fAdd_Location" ColumnName="fAdd_Location" />
+          <ScalarProperty Name="fTime_Location" ColumnName="fTime_Location" />
+          <ScalarProperty Name="fDescript_Location" ColumnName="fDescript_Location" />
+          <ScalarProperty Name="fName_Location" ColumnName="fName_Location" />
+          <ScalarProperty Name="fType_Location" ColumnName="fType_Location" />
+          <ScalarProperty Name="fId_Icon" ColumnName="fId_Icon" />
+          <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
+          <ScalarProperty Name="fId_Coordinate" ColumnName="fId_Coordinate" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tLR_Relation">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tLR_Relation">
+        <MappingFragment StoreEntitySet="tLR_Relation">
+          <ScalarProperty Name="fOrder_LRRelation" ColumnName="fOrder_LRRelation" />
+          <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+          <ScalarProperty Name="fId_Route" ColumnName="fId_Route" />
+          <ScalarProperty Name="fId_LRRelation" ColumnName="fId_LRRelation" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tMembers">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tMember">
+        <MappingFragment StoreEntitySet="tMember">
+          <ScalarProperty Name="fGpsY_Member" ColumnName="fGpsY_Member" />
+          <ScalarProperty Name="fGpsX_Member" ColumnName="fGpsX_Member" />
+          <ScalarProperty Name="fPhoto_Member" ColumnName="fPhoto_Member" />
+          <ScalarProperty Name="fGameLV_Member" ColumnName="fGameLV_Member" />
+          <ScalarProperty Name="fLastName_Member" ColumnName="fLastName_Member" />
+          <ScalarProperty Name="fFirstName_Member" ColumnName="fFirstName_Member" />
+          <ScalarProperty Name="fCountry_Member" ColumnName="fCountry_Member" />
+          <ScalarProperty Name="fPhone_Member" ColumnName="fPhone_Member" />
+          <ScalarProperty Name="fBirthday_Member" ColumnName="fBirthday_Member" />
+          <ScalarProperty Name="fGender_Member" ColumnName="fGender_Member" />
+          <ScalarProperty Name="fAdd_Member" ColumnName="fAdd_Member" />
+          <ScalarProperty Name="fPassword_Member" ColumnName="fPassword_Member" />
+          <ScalarProperty Name="fEmail_Member" ColumnName="fEmail_Member" />
+          <ScalarProperty Name="fNickName_Member" ColumnName="fNickName_Member" />
+          <ScalarProperty Name="fId_FunctionAuth" ColumnName="fId_FunctionAuth" />
+          <ScalarProperty Name="fId_Member" ColumnName="fId_Member" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tMessages">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tMessage">
+        <MappingFragment StoreEntitySet="tMessage">
+          <ScalarProperty Name="fStatus_Message" ColumnName="fStatus_Message" />
+          <ScalarProperty Name="fIp_Message" ColumnName="fIp_Message" />
+          <ScalarProperty Name="fTime_Message" ColumnName="fTime_Message" />
+          <ScalarProperty Name="fMessage_Message" ColumnName="fMessage_Message" />
+          <ScalarProperty Name="fId_To_Role" ColumnName="fId_To_Role" />
+          <ScalarProperty Name="fId_From_Role" ColumnName="fId_From_Role" />
+          <ScalarProperty Name="fId_Message" ColumnName="fId_Message" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tNotes">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tNote">
+        <MappingFragment StoreEntitySet="tNote">
+          <ScalarProperty Name="fIsRead_Note" ColumnName="fIsRead_Note" />
+          <ScalarProperty Name="fTime_Note" ColumnName="fTime_Note" />
+          <ScalarProperty Name="fMessage_Note" ColumnName="fMessage_Note" />
+          <ScalarProperty Name="fId_Admin_Role" ColumnName="fId_Admin_Role" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_Note" ColumnName="fId_Note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tPhotoes">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tPhoto">
+        <MappingFragment StoreEntitySet="tPhoto">
+          <ScalarProperty Name="fTime_Photo" ColumnName="fTime_Photo" />
+          <ScalarProperty Name="fPath_Photo" ColumnName="fPath_Photo" />
+          <ScalarProperty Name="fDescript_Photo" ColumnName="fDescript_Photo" />
+          <ScalarProperty Name="fTitle_Photo" ColumnName="fTitle_Photo" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+          <ScalarProperty Name="fId_Photo" ColumnName="fId_Photo" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tPoints">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tPoint">
+        <MappingFragment StoreEntitySet="tPoint">
+          <ScalarProperty Name="fType_Point" ColumnName="fType_Point" />
+          <ScalarProperty Name="fTime_Point" ColumnName="fTime_Point" />
+          <ScalarProperty Name="fPoint_Point" ColumnName="fPoint_Point" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_Point" ColumnName="fId_Point" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tProfitMembers">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tProfitMember">
+        <MappingFragment StoreEntitySet="tProfitMember">
+          <ScalarProperty Name="fPhoto_ProfitMember" ColumnName="fPhoto_ProfitMember" />
+          <ScalarProperty Name="fPhone_ProfitMember" ColumnName="fPhone_ProfitMember" />
+          <ScalarProperty Name="fAdd_ProfitMember" ColumnName="fAdd_ProfitMember" />
+          <ScalarProperty Name="fEmail_ProfitMember" ColumnName="fEmail_ProfitMember" />
+          <ScalarProperty Name="fName_ProfitMember" ColumnName="fName_ProfitMember" />
+          <ScalarProperty Name="fId_ProfitType" ColumnName="fId_ProfitType" />
+          <ScalarProperty Name="fId_FunctionAuth" ColumnName="fId_FunctionAuth" />
+          <ScalarProperty Name="fId_ProfitMember" ColumnName="fId_ProfitMember" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tProfitTypes">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tProfitType">
+        <MappingFragment StoreEntitySet="tProfitType">
+          <ScalarProperty Name="fName_ProfitType" ColumnName="fName_ProfitType" />
+          <ScalarProperty Name="fId_ProfitType" ColumnName="fId_ProfitType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tReports">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tReport">
+        <MappingFragment StoreEntitySet="tReport">
+          <ScalarProperty Name="fStatus_Report" ColumnName="fStatus_Report" />
+          <ScalarProperty Name="fTimeModify_Report" ColumnName="fTimeModify_Report" />
+          <ScalarProperty Name="fTimeReport_Report" ColumnName="fTimeReport_Report" />
+          <ScalarProperty Name="fReason_Report" ColumnName="fReason_Report" />
+          <ScalarProperty Name="fId_Type_Location_Route_Comment_Photo" ColumnName="fId_Type_Location_Route_Comment_Photo" />
+          <ScalarProperty Name="fId_Location_Route_Comment_Photo" ColumnName="fId_Location_Route_Comment_Photo" />
+          <ScalarProperty Name="fId_Admin_Role" ColumnName="fId_Admin_Role" />
+          <ScalarProperty Name="fId_Reported_Role" ColumnName="fId_Reported_Role" />
+          <ScalarProperty Name="fId_Reporter_Role" ColumnName="fId_Reporter_Role" />
+          <ScalarProperty Name="fId_Report" ColumnName="fId_Report" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tRoles">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tRole">
+        <MappingFragment StoreEntitySet="tRole">
+          <ScalarProperty Name="fEntryDate_Role" ColumnName="fEntryDate_Role" />
+          <ScalarProperty Name="fNickName_Role" ColumnName="fNickName_Role" />
+          <ScalarProperty Name="fId_Slave_Type_Role" ColumnName="fId_Slave_Type_Role" />
+          <ScalarProperty Name="fId_Slave_Role" ColumnName="fId_Slave_Role" />
+          <ScalarProperty Name="fId_Master_Role" ColumnName="fId_Master_Role" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tRoutes">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tRoute">
+        <MappingFragment StoreEntitySet="tRoute">
+          <ScalarProperty Name="fDelete_Route" ColumnName="fDelete_Route" />
+          <ScalarProperty Name="fTime_Route" ColumnName="fTime_Route" />
+          <ScalarProperty Name="fPath_Route" ColumnName="fPath_Route" />
+          <ScalarProperty Name="fDescript_Route" ColumnName="fDescript_Route" />
+          <ScalarProperty Name="fName_Route" ColumnName="fName_Route" />
+          <ScalarProperty Name="fType_Route" ColumnName="fType_Route" />
+          <ScalarProperty Name="fId_Icon" ColumnName="fId_Icon" />
+          <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_Route" ColumnName="fId_Route" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tShareAuths">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tShareAuth">
+        <MappingFragment StoreEntitySet="tShareAuth">
+          <ScalarProperty Name="fAuth_ShareAuth" ColumnName="fAuth_ShareAuth" />
+          <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tStatistics">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tStatistic">
+        <MappingFragment StoreEntitySet="tStatistic">
+          <ScalarProperty Name="fId_Type_Location_Route" ColumnName="fId_Type_Location_Route" />
+          <ScalarProperty Name="fId_Location_Route" ColumnName="fId_Location_Route" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_Statistic" ColumnName="fId_Statistic" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tTags">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tTag">
+        <MappingFragment StoreEntitySet="tTag">
+          <ScalarProperty Name="fName_Tag" ColumnName="fName_Tag" />
+          <ScalarProperty Name="fId_Tag" ColumnName="fId_Tag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tTagMsgRelations">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tTagMsgRelation">
+        <MappingFragment StoreEntitySet="tTagMsgRelations">
+          <ScalarProperty Name="fId_Tag" ColumnName="fId_Tag" />
+          <ScalarProperty Name="fId_Type_Location_Route_Photo" ColumnName="fId_Type_Location_Route_Photo" />
+          <ScalarProperty Name="fId_Location_Route_Photo" ColumnName="fId_Location_Route_Photo" />
+          <ScalarProperty Name="fId_TagMsgRelations" ColumnName="fId_TagMsgRelations" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tUnlocks">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tUnlock">
+        <MappingFragment StoreEntitySet="tUnlock">
+          <ScalarProperty Name="fTime_Unlock" ColumnName="fTime_Unlock" />
+          <ScalarProperty Name="fId_Type_Location_Route" ColumnName="fId_Type_Location_Route" />
+          <ScalarProperty Name="fId_Location_Route" ColumnName="fId_Location_Route" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_Unlock" ColumnName="fId_Unlock" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

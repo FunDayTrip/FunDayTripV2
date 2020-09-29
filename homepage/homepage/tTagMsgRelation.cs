@@ -16,11 +16,9 @@ namespace homepage
     {
         public int fId_TagMsgRelations { get; set; }
         public string fId_Location_Route_Photo { get; set; }
+        public string fId_Type_Location_Route_Photo { get; set; }
         public int fId_Tag { get; set; }
     
-        public virtual tLocation tLocation { get; set; }
-        public virtual tPhoto tPhoto { get; set; }
-        public virtual tRoute tRoute { get; set; }
         public virtual tTag tTag { get; set; }
     }
 }

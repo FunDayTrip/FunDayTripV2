@@ -28,6 +28,7 @@ namespace homepage
             this.tFollows1 = new HashSet<tFollow>();
             this.tGameGroups = new HashSet<tGameGroup>();
             this.tGameUnlocks = new HashSet<tGameUnlock>();
+            this.tLocations = new HashSet<tLocation>();
             this.tMessages = new HashSet<tMessage>();
             this.tMessages1 = new HashSet<tMessage>();
             this.tNotes = new HashSet<tNote>();
@@ -45,6 +46,7 @@ namespace homepage
         public int fId_Role { get; set; }
         public string fId_Master_Role { get; set; }
         public string fId_Slave_Role { get; set; }
+        public string fId_Slave_Type_Role { get; set; }
         public string fNickName_Role { get; set; }
         public Nullable<System.DateTime> fEntryDate_Role { get; set; }
     
@@ -52,7 +54,6 @@ namespace homepage
         public virtual ICollection<tAd> tAds { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tAd> tAds1 { get; set; }
-        public virtual tAdmin tAdmin { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tBalance> tBalances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -71,8 +72,9 @@ namespace homepage
         public virtual ICollection<tGameGroup> tGameGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tGameUnlock> tGameUnlocks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tLocation> tLocations { get; set; }
         public virtual tMember tMember { get; set; }
-        public virtual tMember tMember1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tMessage> tMessages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -85,7 +87,6 @@ namespace homepage
         public virtual ICollection<tPhoto> tPhotoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tPoint> tPoints { get; set; }
-        public virtual tProfitMember tProfitMember { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tReport> tReports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

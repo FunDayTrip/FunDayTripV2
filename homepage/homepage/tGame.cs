@@ -17,20 +17,19 @@ namespace homepage
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tGame()
         {
-            this.tGameGroups = new HashSet<tGameGroup>();
             this.tGameQAs = new HashSet<tGameQA>();
             this.tGameSteps = new HashSet<tGameStep>();
         }
     
         public int fId_Game { get; set; }
-        public string fId_Location { get; set; }
+        public int fId_Coordinate { get; set; }
         public Nullable<int> fType_Game { get; set; }
         public string fName_Game { get; set; }
         public Nullable<int> fOrder_Game { get; set; }
+        public int fId_GameGroup { get; set; }
     
-        public virtual tLocation tLocation { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tGameGroup> tGameGroups { get; set; }
+        public virtual tCoordinate tCoordinate { get; set; }
+        public virtual tGameGroup tGameGroup { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tGameQA> tGameQAs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

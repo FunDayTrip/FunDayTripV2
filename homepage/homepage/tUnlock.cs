@@ -17,10 +17,9 @@ namespace homepage
         public int fId_Unlock { get; set; }
         public int fId_Role { get; set; }
         public string fId_Location_Route { get; set; }
+        public string fId_Type_Location_Route { get; set; }
         public Nullable<System.DateTime> fTime_Unlock { get; set; }
     
-        public virtual tLocation tLocation { get; set; }
         public virtual tRole tRole { get; set; }
-        public virtual tRoute tRoute { get; set; }
     }
 }

@@ -14,12 +14,6 @@ namespace homepage
     
     public partial class tAdmin
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tAdmin()
-        {
-            this.tRoles = new HashSet<tRole>();
-        }
-    
         public int ID { get; set; }
         public string fId_Admin { get; set; }
         public int fId_FunctionAuth { get; set; }
@@ -32,7 +26,5 @@ namespace homepage
         public string fPhone_Admin { get; set; }
     
         public virtual tFuntionAuth tFuntionAuth { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tRole> tRoles { get; set; }
     }
 }

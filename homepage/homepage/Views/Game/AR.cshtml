@@ -1,0 +1,76 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+
+    <script>
+        window.onload = function () {
+            document
+                .querySelector(".say-hi-button")
+                .addEventListener("click", function () {
+                    // here you can change also a-scene or a-entity properties, like
+                    // changing your 3D model source, size, position and so on
+                    // or you can just open links, trigger actions...
+                    alert("別想偷吃香蕉");
+                });
+        };
+    </script>
+    <style>
+        .buttons {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .say-hi-button {
+            padding: 0.25em;
+            border-radius: 4px;
+            border: none;
+            background: white;
+            color: black;
+            width: 4em;
+            height: 2em;
+        }
+    </style>
+</head>
+
+<body style="margin: 0; overflow: hidden;">
+    <a-scene renderer="logarithmicDepthBuffer: true;"
+             embedded
+             loading-screen="enabled: false;"
+             arjs="sourceType: webcam; debugUIEnabled: false;">
+        <a-assets>
+            <a-asset-item id="animated-asset"
+                          src=""></a-asset-item>
+        </a-assets>
+        <a-entity look-at="[gps-camera]"
+                  animation-mixer="loop: repeat"
+                  gltf-model="#animated-asset"
+                  scale="1.6554199381760506 1.6554199381760506 1.6554199381760506"
+                  gps-entity-place="latitude: 25.033552; longitude: 121.5427783;"></a-entity>
+
+        <a-entity look-at="[gps-camera]"
+                  animation-mixer="loop: repeat"
+                  gltf-model="#animated-asset"
+                  scale="1.6554199381760506 1.6554199381760506 1.6554199381760506"
+                  gps-entity-place="latitude: 25.033552; longitude: 121.5427783;"></a-entity>
+
+        <a-camera gps-camera="simulateLatitude: 25.033550; simulateLongitude:121.542778" rotation-reader></a-camera>
+    </a-scene>
+    <div class="buttons">
+        <button class="say-hi-button">吃</button>
+    </div>
+
+</body>
+</html>

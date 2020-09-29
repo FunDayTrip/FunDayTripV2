@@ -1,6 +1,13 @@
-﻿
+﻿@model homepage.ViewModel.CAddLocationViewModel
+@using homepage.ViewModel
+@using homepage.Models
 @{
     Layout = null;
+    if (Session[CDictionary.SK_MemberId] == null)
+    {
+        Session[CDictionary.SK_MemberId] = CDictionary.SK_anonymous;
+    }
+
 }
 
 <!DOCTYPE html>
@@ -8,7 +15,7 @@
 <html>
 <head>
 
-
+    @*20200916_15*@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,12 +48,118 @@
     @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>*@
     @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
     <script src="../../js/BootSideMenu.js"></script>
+    <style>
+        }
+        #info {
+            display: block;
+            position: relative;
+            margin: 0px auto;
+            width: 50%;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            font-size: 12px;
+            text-align: center;
+            color: #222;
+            background: #fff;
+        }
 
+        .mapboxgl-popup {
+            max-width: 600px;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
+
+        /*個人資料方塊&按鈕*/
+        .showHide {
+            position: fixed;
+            right: 5px;
+            top: 40px;
+            background: pink;
+            width: 250px;
+            height: 300px;
+        }
+
+        .showHideButton {
+            position: fixed;
+            right: 5px;
+            top: 20px;
+            cursor: pointer;
+            border-radius: 80px;
+            border: none;
+            z-index: 500;
+        }
+
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        /*通知按鈕*/
+        .noteBtn {
+            width: 32px;
+            height:32px;
+            position: relative;
+            display: inline-block;
+            margin:0px;
+        }
+        /*通知數量*/
+        .noteNum {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            padding: 2px 2px;
+            border-radius: 50%;
+            background: red;
+            color: white;
+            font-size:xx-small;
+        }
+        .info_panel{
+            overflow:auto;
+        }
+
+    </style>
 </head>
+
+
 <body>
 
+    @*地圖*@
     <div id='map'></div>
+
     <script>
+//全域變數===============================
+        //經緯度變數
+        var _lng, _lat;
+        var Addedmarker;
+
+//要求顯示地圖============================
         //mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
         var map = new mapboxgl.Map({
             container: 'map', // container id
@@ -55,6 +168,83 @@
             zoom: 9 // starting zoom
         });
 
+        //mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-74.5, 40], // starting position
+            zoom: 9 // starting zoom
+        });
+//地圖一載入==================================
+        map.on('load', function () {
+            map.loadImage(
+                'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+                // Add an image to use as a custom marker
+                function (error, image) {
+                    if (error) throw error;
+                    map.addImage('custom-marker', image);
+
+                    map.addSource('places', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': [
+                                {
+                                    'type': 'Feature',
+                                    'properties': {
+                                        'description':
+                                            '<strong>Make it Mount Pleasant</strong><p>' +
+                                            'Make it Mount Pleasant is a handmade and vintage' +
+                                            'market and afternoon of live entertainment and kids activities <p><img src="@ViewBag.kk" alt="Girl in a jacket" width="200" height="100">'
+                                    },
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [-77.038659, 38.931567]
+                                    }
+                                }
+                            ]
+                        }
+                    });
+
+                    // Add a layer showing the places.
+                    map.addLayer({
+                        'id': 'places',
+                        'type': 'symbol',
+                        'source': 'places',
+                        'layout': {
+                            'icon-image': 'custom-marker',
+                            'icon-allow-overlap': false
+                        }
+                    });
+                }
+            );
+
+
+            //地圖上click事件
+            map.on('click', 'places', showHaveBeenAddedLocation);
+
+
+        });
+
+        var popup = new mapboxgl.Popup({
+            closeButton: true,
+            closeOnClick: false
+        });
+
+        //顯示已經在地圖上的點
+        function showHaveBeenAddedLocation(e) {
+
+            map.getCanvas().style.cursor = 'pointer';
+
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var description = e.features[0].properties.description;
+
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            popup.setLngLat(coordinates).setHTML(description).addTo(map);
+        }; 
 
     </script>
 
@@ -80,19 +270,50 @@
 
             <a href="#item-1-3" class="list-group-item" data-toggle="collapse">相簿</a>
             <div class="list-group collapse" id="item-1-3">
+
+    @*  左側內容(上)  ===========================*@
+    <div id="LeftSideMenu">
+        <h2>FunDayTrip</h2>
+        <div class="list-group">
+            <a href="#" class="list-group-item active">探索</a>
+
+            <a href="#item-1-1" class="list-group-item" data-toggle="collapse">地點</a>
+            <div class="list-group collapse" id="item-1-1">
+                <a href="#" class="list-group-item">所有</a>
+                <a href="#" class="list-group-item" id="MyLocation">我的</a>
+                <a href="#" class="list-group-item">追蹤中</a>
+            </div>
+
+
+            <a href="#item-1-2" class="list-group-item" data-toggle="collapse">路線</a>
+            <div class="list-group collapse" id="item-1-2">
                 <a href="#" class="list-group-item">所有</a>
                 <a href="#" class="list-group-item">我的</a>
                 <a href="#" class="list-group-item">追蹤中</a>
             </div>
 
-            <a href="#" class="list-group-item">遊戲</a>
+            <a href="#item-1-3" class="list-group-item" data-toggle="collapse">相簿</a>
+            <div class="list-group collapse" id="item-1-3">
+                <a href="#" class="list-group-item">所有</a>
+                <a href="#" class="list-group-item">我的</a>
+                <a href="#" class="list-group-item">追蹤中</a>
+            </div>
+
+            <a href="@Url.Action("Navigation", "Game")" class="list-group-item" target="_blank">遊戲</a>
             <a href="#" class="list-group-item">追蹤/粉絲</a>
-            <a href="#" class="list-group-item">功能導覽</a>
+            <a href="javascript:con()" class="list-group-item">功能導覽</a>
             <a href="#" class="list-group-item">新增廣告</a>
             <a href="#" class="list-group-item">統計與分析</a>
             <a href="#" class="list-group-item" style="nav-down:root">聯絡管理員</a>
-
         </div>
+    </div>
+
+
+    @*右側內容  顯示地點的內容資訊======================*@
+    <div id="RightSideMenu">
+        <span>
+            discription:<br>
+        </span>
 
     </div>
 
@@ -148,53 +369,381 @@
         </div>
     </div>
 
+    </div>
+    @*在右側測試輸入資料可到資料庫  新增地點     *@
 
 
+
+    @*地圖內容/按鍵(上)=====================*@
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h6 id="info2">get coordinates</h6>
+                <button id="addNewLocationButton" type="button">放置新增圖釘</button>
+                @*開啟個人資料對話方塊*@
+                <button id="toggle2" type="button" class="showHideButton">User</button>
+
+                @*@if (Session[CDictionary.SK_MemberId].ToString() == CDictionary.SK_anonymous)
+                {
+                    <button id="toggle2" type="button" class="showHideButton">User</button>
+                }
+                @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
+                {
+                    CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
+                    <button id="toggle2" type="button" class="showHideButton">@memberLogin.fActiveRoleName_Member</button>
+
+                }*@
+
+                @*輸入登入資訊 by 王詠平 0921*@
+                <div class="showHide" id="showHide">
+                    <div>
+                        @*如果沒有登入*@
+                        @if (Session[CDictionary.SK_MemberId].ToString() == CDictionary.SK_anonymous)
+                        {
+                            <input type="text" id="account" value="ming123@gmail.com">
+                            <input type="password" id="password" value="ming123">
+                            <button type="submit" id="loginBtn">登入</button><br />
+                            @Html.ActionLink("註冊會員", "signUp", "Member")
+                            @*<button type="submit" id="signupBtn">註冊帳號</button>*@
+                            <button type="submit" id="forgetPwdBtn">忘記密碼</button>
+                        }
+                        @*如果已經登入，顯示登入資訊*@
+                        @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
+                        {
+                            CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
+                            <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="float:left" />
+                            <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
+                            <div id="active_role_name">目前身分:@memberLogin.fActiveRoleName_Member</div>
+                            <div id="login_email">@memberLogin.fEmail_Member</div>
+                            <button id="logoutBtn" style="float:right">登出</button><br />
+                            <input type="text" id="active_role" style="display:none" value="@memberLogin.fActiveRoleId_Member">
+                            <div id="login_name">會員名稱:@memberLogin.fNickName_Member</div>
+                            <a id="login_point" href="javascript:showPoint()">點數: @memberLogin.fPointTotal_Member</a>
+                            <button id="change_role" style="float:left" onclick="showRoles()">切換身分</button>
+                            @Html.ActionLink("編輯個人檔案", "edit", "Member")
+                            @*<button id="edit_profile" style="float:right" >編輯個人檔案</button><br />*@
+                            <hr />
+
+                            //通知按鈕
+                            <div class="noteBtn">
+                                <input type="image" id="noteBtn" name="noteBtn" onclick="showNotes()" img src="https://i.imgur.com/ShdEgwx.png" width="32" height="32">
+                                @if (memberLogin.fNotesCount_Member > 0)
+                                {
+                                    <span id="noteNum" name="noteNum" class="noteNum">
+                                        @memberLogin.fNotesCount_Member
+                                    </span>
+                                }
+                            </div>
+                            <hr />
+                            <div id="info_panel" class="info_panel">
+                                <ul id="note_list"></ul>
+                                <ul id="role_list"></ul>
+                            </div>
+                            //通知按鈕
+                        }
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+
+
+                @*編輯地點方塊-------*@
+
+                @*跳出新增視窗*@
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" id="closeAddLocationForm">&times;</span>
+                        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+
+
+                            <div style="padding:15px">
+                                <h2>新增地點</h2>
+                                <label>標題</label>
+                                <input type="text" name="LocationTitle" />
+                                <br />
+                                <label>地名</label>
+                                <input type="text" name="LocationName" />
+                                <br />
+                                <span id="info2" style="background-color:bisque"></span>
+                                <br />
+                                <label for="file">上傳照片</label>
+                                <br />
+                                <input type="file" accept="image/*" onchange="loadFile(event)">
+                                <img id="output" style="width:200px;height:300px" />
+                                <br>
+
+                                <br />
+                                <label>說明</label>
+                                <br />
+
+                                <textarea name="LocationDescription"></textarea>
+                                <br />
+                                <div>
+                                    <button>確定</button>
+                                </div>
+                            </div>
+
+                            @*預覽照片*@
+                            <script>
+                                var loadFile = function (event) {
+                                    var output = document.getElementById('output');
+                                    output.src = URL.createObjectURL(event.target.files[0]);
+                                    output.onload = function () {
+                                        URL.revokeObjectURL(output.src) // free memory
+                                    }
+                                };
+                            </script>
+
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @* 設定地圖中內容的事件 ==================*@
     <script>
-            //個人資料方塊
-            $(document).ready(function () {
-                $("#toggle2").click(function () {
-                    $(".showHide").toggle();
-                });
-            });
 
-            //地圖
-        map.on('click', function (e) {
+        var EnableCreateLocation = false;
+
+        //個人資料方塊
+        $(document).ready(function () {
+            $("#toggle2").click(function () {
+                $("#showHide").toggle();
+            });
+        });
+        //取得新增資料表單
+        var modal = document.getElementById("myModal");
+
+        //關閉新增資料表單
+        var span = document.getElementsByClassName("close")[0];
+        $("#closeAddLocationForm").on("click", function () {
+            modal.style.display = "none";
+        });
+
+        //左側按鍵彈跳視窗
+        function con() {
+            modal.style.display = "block";
+        };
+
+
+
+        //點選新增地點,才可添加marker
+        var _marker;//地圖上marker變數
+        $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
+
+        //函式:新增地點一開始的畫面
+        function enableAddLocation() {
+            _marker = new mapboxgl.Marker()
+                .setLngLat([-74.5, 40])
+                .addTo(map);
+            //地圖上點選地點,在此綁定map click 另一個handler
+            map.on('click', positioningClickLocate);
+            //地圖上雙擊決定添加的地點
+            map.on("dblclick", alertIfAddLocation);  //有問題:沒有按"放置圖釘紐"仍會觸發alert
+        };
+
+        //函式:alert尋問是否要新增此地點
+        function alertIfAddLocation() {
+            reply = window.confirm("要新增此地點嗎?");
+            if (reply) {
+                console.log("yes");
+                modal.style.display = "block";
+
+
+            } else {
+                console.log("no");
+                _marker.remove();
+                $("#addNewLocationButton").one("click", enableAddLocation);
+            }
+        }
+
+        //新增時,在地圖上要新增的點
+        function positioningClickLocate(e) {
 
             document.getElementById('info2').innerHTML =
                 // e.point is the x, y coordinates of the mousemove event relative
                 // to the top-left corner of the map
-                "x: " + e.point.x + "     y: " + parseFloat(e.point.y) +
-                '<br />' +
+                //"x: " + e.point.x + "     y: " + parseFloat(e.point.y) +
+                //'<br />' +
                 // e.lngLat is the longitude, latitude geographical position of the event
-                "lng: " + parseFloat(e.lngLat.lng) + "     lat:" + parseFloat(e.lngLat.lat);
-            console.log(e);
+                "lng: " + parseFloat(e.lngLat.lng) +
+                "<br/>lat: " + parseFloat(e.lngLat.lat);
 
-            pop = new mapboxgl.Popup({ closeOnClick: true })
-                .setLngLat([e.lngLat.lng, e.lngLat.lat])
-                .setHTML('<img src="https://i.imgur.com/dXnjCNM.jpg" alt="Girl in a jacket" width="200" height="100">'
-                    + '<button type="submit">submit</button>'
-                    + '<button id="post">post</button><p>'
-                    + '@Html.Editor("txtLocationName")'
-                    + '<div id="demo">show:</div>')
-                .addTo(map);
-        });
+            _lng = parseFloat(e.lngLat.lng);
+            _lat = parseFloat(e.lngLat.lat);
+
+            _marker.setLngLat([_lng, _lat]);
+        };
 
     </script>
 
 
-
+    @*側部滑動菜單  =======================*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../../js/BootSideMenu.js"></script>
 
     <script type="text/javascript">
         $('#LeftSideMenu').BootSideMenu({
             side: "left",
             pushBody: true,
             autoClose: false,
-            closeOnClick: false
+            closeOnClick: true
         });
 
     </script>
+    <script>
+    @* 登入 *@
+    $('#loginBtn').on('click', login);
+    function login() {
 
+            var login_data = {
+                email: $("#account").val(),
+                pwd: $("#password").val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("login", "Home")',
+                type: "POST",
+                dataType: "json",
+                data: login_data
+            }).done(function (response) {
+                //alert("account: " + login_data.email + " password: " + login_data.pwd);
+                //console.log(response.fEmail_Member);
+                alert(response.loginMessage);
+                window.location.reload()
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                $("body").append(xhr.status);
+                $("body").append(xhr.responseText);
+                alert(thrownError);
+            })
+    };
+
+    //登出
+    $('#logoutBtn').on('click', logout);
+        function logout() {
+            var login_data = {
+                email: $("#login_email").val(),
+            };
+        $.ajax({
+            url: '@Url.Action("logout", "Home")',
+            type: "POST",
+            dataType: "text",
+            data: login_data
+        }).done(function (response) {
+            alert(response);
+            window.location.reload()
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            $("body").append(xhr.status);
+            $("body").append(xhr.responseText);
+            alert(thrownError);
+        })
+        };
+
+        //通知按鈕
+        function showNotes() {
+            var role_id = { role_id: $("#active_role").val(), read: true };
+            $.ajax({
+                url:'@Url.Action("get", "Note")',
+                type: "get",
+                dataType: "json",
+                data: role_id
+            }).done(function (response) {
+                $("#info_panel").html('<ul id="note_list"></ul>');
+                for (let i = 0; i < response.length; i++) {
+                    let note_item = "<li id=note_li" + i+">";
+                    note_item += "[" + response[i].fMessage_Note + "]";
+                    note_item += "[" + response[i].fTimeReadable_Note + "]";
+                    note_item += "</li>";
+                    $("#note_list").append(note_item);
+                    $("#noteNum").hide();
+                    console.log(response[i].fMessage_Note);
+                };                
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                $("body").append(xhr.status);
+                $("body").append(xhr.responseText);
+                alert(thrownError);
+            })
+        };
+
+        //切換身分按鈕
+        function showRoles() {
+            var member_id = { member_id: $("#login_id").val() };
+            $.ajax({
+                url:'@Url.Action("get", "Role")',
+                type: "GET",
+                dataType: "json",
+                data: member_id
+            }).done(function (response) {
+                $("#info_panel").html('<ul id="role_list"></ul>');
+                for (let i = 0; i < response.length; i++) {
+                    let role_item = "";
+                    role_item += "<li>";
+                    role_item += "<button value='" + response[i].fId_Role + "'";
+                    role_item += "name = '" + response[i].fNickName_Role + "'";
+                    role_item += "onclick='changeRole(this)'>";
+                    role_item += response[i].fNickName_Role;
+                    role_item += "</button></li>";
+                    console.log(response[i].fNickName_Role);
+                    $("#role_list").append(role_item)
+
+                };
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                $("body").append(xhr.status);
+                $("body").append(xhr.responseText);
+                alert(thrownError);
+            })
+        };
+        //切換身分連結
+        function changeRole(myobj) {
+            var role_id = { role_id: myobj.value };
+            alert("即將切換為: " + myobj.name);
+
+            $.ajax({
+                url: '@Url.Action("changeRole", "Home")',
+                type: "POST",
+                dataType: "json",
+                data: role_id
+            }).done(function (response) {
+                alert("已切換身分為: " + response.fNickName_Role);
+                $('#active_role').attr('value', response.fId_Role);
+                document.getElementById("active_role_name").innerHTML = "目前身分:" + response.fNickName_Role;
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                console.log(role_id);
+                $("body").append(xhr.status);
+                $("body").append(xhr.responseText);
+                alert(thrownError);
+            })
+        };
+        //讀取點數細節
+        function showPoint() {
+            $.ajax({
+                url: '@Url.Action("get", "Point")',
+                type: "GET",
+                dataType: "json",
+                data: { role_id: $("#active_role").val() }, 
+            }).done(function (response){
+                $("#info_panel").html('<ul id="points_list"></ul>');
+                for (let i = 0; i < response.length; i++) {
+                    console.log(response[i]);
+                    let point_item = "<li>";
+                    point_item += "[" + response[i].fPoint_Point + "] ";
+                    point_item += "[" + response[i].fType_Point + "] ";
+                    point_item += "[" + response[i].fTimeReadable_Point + "] ";
+                    point_item += "</li>";
+                    $("#points_list").append(point_item);
+                };
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                console.log(role_id);
+                $("body").append(xhr.status);
+                $("body").append(xhr.responseText);
+                alert(thrownError);
+            })
+        };
+    </script>
 
 
 </body>
