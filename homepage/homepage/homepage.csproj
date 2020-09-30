@@ -132,6 +132,7 @@
     <Content Include="Content\灑紅節改.jpg" />
     <Content Include="Content\鐵道旅行.jpg" />
     <Content Include="css\BootSideMenu.css" />
+    <Content Include="css\CustomerlizeCSSofLocationAndRoute.css" />
     <Content Include="css\FixedPosition.css" />
     <Content Include="css\test.css" />
     <Content Include="css\theme\darkblue.css" />
@@ -444,6 +445,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Home\_topMenuNavigation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
