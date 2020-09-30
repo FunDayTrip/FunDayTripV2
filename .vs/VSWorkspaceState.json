@@ -1,6 +1,14 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\homepage",
+    "\\homepage\\homepage",
+    "\\homepage\\homepage\\Controllers",
+    "\\homepage\\homepage\\Models",
+    "\\homepage\\homepage\\Properties",
+    "\\homepage\\homepage\\Scripts",
+    "\\homepage\\homepage\\SignalR",
+    "\\homepage\\packages"
   ],
   "PreviewInSolutionExplorer": false
 }
