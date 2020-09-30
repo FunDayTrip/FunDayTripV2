@@ -411,6 +411,7 @@
     <Compile Include="ViewModel\CFollowlistViewModel.cs" />
     <Compile Include="ViewModel\CHistoryMessage.cs" />
     <Compile Include="ViewModel\CLoginViewModel.cs" />
+    <Compile Include="ViewModel\CShowLocations.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
