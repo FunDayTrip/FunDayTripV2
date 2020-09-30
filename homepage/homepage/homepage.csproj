@@ -407,7 +407,6 @@
     <Compile Include="tUnlock.cs">
       <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\CAddLocationViewModel.cs" />
     <Compile Include="ViewModel\CFanslistViewModel.cs" />
     <Compile Include="ViewModel\CFollowlistViewModel.cs" />
     <Compile Include="ViewModel\CHistoryMessage.cs" />
@@ -446,6 +445,8 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\_topMenuNavigation.cshtml" />
+    <Content Include="Views\Home\_ChatBoxPartialView.cshtml" />
+    <Content Include="Views\Home\_firstLoadAllListPartialView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

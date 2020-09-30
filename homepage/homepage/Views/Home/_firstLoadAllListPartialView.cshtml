@@ -1,0 +1,27 @@
+﻿@model homepage.ViewModel.CMapItem
+
+<div class="show_LR_List">
+    <ul class="slides">
+        <li>
+            <div class="list-group">
+
+                地點
+                @foreach (var item in Model.LocationList)
+                {
+                    <button type="button" class="list-group-item list-group-item-warning zoomToLocation" onclick="zoomToLocation('@Html.DisplayFor(modelItem => item.fId_Location)')">
+                        @Html.DisplayFor(modelItem => item.fName_Location)
+                    </button>
+                    <div style="display:none" class="zoomToLocationID">@Html.DisplayFor(modelItem => item.fId_Location)</div>
+                }
+                路線
+                @foreach (var item in Model.RouteList)
+                {
+                    <button type="button" class="list-group-item list-group-item-info zoomToRoute" onclick="zoomToRoute('@Html.DisplayFor(modelItem => item.fId_Route)')">
+                        @Html.DisplayFor(modelItem => item.fName_Route)
+                    </button>
+                    <div style="display:none" class="zoomToRouteID">@Html.DisplayFor(modelItem => item.fId_Route)</div>
+                }
+            </div>
+        </li>
+    </ul>
+</div>

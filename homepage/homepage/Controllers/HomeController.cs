@@ -20,51 +20,62 @@ namespace homepage.Controllers
         DB_FunDayTripEntities dbFundaytrip = new DB_FunDayTripEntities();
         CLoginViewModel loginMember = new CLoginViewModel();
 
-        // GET: Home
+
+        CMapItem mapItem = new CMapItem();
+        // GET: Home _verna_0930
         public ActionResult Index()
         {
-            //SqlConnection con = new SqlConnection();
-            //con.ConnectionString = @"Data Source=.;Initial Catalog=dbDemo;Integrated Security=True";
-            //con.Open();
+            List<tLocation> location = (from s in dbFundaytrip.tLocations.AsEnumerable()
+                                        where s.fId_Coordinate == s.tCoordinate.fId_Coordinate && s.fDelete_Location == 0
+                                        join s2 in dbFundaytrip.tPhotoes on s.fId_Location equals s2.fId_Location
+                                        select s).ToList();
 
-            //SqlCommand cmd = new SqlCommand();
-            //cmd.Connection = con;
-            //string sql = "SELECT fDate FROM tTransaction WHERE fId = 2005";
-            //cmd.CommandText = sql;
+            List<CLocation> clocations = new List<CLocation>();
 
-            //SqlDataReader reader = cmd.ExecuteReader();
-            //CAddLocationViewModel locationViewModel = new CAddLocationViewModel();
-            //while (reader.Read())
-            //{
+            foreach (var item in location)
+            {
+                CLocation clocation = new CLocation(item);
+                clocations.Add(clocation);
+            }
 
-            //    ViewBag.kk = reader["fDate"].ToString();
-            //}
+            List<tRoute> route = (from l in dbFundaytrip.tRoutes.AsEnumerable()
+                                  select l).ToList();
 
-            //con.Close();
-            return View();
+            List<CRoute> croutes = new List<CRoute>();
+
+            foreach (var item in route)
+            {
+                CRoute croute = new CRoute(item);
+                croutes.Add(croute);
+            }
+
+            mapItem.LocationList = clocations;
+            mapItem.RouteList = croutes;
+
+            return View(mapItem);
         }
-        [HttpPost]
-        public ActionResult Index(CAddLocationViewModel locate)
-        {
-            string photoname = Guid.NewGuid().ToString(); //重新命名一個不會重複的照片ID進資料庫
-            photoname += Path.GetExtension(locate.image.FileName);//取得副檔名
-            locate.image.SaveAs(Server.MapPath("~/Content/" + photoname)); //根目錄:~(不行),要用..回上一層
-            locate.fImage = "../Content/" + photoname;
+        //[HttpPost]
+        //public ActionResult Index(CAddLocationViewModel locate)
+        //{
+        //    string photoname = Guid.NewGuid().ToString(); //重新命名一個不會重複的照片ID進資料庫
+        //    photoname += Path.GetExtension(locate.image.FileName);//取得副檔名
+        //    locate.image.SaveAs(Server.MapPath("~/Content/" + photoname)); //根目錄:~(不行),要用..回上一層
+        //    locate.fImage = "../Content/" + photoname;
 
 
-            SqlConnection con = new SqlConnection();
-            con.ConnectionString = @"Data Source=.;Initial Catalog=dbDemo;Integrated Security=True";
-            con.Open();
+        //    SqlConnection con = new SqlConnection();
+        //    con.ConnectionString = @"Data Source=.;Initial Catalog=dbDemo;Integrated Security=True";
+        //    con.Open();
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = con;
-            cmd.CommandText = "INSERT INTO tTransaction (fDate) VALUES ('" + locate.fImage + "')";
-            cmd.ExecuteNonQuery();
+        //    SqlCommand cmd = new SqlCommand();
+        //    cmd.Connection = con;
+        //    cmd.CommandText = "INSERT INTO tTransaction (fDate) VALUES ('" + locate.fImage + "')";
+        //    cmd.ExecuteNonQuery();
 
-            con.Close();
+        //    con.Close();
 
-            return View();
-        }
+        //    return View();
+        //}
 
         //public string login(string email, string pwd)
         //{
@@ -261,7 +272,74 @@ namespace homepage.Controllers
 
             return Json(res);
         }
-       
+        ///////////////////////////////////
+
+        //ajax傳回所有地點_verna_0930
+        public JsonResult getAllLocations()
+        {
+            List<tLocation> location = (from l in dbFundaytrip.tLocations.AsEnumerable()
+                                        where l.fDelete_Location == 0
+                                        join s2 in dbFundaytrip.tPhotoes on l.fId_Location equals s2.fId_Location
+                                        select l).ToList();
+
+            List<CLocation> clocations = new List<CLocation>();
+
+            foreach (var item in location)
+            {
+                CLocation clocation = new CLocation(item);
+                clocations.Add(clocation);
+            }
+            return Json(clocations);
+        }
+
+
+        //載入所有路線//verna_0930
+        public JsonResult getAllRoutes()
+        {
+            List<tRoute> route = (from l in dbFundaytrip.tRoutes.AsEnumerable()
+                                  select l).ToList();
+
+            List<CRoute> croutes = new List<CRoute>();
+
+            foreach (var item in route)
+            {
+                CRoute croute = new CRoute(item);
+                croutes.Add(croute);
+            }
+            return Json(croutes);
+        }
+        //顯示點擊該地點的資料_verna_0930
+        [HttpPost]
+        public string CallBackThisLocationInfo(string locationID)
+        {
+            var LocDetail = from s in dbFundaytrip.tLocations
+                            where s.fId_Location == locationID //地點
+                            join s2 in dbFundaytrip.tPhotoes
+                            on s.fId_Location equals s2.fId_Location
+                            select new
+                            {
+
+                                s.tCoordinate.fName_Coordinate,
+                                s.tCoordinate.fX_Coordinate,
+                                s.tCoordinate.fY_Coordinate,
+                                s.fId_Location,
+                                s.fId_ShareAuth,
+                                s.fDelete_Location,
+                                s.fAdd_Location,
+                                s.fDescript_Location,
+                                s.fName_Location,
+                                s.fTime_Location,
+                                s2.fPath_Photo,
+                                s2.fTime_Photo,
+                                s2.fTitle_Photo,
+                                s2.fDescript_Photo,
+
+                            };
+            string InfoJson = JsonConvert.SerializeObject(LocDetail);
+
+
+            return InfoJson;
+        }
     }
       
 }

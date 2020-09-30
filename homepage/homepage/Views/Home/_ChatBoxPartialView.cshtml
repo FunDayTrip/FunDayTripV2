@@ -1,0 +1,154 @@
+﻿@*_ChatBoxPartialView_verna_0930*@
+
+<script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+<script src="~/signalr/hubs"></script>
+<div></div>
+<script>
+
+    function creatchatroom(obj) {
+        var id = {
+            from_role_id: $("#active_role").val(),
+            to_role_id: obj.value
+        };
+        $.ajax({
+            url: "/Home/showHistoryMessage",
+            type: "POST",
+            dataType: "json",
+            data: id,
+            success: function (response) {
+                console.log(response);
+                for (let i = 0; i < response.length; i++) {
+
+                    if (response[i].fMessage_To == null) {
+                        let hsmessagetext = '<div class="messageHer">';
+                        hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                        hsmessagetext += '<span>' + response[i].fMessage_From + '</span >';
+                        hsmessagetext += '<div class="clearFix" ></div >';
+                        hsmessagetext += '</div>';
+
+                        $('#MSG').append(hsmessagetext);
+                    }
+
+                    else if (response[i].fMessage_From == null) {
+                        let hsmessagetext = '<div class="messageMe">';
+                        hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                        hsmessagetext += '<span>' + response[i].fMessage_To + '</span >';
+                        hsmessagetext += '<div class="clearFix" ></div >';
+                        hsmessagetext += '</div>';
+
+                        $('#MSG').append(hsmessagetext);
+                    }
+                }
+            }
+        }).then(() => {
+            document.getElementById('chatbody').scrollTop = document.getElementById('chatbody').scrollHeight;
+        });
+
+        document.getElementById("CHAT").innerHTML = '';
+        let CHT = '<div class="container">';
+        CHT += '<div class="row">';
+        CHT += '<div class="panel panel-chat">';
+        CHT += '<div class="panel-heading">';
+        CHT += '<a href="#" class="chatMinimize" onclick="return false">';
+        CHT += '<span>';
+        CHT += obj.name;
+        CHT += '</span ></a>';
+        CHT += '<span id="ss" style="display:none">'
+        CHT += obj.value;
+        CHT += '</span>';
+        CHT += ' <a href="#" class="chatClose" onclick="return false"><i class="glyphicon glyphicon-remove"></i></a>';
+        CHT += '<div class="clearFix"></div>';
+        CHT += '</div>';
+        CHT += '<div class="panel-body" id="chatbody">';
+        CHT += '<div class="clearFix" id="MSG"></div>';
+        CHT += ' </div>';
+        CHT += ' <div class="panel-footer">';
+        CHT += ' <textarea id="StringTextBox" name="textMessage" maxlength="50" cols="0" rows="0" style="float: left; width: 90%;"></textarea>';
+        CHT += '<input class="c" type="button" style="float: right;" value="送出" onclick="ChangeString()">';
+        CHT += '<span style="clear: both;"></span>';
+        CHT += '</div>';
+        CHT += '</div>';
+        CHT += '</div>';
+        CHT += '</div>';
+
+        $('#CHAT').append(CHT);
+
+        $(".panel.panel-chat > .panel-heading > .chatMinimize").click(function () {
+            if ($(this).parent().parent().hasClass('mini')) {
+                $(this).parent().parent().removeClass('mini').addClass('normal');
+
+                $('.panel.panel-chat > .panel-body').animate({ height: "250px" }, 500).show();
+
+                $('.panel.panel-chat > .panel-footer').animate({ height: "75px" }, 500).show();
+            }
+            else {
+                $(this).parent().parent().removeClass('normal').addClass('mini');
+
+                $('.panel.panel-chat > .panel-body').animate({ height: "0" }, 500);
+
+                $('.panel.panel-chat > .panel-footer').animate({ height: "0" }, 500);
+
+                setTimeout(function () {
+                    $('.panel.panel-chat > .panel-body').hide();
+                    $('.panel.panel-chat > .panel-footer').hide();
+                }, 500);
+            }
+        });
+        $(".panel.panel-chat > .panel-heading > .chatClose").click(function () {
+            $(this).parent().parent().remove();
+        });
+    }
+
+    //-------------------2020/09/24 textarea打字往上append by曾開誠--------------
+    function ChangeString() {
+        let StringTextBox = document.getElementById("StringTextBox");
+        let NewStringValue = StringTextBox.value;
+        let toid = document.getElementById("ss");
+        let toidvalue = toid.innerHTML;
+        let fromid = document.getElementById("active_role");
+        let fromidvalue = fromid.value;
+        if (NewStringValue == "") return;
+
+        let msg = {
+            message: NewStringValue,
+            fId_From_Role: fromidvalue,
+            fId_To_Role: toidvalue
+        };
+        $.ajax({
+            url: "/Home/pushMessage",
+            type: "POST",
+            dataType: "text",
+            data: msg,
+        });
+
+        var messagetext = '<div class="messageHer">';
+        messagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+        messagetext += '<span>' + NewStringValue + '</span >';
+        messagetext += '<div class="clearFix" ></div >';
+        messagetext += '</div>';
+
+        $('#MSG').append(messagetext);
+        StringTextBox.value = "";
+
+        document.getElementById('chatbody').scrollTop = document.getElementById('chatbody').scrollHeight;
+
+        hub.server.hello(document.getElementById("ss").innerHTML, NewStringValue);//fun啟動後再繫結name,content
+    };
+    //----------------20200925 SignalR 送給Client端資料 by曾開誠-----------------
+    var hub = $.connection.myHub;
+
+    $.connection.hub.start().done();
+
+    hub.client.hello = function (name, content) {
+        if ($("#active_role").val() === name) {
+            console.log(name);
+            console.log(content);
+            var messagetextold = '<div class="messageMe">';
+            messagetextold += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+            messagetextold += '<span>' + content + '</span >';
+            messagetextold += '<div class="clearFix" ></div >';
+            messagetextold += '</div>';
+            $('#MSG').append(messagetextold);
+        }
+    };
+</script>

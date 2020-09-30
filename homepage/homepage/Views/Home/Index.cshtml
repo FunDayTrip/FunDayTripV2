@@ -1,4 +1,5 @@
-﻿@model homepage.ViewModel.CAddLocationViewModel
+﻿@*_verna_0930*@
+@model homepage.ViewModel.CMapItem
 @using homepage.ViewModel
 @using homepage.Models
 @{
@@ -112,257 +113,142 @@
 
 
     @*---------------------------------聊天室生成 2020/09/24 by曾開誠---------------------------------*@
-    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
-    <script src="~/signalr/hubs"></script>
-    <div></div>
-    <script>
-
-        function creatchatroom(obj) {
-            var id = {
-                from_role_id: $("#active_role").val(),
-                to_role_id: obj.value
-            };
-            $.ajax({
-                url: "/Home/showHistoryMessage",
-                type: "POST",
-                dataType: "json",
-                data: id,
-                success: function (response) {
-                    console.log(response);
-                    for (let i = 0; i < response.length; i++) {
-
-                        if (response[i].fMessage_To == null) {
-                            let hsmessagetext = '<div class="messageHer">';
-                            hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-                            hsmessagetext += '<span>' + response[i].fMessage_From + '</span >';
-                            hsmessagetext += '<div class="clearFix" ></div >';
-                            hsmessagetext += '</div>';
-
-                            $('#MSG').append(hsmessagetext);
-                        }
-
-                        else if (response[i].fMessage_From == null) {
-                            let hsmessagetext = '<div class="messageMe">';
-                            hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-                            hsmessagetext += '<span>' + response[i].fMessage_To + '</span >';
-                            hsmessagetext += '<div class="clearFix" ></div >';
-                            hsmessagetext += '</div>';
-
-                            $('#MSG').append(hsmessagetext);
-                        }
-                    }
-                }
-            }).then(() => {
-                document.getElementById('chatbody').scrollTop = document.getElementById('chatbody').scrollHeight;
-            });
-
-            document.getElementById("CHAT").innerHTML = '';
-            let CHT = '<div class="container">';
-            CHT += '<div class="row">';
-            CHT += '<div class="panel panel-chat">';
-            CHT += '<div class="panel-heading">';
-            CHT += '<a href="#" class="chatMinimize" onclick="return false">';
-            CHT += '<span>';
-            CHT += obj.name;
-            CHT += '</span ></a>';
-            CHT += '<span id="ss" style="display:none">'
-            CHT += obj.value;
-            CHT += '</span>';
-            CHT += ' <a href="#" class="chatClose" onclick="return false"><i class="glyphicon glyphicon-remove"></i></a>';
-            CHT += '<div class="clearFix"></div>';
-            CHT += '</div>';
-            CHT += '<div class="panel-body" id="chatbody">';
-            CHT += '<div class="clearFix" id="MSG"></div>';
-            CHT += ' </div>';
-            CHT += ' <div class="panel-footer">';
-            CHT += ' <textarea id="StringTextBox" name="textMessage" maxlength="50" cols="0" rows="0" style="float: left; width: 90%;"></textarea>';
-            CHT += '<input class="c" type="button" style="float: right;" value="送出" onclick="ChangeString()">';
-            CHT += '<span style="clear: both;"></span>';
-            CHT += '</div>';
-            CHT += '</div>';
-            CHT += '</div>';
-            CHT += '</div>';
-
-            $('#CHAT').append(CHT);
-
-            $(".panel.panel-chat > .panel-heading > .chatMinimize").click(function () {
-                if ($(this).parent().parent().hasClass('mini')) {
-                    $(this).parent().parent().removeClass('mini').addClass('normal');
-
-                    $('.panel.panel-chat > .panel-body').animate({ height: "250px" }, 500).show();
-
-                    $('.panel.panel-chat > .panel-footer').animate({ height: "75px" }, 500).show();
-                }
-                else {
-                    $(this).parent().parent().removeClass('normal').addClass('mini');
-
-                    $('.panel.panel-chat > .panel-body').animate({ height: "0" }, 500);
-
-                    $('.panel.panel-chat > .panel-footer').animate({ height: "0" }, 500);
-
-                    setTimeout(function () {
-                        $('.panel.panel-chat > .panel-body').hide();
-                        $('.panel.panel-chat > .panel-footer').hide();
-                    }, 500);
-                }
-            });
-            $(".panel.panel-chat > .panel-heading > .chatClose").click(function () {
-                $(this).parent().parent().remove();
-            });
-        }
-
-        //-------------------2020/09/24 textarea打字往上append by曾開誠--------------
-        function ChangeString() {
-            let StringTextBox = document.getElementById("StringTextBox");
-            let NewStringValue = StringTextBox.value;
-            let toid = document.getElementById("ss");
-            let toidvalue = toid.innerHTML;
-            let fromid = document.getElementById("active_role");
-            let fromidvalue = fromid.value;
-            if (NewStringValue == "") return;
-
-            let msg = {
-                message: NewStringValue,
-                fId_From_Role: fromidvalue,
-                fId_To_Role: toidvalue
-            };
-            $.ajax({
-                url: "/Home/pushMessage",
-                type: "POST",
-                dataType: "text",
-                data: msg,
-            });
-
-            var messagetext = '<div class="messageHer">';
-            messagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-            messagetext += '<span>' + NewStringValue + '</span >';
-            messagetext += '<div class="clearFix" ></div >';
-            messagetext += '</div>';
-
-            $('#MSG').append(messagetext);
-            StringTextBox.value = "";
-
-            document.getElementById('chatbody').scrollTop = document.getElementById('chatbody').scrollHeight;
-
-            hub.server.hello(document.getElementById("ss").innerHTML, NewStringValue);//fun啟動後再繫結name,content
-        };
-        //----------------20200925 SignalR 送給Client端資料 by曾開誠-----------------
-        var hub = $.connection.myHub;
-
-        $.connection.hub.start().done();
-
-        hub.client.hello = function (name, content) {
-            if ($("#active_role").val() === name) {
-                console.log(name);
-                console.log(content);
-                var messagetextold = '<div class="messageMe">';
-                messagetextold += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-                messagetextold += '<span>' + content + '</span >';
-                messagetextold += '<div class="clearFix" ></div >';
-                messagetextold += '</div>';
-                $('#MSG').append(messagetextold);
-            }
-        };
-    </script>
+    @*_verna_0930*@
+    @Html.Partial("_ChatBoxPartialView");
     @*---------------------------------聊天室生成---------------------------------*@
 
 
     <script>
-//全域變數===============================
+        //全域變數===============================
         //經緯度變數
         var _lng, _lat;
         var Addedmarker;
 
-//要求顯示地圖===========================
+        //要求顯示地圖===========================
 
+        //顯示中文地圖
         mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
         var map = new mapboxgl.Map({
-            container: 'map', // container id
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [-74.5, 40], // starting position
-            zoom: 9 // starting zoom
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v10',
+            center: [120.757769, 23.535394],
+            zoom: 8
         });
-//地圖一載入==================================
+        //改成中文
+        var language = new MapboxLanguage({ defaultLanguage: 'zh' });
+        map.addControl(language);
+        //地圖一載入==================================
         map.on('load', function () {
-            map.loadImage(
-                'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
-                // Add an image to use as a custom marker
-                function (error, image) {
-                    if (error) throw error;
-                    map.addImage('custom-marker', image);
+            map.on('click', 'places', function (e) {
 
-                    map.addSource('places', {
-                        'type': 'geojson',
-                        'data': {
-                            'type': 'FeatureCollection',
-                            'features': [
-                                {
-                                    'type': 'Feature',
-                                    'properties': {
-                                        'description':
-                                            '<strong>Make it Mount Pleasant</strong><p>' +
-                                            'Make it Mount Pleasant is a handmade and vintage' +
-                                            'market and afternoon of live entertainment and kids activities <p><img src="@ViewBag.kk" alt="Girl in a jacket" width="200" height="100">'
-                                    },
-                                    'geometry': {
-                                        'type': 'Point',
-                                        'coordinates': [-77.038659, 38.931567]
-                                    }
-                                }
-                            ]
-                        }
+                // Change the cursor style as a UI indicator.
+                map.getCanvas().style.cursor = 'pointer';
+
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                var LocationID = e.features[0].properties.description;
+
+                //CATCH ID跟座標
+                document.getElementById("clickInfo").innerHTML = LocationID + "<br/>" + coordinates + "<br/>";
+                _LocationID = LocationID;
+                _fX_Coordinate = coordinates[0];
+                _fY_Coordinate = coordinates[1];
+                Coords_Location = [_fX_Coordinate, _fY_Coordinate];
+                //console.log(Coords_Location);
+                fly(Coords_Location);
+                //顯示該地點詳細內容
+                $.ajax({
+                    url: "/Home/CallBackThisLocationInfo",///////////////////////
+                    type: "POST",
+                    data: { locationID: LocationID },
+                    //dataType: "json",
+                }).done(function (response) {
+                    var deJsonResponce = JSON.parse(response);
+                    deJsonResponce.forEach((item, element) => {
+                        $("#showExistedPhoto").attr("src", item.fPath_Photo);
+                        $("#showExistedPhotoTitle").text(item.fTitle_Photo)
+                        $("#showExistedPhtoDescription").text(item.fDescript_Photo)
+                        $("#showExistedLocationTime").text(item.fTime_Location);
+                        $("#showExistedLocationName").text(item.fName_Location);
+                        $("#showExistedLocationAddress").text(item.fAdd_Location);
+                        $("#showExistedLocationDescription").text(item.fDescript_Location);
                     });
-
-                    // Add a layer showing the places.
-                    map.addLayer({
-                        'id': 'places',
-                        'type': 'symbol',
-                        'source': 'places',
-                        'layout': {
-                            'icon-image': 'custom-marker',
-                            'icon-allow-overlap': false
-                        }
-                    });
-                }
-            );
-            //地圖上click事件
-            map.on('click', 'places', showHaveBeenAddedLocation);
+                }).fail(function (xhr) {
+                    console.log(xhr.status + xhr.responseText);
+                });//end ajax
+            });
         });
-        var popup = new mapboxgl.Popup({
-            closeButton: true,
-            closeOnClick: false
-        });
-        //顯示已經在地圖上的點
-        function showHaveBeenAddedLocation(e) {
-
-            map.getCanvas().style.cursor = 'pointer';
-
-            var coordinates = e.features[0].geometry.coordinates.slice();
-            var description = e.features[0].properties.description;
-
-            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-            }
-
-            popup.setLngLat(coordinates).setHTML(description).addTo(map);
-        };
 
     </script>
 
     @*  左側內容 _verna_0930  ===========================*@
     <div id="LeftSideMenu">
 
+        <button id="test" onclick="closethisdiv()">next2</button>
+
+        <div id="Result_List2">
+            @*地點路線資訊*@
+            @Html.Partial("_firstLoadAllListPartialView");
+        </div>
+
+
+
+
+        <div style="position:absolute" id="locationInfo">
+
+            <img id="showExistedPhoto" style="height:400px;width:280px" />
+            <br />
+            <span id="clickInfo"></span>
+            <button id="EditExistedLocation" onclick="CallBackThisLocationInfoWhenEditor()">編輯</button>
+            @*按已存在地點的編輯按鈕*@
+            <br />
+            照片標題:
+            <p id="showExistedPhotoTitle"></p>
+            照片心得
+            <p id="showExistedPhtoDescription"></p>
+            時間:
+            <p id="showExistedLocationTime"></p>
+            地點名稱:
+            <p id="showExistedLocationName"></p>
+            地址:
+            <p id="showExistedLocationAddress"></p>
+            地點心得:
+            <p id="showExistedLocationDescription"></p>
+            <br />
+            <button id="testButton" onclick="reload()">next</button>
+            <button id="testButton2" onclick="reloadlocation()">reload</button>
+
+
+
+        </div>
+
 
     </div>
 
+    <script>
+        //文件載入鎖定部分按鈕事件/顯示_verna_0930
+        $(document).ready(function () {
+            //個人資料方塊
+            $("#locationInfo").hide();
+        });
+        //顯示關閉左邊表單
+        function closethisdiv() {
+
+            $("#Result_List2").toggle();
+
+            $('#locationInfo').toggle();
+
+
+        };
+
+    </script>
 
 
 
-    @*地圖內容/按鍵(上)=====================*@
+    @*地圖中放置內容/按鍵(上)=====================*@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h6 id="info2">get coordinates</h6>
+
                 <button id="addNewLocationButton" type="button">放置新增圖釘</button>
                 @*開啟個人資料對話方塊*@
                 <button id="toggle2" type="button" class="showHideButton">User</button>
@@ -374,7 +260,8 @@
                         {
                             <input type="text" id="account" value="ming123@gmail.com">
                             <input type="password" id="password" value="ming123">
-                            <button type="submit" id="loginBtn">登入</button><br />
+                            <button type="submit" id="loginBtn">登入</button>
+                            <br />
                             @Html.ActionLink("註冊會員", "signUp", "Member")
                             @*<button type="submit" id="signupBtn">註冊帳號</button>*@
                             <button type="submit" id="forgetPwdBtn" onclick="window.open('../ForgetPassword.aspx', 'FP', 'width=500,height=50,top=300,left=500,fullscreen=no,resizable=0');">忘記密碼</button>
@@ -418,27 +305,7 @@
 
                 </div>
                 @*聊天室方塊 by曾開誠 註解已改為動態生成 function creatchatroom <div id="CHAT"不可刪>*@
-                <div id="CHAT">
-                    @*<div class="container">
-                            <div class="row">
-                                <div class="panel panel-chat">
-                                    <div class="panel-heading">
-                                        <a href="#" class="chatMinimize" onclick="return false"><span>Özgür Gürbüz</span></a>
-                                        <a href="#" class="chatClose" onclick="return false"><i class="glyphicon glyphicon-remove"></i></a>
-                                        <div class="clearFix"></div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="clearFix" id="MSG"></div>
-                                    </div>
-                                    <div class="panel-footer">
-                                        <textarea id="StringTextBox" name="textMessage" maxlength="50" cols="0" rows="0" style="float: left; width: 90%;"></textarea>
-                                        <input class="c" type="button" style="float: right;" value="送出" onclick="ChangeString()">
-                                        <span style="clear: both;"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
-                </div>
+                <div id="CHAT"></div>
                 @*編輯地點方塊-------*@
                 @*跳出新增視窗*@
                 <div id="myModal" class="modal">
@@ -508,12 +375,6 @@
     <script>
         var EnableCreateLocation = false;
 
-        //個人資料方塊
-        $(document).ready(function () {
-            $("#toggle2").click(function () {
-                $("#showHide").toggle();
-            });
-        });
         //取得新增資料表單
         var modal = document.getElementById("myModal");
 
@@ -654,15 +515,219 @@
 
     </script>
 
-    <script type="text/javascript">
+    <script>
+
+        //文件載入:處理個人資料方塊,地點路線分布
+        $(document).ready(function (e) {
+            //reloadRoute();
+            reload();
+            $("#toggle2").click(function () {
+                $("#showHide").toggle();
+            });
+            $("#addNewLocationButton").hide();
+
+        });
+        //左側滑動清單設定
         $('#LeftSideMenu').BootSideMenu({
             side: "left",
             pushBody: true,
             autoClose: false,
-            closeOnClick: true
+            closeOnClick: false
         });
 
+
+        //飛躍至該地k
+        function fly(Point) {
+            map.flyTo({
+                center: Point, // [X,Y] Array
+                essential: true,
+                zoom: 13
+            });
+        }
+
+        //ajax重整重新載入所有地點路線
+
+        //重整
+        function reload() {
+            console.log("reload");
+            LocArray = []
+
+            $.ajax({
+                url: "/Home/getAllLocations",
+                type: "POST",
+                dataType: "json",
+                //data: { }
+            }).done(function (response) {
+                //console.log(response);
+                for (var i = 0; i < response.length; i++) {
+                    Coords_Location = [response[i].fX_Coordinate, response[i].fY_Coordinate];
+                    Id_Location = response[i].fId_Location;
+
+                    locJson =
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'description': Id_Location
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': Coords_Location
+                        }
+                    };
+                    LocArray.push(locJson);
+                }//end for
+                if (map.getLayer("places")) {
+                    map.removeLayer("places");
+                }
+
+                if (map.getLayer("routes")) {
+                    map.removeLayer("routes");
+                }
+                if (map.getSource("places")) {
+                    map.removeSource("places");
+                }
+
+                if (map.getSource("routes")) {
+                    map.removeSource("routes");
+                }
+
+
+                reloadRoute();
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+        }
+
+        //"取得路線"的第一個坐標，fly()要用到k
+        function GetRoutePathArray(RouteInnerHTMLPath) {
+            var RoutePath = new Array();
+            var tempPoint = new Array();
+            var strRoutePath = (RouteInnerHTMLPath + "").split(',');
+            for (var i = 0; i < strRoutePath.length; i += 2) {
+                tempPoint[i / 2] = new Array();
+                tempPoint[i / 2][1] = strRoutePath[i + 1];
+                tempPoint[i / 2][0] = strRoutePath[i];
+                RoutePath.push(tempPoint[i / 2]);
+            }
+            return RoutePath;
+        }
+
+        //重新放入路線
+        //路線所有資訊組成json，放到陣列
+        var RouArray;
+        function reloadRoute() {
+            //console.log("reloadRoute");
+            RouArray = []
+            $.ajax({
+                url: "/Home/getAllRoutes",
+                type: "POST",
+                dataType: "json",
+                //data: { }
+            }).done(function (response) {
+                console.log(response);
+                for (var i = 0; i < response.length; i++) {
+
+                    Id_Route = response[i].fId_Route;
+                    //console.log(Id_Route);
+                    Path_Route = GetRoutePathArray(response[i].fPath_Route);
+
+                    rouJson =
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'description': Id_Route
+                        },
+                        'geometry': {
+                            'type': 'LineString',
+                            'coordinates': Path_Route
+                        }
+                    };
+                    RouArray.push(rouJson);
+                    //console.log(RouArray);
+
+                }//end for
+
+                reloadlocation();
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+
+        };
+
+
+        //重新放入地點/路線
+        function reloadlocation() {
+
+            //console.log("reloadAll");
+            map.loadImage(
+                'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+                // Add an image to use as a custom marker
+                function (error, image) {
+
+
+
+                    if (error) throw error;
+                    //console.log(map.hasImage('custom-marker'));
+
+                    if (!map.hasImage('custom-marker')) {
+                        map.addImage('custom-marker', image);
+                    };
+
+
+                    map.addSource('places', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': LocArray
+                        }
+                    });
+
+                    // Add a layer showing the places.
+                    map.addLayer({
+                        'id': 'places',
+                        'type': 'symbol',
+                        'source': 'places',
+                        'layout': {
+                            'icon-image': 'custom-marker',
+                            'icon-allow-overlap': true
+                        }
+                    });
+
+                });
+
+            //路線加入地圖k====================
+            map.addSource('routes', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'FeatureCollection',
+                    'features': RouArray
+                }
+            });//End：map.addSource
+
+            map.addLayer({
+                'id': 'routes',
+                'type': 'line',
+                'source': 'routes',
+                layout: {
+                    "line-join": "round",
+                    "line-cap": "round"
+                },
+                paint: {
+                    "line-color": "#dc143c",
+                    "line-width": 6
+                }
+            });//End：map.addLayer
+
+
+
+        };
+
+
+
     </script>
+
+
     <script>
     @* 登入 *@
     $('#loginBtn').on('click', login);
