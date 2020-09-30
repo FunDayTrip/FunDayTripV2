@@ -244,7 +244,7 @@
       <PropertyRef Name="fId_Admin" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="fId_Admin" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_Admin" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
     <Property Name="fName_Admin" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="fEmail_Admin" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -313,7 +313,7 @@
       <PropertyRef Name="fId_Comment" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="fId_Comment" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_Comment" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="fId_Location_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
     <Property Name="fId_Type_Location_Route" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
     <Property Name="fId_Role" Type="Int32" Nullable="false" />
@@ -433,7 +433,7 @@
       <PropertyRef Name="fId_Location" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="fId_Role" Type="Int32" Nullable="false" />
     <Property Name="fId_Coordinate" Type="Int32" Nullable="false" />
     <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" />
@@ -520,7 +520,7 @@
       <PropertyRef Name="fId_Photo" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="fId_Photo" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_Photo" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
     <Property Name="fId_Role" Type="Int32" Nullable="false" />
     <Property Name="fTitle_Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -546,7 +546,7 @@
       <PropertyRef Name="fId_ProfitMember" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="fId_ProfitMember" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_ProfitMember" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
     <Property Name="fId_ProfitType" Type="Int32" Nullable="false" />
     <Property Name="fName_ProfitMember" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -624,7 +624,7 @@
       <PropertyRef Name="fId_Route" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="fId_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="fId_Role" Type="Int32" Nullable="false" />
     <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" />
     <Property Name="fId_Icon" Type="Int32" Nullable="false" />

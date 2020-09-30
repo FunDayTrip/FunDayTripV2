@@ -28,6 +28,11 @@ namespace homepage.Controllers
             //games.FirstOrDefault().fGroup_GameNav.fId_GameGroup
             return Json(games,JsonRequestBehavior.AllowGet);
         }
+        public JsonResult getGameItem(int group_id)
+        {
+            var games = new CGameFactory().getGamesById(group_id);
+            return Json(games, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

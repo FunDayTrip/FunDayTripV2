@@ -1,9 +1,5 @@
-﻿@model IEnumerable<homepage.Models.CGameNavigationViewModel>
-@{
-    ViewBag.Title = "Game Navigation";
-}
-
-
+﻿@using homepage.ViewModel
+@using homepage.Models
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +30,7 @@
     <style>
         .footer {
             position: fixed;
+            z-index:1;
             left: 0;
             bottom: 0;
             height: 10%;
@@ -45,6 +42,7 @@
 
         .footer_withcontent {
             position: fixed;
+            z-index: 1;
             left: 0;
             bottom: 0;
             height: 50%;
@@ -58,6 +56,10 @@
             margin-top: 0.5em;
         }
 
+        .imageblock{
+            margin: 1em;            
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -69,10 +71,36 @@
             left: 0;
             bottom: 0;
             width: 100%;
+            z-index: -1;
         }
         #game_list{
             z-index:99;
         }
+        #reposition {
+            z-index: 1;
+            position: fixed;
+            right: 1em;
+            margin-top:0;
+            border-radius: 50%;
+            height: 2em;
+            width: 2em;
+        }
+        #inner_content{
+            border-radius:15px;
+            width: 90%;
+            height: 80%;
+            margin: 0px auto;
+            background-color: rgba(255, 255, 255, 0.90)
+
+        }
+        #inner_content img{
+            width: 20%;
+            float: left;
+            margin: 1em;
+            display: flex;
+            align-items: center;
+        }
+
     </style>
 </head>
 <body>
@@ -102,7 +130,7 @@
                     <li><a href="#">Page 3</a></li> -->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> @Session[CDictionary.SK_ActiveRoleName]</a></li>
                     <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                 </ul>
             </div>
@@ -113,30 +141,33 @@
     <div id="content_container" class="container">
         <div id="map"></div>
 
-
     </div>
     <div>
         <ul id="game_list">
             @*@foreach (var item in Model)
-            {
-                <li>
-                    <a href="#">@Html.DisplayFor(modelItem => item.fGroup_GameNav.fName_GameGroup)</a>
-                    <span>緯度:@Html.DisplayFor(modelItem => item.fItems_GameNav.FirstOrDefault().fY_Coordinate)</span>
-                    <span>經度:@Html.DisplayFor(modelItem => item.fItems_GameNav.FirstOrDefault().fX_Coordinate)</span>
-                </li>
-            }*@
+                {
+                    <li>
+                        <a href="#">@Html.DisplayFor(modelItem => item.fGroup_GameNav.fName_GameGroup)</a>
+                        <span>緯度:@Html.DisplayFor(modelItem => item.fItems_GameNav.FirstOrDefault().fY_Coordinate)</span>
+                        <span>經度:@Html.DisplayFor(modelItem => item.fItems_GameNav.FirstOrDefault().fX_Coordinate)</span>
+                    </li>
+                }*@
         </ul>
 
     </div>
 
-    @*內容框*@
-    <div id="foot-content" class="footer">
-        <div id="content-toggle" class="toggleUp"><span id="content-icon" class="glyphicon glyphicon-chevron-up"></span></div>
-        <div id="current_position" value="">目前位置:</div>
-        <button id="reposition">定位</button>
-    </div>
 
-    <script>
+        @*內容框*@
+        <div id="foot-content" class="footer">
+            <div id="content-toggle" class="toggleUp"><span id="content-icon" class="glyphicon glyphicon-chevron-up"></span></div>
+            <div id="current_position" value="">目前位置:</div>
+            <div id="inner_content" value="">
+                <img src="https://i.imgur.com/MjZ7KAQ.jpg"/>
+            </div>
+        </div>
+
+
+        <script>
         var now_x = 0;
         var now_y = 0;
         //目前位置
@@ -168,7 +199,6 @@
         //===================================
         //地點所有資訊組成json，顯示在地圖
         var groupArray = [];
-        var gamesArray = [];
 
         $.ajax({
             url: "@Url.Action("getGames","Game")",
@@ -179,6 +209,8 @@
             //console.log(response);
             for (var i = 0; i < response.length; i++) {
                 console.log(response);
+                Name_Group = response[i].fGroup_GameNav.fName_GameGroup;
+                Description_Group = response[i].fGroup_GameNav.fDescription_GameGroup;
                 Coords_Group = [response[i].fItems_GameNav[0].fX_Coordinate, response[i].fItems_GameNav[0].fY_Coordinate];
                 Id_Group = response[i].fGroup_GameNav.fId_GameGroup;
 
@@ -186,7 +218,8 @@
                 {
                     'type': 'Feature',
                     'properties': {
-                        'description': Id_Group
+                        'groupId': Id_Group,
+                        'description': '<strong>' + Name_Group + '</strong><p>' + Description_Group + '</p>'
                     },
                     'geometry': {
                         'type': 'Point',
@@ -194,25 +227,6 @@
                     }
                 };
                 groupArray.push(groupJson);
-
-                for (var j = 0; j < response[i].length; j++) {
-                    Coords_Games = response[i].fItems_GameNav[j].fX_Coordinate, response[i].fItems_GameNav[j].fY_Coordinate;
-                    Id_Games = response[i].fItems_GameNav[j].fId_Game;
-
-                    gameJson =
-                    {
-                        'type': 'Feature',
-                        'properties': {
-                            'description': Id_Games
-                        },
-                        'geometry': {
-                            'type': 'Point',
-                            'coordinates': Coords_Games
-                        }
-                    };
-
-                    gamesArray.push(gameJson);
-                };
 
             };
         }).fail(function (xhr) {
@@ -228,7 +242,7 @@
                     if (error) throw error;
                     map.addImage('custom-marker', image);
 
-                    map.addSource('places', {
+                    map.addSource('game_group', {
                         'type': 'geojson',
                         'data': {
                             'type': 'FeatureCollection',
@@ -237,41 +251,130 @@
                     });//End：map.addSource
 
                     map.addLayer({
-                        'id': 'places',
+                        'id': 'game_group',
                         'type': 'symbol',
-                        'source': 'places',
+                        'source': 'game_group',
                         'layout': {
                             'icon-image': 'custom-marker',
                             'icon-allow-overlap': true
                         }
                     });//End：map.addLayer
                 });
-            //路線加入地圖=========
-            map.addSource('routes', {
-                'type': 'geojson',
-                'data': {
-                    'type': 'FeatureCollection',
-                    'features': gamesArray
-                }
-            });
-            map.addLayer({
-                'id': 'routes',
-                'type': 'line',
-                'source': 'routes',
-                layout: {
-                    "line-join": "round",
-                    "line-cap": "round"
-                },
-                paint: {
-                    "line-color": "#dc143c",
-                    "line-width": 6
-                }
-            });//End：map.addLayer
+            ////路線加入地圖=========
+            //map.addSource('routes', {
+            //    'type': 'geojson',
+            //    'data': {
+            //        'type': 'FeatureCollection',
+            //        'features': gamesArray
+            //    }
+            //});
+            //map.addLayer({
+            //    'id': 'routes',
+            //    'type': 'line',
+            //    'source': 'routes',
+            //    layout: {
+            //        "line-join": "round",
+            //        "line-cap": "round"
+            //    },
+            //    paint: {
+            //        "line-color": "#dc143c",
+            //        "line-width": 6
+            //    }
+            //});//End：map.addLayer
 
 
         });
             //====================
 
+
+            //使用者定位
+            map.addControl(
+                new mapboxgl.GeolocateControl({
+                    positionOptions: {
+                        enableHighAccuracy: true
+                    },
+                    trackUserLocation: true
+                })
+            );
+            map.on("geolocate", function () {
+                console.log('A geolocate event has occurred.')
+            });
+
+
+            //點擊遊戲圖標
+            map.on('click', 'game_group', function (e) {
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                var description = e.features[0].properties.description;
+                var group_id = e.features[0].properties.groupId;
+                console.log(group_id);
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+                //new mapboxgl.Popup()
+                //    .setLngLat(coordinates)
+                //    .setHTML(description)
+                //    .addTo(map);
+
+                var gamesArray = [];
+
+                $.ajax({
+                    url: "@Url.Action("getGameItem", "Game")",
+                    type: "GET",
+                    dataType: "json",
+                    data: { group_id: group_id }
+                }).done(function (response) {
+                    console.log(response);
+
+                    for (var i = 0; i < response.length; i++) {
+                        Coords_Game = [response[i].fX_Coordinate, response[i].fY_Coordinate];
+                        Id_Game = response[i].fId_Game;
+                        Name_Game = response[i].fName_Game;
+                        Type_Game = response[i].fType_Game;
+
+                        gameJson =
+                        {
+                            'type': 'Feature',
+                            'properties': {
+                                'gameId': Id_Game,
+                                'gameType': Type_Game,
+                                'description': Name_Game
+                            },
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': Coords_Game
+                            }
+                        };
+
+                        gamesArray.push(gameJson);
+                    };
+
+
+
+
+
+
+                }).fail(function (err) {
+                });
+
+
+
+                showContent(coordinates, description);
+
+
+            });
+
+            // Change the cursor to a pointer when the mouse is over the places layer.
+            map.on('mouseenter', 'game_group', function () {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+
+            // Change it back to a pointer when it leaves.
+            map.on('mouseleave', 'game_group', function () {
+                map.getCanvas().style.cursor = '';
+            });
 
         //內容框上拉
         $("#foot-content").on("click", function () {
@@ -280,7 +383,16 @@
             });
         });
 
-    </script>
+            function showContent( coord, descript) {
+                $("#foot-content").toggleClass("footer_withcontent", 1000, "swing", function () {
+                    $("#content-icon").toggleClass("glyphicon-chevron-down", 1500, "swing");
+                });
+
+                let content = coord + "<br>" + descript;
+                $("#inner_content").html(content);
+            }
+
+        </script>
 
 </body>
 </html>

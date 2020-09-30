@@ -122,8 +122,8 @@ namespace homepage.Controllers
                 //放入Session
                 Session[CDictionary.SK_MemberId] = loginMember.fId_Member;
                 Session[CDictionary.SK_MemberLogin] = loginMember;
-                Session[CDictionary.SK_ActiveRoleId] = loginMember.fActiveRoleId_Member;             
-                
+                Session[CDictionary.SK_ActiveRoleId] = loginMember.fActiveRoleId_Member;
+                Session[CDictionary.SK_ActiveRoleName] = loginMember.fActiveRoleName_Member;
 
             }
             else if (q.FirstOrDefault().fPassword_Member != pwd)

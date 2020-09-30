@@ -885,6 +885,13 @@
                     role_item += "name = '" + response[i].fNickName_Role + "'";
                     role_item += "onclick='changeRole(this)'>";
                     role_item += response[i].fNickName_Role;
+                    if (response[i].fId_Slave_Type_Role == "a")
+                    {
+                        role_item += "(管理員)";
+                    };
+                    if (response[i].fId_Slave_Type_Role == "b") {
+                        role_item += "(營利會員)";
+                    };
                     role_item += "</button></li>";
                     console.log(response[i].fNickName_Role);
                     $("#role_list").append(role_item)
@@ -910,6 +917,9 @@
                 alert("已切換身分為: " + response.fNickName_Role);
                 $('#active_role').attr('value', response.fId_Role);
                 document.getElementById("active_role_name").innerHTML = "目前身分:" + response.fNickName_Role;
+                if (response.fId_Slave_Type_Role == "a") {
+                    alert("管理員 " + response.fNickName_Role + ", 您好!");
+                }
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 console.log(role_id);
                 $("body").append(xhr.status);
