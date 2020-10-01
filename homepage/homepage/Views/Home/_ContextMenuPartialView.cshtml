@@ -1,0 +1,52 @@
+﻿
+@*<span class="context-menu-one btn btn-neutral">right click me</span>*@
+<script>
+    $(function () {
+        $.contextMenu({
+            selector: '.context-menu-one',
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+                window.console && console.log(m) || alert(m);
+                switch (key) {
+                    case "create":
+                        createLocRou();
+                        break;
+                    case "edit":
+                        editLocRou();
+                        break;
+                    case "delete":
+                        deleteLocRou();
+                        
+
+                }
+            },
+            items: {       
+                "create": { name: "Create", icon: "paste" },
+                "edit": { name: "Edit", icon: "edit" },                                                
+                "delete": { name: "Delete", icon: "delete" },
+                "sep1": "---------",
+                "quit": {
+                    name: "Quit", icon: function () {
+                        return 'context-menu-icon context-menu-icon-quit';
+                    }
+                }
+            }
+        });
+        $('.context-menu-one').on('click', function (e) {
+            console.log('clicked', this);
+        })
+    });
+
+   
+   
+    function createLocRou() {
+        console.log("i want to create");
+        CreateEditmodal.style.display = "block";
+    };
+
+    function editLocRou() {
+        console.log("i want to edit");
+    };
+
+
+</script>

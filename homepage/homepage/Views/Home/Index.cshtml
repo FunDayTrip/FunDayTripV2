@@ -104,13 +104,13 @@
 
 
 
-    @*地圖 _verna_0930*@
+    @*地圖 /綁定右鍵清單_verna_0930*@
     <div id='map' class="context-menu-one btn btn-neutral"></div>
 
     @*上列選項清單_verna_0930 *@
     @Html.Partial("_topMenuNavigation");
-
-
+    @*滑鼠右鍵清單*@
+    @Html.Partial("_ContextMenuPartialView");
 
     @*---------------------------------聊天室生成 2020/09/24 by曾開誠---------------------------------*@
     @*_verna_0930*@
@@ -125,7 +125,6 @@
         var Addedmarker;
 
         //要求顯示地圖===========================
-
         //顯示中文地圖
         mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
         var map = new mapboxgl.Map({
@@ -248,8 +247,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                @*新增地點*@
+                <span id="info2">get coordinates</span>
+                <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
 
-                <button id="addNewLocationButton" type="button">放置新增圖釘</button>
                 @*開啟個人資料對話方塊*@
                 <button id="toggle2" type="button" class="showHideButton">User</button>
                 @*輸入登入資訊 by 王詠平 0921*@
@@ -306,52 +307,8 @@
                 </div>
                 @*聊天室方塊 by曾開誠 註解已改為動態生成 function creatchatroom <div id="CHAT"不可刪>*@
                 <div id="CHAT"></div>
-                @*編輯地點方塊-------*@
-                @*跳出新增視窗*@
-                <div id="myModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                        {
-                            <div style="padding:15px">
-                                <h2>新增地點</h2>
-                                <label>標題</label>
-                                <input type="text" name="LocationTitle" />
-                                <br />
-                                <label>地名</label>
-                                <input type="text" name="LocationName" />
-                                <br />
-                                <span id="info2" style="background-color:bisque"></span>
-                                <br />
-                                <label for="file">上傳照片</label>
-                                <br />
-                                <input type="file" accept="image/*" onchange="loadFile(event)">
-                                <img id="output" style="width:200px;height:300px" />
-                                <br>
 
-                                <br />
-                                <label>說明</label>
-                                <br />
 
-                                <textarea name="LocationDescription"></textarea>
-                                <br />
-                                <div>
-                                    <button>確定</button>
-                                </div>
-                            </div>
-                            @*預覽照片*@
-                            <script>
-                                var loadFile = function (event) {
-                                    var output = document.getElementById('output');
-                                    output.src = URL.createObjectURL(event.target.files[0]);
-                                    output.onload = function () {
-                                        URL.revokeObjectURL(output.src) // free memory
-                                    }
-                                };
-                            </script>
-                        }
-                    </div>
-                </div>
                 @*-----------------------------------追蹤粉絲頁面 by曾開誠09/23-------------------------------*@
                 <div id="follow_modal" class="modal">
                     <div class="modal-content">
@@ -367,7 +324,15 @@
 
             </div>
         </div>
-        @*showhide 個人頁面*@
+        @*跳出新增/編輯視窗*@
+        <div id="myModal" class="modal">
+
+            <div class="modal-content ">
+                <form form method="post" enctype="multipart/form-data" id="UploadLocationForm">
+                    @Html.Partial("_CreateOrEditForm");
+                </form>
+            </div>@*model-contain*@
+        </div>@*model*@
     </div>
     @*</div>*@
 
@@ -375,23 +340,16 @@
     <script>
         var EnableCreateLocation = false;
 
-        //取得新增資料表單
-        var modal = document.getElementById("myModal");
-
         //關閉新增資料表單
         var span = document.getElementsByClassName("close")[0];
-
         //左側彈出視窗 X按鈕
         $(".close").on("click", function () {
-            modal.style.display = "none";
+            CreateEditmodal.style.display = "none";
             follow_modal.style.display = "none";
 
         });
 
-        //左側按鍵彈跳視窗
-        function con() {
-            modal.style.display = "block";
-        };
+        ///////////////////////////////////////
         //粉絲/追蹤彈跳視窗
         function followcon() {
             if ($("#active_role").val() == false) {
@@ -465,18 +423,36 @@
                 }
             });
         };
+
+        ///////////////////////////////////////////////////
+        //我的地點 顯示可新增按鈕
+        function showMyLoc() {
+            $("#addNewLocationButton").show();
+        };
+        //取得新增/編輯資料 表單id
+        var CreateEditmodal = document.getElementById("myModal");
+        //關閉新增/編輯資料 表單
+        var span = document.getElementsByClassName("close")[0];
+        $("#closeAddLocationForm").on("click", function () {
+            modal.style.display = "none";
+            _marker.remove();
+            map.off("dblclick", alertIfAddLocation);
+            $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
+        });
+
         //點選新增地點,才可添加marker
         var _marker;//地圖上marker變數
         $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
 
+
         //函式:新增地點一開始的畫面
         function enableAddLocation() {
             _marker = new mapboxgl.Marker()
-                .setLngLat([-74.5, 40])
+                .setLngLat([120.757769, 23.535394])
                 .addTo(map);
             //地圖上點選地點,在此綁定map click 另一個handler
             map.on('click', positioningClickLocate);
-            //地圖上雙擊決定添加的地點
+            //地圖上雙擊決定添加的地點-------------改成按右鍵
             map.on("dblclick", alertIfAddLocation);  //有問題:沒有按"放置圖釘紐"仍會觸發alert
         };
 

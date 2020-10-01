@@ -447,6 +447,8 @@
     <Content Include="Views\Home\_topMenuNavigation.cshtml" />
     <Content Include="Views\Home\_ChatBoxPartialView.cshtml" />
     <Content Include="Views\Home\_firstLoadAllListPartialView.cshtml" />
+    <Content Include="Views\Home\_ContextMenuPartialView.cshtml" />
+    <Content Include="Views\Home\_CreateOrEditForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
