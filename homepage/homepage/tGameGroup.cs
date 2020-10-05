@@ -26,10 +26,13 @@ namespace homepage
         public string fGameLV_GameGroup { get; set; }
         public string fDescript_GameGroup { get; set; }
         public int fId_Role { get; set; }
+        public string fPhoto_GameGroup { get; set; }
+        public string fId_Route { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tGame> tGames { get; set; }
         public virtual tRole tRole { get; set; }
+        public virtual tRoute tRoute { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tGameUnlock> tGameUnlocks { get; set; }
     }

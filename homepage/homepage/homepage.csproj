@@ -296,7 +296,10 @@
     <Compile Include="Models\CGame.cs" />
     <Compile Include="Models\CGameFactory.cs" />
     <Compile Include="Models\CGameGroup.cs" />
-    <Compile Include="Models\CGameNavigationViewModel.cs" />
+    <Compile Include="tLA_Relation.cs">
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\CGameNavigationViewModel.cs" />
     <Compile Include="Models\CMember.cs" />
     <Compile Include="Models\CMessage.cs" />
     <Compile Include="Models\CNotes.cs" />

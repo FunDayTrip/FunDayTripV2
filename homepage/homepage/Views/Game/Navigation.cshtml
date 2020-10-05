@@ -65,7 +65,7 @@
             padding: 0;
         }
 
-        #map {
+        .map {
             position: absolute;
             top: 50px;
             left: 0;
@@ -73,6 +73,14 @@
             width: 100%;
             z-index: -1;
         }
+        .map_afterclick {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            bottom: 50%;
+            width: 100%;
+            z-index: -1;
+        } 
         #game_list{
             z-index:99;
         }
@@ -139,7 +147,7 @@
 
     @*地圖內容*@
     <div id="content_container" class="container">
-        <div id="map"></div>
+        <div id="map" class="map"></div>
 
     </div>
     <div>
@@ -198,13 +206,13 @@
 
         //===================================
         //地點所有資訊組成json，顯示在地圖
-        var groupArray = [];
+            var groupArray = [];
 
         $.ajax({
-            url: "@Url.Action("getGames","Game")",
+            url: "@Url.Action("get","Game")",
             type: "POST",
             dataType: "json",
-            //data: { }
+            data: { group_id: 0 }
         }).done(function (response) {
             //console.log(response);
             for (var i = 0; i < response.length; i++) {
@@ -213,7 +221,7 @@
                 Description_Group = response[i].fGroup_GameNav.fDescription_GameGroup;
                 Coords_Group = [response[i].fItems_GameNav[0].fX_Coordinate, response[i].fItems_GameNav[0].fY_Coordinate];
                 Id_Group = response[i].fGroup_GameNav.fId_GameGroup;
-
+                Route_Group = response[i].fGroup_GameNav.fId_Route;
                 groupJson =
                 {
                     'type': 'Feature',
@@ -228,7 +236,29 @@
                 };
                 groupArray.push(groupJson);
 
+                for (var j = 0; j < response[i].fItems_GameNav.length; j++) {
+                    console.log(response[i]);
+                    let Name_Item = response[i].fItems_GameNav[j].fName_Game;
+                    let Coords_Item = [response[i].fItems_GameNav[j].fX_Coordinate, response[i].fItems_GameNav[j].fY_Coordinate];
+                    let Id_Item = response[i].fItems_GameNav[j].fId_GameGroup;
+
+                    itemJson =
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'groupId': Id_Item,
+                            'description': Name_Item
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': Coords_Item
+                        }
+                    };
+                    itemArray.push(itemJson);
+                }
+
             };
+            console.log(itemArray);
         }).fail(function (xhr) {
             console.log(xhr.status + xhr.responseText);
         });
@@ -259,111 +289,112 @@
                             'icon-allow-overlap': true
                         }
                     });//End：map.addLayer
+
+
                 });
-            ////路線加入地圖=========
-            //map.addSource('routes', {
-            //    'type': 'geojson',
-            //    'data': {
-            //        'type': 'FeatureCollection',
-            //        'features': gamesArray
-            //    }
-            //});
-            //map.addLayer({
-            //    'id': 'routes',
-            //    'type': 'line',
-            //    'source': 'routes',
-            //    layout: {
-            //        "line-join": "round",
-            //        "line-cap": "round"
-            //    },
-            //    paint: {
-            //        "line-color": "#dc143c",
-            //        "line-width": 6
-            //    }
-            //});//End：map.addLayer
+            geolocate.trigger();
 
 
         });
             //====================
 
+            function fly(Point) {
+                map.flyTo({
+                    center: [Point[0], Point[1] - 0.001], // [X,Y] Array
+                    essential: true,
+                    zoom: 17
+                })
+            };
+
+            function GetRoutePathArray(RouteInnerHTMLPath) {
+                var RoutePath = new Array();
+                var tempPoint = new Array();
+                var strRoutePath = (RouteInnerHTMLPath + "").split(',');
+                for (var i = 0; i < strRoutePath.length; i += 2) {
+                    tempPoint[i / 2] = new Array();
+                    tempPoint[i / 2][1] = strRoutePath[i + 1];
+                    tempPoint[i / 2][0] = strRoutePath[i];
+                    RoutePath.push(tempPoint[i / 2]);
+                }
+                return RoutePath;
+            }
 
             //使用者定位
-            map.addControl(
-                new mapboxgl.GeolocateControl({
-                    positionOptions: {
-                        enableHighAccuracy: true
-                    },
-                    trackUserLocation: true
-                })
-            );
-            map.on("geolocate", function () {
-                console.log('A geolocate event has occurred.')
+            var geolocate = new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true
             });
-
+            // Add the control to the map.
+            map.addControl(geolocate);
 
             //點擊遊戲圖標
             map.on('click', 'game_group', function (e) {
                 var coordinates = e.features[0].geometry.coordinates.slice();
                 var description = e.features[0].properties.description;
                 var group_id = e.features[0].properties.groupId;
-                console.log(group_id);
                 // Ensure that if the map is zoomed out such that multiple
                 // copies of the feature are visible, the popup appears
                 // over the copy being pointed to.
                 while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                 }
-                //new mapboxgl.Popup()
-                //    .setLngLat(coordinates)
-                //    .setHTML(description)
-                //    .addTo(map);
+                _fX_Coordinate = coordinates[0];
+                _fY_Coordinate = coordinates[1];
+                Coords_Location = [_fX_Coordinate, _fY_Coordinate];
 
-                var gamesArray = [];
+                showContent(group_id, coordinates, description);
+                fly(Coords_Location);
+
 
                 $.ajax({
-                    url: "@Url.Action("getGameItem", "Game")",
+                    url: "@Url.Action("get", "Game")",
                     type: "GET",
                     dataType: "json",
                     data: { group_id: group_id }
                 }).done(function (response) {
-                    console.log(response);
 
-                    for (var i = 0; i < response.length; i++) {
-                        Coords_Game = [response[i].fX_Coordinate, response[i].fY_Coordinate];
-                        Id_Game = response[i].fId_Game;
-                        Name_Game = response[i].fName_Game;
-                        Type_Game = response[i].fType_Game;
-
-                        gameJson =
-                        {
-                            'type': 'Feature',
-                            'properties': {
-                                'gameId': Id_Game,
-                                'gameType': Type_Game,
-                                'description': Name_Game
-                            },
-                            'geometry': {
-                                'type': 'Point',
-                                'coordinates': Coords_Game
-                            }
-                        };
-
-                        gamesArray.push(gameJson);
+                    pathJson =
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'gameId': response.fGroup_GameNav.fId_GameGroup,
+                            'description': response.fGroup_GameNav.fDescription_GameGroup
+                        },
+                        'geometry': {
+                            'type': 'LineString',
+                            'coordinates': GetRoutePathArray(response.fPath_GameNav)
+                        }
                     };
+                    console.log(pathJson);
 
+                    //路線加入地圖k====================
 
+                    map.addSource('games_item', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': pathJson
+                        }
+                    });//End：map.addSource
 
-
-
+                    map.addLayer({
+                        'id': 'games_item',
+                        'type': 'line',
+                        'source': 'games_item',
+                        layout: {
+                            "line-join": "round",
+                            "line-cap": "round"
+                        },
+                        paint: {
+                            "line-color": "#dc143c",
+                            "line-width": 6
+                        }
+                    });//End：map.addLayer
 
                 }).fail(function (err) {
                 });
-
-
-
-                showContent(coordinates, description);
-
-
             });
 
             // Change the cursor to a pointer when the mouse is over the places layer.
@@ -372,9 +403,62 @@
             });
 
             // Change it back to a pointer when it leaves.
-            map.on('mouseleave', 'game_group', function () {
+            map.on('mouseleave', 'game_group', function  () {
                 map.getCanvas().style.cursor = '';
             });
+
+            //show 地點路線
+            function getGameItems(id) {
+                $.ajax({
+                    url: "@Url.Action("get","Game")",
+                    type: "POST",
+                    dataType: "json",
+                    data: { group_id: id }
+                }).done(function (response) {                    
+                    let itemArray = [];
+                for (var j = 0; j < response.fItems_GameNav.length; j++) {
+                    console.log(response);
+                    let Name_Item = response.fItems_GameNav[j].fName_Game;
+                    let Coords_Item = [response.fItems_GameNav[j].fX_Coordinate, response.fItems_GameNav[j].fY_Coordinate];
+                    let Id_Item = response.fItems_GameNav[j].fId_GameGroup;
+
+                    itemJson =
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'groupId': Id_Item,
+                            'description': Name_Item
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': Coords_Item
+                        }
+                    };
+                    itemArray.push(itemJson);
+                    }
+
+                    map.addSource('game_items', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': itemArray
+                        }
+                    });//End：map.addSource
+
+                    map.addLayer({
+                        'id': 'game_items',
+                        'type': 'symbol',
+                        'source': 'game_items',
+                        'layout': {
+                            'icon-image': 'custom-marker',
+                            'icon-allow-overlap': true
+                        }
+                    })
+
+                }).fail(function (xhr) {
+                    console.log(xhr.status + xhr.responseText);
+                });
+            }
 
         //內容框上拉
         $("#foot-content").on("click", function () {
@@ -383,14 +467,23 @@
             });
         });
 
-            function showContent( coord, descript) {
+            function showContent(group_id, coord, descript) {
                 $("#foot-content").toggleClass("footer_withcontent", 1000, "swing", function () {
                     $("#content-icon").toggleClass("glyphicon-chevron-down", 1500, "swing");
                 });
 
-                let content = coord + "<br>" + descript;
+                let content = coord + "<br>" + descript + "<br>";
+                content += "<button value='" + group_id + "' onclick='beginGame(this)'> 開始遊戲 </button>";
                 $("#inner_content").html(content);
-            }
+            };
+
+            function beginGame(obj) {
+                getGameItems(obj.value);
+                map.setLayoutProperty('game_group', 'visibility', 'none');
+
+
+            };
+
 
         </script>
 

@@ -23,7 +23,7 @@
             <PropertyRef Name="fId_Admin" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fId_Admin" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fId_Admin" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="fId_FunctionAuth" Type="int" Nullable="false" />
           <Property Name="fName_Admin" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="fEmail_Admin" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -38,7 +38,6 @@
             <PropertyRef Name="fId_Album" />
           </Key>
           <Property Name="fId_Album" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fId_Location" Type="nvarchar" MaxLength="11" Nullable="false" />
           <Property Name="fId_ShareAuth" Type="int" Nullable="false" />
           <Property Name="fName_Album" Type="nvarchar" MaxLength="50" />
           <Property Name="fDescript_Album" Type="nvarchar(max)" />
@@ -83,7 +82,7 @@
             <PropertyRef Name="fId_Comment" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fId_Comment" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fId_Comment" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="fId_Location_Route" Type="nvarchar" MaxLength="11" Nullable="false" />
           <Property Name="fId_Type_Location_Route" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="fId_Role" Type="int" Nullable="false" />
@@ -135,6 +134,8 @@
           <Property Name="fGameLV_GameGroup" Type="nvarchar" MaxLength="50" />
           <Property Name="fDescript_GameGroup" Type="nvarchar(max)" />
           <Property Name="fId_Role" Type="int" Nullable="false" />
+          <Property Name="fPhoto_GameGroup" Type="nvarchar(max)" />
+          <Property Name="fId_Route" Type="nvarchar" MaxLength="11" />
         </EntityType>
         <EntityType Name="tGameQA">
           <Key>
@@ -177,12 +178,20 @@
           <Property Name="fStyle_Icon" Type="nvarchar" MaxLength="50" />
           <Property Name="fPath_Icon" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="tLA_Relation">
+          <Key>
+            <PropertyRef Name="fId_LARelation" />
+          </Key>
+          <Property Name="fId_LARelation" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fId_Album" Type="int" Nullable="false" />
+          <Property Name="fId_Location" Type="nvarchar" MaxLength="11" Nullable="false" />
+        </EntityType>
         <EntityType Name="tLocation">
           <Key>
             <PropertyRef Name="fId_Location" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fId_Location" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fId_Location" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="fId_Role" Type="int" Nullable="false" />
           <Property Name="fId_Coordinate" Type="int" Nullable="false" />
           <Property Name="fId_ShareAuth" Type="int" Nullable="false" />
@@ -208,7 +217,7 @@
             <PropertyRef Name="fId_Member" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fId_Member" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fId_Member" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="fId_FunctionAuth" Type="int" Nullable="false" />
           <Property Name="fNickName_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="fEmail_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -253,7 +262,7 @@
             <PropertyRef Name="fId_Photo" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fId_Photo" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fId_Photo" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="fId_Location" Type="nvarchar" MaxLength="11" Nullable="false" />
           <Property Name="fId_Role" Type="int" Nullable="false" />
           <Property Name="fTitle_Photo" Type="nvarchar" MaxLength="50" />
@@ -276,7 +285,7 @@
             <PropertyRef Name="fId_ProfitMember" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fId_ProfitMember" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fId_ProfitMember" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="fId_FunctionAuth" Type="int" Nullable="false" />
           <Property Name="fId_ProfitType" Type="int" Nullable="false" />
           <Property Name="fName_ProfitMember" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -323,7 +332,7 @@
             <PropertyRef Name="fId_Route" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fId_Route" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fId_Route" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="fId_Role" Type="int" Nullable="false" />
           <Property Name="fId_ShareAuth" Type="int" Nullable="false" />
           <Property Name="fId_Icon" Type="int" Nullable="false" />
@@ -421,18 +430,6 @@
             </Principal>
             <Dependent Role="tAdmin">
               <PropertyRef Name="fId_FunctionAuth" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tAlbum_TotLocation">
-          <End Role="tLocation" Type="Self.tLocation" Multiplicity="1" />
-          <End Role="tAlbum" Type="Self.tAlbum" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tLocation">
-              <PropertyRef Name="fId_Location" />
-            </Principal>
-            <Dependent Role="tAlbum">
-              <PropertyRef Name="fId_Location" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -580,6 +577,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tGameGroup_tRoute">
+          <End Role="tRoute" Type="Self.tRoute" Multiplicity="0..1" />
+          <End Role="tGameGroup" Type="Self.tGameGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRoute">
+              <PropertyRef Name="fId_Route" />
+            </Principal>
+            <Dependent Role="tGameGroup">
+              <PropertyRef Name="fId_Route" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tGameQA_tGame">
           <End Role="tGame" Type="Self.tGame" Multiplicity="1" />
           <End Role="tGameQA" Type="Self.tGameQA" Multiplicity="*" />
@@ -625,6 +634,30 @@
             </Principal>
             <Dependent Role="tGameUnlock">
               <PropertyRef Name="fId_Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tLA_Relation_tAlbum">
+          <End Role="tAlbum" Type="Self.tAlbum" Multiplicity="1" />
+          <End Role="tLA_Relation" Type="Self.tLA_Relation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tAlbum">
+              <PropertyRef Name="fId_Album" />
+            </Principal>
+            <Dependent Role="tLA_Relation">
+              <PropertyRef Name="fId_Album" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tLA_Relation_tLocation">
+          <End Role="tLocation" Type="Self.tLocation" Multiplicity="1" />
+          <End Role="tLA_Relation" Type="Self.tLA_Relation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tLocation">
+              <PropertyRef Name="fId_Location" />
+            </Principal>
+            <Dependent Role="tLA_Relation">
+              <PropertyRef Name="fId_Location" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -957,6 +990,7 @@
           <EntitySet Name="tGameStep" EntityType="Self.tGameStep" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tGameUnlock" EntityType="Self.tGameUnlock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tIcon" EntityType="Self.tIcon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tLA_Relation" EntityType="Self.tLA_Relation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tLocation" EntityType="Self.tLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tLR_Relation" EntityType="Self.tLR_Relation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tMember" EntityType="Self.tMember" Schema="dbo" store:Type="Tables" />
@@ -989,10 +1023,6 @@
           <AssociationSet Name="FK_tAdmin_tFuntionAuth" Association="Self.FK_tAdmin_tFuntionAuth">
             <End Role="tFuntionAuth" EntitySet="tFuntionAuth" />
             <End Role="tAdmin" EntitySet="tAdmin" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tAlbum_TotLocation" Association="Self.FK_tAlbum_TotLocation">
-            <End Role="tLocation" EntitySet="tLocation" />
-            <End Role="tAlbum" EntitySet="tAlbum" />
           </AssociationSet>
           <AssociationSet Name="FK_tAlbum_TotShareAuth" Association="Self.FK_tAlbum_TotShareAuth">
             <End Role="tShareAuth" EntitySet="tShareAuth" />
@@ -1042,6 +1072,10 @@
             <End Role="tRole" EntitySet="tRole" />
             <End Role="tGameGroup" EntitySet="tGameGroup" />
           </AssociationSet>
+          <AssociationSet Name="FK_tGameGroup_tRoute" Association="Self.FK_tGameGroup_tRoute">
+            <End Role="tRoute" EntitySet="tRoute" />
+            <End Role="tGameGroup" EntitySet="tGameGroup" />
+          </AssociationSet>
           <AssociationSet Name="FK_tGameQA_tGame" Association="Self.FK_tGameQA_tGame">
             <End Role="tGame" EntitySet="tGame" />
             <End Role="tGameQA" EntitySet="tGameQA" />
@@ -1057,6 +1091,14 @@
           <AssociationSet Name="FK_tGameUnlock_tRole" Association="Self.FK_tGameUnlock_tRole">
             <End Role="tRole" EntitySet="tRole" />
             <End Role="tGameUnlock" EntitySet="tGameUnlock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLA_Relation_tAlbum" Association="Self.FK_tLA_Relation_tAlbum">
+            <End Role="tAlbum" EntitySet="tAlbum" />
+            <End Role="tLA_Relation" EntitySet="tLA_Relation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLA_Relation_tLocation" Association="Self.FK_tLA_Relation_tLocation">
+            <End Role="tLocation" EntitySet="tLocation" />
+            <End Role="tLA_Relation" EntitySet="tLA_Relation" />
           </AssociationSet>
           <AssociationSet Name="FK_tLocation_tCoordinate" Association="Self.FK_tLocation_tCoordinate">
             <End Role="tCoordinate" EntitySet="tCoordinate" />
@@ -1184,6 +1226,7 @@
           <EntitySet Name="tGameSteps" EntityType="DB_FunDayTripModel.tGameStep" />
           <EntitySet Name="tGameUnlocks" EntityType="DB_FunDayTripModel.tGameUnlock" />
           <EntitySet Name="tIcons" EntityType="DB_FunDayTripModel.tIcon" />
+          <EntitySet Name="tLA_Relation" EntityType="DB_FunDayTripModel.tLA_Relation" />
           <EntitySet Name="tLocations" EntityType="DB_FunDayTripModel.tLocation" />
           <EntitySet Name="tLR_Relation" EntityType="DB_FunDayTripModel.tLR_Relation" />
           <EntitySet Name="tMembers" EntityType="DB_FunDayTripModel.tMember" />
@@ -1217,13 +1260,13 @@
             <End Role="tFuntionAuth" EntitySet="tFuntionAuths" />
             <End Role="tAdmin" EntitySet="tAdmins" />
           </AssociationSet>
-          <AssociationSet Name="FK_tAlbum_TotLocation" Association="DB_FunDayTripModel.FK_tAlbum_TotLocation">
-            <End Role="tLocation" EntitySet="tLocations" />
-            <End Role="tAlbum" EntitySet="tAlbums" />
-          </AssociationSet>
           <AssociationSet Name="FK_tAlbum_TotShareAuth" Association="DB_FunDayTripModel.FK_tAlbum_TotShareAuth">
             <End Role="tShareAuth" EntitySet="tShareAuths" />
             <End Role="tAlbum" EntitySet="tAlbums" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLA_Relation_tAlbum" Association="DB_FunDayTripModel.FK_tLA_Relation_tAlbum">
+            <End Role="tAlbum" EntitySet="tAlbums" />
+            <End Role="tLA_Relation" EntitySet="tLA_Relation" />
           </AssociationSet>
           <AssociationSet Name="FK_tBalance_tBank" Association="DB_FunDayTripModel.FK_tBalance_tBank">
             <End Role="tBank" EntitySet="tBanks" />
@@ -1289,6 +1332,10 @@
             <End Role="tRole" EntitySet="tRoles" />
             <End Role="tGameGroup" EntitySet="tGameGroups" />
           </AssociationSet>
+          <AssociationSet Name="FK_tGameGroup_tRoute" Association="DB_FunDayTripModel.FK_tGameGroup_tRoute">
+            <End Role="tRoute" EntitySet="tRoutes" />
+            <End Role="tGameGroup" EntitySet="tGameGroups" />
+          </AssociationSet>
           <AssociationSet Name="FK_tGameUnlock_tGameGroup" Association="DB_FunDayTripModel.FK_tGameUnlock_tGameGroup">
             <End Role="tGameGroup" EntitySet="tGameGroups" />
             <End Role="tGameUnlock" EntitySet="tGameUnlocks" />
@@ -1304,6 +1351,10 @@
           <AssociationSet Name="FK_tRoute_tIcon" Association="DB_FunDayTripModel.FK_tRoute_tIcon">
             <End Role="tIcon" EntitySet="tIcons" />
             <End Role="tRoute" EntitySet="tRoutes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLA_Relation_tLocation" Association="DB_FunDayTripModel.FK_tLA_Relation_tLocation">
+            <End Role="tLocation" EntitySet="tLocations" />
+            <End Role="tLA_Relation" EntitySet="tLA_Relation" />
           </AssociationSet>
           <AssociationSet Name="FK_tLocation_tRole" Association="DB_FunDayTripModel.FK_tLocation_tRole">
             <End Role="tRole" EntitySet="tRoles" />
@@ -1411,7 +1462,7 @@
             <PropertyRef Name="fId_Admin" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Admin" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_Admin" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
           <Property Name="fName_Admin" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fEmail_Admin" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1427,13 +1478,12 @@
             <PropertyRef Name="fId_Album" />
           </Key>
           <Property Name="fId_Album" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
           <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" />
           <Property Name="fName_Album" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fDescript_Album" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fDelete_Album" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tLocation" Relationship="DB_FunDayTripModel.FK_tAlbum_TotLocation" FromRole="tAlbum" ToRole="tLocation" />
           <NavigationProperty Name="tShareAuth" Relationship="DB_FunDayTripModel.FK_tAlbum_TotShareAuth" FromRole="tAlbum" ToRole="tShareAuth" />
+          <NavigationProperty Name="tLA_Relation" Relationship="DB_FunDayTripModel.FK_tLA_Relation_tAlbum" FromRole="tAlbum" ToRole="tLA_Relation" />
         </EntityType>
         <EntityType Name="tBalance">
           <Key>
@@ -1480,7 +1530,7 @@
             <PropertyRef Name="fId_Comment" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Comment" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_Comment" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="fId_Location_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
           <Property Name="fId_Type_Location_Route" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
@@ -1544,8 +1594,11 @@
           <Property Name="fGameLV_GameGroup" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fDescript_GameGroup" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
+          <Property Name="fPhoto_GameGroup" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fId_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tGames" Relationship="DB_FunDayTripModel.FK_tGame_tGameGroup" FromRole="tGameGroup" ToRole="tGame" />
           <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tGameGroup_tRole" FromRole="tGameGroup" ToRole="tRole" />
+          <NavigationProperty Name="tRoute" Relationship="DB_FunDayTripModel.FK_tGameGroup_tRoute" FromRole="tGameGroup" ToRole="tRoute" />
           <NavigationProperty Name="tGameUnlocks" Relationship="DB_FunDayTripModel.FK_tGameUnlock_tGameGroup" FromRole="tGameGroup" ToRole="tGameUnlock" />
         </EntityType>
         <EntityType Name="tGameQA">
@@ -1595,12 +1648,22 @@
           <NavigationProperty Name="tLocations" Relationship="DB_FunDayTripModel.FK_tLocation_tIcon" FromRole="tIcon" ToRole="tLocation" />
           <NavigationProperty Name="tRoutes" Relationship="DB_FunDayTripModel.FK_tRoute_tIcon" FromRole="tIcon" ToRole="tRoute" />
         </EntityType>
+        <EntityType Name="tLA_Relation">
+          <Key>
+            <PropertyRef Name="fId_LARelation" />
+          </Key>
+          <Property Name="fId_LARelation" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_Album" Type="Int32" Nullable="false" />
+          <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tAlbum" Relationship="DB_FunDayTripModel.FK_tLA_Relation_tAlbum" FromRole="tLA_Relation" ToRole="tAlbum" />
+          <NavigationProperty Name="tLocation" Relationship="DB_FunDayTripModel.FK_tLA_Relation_tLocation" FromRole="tLA_Relation" ToRole="tLocation" />
+        </EntityType>
         <EntityType Name="tLocation">
           <Key>
             <PropertyRef Name="fId_Location" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
           <Property Name="fId_Coordinate" Type="Int32" Nullable="false" />
           <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" />
@@ -1612,9 +1675,9 @@
           <Property Name="fAdd_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fDelete_Location" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tAds" Relationship="DB_FunDayTripModel.FK_tAd_tLocation" FromRole="tLocation" ToRole="tAd" />
-          <NavigationProperty Name="tAlbums" Relationship="DB_FunDayTripModel.FK_tAlbum_TotLocation" FromRole="tLocation" ToRole="tAlbum" />
           <NavigationProperty Name="tCoordinate" Relationship="DB_FunDayTripModel.FK_tLocation_tCoordinate" FromRole="tLocation" ToRole="tCoordinate" />
           <NavigationProperty Name="tIcon" Relationship="DB_FunDayTripModel.FK_tLocation_tIcon" FromRole="tLocation" ToRole="tIcon" />
+          <NavigationProperty Name="tLA_Relation" Relationship="DB_FunDayTripModel.FK_tLA_Relation_tLocation" FromRole="tLocation" ToRole="tLA_Relation" />
           <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tLocation_tRole" FromRole="tLocation" ToRole="tRole" />
           <NavigationProperty Name="tShareAuth" Relationship="DB_FunDayTripModel.FK_tLocation_tShareAuth" FromRole="tLocation" ToRole="tShareAuth" />
           <NavigationProperty Name="tLR_Relation" Relationship="DB_FunDayTripModel.FK_tLR_Relation_tLocation" FromRole="tLocation" ToRole="tLR_Relation" />
@@ -1636,7 +1699,7 @@
             <PropertyRef Name="fId_Member" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Member" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_Member" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
           <Property Name="fNickName_Member" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fEmail_Member" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1687,7 +1750,7 @@
             <PropertyRef Name="fId_Photo" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Photo" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_Photo" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
           <Property Name="fTitle_Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1713,7 +1776,7 @@
             <PropertyRef Name="fId_ProfitMember" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_ProfitMember" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_ProfitMember" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
           <Property Name="fId_ProfitType" Type="Int32" Nullable="false" />
           <Property Name="fName_ProfitMember" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1791,7 +1854,7 @@
             <PropertyRef Name="fId_Route" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
           <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" />
           <Property Name="fId_Icon" Type="Int32" Nullable="false" />
@@ -1801,6 +1864,7 @@
           <Property Name="fPath_Route" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fTime_Route" Type="DateTime" Precision="3" />
           <Property Name="fDelete_Route" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tGameGroups" Relationship="DB_FunDayTripModel.FK_tGameGroup_tRoute" FromRole="tRoute" ToRole="tGameGroup" />
           <NavigationProperty Name="tIcon" Relationship="DB_FunDayTripModel.FK_tRoute_tIcon" FromRole="tRoute" ToRole="tIcon" />
           <NavigationProperty Name="tLR_Relation" Relationship="DB_FunDayTripModel.FK_tLR_Relation_tRoute" FromRole="tRoute" ToRole="tLR_Relation" />
           <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tRoute_tRole" FromRole="tRoute" ToRole="tRole" />
@@ -1903,18 +1967,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tAlbum_TotLocation">
-          <End Type="DB_FunDayTripModel.tLocation" Role="tLocation" Multiplicity="1" />
-          <End Type="DB_FunDayTripModel.tAlbum" Role="tAlbum" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tLocation">
-              <PropertyRef Name="fId_Location" />
-            </Principal>
-            <Dependent Role="tAlbum">
-              <PropertyRef Name="fId_Location" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tAlbum_TotShareAuth">
           <End Type="DB_FunDayTripModel.tShareAuth" Role="tShareAuth" Multiplicity="1" />
           <End Type="DB_FunDayTripModel.tAlbum" Role="tAlbum" Multiplicity="*" />
@@ -1924,6 +1976,18 @@
             </Principal>
             <Dependent Role="tAlbum">
               <PropertyRef Name="fId_ShareAuth" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tLA_Relation_tAlbum">
+          <End Type="DB_FunDayTripModel.tAlbum" Role="tAlbum" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tLA_Relation" Role="tLA_Relation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tAlbum">
+              <PropertyRef Name="fId_Album" />
+            </Principal>
+            <Dependent Role="tLA_Relation">
+              <PropertyRef Name="fId_Album" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2119,6 +2183,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tGameGroup_tRoute">
+          <End Type="DB_FunDayTripModel.tRoute" Role="tRoute" Multiplicity="0..1" />
+          <End Type="DB_FunDayTripModel.tGameGroup" Role="tGameGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRoute">
+              <PropertyRef Name="fId_Route" />
+            </Principal>
+            <Dependent Role="tGameGroup">
+              <PropertyRef Name="fId_Route" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tGameUnlock_tGameGroup">
           <End Type="DB_FunDayTripModel.tGameGroup" Role="tGameGroup" Multiplicity="1" />
           <End Type="DB_FunDayTripModel.tGameUnlock" Role="tGameUnlock" Multiplicity="*" />
@@ -2164,6 +2240,18 @@
             </Principal>
             <Dependent Role="tRoute">
               <PropertyRef Name="fId_Icon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tLA_Relation_tLocation">
+          <End Type="DB_FunDayTripModel.tLocation" Role="tLocation" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tLA_Relation" Role="tLA_Relation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tLocation">
+              <PropertyRef Name="fId_Location" />
+            </Principal>
+            <Dependent Role="tLA_Relation">
+              <PropertyRef Name="fId_Location" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2419,7 +2507,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -2462,7 +2550,6 @@
                 <ScalarProperty Name="fDescript_Album" ColumnName="fDescript_Album" />
                 <ScalarProperty Name="fName_Album" ColumnName="fName_Album" />
                 <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
-                <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
                 <ScalarProperty Name="fId_Album" ColumnName="fId_Album" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2560,6 +2647,8 @@
           <EntitySetMapping Name="tGameGroups">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameGroup">
               <MappingFragment StoreEntitySet="tGameGroup">
+                <ScalarProperty Name="fId_Route" ColumnName="fId_Route" />
+                <ScalarProperty Name="fPhoto_GameGroup" ColumnName="fPhoto_GameGroup" />
                 <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
                 <ScalarProperty Name="fDescript_GameGroup" ColumnName="fDescript_GameGroup" />
                 <ScalarProperty Name="fGameLV_GameGroup" ColumnName="fGameLV_GameGroup" />
@@ -2610,6 +2699,15 @@
                 <ScalarProperty Name="fPath_Icon" ColumnName="fPath_Icon" />
                 <ScalarProperty Name="fStyle_Icon" ColumnName="fStyle_Icon" />
                 <ScalarProperty Name="fId_Icon" ColumnName="fId_Icon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tLA_Relation">
+            <EntityTypeMapping TypeName="DB_FunDayTripModel.tLA_Relation">
+              <MappingFragment StoreEntitySet="tLA_Relation">
+                <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+                <ScalarProperty Name="fId_Album" ColumnName="fId_Album" />
+                <ScalarProperty Name="fId_LARelation" ColumnName="fId_LARelation" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

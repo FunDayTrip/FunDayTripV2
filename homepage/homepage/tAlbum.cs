@@ -14,14 +14,20 @@ namespace homepage
     
     public partial class tAlbum
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tAlbum()
+        {
+            this.tLA_Relation = new HashSet<tLA_Relation>();
+        }
+    
         public int fId_Album { get; set; }
-        public string fId_Location { get; set; }
         public int fId_ShareAuth { get; set; }
         public string fName_Album { get; set; }
         public string fDescript_Album { get; set; }
         public int fDelete_Album { get; set; }
     
-        public virtual tLocation tLocation { get; set; }
         public virtual tShareAuth tShareAuth { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tLA_Relation> tLA_Relation { get; set; }
     }
 }
