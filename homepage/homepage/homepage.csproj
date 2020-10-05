@@ -39,7 +39,6 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -128,6 +127,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\d8b0de09-fd3e-40e1-9476-c99c09c04484.png" />
+    <Content Include="Content\images\chngstar.gif" />
+    <Content Include="Content\images\star.gif" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\userPhoto.png" />
     <Content Include="Content\新增廣告2.png" />
@@ -143,6 +144,7 @@
     <Content Include="Content\純海洋.jpg" />
     <Content Include="Content\鐵道旅行.jpg" />
     <Content Include="css\BootSideMenu.css" />
+    <Content Include="css\CustomerlizeCSSofLocationAndRoute.css" />
     <Content Include="css\FixedPosition.css" />
     <Content Include="css\test.css" />
     <Content Include="css\theme\darkblue.css" />
@@ -160,6 +162,7 @@
       <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
       <LastGenOutput>dbFunDayTripModel.cs</LastGenOutput>
     </Content>
+    <Content Include="ForgetPassword.aspx" />
     <Content Include="Global.asax" />
     <Content Include="js\BootSideMenu.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -292,6 +295,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ForgetPassword.aspx.cs">
+      <DependentUpon>ForgetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForgetPassword.aspx.designer.cs">
+      <DependentUpon>ForgetPassword.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -419,6 +429,7 @@
     <Compile Include="ViewModel\CFollowlistViewModel.cs" />
     <Compile Include="ViewModel\CHistoryMessage.cs" />
     <Compile Include="ViewModel\CLoginViewModel.cs" />
+    <Compile Include="ViewModel\CShowLocations.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -457,6 +468,12 @@
     <Content Include="Views\Advertisement\newCommercialData.cshtml" />
     <Content Include="Views\backStage\showApplyAD.cshtml" />
     <Content Include="Views\backStage\showAdDetail.cshtml" />
+    <Content Include="Views\Home\_topMenuNavigation.cshtml" />
+    <Content Include="Views\Home\_ChatBoxPartialView.cshtml" />
+    <Content Include="Views\Home\_firstLoadAllListPartialView.cshtml" />
+    <Content Include="Views\Home\_ContextMenuPartialView.cshtml" />
+    <Content Include="Views\Home\_CreateOrEditForm.cshtml" />
+    <Content Include="Views\Home\_DetailInfoView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
