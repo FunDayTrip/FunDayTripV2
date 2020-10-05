@@ -127,6 +127,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\d8b0de09-fd3e-40e1-9476-c99c09c04484.png" />
+    <Content Include="Content\images\chngstar.gif" />
+    <Content Include="Content\images\star.gif" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\userPhoto.png" />
     <Content Include="Content\灑紅節改.jpg" />
@@ -452,6 +454,7 @@
     <Content Include="Views\Home\_firstLoadAllListPartialView.cshtml" />
     <Content Include="Views\Home\_ContextMenuPartialView.cshtml" />
     <Content Include="Views\Home\_CreateOrEditForm.cshtml" />
+    <Content Include="Views\Home\_DetailInfoView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
