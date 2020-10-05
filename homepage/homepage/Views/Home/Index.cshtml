@@ -1,4 +1,5 @@
-﻿@model homepage.ViewModel.CAddLocationViewModel
+﻿@*_verna_0930*@
+@model homepage.ViewModel.CMapItem
 @using homepage.ViewModel
 @using homepage.Models
 @{
@@ -15,9 +16,6 @@
 <html>
 <head>
 
-    @*20200930 sweetAlert css*@
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
     @*20200916_15*@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,106 +24,56 @@
     <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>*@
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <!-- Bootstrap -->
-    @*<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">*@
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-
+    <!-- 測滑動菜單Bootstrap _verna_0930-->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="../../css/BootSideMenu.css" rel="stylesheet">
+
+    @*jquery__verna_0930*@
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     @*地圖*@
-    <title>A simple map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
-    <link href="~/css/layOut.css" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    @*mapbox plugins directions _verna_0930*@
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css" />
+
+    <!-- 測滑動菜單Bootstrap _verna_0930 -->
+    <script src="../../js/BootSideMenu.js"></script> @*位置要放在地圖後*@
+
+    @*mapbox plugins language*@
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v0.10.1/mapbox-gl-language.js'></script>
+    @*sweet alert cdn _verna_0930*@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    @*CustomerCSS.css _verna_0930*@
+    <link href="~/css/CustomerlizeCSSofLocationAndRoute.css" rel="stylesheet" />
+    @*jquery.form.js _verna_0930*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+
+
+
     @*-------------聊天室CSS---------------*@
     <link rel="stylesheet" type="text/css" href="~/css/test.css" />
 
 
 
+    @*contextmenu _verna_0930*@
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
 
-
-    @*側拉*@
-    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>*@
-    @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
-    <script src="../../js/BootSideMenu.js"></script>
+    @*_verna_0930*@
     <style>
-
-        #info {
-            display: block;
-            position: relative;
-            margin: 0px auto;
-            width: 50%;
-            padding: 10px;
-            border: none;
-            border-radius: 3px;
-            font-size: 12px;
-            text-align: center;
-            color: #222;
-            background: #fff;
-        }
-
-        .mapboxgl-popup {
-            max-width: 600px;
-            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        }
-
-        /*個人資料方塊&按鈕*/
-        .showHide {
-            position: fixed;
-            right: 5px;
-            top: 40px;
-            background: pink;
-            width: 250px;
-            height: 300px;
-        }
-
-        .showHideButton {
-            position: fixed;
-            right: 5px;
-            top: 20px;
-            cursor: pointer;
-            border-radius: 80px;
-            border: none;
-            z-index: 500;
-        }
-
-
-        /* The Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        }
-
-        /* Modal Content/Box */
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* Could be more or less, depending on screen size */
-        }
-
-
-        /* The Close Button */
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
         /*通知按鈕*/
         .noteBtn {
             width: 32px;
@@ -150,350 +98,172 @@
             overflow: auto;
         }
     </style>
+
 </head>
-
 <body>
+
+
+
+    @*地圖 /綁定右鍵清單_verna_0930*@
+    <div id='map' class="context-menu-one btn btn-neutral"></div>
+
+
+    @*上列選項清單_verna_0930 *@
+    @Html.Partial("_topMenuNavigation");
+
+    <div style="position:absolute;top:70px">
+        @*新增地點*@
+        <span id="info2">get coordinates</span>
+        <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
+    </div>
+
+    <div>
+        @*路線地點詳細資訊*@
+        @Html.Partial("_DetailInfoView");
+    </div>
+
+
+    @*滑鼠右鍵清單*@
+    @Html.Partial("_ContextMenuPartialView");
+
     @*---------------------------------聊天室生成 2020/09/24 by曾開誠---------------------------------*@
-    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
-    <script src="~/signalr/hubs"></script>
-    <script>
-
-        function creatchatroom(obj) {
-            var id = {
-                from_role_id: $("#active_role").val(),
-                to_role_id: obj.value
-            };
-
-            $.ajax({
-                url: "/Home/showHistoryMessage",
-                type: "POST",
-                dataType: "json",
-                data: id,
-                success: function (response) {
-                    console.log(response);
-                    for (let i = 0; i < response.length; i++) {
-                        if (response[i].fMessage_To == null) {
-                            let hsmessagetext = '<div class="messageHer">';
-                            hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-                            hsmessagetext += '<span>' + response[i].fMessage_From + '</span >';
-                            hsmessagetext += '<div class="clearFix" ></div >';
-                            hsmessagetext += '</div>';
-
-                            $('#MSG').append(hsmessagetext);
-                        }
-
-                        else if (response[i].fMessage_From == null) {
-                            let hsmessagetext = '<div class="messageMe">';
-                            hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-                            hsmessagetext += '<span>' + response[i].fMessage_To + '</span >';
-                            hsmessagetext += '<div class="clearFix" ></div >';
-                            hsmessagetext += '</div>';
-
-                            $('#MSG').append(hsmessagetext);
-                        }
-                    }
-                }
-            });
-
-            document.getElementById("CHAT").innerHTML = '';
-            let CHT = '<div class="container">';
-            CHT += '<div class="row">';
-            CHT += '<div class="panel panel-chat">';
-            CHT += '<div class="panel-heading">';
-            CHT += '<a href="#" class="chatMinimize" onclick="return false">';
-            CHT += '<span>';
-            CHT += obj.name;
-            CHT += '</span ></a>';
-            CHT += '<span id="ss" style="display:none">'
-            CHT += obj.value;
-            CHT += '</span>';
-            CHT += ' <a href="#" class="chatClose" onclick="return false"><i class="glyphicon glyphicon-remove"></i></a>';
-            CHT += '<div class="clearFix"></div>';
-            CHT += '</div>';
-            CHT += '<div class="panel-body">';
-            CHT += '<div class="clearFix" id="MSG"></div>';
-            CHT += ' </div>';
-            CHT += ' <div class="panel-footer">';
-            CHT += ' <textarea id="StringTextBox" name="textMessage" maxlength="50" cols="0" rows="0" style="float: left; width: 90%;"></textarea>';
-            CHT += '<input class="c" type="button" style="float: right;" value="送出" onclick="ChangeString()">';
-            CHT += '<span style="clear: both;"></span>';
-            CHT += '</div>';
-            CHT += '</div>';
-            CHT += '</div>';
-            CHT += '</div>';
-
-            $('#CHAT').append(CHT);
-
-            $(".panel.panel-chat > .panel-heading > .chatMinimize").click(function () {
-                if ($(this).parent().parent().hasClass('mini')) {
-                    $(this).parent().parent().removeClass('mini').addClass('normal');
-
-                    $('.panel.panel-chat > .panel-body').animate({ height: "250px" }, 500).show();
-
-                    $('.panel.panel-chat > .panel-footer').animate({ height: "75px" }, 500).show();
-                }
-                else {
-                    $(this).parent().parent().removeClass('normal').addClass('mini');
-
-                    $('.panel.panel-chat > .panel-body').animate({ height: "0" }, 500);
-
-                    $('.panel.panel-chat > .panel-footer').animate({ height: "0" }, 500);
-
-                    setTimeout(function () {
-                        $('.panel.panel-chat > .panel-body').hide();
-                        $('.panel.panel-chat > .panel-footer').hide();
-                    }, 500);
-                }
-            });
-            $(".panel.panel-chat > .panel-heading > .chatClose").click(function () {
-                $(this).parent().parent().remove();
-            });
-        };
-
-        //-------------------2020/09/24 textarea打字往上append by曾開誠--------------
-        function ChangeString() {
-            let StringTextBox = document.getElementById("StringTextBox");
-            let NewStringValue = StringTextBox.value;
-            let toid = document.getElementById("ss");
-            let toidvalue = toid.innerHTML;
-            let fromid = document.getElementById("active_role");
-            let fromidvalue = fromid.value;
-            if (NewStringValue == "") return;
-
-            let msg = {
-                message: NewStringValue,
-                fId_From_Role: fromidvalue,
-                fId_To_Role: toidvalue
-            };
-            $.ajax({
-                url: "/Home/pushMessage",
-                type: "POST",
-                dataType: "text",
-                data: msg,
-            });
-
-            var messagetext = '<div class="messageHer">';
-            messagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-            messagetext += '<span>' + NewStringValue + '</span >';
-            messagetext += '<div class="clearFix" ></div >';
-            messagetext += '</div>';
-
-            $('#MSG').append(messagetext);
-            StringTextBox.value = "";
-            hub.server.hello(document.getElementById("ss").innerHTML, NewStringValue);//fun啟動後再繫結name,content
-        };
-        //----------------20200925 SignalR 送給Client端資料 by曾開誠-----------------
-        var hub = $.connection.myHub;
-
-        $.connection.hub.start().done()
-
-        hub.client.hello = function (name, content) {
-            if ($("#active_role").val() === name) {
-                console.log(name);
-                console.log(content);
-                var messagetextold = '<div class="messageMe">';
-                messagetextold += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-                messagetextold += '<span>' + content + '</span >';
-                messagetextold += '<div class="clearFix" ></div >';
-                messagetextold += '</div>';
-                $('#MSG').append(messagetextold);
-            }
-        };
-    </script>
+    @*_verna_0930*@
+    @Html.Partial("_ChatBoxPartialView");
     @*---------------------------------聊天室生成---------------------------------*@
-    @*地圖*@
-    <div id='map'></div>
+
 
     <script>
-//全域變數===============================
+        //全域變數===============================
         //經緯度變數
         var _lng, _lat;
         var Addedmarker;
 
-//要求顯示地圖============================
-        //mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
+        //要求顯示地圖===========================
+        //顯示中文地圖
+        mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
         var map = new mapboxgl.Map({
-            container: 'map', // container id
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [-74.5, 40], // starting position
-            zoom: 9 // starting zoom
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v10',
+            center: [120.757769, 23.535394],
+            zoom: 8
         });
-
-        //mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
-        var map = new mapboxgl.Map({
-            container: 'map', // container id
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [-74.5, 40], // starting position
-            zoom: 9 // starting zoom
-        });
-//地圖一載入==================================
+        //改成中文
+        var language = new MapboxLanguage({ defaultLanguage: 'zh' });
+        map.addControl(language);
+        //地圖一載入==================================
         map.on('load', function () {
-            map.loadImage(
-                'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
-                // Add an image to use as a custom marker
-                function (error, image) {
-                    if (error) throw error;
-                    map.addImage('custom-marker', image);
+            map.on('click', 'places', function (e) {
 
-                    map.addSource('places', {
-                        'type': 'geojson',
-                        'data': {
-                            'type': 'FeatureCollection',
-                            'features': [
-                                {
-                                    'type': 'Feature',
-                                    'properties': {
-                                        'description':
-                                            '<strong>Make it Mount Pleasant</strong><p>' +
-                                            'Make it Mount Pleasant is a handmade and vintage' +
-                                            'market and afternoon of live entertainment and kids activities <p><img src="@ViewBag.kk" alt="Girl in a jacket" width="200" height="100">'
-                                    },
-                                    'geometry': {
-                                        'type': 'Point',
-                                        'coordinates': [-77.038659, 38.931567]
-                                    }
-                                }
-                            ]
-                        }
+                // Change the cursor style as a UI indicator.
+                map.getCanvas().style.cursor = 'pointer';
+
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                var LocationID = e.features[0].properties.description;
+
+                //CATCH ID跟座標
+                document.getElementById("clickInfo").innerHTML = LocationID + "<br/>" + coordinates + "<br/>";
+                _LocationID = LocationID;
+                _fX_Coordinate = coordinates[0];
+                _fY_Coordinate = coordinates[1];
+                Coords_Location = [_fX_Coordinate, _fY_Coordinate];
+                //console.log(Coords_Location);
+                fly(Coords_Location);
+                //顯示該地點詳細內容
+                $.ajax({
+                    url: "/Home/CallBackThisLocationInfo",///////////////////////
+                    type: "POST",
+                    data: { locationID: LocationID },
+                    //dataType: "json",
+                }).done(function (response) {
+                    var deJsonResponce = JSON.parse(response);
+                    deJsonResponce.forEach((item, element) => {
+                        $("#showExistedPhoto").attr("src", item.fPath_Photo);
+                        $("#showExistedPhotoTitle").text(item.fTitle_Photo)
+                        $("#showExistedPhtoDescription").text(item.fDescript_Photo)
+                        $("#showExistedLocationTime").text(item.fTime_Location);
+                        $("#showExistedLocationName").text(item.fName_Location);
+                        $("#showExistedLocationAddress").text(item.fAdd_Location);
+                        $("#showExistedLocationDescription").text(item.fDescript_Location);
                     });
-
-                    // Add a layer showing the places.
-                    map.addLayer({
-                        'id': 'places',
-                        'type': 'symbol',
-                        'source': 'places',
-                        'layout': {
-                            'icon-image': 'custom-marker',
-                            'icon-allow-overlap': false
-                        }
-                    });
-                }
-            );
-            //地圖上click事件
-            map.on('click', 'places', showHaveBeenAddedLocation);
+                }).fail(function (xhr) {
+                    console.log(xhr.status + xhr.responseText);
+                });//end ajax
+            });
         });
-        var popup = new mapboxgl.Popup({
-            closeButton: true,
-            closeOnClick: false
+
+    </script>
+
+    @*  左側內容 _verna_0930  ===========================*@
+    <div id="LeftSideMenu">
+
+
+
+        <div id="Result_List2" style="width: 200px;">
+            @*地點路線資訊*@
+            @Html.Partial("_firstLoadAllListPartialView");
+        </div>
+
+
+
+
+        <div style="position:absolute;width: 200px;" id="locationInfo">
+
+            <img id="showExistedPhoto" style="height:400px;width:280px" />
+            <br />
+            <span id="clickInfo"></span>
+            <button id="EditExistedLocation" onclick="CallBackThisLocationInfoWhenEditor()">編輯</button>
+            @*按已存在地點的編輯按鈕*@
+            <br />
+            照片標題:
+            <p id="showExistedPhotoTitle"></p>
+            照片心得
+            <p id="showExistedPhtoDescription"></p>
+            時間:
+            <p id="showExistedLocationTime"></p>
+            地點名稱:
+            <p id="showExistedLocationName"></p>
+            地址:
+            <p id="showExistedLocationAddress"></p>
+            地點心得:
+            <p id="showExistedLocationDescription"></p>
+            <br />
+            <button id="testButton" onclick="reload()">next</button>
+            <button id="testButton2" onclick="reloadlocation()">reload</button>
+
+
+
+        </div>
+
+        <button id="test" onclick="closethisdiv()" style="width: 150px;">next2</button>
+
+    </div>
+
+    <script>
+        //文件載入鎖定部分按鈕事件/顯示_verna_0930
+        $(document).ready(function () {
+            //個人資料方塊
+            $("#locationInfo").hide();
         });
-        //顯示已經在地圖上的點
-        function showHaveBeenAddedLocation(e) {
+        //顯示關閉左邊表單
+        function closethisdiv() {
 
-            map.getCanvas().style.cursor = 'pointer';
+            $("#Result_List2").toggle();
 
-            var coordinates = e.features[0].geometry.coordinates.slice();
-            var description = e.features[0].properties.description;
+            $('#locationInfo').toggle();
 
-            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-            }
 
-            popup.setLngLat(coordinates).setHTML(description).addTo(map);
         };
 
     </script>
 
-    @*  左側內容(上)  ===========================*@
-    <div id="LeftSideMenu">
-        <h2>FunDayTrip</h2>
-        <div class="list-group">
-            <a href="#" class="list-group-item active">探索</a>
-
-            <a href="#item-1-1" class="list-group-item" data-toggle="collapse">地點</a>
-            <div class="list-group collapse" id="item-1-1">
-                <a href="#" class="list-group-item">所有</a>
-                <a href="#" class="list-group-item" id="MyLocation">我的</a>
-                <a href="#" class="list-group-item">追蹤中</a>
-            </div>
 
 
-            <a href="#item-1-2" class="list-group-item" data-toggle="collapse">路線</a>
-            <div class="list-group collapse" id="item-1-2">
-                <a href="#" class="list-group-item">所有</a>
-                <a href="#" class="list-group-item">我的</a>
-                <a href="#" class="list-group-item">追蹤中</a>
-            </div>
-
-            <a href="#item-1-3" class="list-group-item" data-toggle="collapse">相簿</a>
-            <div class="list-group collapse" id="item-1-3">
-                <a href="#" class="list-group-item">所有</a>
-                <a href="#" class="list-group-item">我的</a>
-                <a href="#" class="list-group-item">追蹤中</a>
-            </div>
-
-            <a href="@Url.Action("Navigation", "Game")" class="list-group-item" target="_blank">遊戲</a>
-            @*------------------開啟追蹤/粉絲頁面---------------------------*@
-            <a href="javascript:followcon()" class="list-group-item">追蹤/粉絲</a>
-            <a href="javascript:con()" class="list-group-item">功能導覽</a>
-            <a href="#" class="list-group-item">新增廣告</a>
-            <a href="#" class="list-group-item">統計與分析</a>
-            <a href="#" class="list-group-item" style="nav-down:root">聯絡管理員</a>
-        </div>
-    </div>
-
-
-    @*右側內容  顯示地點的內容資訊======================*@
-    <div id="RightSideMenu">
-        <span>
-            discription:<br>
-        </span>
-
-    </div>
-
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">WebSiteName</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="active">
-                    <a href="#">Home</a>
-                </li>
-
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 3 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Page 1-1</a></li>
-                        <li><a href="#">Page 1-2</a></li>
-                        <li><a href="#">Page 1-3</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="#">Page 1</a>
-                </li>
-                <li>
-                    <a href="#">Page 2</a>
-                </li>
-            </ul>
-            <form class="navbar-form navbar-left" action="/action_page.php">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" name="search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-        </div>
-    </nav>
-
+    @*地圖中放置內容/按鍵(上)=====================*@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
 
-                @*<h6>get coordinates</h6>
 
-                    <span id="info2" style="background-color:bisque"></span>*@
-
-            </div>
-        </div>
-    </div>
-
-
-    @*地圖內容/按鍵(上)=====================*@
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h6 id="info2">get coordinates</h6>
-                <button id="addNewLocationButton" type="button">放置新增圖釘</button>
                 @*開啟個人資料對話方塊*@
                 <button id="toggle2" type="button" class="showHideButton">User</button>
                 @*輸入登入資訊 by 王詠平 0921*@
@@ -504,15 +274,15 @@
                         {
                             <input type="text" id="account" value="ming123@gmail.com">
                             <input type="password" id="password" value="ming123">
-                            <button type="submit" id="loginBtn">登入</button><br />
+                            <button type="submit" id="loginBtn">登入</button>
+                            <br />
                             @Html.ActionLink("註冊會員", "signUp", "Member")
                             @*<button type="submit" id="signupBtn">註冊帳號</button>*@
-                            <button type="submit" id="forgetPwdBtn">忘記密碼</button>
+                            <button type="submit" id="forgetPwdBtn" onclick="window.open('../ForgetPassword.aspx', 'FP', 'width=500,height=50,top=300,left=500,fullscreen=no,resizable=0');">忘記密碼</button>
                         }
                         @*如果已經登入，顯示登入資訊*@
                         @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
                         {
-
                             CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
                             <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="float:left" />
                             <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
@@ -524,13 +294,7 @@
                             <div id="login_name">會員名稱:@memberLogin.fNickName_Member</div>
                             <a id="login_point" href="javascript:showPoint()">點數: @memberLogin.fPointTotal_Member</a>
                             <button id="change_role" style="float:left" onclick="showRoles()">切換身分</button>
-                            <div id="basicFunction">
-                                <div>@Html.ActionLink("編輯個人檔案", "edit", "Member")</div>
-                                @if (Session[CDictionary.SK_AunctionAuth].ToString() == "4")
-                                 {
-                                    <div>@Html.ActionLink("新增廣告", "newCommercialData", "Advertisement"@*, new {id = memberLogin.fActiveRoleId_Member}*@)</div>
-                                 }
-                            </div>
+                            @Html.ActionLink("編輯個人檔案", "edit", "Member")
                             @*<button id="edit_profile" style="float:right" >編輯個人檔案</button><br />*@
                             <hr />
 
@@ -555,73 +319,9 @@
 
                 </div>
                 @*聊天室方塊 by曾開誠 註解已改為動態生成 function creatchatroom <div id="CHAT"不可刪>*@
-                <div id="CHAT">
-                    @*<div class="container">
-                            <div class="row">
-                                <div class="panel panel-chat">
-                                    <div class="panel-heading">
-                                        <a href="#" class="chatMinimize" onclick="return false"><span>Özgür Gürbüz</span></a>
-                                        <a href="#" class="chatClose" onclick="return false"><i class="glyphicon glyphicon-remove"></i></a>
-                                        <div class="clearFix"></div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="clearFix" id="MSG"></div>
-                                    </div>
-                                    <div class="panel-footer">
-                                        <textarea id="StringTextBox" name="textMessage" maxlength="50" cols="0" rows="0" style="float: left; width: 90%;"></textarea>
-                                        <input class="c" type="button" style="float: right;" value="送出" onclick="ChangeString()">
-                                        <span style="clear: both;"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
-                </div>
-                @*編輯地點方塊-------*@
-                @*跳出新增視窗*@
-                <div id="myModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                        {
-                            <div style="padding:15px">
-                                <h2>新增地點</h2>
-                                <label>標題</label>
-                                <input type="text" name="LocationTitle" />
-                                <br />
-                                <label>地名</label>
-                                <input type="text" name="LocationName" />
-                                <br />
-                                <span id="info2" style="background-color:bisque"></span>
-                                <br />
-                                <label for="file">上傳照片</label>
-                                <br />
-                                <input type="file" accept="image/*" onchange="loadFile(event)">
-                                <img id="output" style="width:200px;height:300px" />
-                                <br>
+                <div id="CHAT"></div>
 
-                                <br />
-                                <label>說明</label>
-                                <br />
 
-                                <textarea name="LocationDescription"></textarea>
-                                <br />
-                                <div>
-                                    <button>確定</button>
-                                </div>
-                            </div>
-                            @*預覽照片*@
-                            <script>
-                                var loadFile = function (event) {
-                                    var output = document.getElementById('output');
-                                    output.src = URL.createObjectURL(event.target.files[0]);
-                                    output.onload = function () {
-                                        URL.revokeObjectURL(output.src) // free memory
-                                    }
-                                };
-                            </script>
-                        }
-                    </div>
-                </div>
                 @*-----------------------------------追蹤粉絲頁面 by曾開誠09/23-------------------------------*@
                 <div id="follow_modal" class="modal">
                     <div class="modal-content">
@@ -637,65 +337,52 @@
 
             </div>
         </div>
-        @*showhide 個人頁面*@
+        @*跳出新增/編輯視窗*@
+        <div id="myModal" class="modal">
+
+            <div class="modal-content ">
+                <form form method="post" enctype="multipart/form-data" id="UploadLocationForm">
+                    @Html.Partial("_CreateOrEditForm");
+                </form>
+            </div>@*model-contain*@
+        </div>@*model*@
     </div>
     @*</div>*@
 
     @* 設定地圖中內容的事件 ==================*@
     <script>
-        var EnableCreateLocation = false;
 
-        //個人資料方塊
-        $(document).ready(function () {
-            $("#toggle2").click(function () {
-                $("#showHide").toggle();
-            });
-        });
-        //取得新增資料表單
-        var modal = document.getElementById("myModal");
-
-        //關閉新增資料表單
+        //叉叉:關閉資料表單
         var span = document.getElementsByClassName("close")[0];
-
         //左側彈出視窗 X按鈕
         $(".close").on("click", function () {
-            modal.style.display = "none";
+            CreateEditmodal.style.display = "none";
             follow_modal.style.display = "none";
+            infoi.style.display = "none";
         });
 
-        //左側按鍵彈跳視窗
-        function con() {
-            modal.style.display = "block";
-        };
+        ///////////////////////////////////////
         //粉絲/追蹤彈跳視窗
         function followcon() {
             if ($("#active_role").val() == false) {
-                Swal.fire({
-                    title: '請先登入',
-                    showClass: {
-                        popup: 'animate__animated animate__fadeInDown'
-                    },
-                    hideClass: {
-                        popup: 'animate__animated animate__fadeOutUp'
-                    }
-                });
+                alert("請先登入");
             }
             else {
                 follow_modal.style.display = "block";
             }
         };
         //粉絲/追蹤頁面按下追隨中按鈕 by曾開誠
-        var data = { role_id: $("#active_role").val() };
         function showfollower() {
             $.ajax({
                 url: "/Home/showFollow",
                 type: "POST",
                 dataType: "json",
-                data: data,
+                data: { role_id: $("#active_role").val() },
                 success: function (response) {
                     console.log(response);
                     $("#follower_list").html("");
                     for (let i = 0; i < response.length; i++) {
+
                         let CD = '<tr>';
                         CD += '<td>' + response[i].follow_Self_Name + '</td>';
                         CD += '<td>';
@@ -722,7 +409,7 @@
                 url: "/Home/showFan",
                 type: "POST",
                 dataType: "json",
-                data: data,
+                data: { role_id: $("#active_role").val() },
                 success: function (response) {
                     console.log(response);
                     $("#follower_list").html("");
@@ -748,34 +435,78 @@
                 }
             });
         };
+
+        ///////////////////////////////////////////////////
+    </script>
+    <script>
+        //我的地點 顯示可新增按鈕
+        function showMyLoc() {
+            $("#addNewLocationButton").show();
+        };
+        //取得新增/編輯資料 表單id
+        var CreateEditmodal = document.getElementById("myModal");
+        //關閉新增/編輯資料 表單
+        var span = document.getElementsByClassName("close")[0];
+        $("#closeAddLocationForm").on("click", function () {
+            CreateEditmodal.style.display = "none";
+            //console.log(_marker);
+            if (_marker != undefined) {
+                _marker.remove();
+            };
+
+
+            $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
+        });
+
         //點選新增地點,才可添加marker
         var _marker;//地圖上marker變數
         $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
 
+
         //函式:新增地點一開始的畫面
         function enableAddLocation() {
             _marker = new mapboxgl.Marker()
-                .setLngLat([-74.5, 40])
+                .setLngLat([120.757769, 23.535394])
                 .addTo(map);
             //地圖上點選地點,在此綁定map click 另一個handler
             map.on('click', positioningClickLocate);
-            //地圖上雙擊決定添加的地點
-            map.on("dblclick", alertIfAddLocation);  //有問題:沒有按"放置圖釘紐"仍會觸發alert
+            ////地圖上雙擊決定添加的地點-------------改成按右鍵
+
         };
 
         //函式:alert尋問是否要新增此地點
         function alertIfAddLocation() {
-            reply = window.confirm("要新增此地點嗎?");
-            if (reply) {
-                console.log("yes");
-                modal.style.display = "block";
+            Swal.fire({
+                title: '要新增此地點嗎?',
+                //text: "You won't be able to revert this!",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log("yes");
+                    CreateEditmodal.style.display = "block";
+                    document.getElementById("UploadLocationForm").reset();
+                    $("#save").hide();
+                    $("#create").show();
+                    $("#fx_Coordinate").val(_lng);
+                    $("#fy_Coordinate").val(_lat);
+                    $("#CreateOrEdit").text("新增地點");
+                    document.getElementById('info3').innerHTML = _lng + "," + _lat;
+                    _LocationID = "noLocationID";
+                    console.log("新增時的id" + _LocationID + _lat + _lng);
+
+                } else {
+                    console.log("no");
+                    _marker.remove();
+                    $("#addNewLocationButton").one("click", enableAddLocation);
+
+                }
+            })
 
 
-            } else {
-                console.log("no");
-                _marker.remove();
-                $("#addNewLocationButton").one("click", enableAddLocation);
-            }
         }
 
         //新增時,在地圖上要新增的點
@@ -796,25 +527,499 @@
             _marker.setLngLat([_lng, _lat]);
         };
 
+        //按編輯按鈕帶出該筆info
+        function CallBackThisLocationInfoWhenEditor() {
+            document.getElementById("UploadLocationForm").reset();
+            $("#create").hide();
+            $("#save").show();
+            CreateEditmodal.style.display = "block";
+            console.log("編輯時的id" + _LocationID);///////////////////////////
+            $("#CreateOrEdit").text("編輯地點");
+            //顯示該地點詳細內容
+            $.ajax({
+                url: "/Home/CallBackThisLocationInfo",
+                type: "POST",
+                data: { locationID: _LocationID },
+            }).done(function (response) {
+                var deJsonResponce = JSON.parse(response);
+
+                deJsonResponce.forEach((item, element) => {
+
+
+                    $("#fId_Location").val(item.fId_Location);
+                    $("#fx_Coordinate").val(item.fX_Coordinate);
+                    $("#fy_Coordinate").val(item.fY_Coordinate);
+                    $("#CoordinateName").val(item.fName_Coordinate);
+                    //console.log(item.fName_Coordinate);
+                    $("#LocationName").val(item.fName_Location);
+                    $("#fAdd_Location").val(item.fAdd_Location);
+                    $("#fDescript_Location").val(item.fDescript_Location);
+                    //console.log(item.fDescript_Location);
+                    $("#fTitle_Photo").val(item.fTitle_Photo);
+                    $("#fDescript_Photo").val(item.fDescript_Photo);
+                    $("#output").attr("src", item.fPath_Photo);//IMAGE
+
+                    console.log(item.fDelete_Location);
+                    if (item.fDelete_Location == 1) {
+                        $('#checkbox').prop("checked", true)
+                    } else {
+                        $('#checkbox').prop("checked", false)
+                    }
+
+                    $('#selector option').removeAttr('selected');
+                    if (item.fId_ShareAuth == 3) {
+                        $('#selector option[value=3]').attr('selected', 'selected');
+                    } else if (item.fId_ShareAuth == 2) {
+                        $('#selector option[value=2]').attr('selected', 'selected');
+                    } else {
+                        $('#selector option[value=1]').attr('selected', 'selected');
+                    };
+
+
+                });
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+
+        };
+
+    </script>
+    <script>
+        //預覽照片
+        var loadFile = function (event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function () {
+                URL.revokeObjectURL(output.src) // free memory
+            }
+        };
+        //變更地點資料庫
+        //新增資料至資料庫
+        function UpLoadLoctionFormButton() {
+            console.log("現在的id是" + _LocationID);
+            $("#UploadLocationForm").ajaxSubmit({
+                type: "POST",
+                url: "/Home/createAlocation",
+                //data: { EditLocationId: _LocationID },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response == "photoIsnotUploaded") {//如果沒有照片
+                        Swal.fire(
+                            '什麼?!沒有照片?',
+                            '來張照片吧',
+                            'warning',
+                        )
+                        return;
+                    }
+                    Swal.fire({
+                        //position: 'top-end',
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+
+                    CreateEditmodal.style.display = "none";
+                    _marker.remove();
+                    reload();
+                },
+                fail: function (failresponse) {
+
+                    console.log(failresponse);
+                }
+
+            });
+        };
+
+        ///更新資料至資料庫
+        function EditLoctionFormButton() {
+
+            console.log("現在的id是" + _LocationID);
+            $("#UploadLocationForm").ajaxSubmit({
+                type: "POST",
+                url: "/Home/EditLocationInfo",
+                //data: { EditLocationId: _LocationID },
+                success: function (response) {
+                    //console.log(response);
+
+
+                    var obj = document.getElementsByName("checkbox");
+
+                    if (response == "photoIsnotUploaded") {//如果沒有照片
+                        Swal.fire(
+                            '什麼?!沒有照片?',
+                            '來張照片吧',
+                            'warning',
+                        )
+                        return;
+                    }
+
+                    Swal.fire({
+                        //position: 'top-end',
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+                    CreateEditmodal.style.display = "none";
+                    reload();
+                },
+                fail: function (failresponse) {
+
+                    console.log(failresponse);
+                }
+            });
+        };
     </script>
 
+    <script>
 
-    @*側部滑動菜單  =======================*@
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../../js/BootSideMenu.js"></script>
+        //文件載入:處理個人資料方塊,地點路線分布
+        $(document).ready(function (e) {
+            //reloadRoute();
+            reload();
+            $("#toggle2").click(function () {
+                $("#showHide").toggle();
+            });
+            $("#addNewLocationButton").hide();
 
-    <script type="text/javascript">
+        });
+        //左側滑動清單設定
         $('#LeftSideMenu').BootSideMenu({
             side: "left",
             pushBody: true,
             autoClose: false,
-            closeOnClick: true
+            closeOnClick: false
         });
 
+
+        //飛躍至該地k
+        function fly(Point) {
+            map.flyTo({
+                center: Point, // [X,Y] Array
+                essential: true,
+                zoom: 13
+            });
+        }
+
+        //ajax重整重新載入所有地點路線
+
+        //重整
+        function reload() {
+            console.log("reload");
+            LocArray = []
+
+            $.ajax({
+                url: "/Home/getAllLocations",
+                type: "POST",
+                dataType: "json",
+                //data: { }
+            }).done(function (response) {
+                //console.log(response);
+                for (var i = 0; i < response.length; i++) {
+                    Coords_Location = [response[i].fX_Coordinate, response[i].fY_Coordinate];
+                    Id_Location = response[i].fId_Location;
+
+                    locJson =
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'description': Id_Location
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': Coords_Location
+                        }
+                    };
+                    LocArray.push(locJson);
+                }//end for
+                if (map.getLayer("places")) {
+                    map.removeLayer("places");
+                }
+
+                if (map.getLayer("routes")) {
+                    map.removeLayer("routes");
+                }
+                if (map.getSource("places")) {
+                    map.removeSource("places");
+                }
+
+                if (map.getSource("routes")) {
+                    map.removeSource("routes");
+                }
+
+
+                reloadRoute();
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+        }
+
+        //"取得路線"的第一個坐標，fly()要用到k
+        function GetRoutePathArray(RouteInnerHTMLPath) {
+            var RoutePath = new Array();
+            var tempPoint = new Array();
+            var strRoutePath = (RouteInnerHTMLPath + "").split(',');
+            for (var i = 0; i < strRoutePath.length; i += 2) {
+                tempPoint[i / 2] = new Array();
+                tempPoint[i / 2][1] = strRoutePath[i + 1];
+                tempPoint[i / 2][0] = strRoutePath[i];
+                RoutePath.push(tempPoint[i / 2]);
+            }
+            return RoutePath;
+        }
+
+        //重新放入路線
+        //路線所有資訊組成json，放到陣列
+        var RouArray;
+        function reloadRoute() {
+            //console.log("reloadRoute");
+            RouArray = []
+            $.ajax({
+                url: "/Home/getAllRoutes",
+                type: "POST",
+                dataType: "json",
+                //data: { }
+            }).done(function (response) {
+                console.log(response);
+                for (var i = 0; i < response.length; i++) {
+
+                    Id_Route = response[i].fId_Route;
+                    //console.log(Id_Route);
+                    Path_Route = GetRoutePathArray(response[i].fPath_Route);
+
+                    rouJson =
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'description': Id_Route
+                        },
+                        'geometry': {
+                            'type': 'LineString',
+                            'coordinates': Path_Route
+                        }
+                    };
+                    RouArray.push(rouJson);
+                    //console.log(RouArray);
+
+                }//end for
+
+                reloadlocation();
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+
+        };
+
+
+        //重新放入地點/路線
+        function reloadlocation() {
+
+            //console.log("reloadAll");
+            map.loadImage(
+                'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+                // Add an image to use as a custom marker
+                function (error, image) {
+
+
+
+                    if (error) throw error;
+                    //console.log(map.hasImage('custom-marker'));
+
+                    if (!map.hasImage('custom-marker')) {
+                        map.addImage('custom-marker', image);
+                    };
+
+
+                    map.addSource('places', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': LocArray
+                        }
+                    });
+
+                    // Add a layer showing the places.
+                    map.addLayer({
+                        'id': 'places',
+                        'type': 'symbol',
+                        'source': 'places',
+                        'layout': {
+                            'icon-image': 'custom-marker',
+                            'icon-allow-overlap': true
+                        }
+                    });
+
+                });
+
+            //路線加入地圖k====================
+            map.addSource('routes', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'FeatureCollection',
+                    'features': RouArray
+                }
+            });//End：map.addSource
+
+            map.addLayer({
+                'id': 'routes',
+                'type': 'line',
+                'source': 'routes',
+                layout: {
+                    "line-join": "round",
+                    "line-cap": "round"
+                },
+                paint: {
+                    "line-color": "#dc143c",
+                    "line-width": 6
+                }
+            });//End：map.addLayer
+
+
+
+        };
+
+
+
     </script>
-    @*說明:sweetAlert2 CDN*@
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        //取得該路線/點資料
+        //顯示地點資訊，點列表k
+        var listLocRoute= document.getElementById("infoi");
+        function zoomToLocation(LocationID) {
+            
+            listLocRoute.style.display = "block";
+            getLocAjax(LocationID);
+        };
+
+        //顯示路線&地點資訊，點列表k
+        function zoomToRoute(RouteID) {
+            
+            listLocRoute.style.display = "block";
+            getRouAjax(RouteID);
+        }//end zoomToRoute
+
+        //顯示地點資訊k => 點列表、點地圖
+
+        function getLocAjax(LocationID) {
+            $.ajax({
+                url: "/Home/GetLocation",
+                type: "POST",
+                dataType: "json",
+                data: { LocationID: LocationID }
+            }).done(function (response) {
+                //console.log(response);
+                Coords_Location = [response[0].fX_Coordinate, response[0].fY_Coordinate];
+                NickName_Role = (response[0].fNickName_Role);
+                Name_Location = response[0].fName_Location;
+                Auth_ShareAuth = response[0].fAuth_ShareAuth;
+                Descript_Location = response[0].fDescript_Location;
+                Time_Location = response[0].fTime_Location;
+                //console.log("Coords_Location = " + Coords_Location);
+                //console.log("NickName_Role = " + NickName_Role);
+                //console.log("Name_Location = " + Name_Location);
+                //console.log("Auth_ShareAuth = " + Auth_ShareAuth);
+                //console.log("Descript_Location = " + Descript_Location);
+                //console.log("Time_Location = " + Time_Location);
+                fly(Coords_Location);
+                $("#name_role").html(NickName_Role);
+                $("#name_lr").html(Name_Location);
+                $("#auth_lr").html(Auth_ShareAuth);
+                $("#descript_lr").html(Descript_Location);
+                $("#time_lr").html(Time_Location);
+                $("#loc").empty();
+                _LocationID = LocationID;
+                //console.log(_LocationID);
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+
+            $.ajax({
+                url: "/Home/GetLocationPhoto",
+                type: "POST",
+                dataType: "json",
+                data: { LocationID: LocationID }
+            }).done(function (response) {
+                //console.log(response);
+                $("#photo_lr").attr("src", "");
+                if (response.length) {
+                    Path_Photo = response[0].fPath_Photo
+                    //console.log("Path_Photo = " + Path_Photo);
+                    $("#photo_lr").attr("src", Path_Photo);
+                }
+                else {
+                    alert("沒照片");
+                }
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+        }
+
+        //顯示路線&地點資訊k => 點列表@*!!!*@
+        var _routeID;
+        function getRouAjax(RouteID) {
+            //顯示路線資訊
+            $.ajax({
+                url: "/Home/GetRoute",
+                type: "POST",
+                dataType: "json",
+                data: { RouteID: RouteID }
+            }).done(function (response) {
+                //console.log(response);
+                Route = GetRoutePathArray(response.fPath_Route);
+                NickName_Role = (response.fNickName_Role);
+                Name_Route = response.fName_Route;
+                Auth_ShareAuth = response.fAuth_ShareAuth;
+                Descript_Route = response.fDescript_Route;
+                Time_Route = response.fTime_Route;
+                //console.log("Route = " + Route);
+                //console.log("NickName_Role = " + NickName_Role);
+                //console.log("Name_Route = " + Name_Route);
+                //console.log("Auth_ShareAuth = " + Auth_ShareAuth);
+                //console.log("Descript_Route = " + Descript_Route);
+                //console.log("Time_Route = " + Time_Route);
+                _routeID = RouteID;
+                fly(Route[0]);
+                $("#name_role").html(NickName_Role);
+                $("#name_lr").html(Name_Route);
+                $("#auth_lr").html(Auth_ShareAuth);
+                $("#descript_lr").html(Descript_Route);
+                $("#time_lr").html(Time_Route);
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+
+            //顯示路線中的地點資訊k
+            $.ajax({
+                url: "/Home/RouteGetPoint",
+                type: "POST",
+                dataType: "json",
+                data: { RouteID: RouteID }
+            }).done(function (response) {
+                //console.log(response);
+                var Name_Location = "";
+                var loc = [];
+                for (var i = 0; i < response.length; i++) {
+                    Name_Location = response[i].fName_Location;
+                    Descript_Location = response[i].fDescript_Location;
+                    Time_Location = response[i].fTime_Location;
+                    //console.log("Name_Location =" + Name_Location);
+                    //console.log("Descript_Location =" + Descript_Location);
+                    //console.log("Time_Location =" + Time_Location);
+                    var locs = document.getElementById('loc');
+                    loc += '<div>' + Name_Location + '<div style="font-size:small">' + Descript_Location + '<div style="font-size:small">' + Time_Location + '</div></div>';
+                    locs.innerHTML = loc;
+                };//end for
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+        }
+    </script>
+
+
     <script>
     @* 登入 *@
     $('#loginBtn').on('click', login);
@@ -832,19 +1037,8 @@
         }).done(function (response) {
             //alert("account: " + login_data.email + " password: " + login_data.pwd);
             //console.log(response.fEmail_Member);
-            Swal.fire({
-                title: response.loginMessage,
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
-                }
-            }).then(() => {
-                window.location.reload()
-            }); 
-            //alert(response.loginMessage);
-            //window.location.reload()
+            alert(response.loginMessage);
+            window.location.reload()
         }).fail(function (xhr, ajaxOptions, thrownError) {
             $("body").append(xhr.status);
             $("body").append(xhr.responseText);
@@ -864,19 +1058,8 @@
             dataType: "text",
             data: login_data
         }).done(function (response) {
-            Swal.fire({
-                title: '登出成功',
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
-                }
-            }).then(() => {
-                window.location.reload()
-            }); 
-            //alert(response);
-            //window.location.reload()
+            alert(response);
+            window.location.reload()
         }).fail(function (xhr, ajaxOptions, thrownError) {
             $("body").append(xhr.status);
             $("body").append(xhr.responseText);
@@ -906,15 +1089,7 @@
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 $("body").append(xhr.status);
                 $("body").append(xhr.responseText);
-                Swal.fire({
-                    title: thrownError,
-                    showClass: {
-                        popup: 'animate__animated animate__fadeInDown'
-                    },
-                    hideClass: {
-                        popup: 'animate__animated animate__fadeOutUp'
-                    }
-                })
+                alert(thrownError);
             })
         };
 
@@ -935,7 +1110,8 @@
                     role_item += "name = '" + response[i].fNickName_Role + "'";
                     role_item += "onclick='changeRole(this)'>";
                     role_item += response[i].fNickName_Role;
-                    if (response[i].fId_Slave_Type_Role == "a") {
+                    if (response[i].fId_Slave_Type_Role == "a")
+                    {
                         role_item += "(管理員)";
                     };
                     if (response[i].fId_Slave_Type_Role == "b") {
@@ -954,45 +1130,29 @@
         };
         //切換身分連結
         function changeRole(myobj) {
+
+            $("#follower_list").html("");
+
             var role_id = { role_id: myobj.value };
-            Swal.fire({
-                title: "即將切換為: " + myobj.name,
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
+            alert("即將切換為: " + myobj.name);
+
+            $.ajax({
+                url: '@Url.Action("changeRole", "Home")',
+                type: "POST",
+                dataType: "json",
+                data: role_id
+            }).done(function (response) {
+                alert("已切換身分為: " + response.fNickName_Role);
+                $('#active_role').attr('value', response.fId_Role);
+                document.getElementById("active_role_name").innerHTML = "目前身分:" + response.fNickName_Role;
+                if (response.fId_Slave_Type_Role == "a") {
+                    alert("管理員 " + response.fNickName_Role + ", 您好!");
                 }
-            }).then(() => {
-                //alert("即將切換為: " + myobj.name);
-                $.ajax({
-                    url: '@Url.Action("changeRole", "Home")',
-                    type: "POST",
-                    dataType: "json",
-                    data: role_id
-                }).done(function (response) {
-                    Swal.fire({
-                        title: "已切換身分為: " + response.fNickName_Role,
-                        showClass: {
-                            popup: 'animate__animated animate__fadeInDown'
-                        },
-                        hideClass: {
-                            popup: 'animate__animated animate__fadeOutUp'
-                        }
-                    })
-                    //alert("已切換身分為: " + response.fNickName_Role);
-                    $('#active_role').attr('value', response.fId_Role);
-                    document.getElementById("active_role_name").innerHTML = "目前身分:" + response.fNickName_Role;
-                    if (response.fId_Slave_Type_Role == "a") {
-                        //這邊進入管理員介面
-                        document.location.href = "/backStage/indexBack";
-                    };
-                }).fail(function (xhr, ajaxOptions, thrownError) {
-                    console.log(role_id);
-                    $("body").append(xhr.status);
-                    $("body").append(xhr.responseText);
-                    alert(thrownError);
-                })
+            }).fail(function (xhr, ajaxOptions, thrownError) {
+                console.log(role_id);
+                $("body").append(xhr.status);
+                $("body").append(xhr.responseText);
+                alert(thrownError);
             })
         };
         //讀取點數細節

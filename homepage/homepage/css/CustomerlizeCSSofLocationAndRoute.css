@@ -1,0 +1,281 @@
+﻿<style type="text/css" >
+.user {
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+#info {
+    display: block;
+    position: relative;
+    margin: 0px auto;
+    width: 50%;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    color: #222;
+    background: #fff;
+}
+
+.mapboxgl-popup {
+    max-width: 600px;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+/*個人資料方塊&按鈕*/
+.showHide {
+    position: fixed;
+    right: 5px;
+    top: 80px;
+    background: pink;
+    width: 250px;
+    height: 300px;
+}
+
+.showHideButton {
+    position: fixed;
+    right: 5px;
+    top: 60px;
+    cursor: pointer;
+    border-radius: 80px;
+    border: none;
+    z-index: 500;
+    background-color: brown;
+    color: white;
+}
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: no-display; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /*Fallback color */
+    background-color: rgba(0,0,0,0.4); /*Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: wheat;
+    margin: 10% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+    
+}
+
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+}
+
+
+.column2 {
+    float: left;
+    width: 33.33%;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+/*地點&路線的清單&資訊*******************************************************/
+.show_LR_List {
+    /*position: absolute;*/
+    cursor: pointer;
+    margin: 30px;
+    top: 120px;
+    width: 280px;
+    bottom: 5%;
+    background-color: rgba(255, 255, 255, 0.9);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 10px;
+    line-height: 2em;
+}
+    /*/*左右滑動*/
+    .show_LR_List > ul {
+        margin: 0;
+        padding: 0;
+        position: absolute;
+    }
+
+    .show_LR_List > li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .show_LR_List > ul.slides {
+        width: 800px;
+        left: 0px;
+        transition: all .5s;
+    }
+
+        .show_LR_List > ul.slides li {
+            width: 280px;
+            overflow: hidden;
+            float: left;
+        }
+/*查詢清單*/
+.list-group {
+    width: 280px;
+}
+/*地點&路線資訊*/
+.Info_lr {
+    margin-right: 30px;
+    margin-left: 10px;
+    border: solid 2px #b0c4de;
+    padding: 5px;
+    background-color: #003853;
+}
+
+.name_role {
+    font-size: 24px;
+    text-align: left;
+    color: #FCEECA;
+}
+
+.photo_lr {
+    width: 100%;
+    height: 360px;
+}
+
+.name_lr {
+    font-size: 20px;
+    text-align: left;
+    text-transform: uppercase;
+    color: #D6F9D0;
+}
+
+.auth_lr, .time_lr {
+    font-size: 12px;
+    text-align: right;
+    color: #FADFD1;
+}
+
+.descript_lr {
+    font-size: 16px;
+    text-align: left;
+    color: #C8F6FA;
+}
+
+/*************************************/
+
+#buttons {
+    width: 90%;
+    margin: 0 auto;
+    list-style-type: none;
+}
+
+.button {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 20%;
+    padding: 3px;
+    border-radius: 3px;
+    margin-top: 5px;
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+    background: #ee8a65;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+/*新增編輯地點!!!!!!*/
+#instructions1 {
+    position: absolute;
+    margin: 20px;
+    width: 25%;
+    top: 180px;
+    bottom: 5%;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    overflow-y: scroll;
+    font-family: sans-serif;
+    font-size: 0.8em;
+    line-height: 2em;
+    display: none;
+}
+
+/*新增編輯路線!!!!!!!!!!!*/
+#instructions2 {
+    position: absolute;
+    margin: 20px;
+    width: 25%;
+    top: 180px;
+    bottom: 5%;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    overflow-y: scroll;
+    font-family: sans-serif;
+    font-size: 0.8em;
+    line-height: 2em;
+    display: none;
+}
+
+
+.portlet {
+    margin: 0 1em 1em 0;
+    padding: 0.3em;
+}
+
+.portlet-header {
+    padding: 0.2em 0.3em;
+    margin-bottom: 0.5em;
+    position: relative;
+}
+
+.portlet-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -8px;
+}
+
+.portlet-content {
+    padding: 0.4em;
+}
+
+.portlet-placeholder {
+    border: 1px dotted black;
+    margin: 0 1em 1em 0;
+    height: 50px;
+}

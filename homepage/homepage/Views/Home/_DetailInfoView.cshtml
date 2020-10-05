@@ -1,0 +1,57 @@
+﻿
+
+
+<div style="position:absolute;top:120px;width:500px;height:720px;overflow:scroll" class="Info_lr" id="infoi">
+    <div>
+        <span class="close" id="closeAddLocationForm">&times;</span>
+    </div>
+    <div id="name_role" class="name_role"></div>@*發文者名稱*@
+    <div id="auth_lr" class="auth_lr"></div>@*分享權限*@
+    <img id="photo_lr" class="photo_lr" />@*照片*@
+    <div id="name_lr" class="name_lr"></div>@*名稱*@
+    <div id="descript_lr" class="descript_lr"></div>@*簡介*@
+    <div id="loc" style="color:chocolate; font-size:medium;"></div>@*如為路線，才會塞入地點資訊*@
+    <div id="time_lr" class="time_lr"></div>@*時間*@
+    <p>Comment</p>
+    <div></div>
+    <form id="commentForm">
+        <img id="1" class="i" name="star" src="~/Content/images/star.gif" />
+        <img id="2" class="i" name="star" src="~/Content/images/star.gif" />
+        <img id="3" class="i" name="star" src="~/Content/images/star.gif" />
+        <img id="4" class="i" name="star" src="~/Content/images/star.gif" />
+        <img id="5" class="i" name="star" src="~/Content/images/star.gif" />
+        <p id="starIgive">How many stars do you have? </p>
+        <input />
+        <br />
+        <button>送出</button>
+
+    </form>
+
+</div>
+<script>
+        $(function () {
+            var aLi = $('.i');
+            var leng = aLi.length;
+
+
+            $(".i").hover(enter, leaves);//hover(移入,移出)
+            function enter() {
+                console.log($(this).attr("id"));
+                $(this).nextAll(".i").attr("src", "../Content/images/star.gif");
+                for (var i = 0; i < $(this).attr("id"); i++)
+                    aLi.eq(i).attr("src", "../Content/images/chngstar.gif");
+                $("#starIgive").text("How many stars do you have?");
+            }
+            function leaves() {
+                $(this).nextAll(".i").attr("src", "../Content/images/star.gif");
+                console.log($(this).attr("id")-1);
+            }
+            $(".i").click(function () {
+                for (var i = 0; i < $(this).attr("id") - 1; i++) {
+                    console.log($(this).attr("id"));
+                    aLi.eq(i).attr("src", "../Content/images/chngstar.gif");
+                }
+                $("#starIgive").text("I have " + $(this).attr("id") + " !");
+            })
+        })
+</script>
