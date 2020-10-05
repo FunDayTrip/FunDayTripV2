@@ -1,0 +1,119 @@
+﻿@model IEnumerable<homepage.tReport>
+
+@{
+    Layout = null;
+}
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<style>
+    .tablesorter thead th {
+        font-size: medium;
+    }
+
+    body {
+        background-image: url("../../Content/灰色背景.jpg");
+    }
+</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>reportedList</title>
+</head>
+<body>
+    <div style="text-align:center;margin:10px;margin-bottom:-1px;">
+        @Html.ActionLink("回查詢列表", "showAllMembers", "backStage", new { @class = "btn btn-info" })
+    </div>
+    <div class="table-responsive">
+        @*說明:自動排序命名法*@
+        <table Id="myTable" class="tablesorter">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-nowrap" style="text-align:center;">
+                        檢舉ID
+                    </th>
+                    <th scope="col" class="text-nowrap" style="text-align:center;">
+                        檢舉者ID
+                    </th>
+                    <th scope="col" class="text-nowrap" style="text-align:center;">
+                        被檢舉者ID<br />
+                        (點擊以ID查詢會員資料)
+                    </th>
+                    <th scope="col" class="text-nowrap" style="text-align:center;">
+                        負責之管理員ID
+                    </th>
+                    <th scope="col" class="text-nowrap" style="text-align:center;">
+                        種類
+                    </th>
+                    <th scope="col" class="text-nowrap" style="text-align:center;">
+                        種類ID
+                    </th>
+                    <th scope="col" class="text-nowrap" style="text-align:center;">
+                        被檢舉原因
+                    </th>
+                    <th scope="col" class="text-nowrap" style="text-align:center;">
+                        回報時間
+                    </th>
+                    <th scope="col" class="text-nowrap" style="text-align:center;">
+                        審核時間
+                    </th>
+                    <th scope="col" class="text-nowrap" style="text-align:center;">
+                        進行階段
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fId_Report)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fId_Reporter_Role)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.ActionLink($"{item.fId_Reported_Role}", "findReportedMember", "backStage", new { rId = item.fId_Reported_Role.ToString() }, new { @class = "btn btn-default" })
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fId_Admin_Role)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fId_Type_Location_Route_Comment_Photo)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fId_Location_Route_Comment_Photo)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fReason_Report)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fTimeReport_Report)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fTimeModify_Report)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fStatus_Report)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
+
+
+@*說明:自動排序CDN寫法*@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.5/css/theme.blue.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.5/js/jquery.tablesorter.min.js"></script>
+<script>
+    $("#myTable").tablesorter({
+        theme: "blue",
+        widgets: ['zebra']
+    });
+</script>
+
+

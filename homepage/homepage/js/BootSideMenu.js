@@ -269,7 +269,7 @@
             if (options.side === "left") {
 
                 if (options.pushBody) {
-                    $DOMBody.animate({marginLeft: bodyProperties.originalMarginLeft}, {duration: options.duration});
+                    $DOMBody.animate({ marginLeft: bodyProperties.originalMarginLeft }, { duration: options.duration });
                 }
 
                 $menu.animate({
@@ -290,7 +290,7 @@
             } else if (options.side === "right") {
 
                 if (options.pushBody) {
-                    $DOMBody.animate({marginRight: bodyProperties.originalMarginRight}, {duration: options.duration});
+                    $DOMBody.animate({ marginRight: bodyProperties.originalMarginRight }, { duration: options.duration });
                 }
 
                 $menu.animate({
@@ -327,7 +327,7 @@
             if (options.side === "left") {
 
                 if (options.pushBody) {
-                    $DOMBody.animate({marginLeft: $menu.width() + 20}, {duration: options.duration});
+                    $DOMBody.animate({ marginLeft: $menu.width() + 20 }, { duration: options.duration });
                 }
 
                 $menu.animate({
@@ -348,7 +348,7 @@
             } else if (options.side === "right") {
 
                 if (options.pushBody) {
-                    $DOMBody.animate({marginRight: $menu.width() + 20}, {duration: options.duration});
+                    $DOMBody.animate({ marginRight: $menu.width() + 20 }, { duration: options.duration });
                 }
 
                 $menu.animate({

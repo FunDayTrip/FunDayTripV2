@@ -1,0 +1,188 @@
+﻿@model IEnumerable<homepage.tMember>
+
+@{
+    Layout = null;
+}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+@*說明:sweetAlert CDN*@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<style>
+
+    .tablesorter thead tr th {
+        font-size: medium;
+    }
+
+    body {
+        background-image: url("../../Content/灰色背景.jpg")
+    }
+</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    @*說明:配合sweetAlert的外掛CSS*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <title>showAllMembers</title>
+</head>
+<body>
+    <div style="margin-bottom:-20px;margin-top:7px;margin-left:630px;height:80px;">
+        <div style="display:inline-block;">
+            <form method="post">
+                <p style="margin-left:62px; margin-bottom:-3px; font-size:larger; color:whitesmoke; font-weight:bold;">會員搜尋</p>
+                <input type="text" name="keyword" />
+                <input type="submit" value="查詢" class="btn btn-info" style="height:32px;" />
+            </form>
+        </div>
+        <div style="display:inline-block;margin-left:385px;">
+            @Html.ActionLink("查詢全部", "backToAllMembers", "backStage", null, new { @class = "btn btn-info" })
+        </div>
+        <div style="display:inline-block;margin-left:10px;">
+            @Html.ActionLink("檢視檢舉名單", "reportedList", "backStage", null, new { @class = "btn btn-info" })
+        </div>
+    </div>
+
+    @if (ViewBag.nothing != null)
+    {
+        <script>
+    window.onload = function () {
+                Swal.fire({
+                    title: '查無資料',
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInDown'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutUp'
+                    }
+                }).then(function () { document.location.href = "/backStage/showAllMembers" })
+            }
+        </script>
+    }
+    else
+    {
+        if (ViewBag.suspensionOK == "ok")
+        {
+            <script>
+                window.onload = function () {
+                    Swal.fire({
+                        title: '已成功停權',
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
+                    })
+                }
+            </script>
+            Session["ok"] = "";
+        }
+
+        <div class="table-responsive" style="margin-bottom:30px">
+            @*說明:自動排序命名法*@
+            <table id="myTable" class="tablesorter">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-nowrap">
+                            會員編號
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            會員暱稱
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            帳號
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            地址
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            性別
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            生日
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            電話
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            國家
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            姓氏
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            名字
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            遊戲等級
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            會員權限
+                        </th>
+                    </tr>
+                </thead>
+
+                @foreach (var item in Model)
+                {
+                    string s = "return confirm('確定停用 " + item.fNickName_Member + " 的帳戶嗎')";
+                    <tr>
+                        <td id="memberId" class="text-nowrap" style="vertical-align: middle; text-align:left;">
+                            @Html.DisplayFor(modelItem => item.fId_Member)
+                        </td>
+                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                            @Html.DisplayFor(modelItem => item.fNickName_Member)
+                        </td>
+                        <td class="text-nowrap" style="vertical-align: middle; text-align:left;">
+                            @Html.DisplayFor(modelItem => item.fEmail_Member)
+                        </td>
+                        <td style="vertical-align: middle; text-align:left;">
+                            @Html.DisplayFor(modelItem => item.fAdd_Member)
+                        </td>
+                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                            @Html.DisplayFor(modelItem => item.fGender_Member)
+                        </td>
+                        <td style="vertical-align: middle; text-align:center;">
+                            @Html.DisplayFor(modelItem => item.fBirthday_Member)
+                        </td>
+                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                            @Html.DisplayFor(modelItem => item.fPhone_Member)
+                        </td>
+                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                            @Html.DisplayFor(modelItem => item.fCountry_Member)
+                        </td>
+                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                            @Html.DisplayFor(modelItem => item.fLastName_Member)
+                        </td>
+                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                            @Html.DisplayFor(modelItem => item.fFirstName_Member)
+                        </td>
+                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                            @Html.DisplayFor(modelItem => item.fGameLV_Member)
+                        </td>
+                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                            @Html.DisplayFor(modelItem => item.tFuntionAuth.fAuth_FunctionAuth)
+                        </td>
+                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                            @Html.ActionLink("停權", "suspendAccountController", "backStage", new { id = item.ID.ToString() }, new { OnClick = s, @class = "btn btn-danger" })
+                            @*<button type="button" id="suspensionBtn" class="alert alert-danger">停權</button>*@
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</body>
+</html>
+
+@*說明:自動排序CDN寫法*@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.5/css/theme.blue.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.5/js/jquery.tablesorter.min.js"></script>
+<script>
+    $("#myTable").tablesorter({
+        theme: "blue",
+        widgets: ['zebra']
+    });
+</script>
+

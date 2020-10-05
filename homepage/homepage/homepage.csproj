@@ -130,7 +130,17 @@
     <Content Include="Content\d8b0de09-fd3e-40e1-9476-c99c09c04484.png" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\userPhoto.png" />
+    <Content Include="Content\新增廣告2.png" />
+    <Content Include="Content\新增廣告3.png" />
+    <Content Include="Content\新增廣告照片.png" />
+    <Content Include="Content\星空背景.jpg" />
+    <Content Include="Content\海洋俯瞰.jpg" />
     <Content Include="Content\灑紅節改.jpg" />
+    <Content Include="Content\灰色背景.jpg" />
+    <Content Include="Content\白森林.jpg" />
+    <Content Include="Content\白牆.jpg" />
+    <Content Include="Content\相機圖示.png" />
+    <Content Include="Content\純海洋.jpg" />
     <Content Include="Content\鐵道旅行.jpg" />
     <Content Include="css\BootSideMenu.css" />
     <Content Include="css\FixedPosition.css" />
@@ -258,6 +268,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdvertisementController.cs" />
+    <Compile Include="Controllers\backStageController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -283,6 +295,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CAd.cs" />
+    <Compile Include="Models\CAdFactory.cs" />
     <Compile Include="Models\CCoordinate.cs" />
     <Compile Include="Models\CDictionary.cs" />
     <Compile Include="Models\CGame.cs" />
@@ -290,11 +304,13 @@
     <Compile Include="Models\CGameGroup.cs" />
     <Compile Include="Models\CGameNavigationViewModel.cs" />
     <Compile Include="Models\CMember.cs" />
+    <Compile Include="Models\CMemberFactory.cs" />
     <Compile Include="Models\CMessage.cs" />
     <Compile Include="Models\CNotes.cs" />
     <Compile Include="Models\CNotesFactory.cs" />
     <Compile Include="Models\CPoint.cs" />
     <Compile Include="Models\CPointFactory.cs" />
+    <Compile Include="Models\CReportFactory.cs" />
     <Compile Include="Models\CRole.cs" />
     <Compile Include="Models\CRolesFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -436,6 +452,12 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\backStage\indexBack.cshtml" />
+    <Content Include="Views\backStage\showAllMembers.cshtml" />
+    <Content Include="Views\backStage\reportedList.cshtml" />
+    <Content Include="Views\Advertisement\newCommercialData.cshtml" />
+    <Content Include="Views\backStage\showApplyAD.cshtml" />
+    <Content Include="Views\backStage\showAdDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

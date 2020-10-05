@@ -101,7 +101,8 @@ namespace homepage.Controllers
                 loginMember.fNickName_Member = q.FirstOrDefault().fNickName_Member;
                 loginMember.fEmail_Member = q.FirstOrDefault().fEmail_Member;
                 loginMember.fPassword_Member = q.FirstOrDefault().fPassword_Member;
-
+                //讀取會員權限 by 郭松明
+                loginMember.fId_FuntionAuth_Member = q.FirstOrDefault().fId_FunctionAuth;
 
                 //讀取角色
                 List<CRole> rolesList = new CRolesFactory().getRoleList(loginMember.fId_Member);
@@ -122,8 +123,9 @@ namespace homepage.Controllers
                 //放入Session
                 Session[CDictionary.SK_MemberId] = loginMember.fId_Member;
                 Session[CDictionary.SK_MemberLogin] = loginMember;
-                Session[CDictionary.SK_ActiveRoleId] = loginMember.fActiveRoleId_Member;             
-                
+                Session[CDictionary.SK_ActiveRoleId] = loginMember.fActiveRoleId_Member;
+                //新增會員權限by郭松明
+                Session[CDictionary.SK_AunctionAuth] = loginMember.fId_FuntionAuth_Member;
 
             }
             else if (q.FirstOrDefault().fPassword_Member != pwd)

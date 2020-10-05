@@ -1,0 +1,123 @@
+﻿@model IEnumerable<homepage.tAd>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+@*說明:sweetAlert CDN*@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<style>
+    body {
+        background-image: url("../../Content/灰色背景.jpg")
+    }
+</style>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    @*說明:配合sweetAlert的外掛CSS*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <meta name="viewport" content="width=device-width" />
+    <title>showApplyAD</title>
+</head>
+<body>
+    <div class="table-responsive" style="margin-bottom:30px">
+        <table id="myTable" class="tablesorter">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fId_Ad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fId_Role)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fId_Admin_Role)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fId_Location)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fContent_Ad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fPhoto_Ad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fSolution_Ad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fStatus_Ad)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fId_Ad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fId_Role)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fId_Admin_Role)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fId_Location)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fContent_Ad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fPhoto_Ad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fSolution_Ad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fStatus_Ad)
+                    </td>
+                    <td>
+                        @Html.ActionLink("顯示詳細", "showAdDetail", "backStage", new { id = item.fId_Ad.ToString() }, null)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
+
+@*說明:自動排序CDN寫法*@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.5/css/theme.blue.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.5/js/jquery.tablesorter.min.js"></script>
+<script>
+    $("#myTable").tablesorter({
+        theme: "blue",
+        widgets: ['zebra']
+    });
+</script>
+
+@if (Session["pass"] == "pass")
+{
+    <script>
+        window.onload = function () {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: '審核成功',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+    </script>
+
+    Session["pass"] = "";
+}

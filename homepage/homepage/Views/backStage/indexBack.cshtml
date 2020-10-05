@@ -1,0 +1,36 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+@*sweetAlrt2 CDN*@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>indexBack</title>
+</head>
+<body>
+    _
+    <div>
+        @Html.ActionLink("搜尋會員", "showAllMembers", "backStage")
+    </div>
+    <div>
+        @Html.ActionLink("審核廣告", "showApplyAD", "backStage")
+    </div>
+</body>
+</html>
+@if (Session["nothing"] == "nothing")
+{
+    <script>
+        window.onload = function () {
+            Swal.fire("查無申請中廣告資料");
+        }
+    </script>
+
+    Session["nothing"] = "";
+
+}

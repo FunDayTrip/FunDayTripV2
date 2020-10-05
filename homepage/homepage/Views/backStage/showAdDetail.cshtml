@@ -1,0 +1,89 @@
+﻿@model homepage.tAd
+@{
+    Layout = null;
+}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+@*fontAwesome圖示CDN*@
+<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' rel='stylesheet' />
+@*sweetAlrt2 CDN*@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<style>
+
+    body {
+        background-image: url("../../Content/灰色背景.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .TopDiv {
+        text-align: right;
+        margin-right: 310px;
+        margin-top: 170px;
+        margin-bottom: -200px;
+    }
+
+    form {
+        margin-left: 365px;
+        margin-top: 210px;
+        height: 290px;
+        width: 875px;
+        background-color: dimgrey;
+        border-radius: 15px;
+        border: solid 1px black;
+    }
+
+    .IMG {
+        width: 500px;
+        height: 280px;
+        border-radius: 15px;
+    }
+
+    /*.labelDiv {
+        position: relative;
+        margin-top: -40px;
+        margin-left: 455px;
+    }*/
+</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>newCommercialData</title>
+</head>
+<body>
+    <div class="TopDiv">
+        <label style="font-size:18px;color:whitesmoke;">@Html.ActionLink("回首頁", "Index", "Home", null, new { style = "color:whitesmoke;" })</label>
+    </div>
+    <form>
+
+        <div class="form-group" style="display:inline-block;">
+            <div>
+                <img id="output" class="IMG" src="../@Model.fPhoto_Ad" />
+            </div>
+            @*<div class="labelDiv">
+                    <label>
+                        <input id="Input" class="Input" style="display:none;" type="file" accept="image/*" onchange="loadFile(event)" name="image" value="上傳大頭貼">
+                        <i class="fa fa-plus-square-o" style="font-size:35px;"></i>
+                    </label>
+                </div>*@
+        </div>
+        <div class="form-group" style="display:inline-block;">
+            <div style="margin-left:10px;">
+                <label style="color:whitesmoke;font-size:large;">描述內容</label><br />
+                <textarea readonly style="height:80px;width:320px;background-color:lightsteelblue;" maxlength="30">@Model.fContent_Ad</textarea><br /><br />
+                <input readonly type="text" style="width:180px;margin-top:-10px;margin-bottom:30px;background-color:lightsteelblue;" value="@Model.fSolution_Ad"><br />
+            </div>
+        </div>
+        <div style="margin-left:745px;margin-top:-85px;position:relative;">
+            @Html.ActionLink("審核通過", "pass", "backStage", new { id = Model.fId_Ad.ToString() }, new { @class = "btn btn-warning" })
+        </div>
+    </form>
+</body>
+</html>
+
