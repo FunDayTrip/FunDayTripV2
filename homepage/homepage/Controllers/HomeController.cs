@@ -54,29 +54,7 @@ namespace homepage.Controllers
 
             return View(mapItem);
         }
-        //[HttpPost]
-        //public ActionResult Index(CAddLocationViewModel locate)
-        //{
-        //    string photoname = Guid.NewGuid().ToString(); //重新命名一個不會重複的照片ID進資料庫
-        //    photoname += Path.GetExtension(locate.image.FileName);//取得副檔名
-        //    locate.image.SaveAs(Server.MapPath("~/Content/" + photoname)); //根目錄:~(不行),要用..回上一層
-        //    locate.fImage = "../Content/" + photoname;
-
-
-        //    SqlConnection con = new SqlConnection();
-        //    con.ConnectionString = @"Data Source=.;Initial Catalog=dbDemo;Integrated Security=True";
-        //    con.Open();
-
-        //    SqlCommand cmd = new SqlCommand();
-        //    cmd.Connection = con;
-        //    cmd.CommandText = "INSERT INTO tTransaction (fDate) VALUES ('" + locate.fImage + "')";
-        //    cmd.ExecuteNonQuery();
-
-        //    con.Close();
-
-        //    return View();
-        //}
-
+      
         //public string login(string email, string pwd)
         //{
         //    string loginMsg = "";
@@ -455,6 +433,32 @@ namespace homepage.Controllers
             return alert;
         }
 
+        //k的getloc
+        public JsonResult GetLocation(string LocationID)
+        {
+            List<tLocation> location = (from l in dbFundaytrip.tLocations.AsEnumerable()
+                                        where l.fId_Location == LocationID
+                                        select l).ToList();
+
+            List<CLocation> clocations = new List<CLocation>();
+
+            foreach (var item in location)
+            {
+                CLocation clocation = new CLocation(item);
+                clocations.Add(clocation);
+            }
+            return Json(clocations);
+        }
+        //k-getRoute
+        public JsonResult GetRoute(string RouteID)
+        {
+            tRoute Route = (from s in dbFundaytrip.tRoutes
+                            where s.fId_Route == RouteID
+                            select s).FirstOrDefault();
+            CRoute cRoute = new CRoute(Route);
+
+            return Json(cRoute);
+        }
 
     }
 

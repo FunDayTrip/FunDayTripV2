@@ -107,8 +107,22 @@
     @*地圖 /綁定右鍵清單_verna_0930*@
     <div id='map' class="context-menu-one btn btn-neutral"></div>
 
+
     @*上列選項清單_verna_0930 *@
     @Html.Partial("_topMenuNavigation");
+
+    <div style="position:absolute;top:70px">
+        @*新增地點*@
+        <span id="info2">get coordinates</span>
+        <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
+    </div>
+
+    <div>
+        @*路線地點詳細資訊*@
+        @Html.Partial("_DetailInfoView");
+    </div>
+
+
     @*滑鼠右鍵清單*@
     @Html.Partial("_ContextMenuPartialView");
 
@@ -182,9 +196,9 @@
     @*  左側內容 _verna_0930  ===========================*@
     <div id="LeftSideMenu">
 
-        <button id="test" onclick="closethisdiv()">next2</button>
 
-        <div id="Result_List2">
+
+        <div id="Result_List2" style="width: 200px;">
             @*地點路線資訊*@
             @Html.Partial("_firstLoadAllListPartialView");
         </div>
@@ -192,7 +206,7 @@
 
 
 
-        <div style="position:absolute" id="locationInfo">
+        <div style="position:absolute;width: 200px;" id="locationInfo">
 
             <img id="showExistedPhoto" style="height:400px;width:280px" />
             <br />
@@ -220,6 +234,7 @@
 
         </div>
 
+        <button id="test" onclick="closethisdiv()" style="width: 150px;">next2</button>
 
     </div>
 
@@ -247,9 +262,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                @*新增地點*@
-                <span id="info2">get coordinates</span>
-                <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
+
 
                 @*開啟個人資料對話方塊*@
                 <button id="toggle2" type="button" class="showHideButton">User</button>
@@ -338,14 +351,14 @@
 
     @* 設定地圖中內容的事件 ==================*@
     <script>
-       
+
         //叉叉:關閉資料表單
         var span = document.getElementsByClassName("close")[0];
         //左側彈出視窗 X按鈕
         $(".close").on("click", function () {
             CreateEditmodal.style.display = "none";
             follow_modal.style.display = "none";
-
+            infoi.style.display = "none";
         });
 
         ///////////////////////////////////////
@@ -424,6 +437,8 @@
         };
 
         ///////////////////////////////////////////////////
+    </script>
+    <script>
         //我的地點 顯示可新增按鈕
         function showMyLoc() {
             $("#addNewLocationButton").show();
@@ -435,11 +450,11 @@
         $("#closeAddLocationForm").on("click", function () {
             CreateEditmodal.style.display = "none";
             //console.log(_marker);
-            if ( _marker != undefined) {
+            if (_marker != undefined) {
                 _marker.remove();
             };
-            
-           
+
+
             $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
         });
 
@@ -456,7 +471,7 @@
             //地圖上點選地點,在此綁定map click 另一個handler
             map.on('click', positioningClickLocate);
             ////地圖上雙擊決定添加的地點-------------改成按右鍵
-           
+
         };
 
         //函式:alert尋問是否要新增此地點
@@ -487,7 +502,7 @@
                     console.log("no");
                     _marker.remove();
                     $("#addNewLocationButton").one("click", enableAddLocation);
-                   
+
                 }
             })
 
@@ -647,21 +662,15 @@
                         showConfirmButton: false,
                         timer: 1000
                     })
-
-
                     CreateEditmodal.style.display = "none";
                     reload();
-
                 },
                 fail: function (failresponse) {
 
                     console.log(failresponse);
                 }
-
             });
         };
-
-
     </script>
 
     <script>
@@ -874,6 +883,140 @@
 
 
 
+    </script>
+    <script>
+        //取得該路線/點資料
+        //顯示地點資訊，點列表k
+        var listLocRoute= document.getElementById("infoi");
+        function zoomToLocation(LocationID) {
+            
+            listLocRoute.style.display = "block";
+            getLocAjax(LocationID);
+        };
+
+        //顯示路線&地點資訊，點列表k
+        function zoomToRoute(RouteID) {
+            
+            listLocRoute.style.display = "block";
+            getRouAjax(RouteID);
+        }//end zoomToRoute
+
+        //顯示地點資訊k => 點列表、點地圖
+
+        function getLocAjax(LocationID) {
+            $.ajax({
+                url: "/Home/GetLocation",
+                type: "POST",
+                dataType: "json",
+                data: { LocationID: LocationID }
+            }).done(function (response) {
+                //console.log(response);
+                Coords_Location = [response[0].fX_Coordinate, response[0].fY_Coordinate];
+                NickName_Role = (response[0].fNickName_Role);
+                Name_Location = response[0].fName_Location;
+                Auth_ShareAuth = response[0].fAuth_ShareAuth;
+                Descript_Location = response[0].fDescript_Location;
+                Time_Location = response[0].fTime_Location;
+                //console.log("Coords_Location = " + Coords_Location);
+                //console.log("NickName_Role = " + NickName_Role);
+                //console.log("Name_Location = " + Name_Location);
+                //console.log("Auth_ShareAuth = " + Auth_ShareAuth);
+                //console.log("Descript_Location = " + Descript_Location);
+                //console.log("Time_Location = " + Time_Location);
+                fly(Coords_Location);
+                $("#name_role").html(NickName_Role);
+                $("#name_lr").html(Name_Location);
+                $("#auth_lr").html(Auth_ShareAuth);
+                $("#descript_lr").html(Descript_Location);
+                $("#time_lr").html(Time_Location);
+                $("#loc").empty();
+                _LocationID = LocationID;
+                //console.log(_LocationID);
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+
+            $.ajax({
+                url: "/Home/GetLocationPhoto",
+                type: "POST",
+                dataType: "json",
+                data: { LocationID: LocationID }
+            }).done(function (response) {
+                //console.log(response);
+                $("#photo_lr").attr("src", "");
+                if (response.length) {
+                    Path_Photo = response[0].fPath_Photo
+                    //console.log("Path_Photo = " + Path_Photo);
+                    $("#photo_lr").attr("src", Path_Photo);
+                }
+                else {
+                    alert("沒照片");
+                }
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+        }
+
+        //顯示路線&地點資訊k => 點列表@*!!!*@
+        var _routeID;
+        function getRouAjax(RouteID) {
+            //顯示路線資訊
+            $.ajax({
+                url: "/Home/GetRoute",
+                type: "POST",
+                dataType: "json",
+                data: { RouteID: RouteID }
+            }).done(function (response) {
+                //console.log(response);
+                Route = GetRoutePathArray(response.fPath_Route);
+                NickName_Role = (response.fNickName_Role);
+                Name_Route = response.fName_Route;
+                Auth_ShareAuth = response.fAuth_ShareAuth;
+                Descript_Route = response.fDescript_Route;
+                Time_Route = response.fTime_Route;
+                //console.log("Route = " + Route);
+                //console.log("NickName_Role = " + NickName_Role);
+                //console.log("Name_Route = " + Name_Route);
+                //console.log("Auth_ShareAuth = " + Auth_ShareAuth);
+                //console.log("Descript_Route = " + Descript_Route);
+                //console.log("Time_Route = " + Time_Route);
+                _routeID = RouteID;
+                fly(Route[0]);
+                $("#name_role").html(NickName_Role);
+                $("#name_lr").html(Name_Route);
+                $("#auth_lr").html(Auth_ShareAuth);
+                $("#descript_lr").html(Descript_Route);
+                $("#time_lr").html(Time_Route);
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+
+            //顯示路線中的地點資訊k
+            $.ajax({
+                url: "/Home/RouteGetPoint",
+                type: "POST",
+                dataType: "json",
+                data: { RouteID: RouteID }
+            }).done(function (response) {
+                //console.log(response);
+                var Name_Location = "";
+                var loc = [];
+                for (var i = 0; i < response.length; i++) {
+                    Name_Location = response[i].fName_Location;
+                    Descript_Location = response[i].fDescript_Location;
+                    Time_Location = response[i].fTime_Location;
+                    //console.log("Name_Location =" + Name_Location);
+                    //console.log("Descript_Location =" + Descript_Location);
+                    //console.log("Time_Location =" + Time_Location);
+                    var locs = document.getElementById('loc');
+                    loc += '<div>' + Name_Location + '<div style="font-size:small">' + Descript_Location + '<div style="font-size:small">' + Time_Location + '</div></div>';
+                    locs.innerHTML = loc;
+                };//end for
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+        }
     </script>
 
 
