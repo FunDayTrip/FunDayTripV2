@@ -117,7 +117,7 @@
         <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
     </div>
 
-    <div>
+    <div id="infoi2">
         @*路線地點詳細資訊*@
         @Html.Partial("_DetailInfoView");
     </div>
@@ -168,26 +168,27 @@
                 Coords_Location = [_fX_Coordinate, _fY_Coordinate];
                 //console.log(Coords_Location);
                 fly(Coords_Location);
+                zoomToLocation(LocationID);
                 //顯示該地點詳細內容
-                $.ajax({
-                    url: "/Home/CallBackThisLocationInfo",///////////////////////
-                    type: "POST",
-                    data: { locationID: LocationID },
-                    //dataType: "json",
-                }).done(function (response) {
-                    var deJsonResponce = JSON.parse(response);
-                    deJsonResponce.forEach((item, element) => {
-                        $("#showExistedPhoto").attr("src", item.fPath_Photo);
-                        $("#showExistedPhotoTitle").text(item.fTitle_Photo)
-                        $("#showExistedPhtoDescription").text(item.fDescript_Photo)
-                        $("#showExistedLocationTime").text(item.fTime_Location);
-                        $("#showExistedLocationName").text(item.fName_Location);
-                        $("#showExistedLocationAddress").text(item.fAdd_Location);
-                        $("#showExistedLocationDescription").text(item.fDescript_Location);
-                    });
-                }).fail(function (xhr) {
-                    console.log(xhr.status + xhr.responseText);
-                });//end ajax
+                //$.ajax({
+                //    url: "/Home/CallBackThisLocationInfo",///////////////////////
+                //    type: "POST",
+                //    data: { locationID: LocationID },
+                //    //dataType: "json",
+                //}).done(function (response) {
+                //    var deJsonResponce = JSON.parse(response);
+                //    deJsonResponce.forEach((item, element) => {
+                //        $("#showExistedPhoto").attr("src", item.fPath_Photo);
+                //        $("#showExistedPhotoTitle").text(item.fTitle_Photo)
+                //        $("#showExistedPhtoDescription").text(item.fDescript_Photo)
+                //        $("#showExistedLocationTime").text(item.fTime_Location);
+                //        $("#showExistedLocationName").text(item.fName_Location);
+                //        $("#showExistedLocationAddress").text(item.fAdd_Location);
+                //        $("#showExistedLocationDescription").text(item.fDescript_Location);
+                //    });
+                //}).fail(function (xhr) {
+                //    console.log(xhr.status + xhr.responseText);
+                //});//end ajax
             });
         });
 
@@ -358,7 +359,7 @@
         $(".close").on("click", function () {
             CreateEditmodal.style.display = "none";
             follow_modal.style.display = "none";
-            infoi.style.display = "none";
+            infoi2.style.display = "none";
         });
 
         ///////////////////////////////////////
@@ -876,9 +877,6 @@
                     "line-width": 6
                 }
             });//End：map.addLayer
-
-
-
         };
 
 
@@ -887,7 +885,7 @@
     <script>
         //取得該路線/點資料
         //顯示地點資訊，點列表k
-        var listLocRoute= document.getElementById("infoi");
+        var listLocRoute = document.getElementById("infoi2");
         function zoomToLocation(LocationID) {
             
             listLocRoute.style.display = "block";
