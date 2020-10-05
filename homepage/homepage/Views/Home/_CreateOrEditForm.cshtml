@@ -1,0 +1,70 @@
+﻿
+<div class="row">
+    <div class="column" style="background-color:wheat">
+        <h3 id="CreateOrEdit">新增地點</h3>
+        <br />
+        <p>地點id: </p>
+        <input id="fId_Location" class="fId_LocationClass" style="color: green" name="fId_Location" readonly />        
+        <p>座標</p>        
+        <span id="info3" style="background-color:bisque"></span>
+        x :<input name="fX_Coordinate" id="fx_Coordinate" readonly />
+        y :<input name="fY_Coordinate" id="fy_Coordinate" readonly />
+        <br />
+        座標名
+        <input name="fName_Coordinate" id="CoordinateName" />
+    </div>
+
+    <div class="column" style="background-color:wheat">
+        <div>
+            <span class="close" id="closeAddLocationForm">&times;</span>
+        </div>
+        <p>地點</p>
+        <br />
+        <p>地名 :</p>
+        <input name="fName_Location" id="LocationName" />
+        <p>地址 :</p>
+        <input name="fAdd_Location" id="fAdd_Location" />
+        <br />
+        <p>地點描述</p>
+        <input name="fDescript_Location" id="fDescript_Location" />
+    </div>
+</div>
+<div class="row" style="height:75%">
+
+    <div class="column2" style="background-color:wheat;">
+        <p>照片</p>
+        <p>照片標題</p>
+        <input name="fTitle_Photo" id="fTitle_Photo" />
+        <p>照片敘述</p>
+        <input name="fDescript_Photo" id="fDescript_Photo" />
+    </div>
+
+    <div class="column2" style="background-color:wheat;">
+
+        <p>上傳照片</p>
+        <br />
+        <input type="file" accept="image/*" onchange="loadFile(event)" name="PostImage" id="uploadPhoto">
+        <img id="output" src="../Content/Placeholder.png" style="width:300px;height:200px;border:dotted" />
+        <br>
+        <br />
+
+    </div>
+
+    <div class="column2" style="background-color:wheat">
+        <p>Authority</p>
+        <select id="selector" name="fId_ShareAuth">
+            <option id="Public" value=3 selected="selected">Public</option>
+            <option id="Follower" value=2>Follower</option>
+            <option id="Private" value=1>Private</option>
+        </select>
+        <br />
+        <input type="checkbox" name="fDelete_Location" id="checkbox" onclick="IfDelete()">刪除(請打勾)
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <button type="button" onclick="UpLoadLoctionFormButton()" id="create" style="position:relative; bottom: 10px; right: 10px">確定</button>
+        <button type="button" onclick="EditLoctionFormButton()" id="save" style="position:relative; bottom: 10px; right: 10px">編輯存檔</button>
+    </div>
+</div>@*row*@

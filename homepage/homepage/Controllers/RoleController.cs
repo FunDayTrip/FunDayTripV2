@@ -21,11 +21,5 @@ namespace homepage.Controllers
             List<CRole> roles = new CRolesFactory().getRoleList(member_id);
             return Json(roles,JsonRequestBehavior.AllowGet);
         }
-        [HttpPost]
-        public string get()
-        {
-            return "null";
-        }
-
     }
 }

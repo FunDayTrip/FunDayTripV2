@@ -12,5 +12,6 @@ namespace homepage.SignalR
         {
             Clients.All.hello(name,content);
         }
+
     }
 }

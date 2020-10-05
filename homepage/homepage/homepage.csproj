@@ -415,7 +415,6 @@
     <Compile Include="tUnlock.cs">
       <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\CAddLocationViewModel.cs" />
     <Compile Include="ViewModel\CFanslistViewModel.cs" />
     <Compile Include="ViewModel\CFollowlistViewModel.cs" />
     <Compile Include="ViewModel\CHistoryMessage.cs" />
