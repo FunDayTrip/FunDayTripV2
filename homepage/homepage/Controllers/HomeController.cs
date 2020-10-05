@@ -340,6 +340,122 @@ namespace homepage.Controllers
 
             return InfoJson;
         }
+
+
+        
+
+
+        //新增地點
+        public string createAlocation(tCoordinate createCoordinate, CCreateLocation loadPostPhoto, tLocation createlocation, tPhoto createphoto)
+        {
+            string alert = null;
+
+            string postLocId = createlocation.fId_Location;
+
+
+            //檢查是否有上傳照片
+            string photoname = Guid.NewGuid().ToString(); //重新命名一個不會重複的照片ID進資料庫
+            if (loadPostPhoto.PostImage == null)
+            {
+                alert = "photoIsnotUploaded";
+                return alert;
+            };
+
+
+            dbFundaytrip.tCoordinates.Add(createCoordinate);
+            dbFundaytrip.SaveChanges();
+
+            int lastestCoordinateFid = (from i in dbFundaytrip.tCoordinates
+                                        orderby i.fId_Coordinate descending
+                                        select i.fId_Coordinate).FirstOrDefault();
+
+
+            int sa = createlocation.fId_ShareAuth;
+            //tLocation location = new tLocation();
+            createlocation.fId_Role = 3;
+            createlocation.fId_Coordinate = lastestCoordinateFid;
+            createlocation.fId_ShareAuth = createlocation.fId_ShareAuth;
+            createlocation.fId_Icon = createlocation.fId_ShareAuth;
+            createlocation.fType_Location = "point";
+            createlocation.fTime_Location = DateTime.Now;
+            createlocation.fDelete_Location = createlocation.fDelete_Location;
+            dbFundaytrip.tLocations.Add(createlocation);
+            dbFundaytrip.SaveChanges();
+
+
+            string lastestLocationFid = (from l in dbFundaytrip.tLocations
+                                         orderby l.ID descending
+                                         select l.fId_Location).FirstOrDefault();
+
+
+            createphoto.fId_Location = lastestLocationFid;
+            createphoto.fId_Role = 3;
+            //照片路徑
+            photoname += Path.GetExtension(loadPostPhoto.PostImage.FileName);//取得副檔名
+            loadPostPhoto.PostImage.SaveAs(Server.MapPath("../Content/" + photoname)); //根目錄:~(不行),要用..回上一層
+            createphoto.fPath_Photo = "../Content/" + photoname;
+            //end
+            createphoto.fTime_Photo = DateTime.Now;
+            dbFundaytrip.tPhotoes.Add(createphoto);
+            dbFundaytrip.SaveChanges();
+
+            return alert;
+
+        }
+
+
+        //修改地點
+        public string EditLocationInfo(tCoordinate createCoordinate, CCreateLocation loadPostPhoto, tLocation createlocation, tPhoto createphoto)
+        {
+            string locId = createlocation.fId_Location;
+
+
+            string alert = null;
+
+
+            tLocation ALocation = (from l in dbFundaytrip.tLocations
+                                   where l.fId_Location == locId
+                                   select l).FirstOrDefault();
+
+            //ALocation.fId_Role = 25;
+            ALocation.fId_ShareAuth = createlocation.fId_ShareAuth;
+            ALocation.fId_Icon = createlocation.fId_ShareAuth;
+            ALocation.fName_Location = createlocation.fName_Location;
+            ALocation.fAdd_Location = createlocation.fAdd_Location;
+            ALocation.fDescript_Location = createlocation.fDescript_Location;
+            ALocation.fDelete_Location = createlocation.fDelete_Location;
+
+
+            //存座標,地點,照片
+            //座標
+
+            ALocation.tCoordinate.fName_Coordinate = createCoordinate.fName_Coordinate;
+            //ALocation.tCoordinate.fX_Coordinate = createCoordinate.fX_Coordinate;
+            //ALocation.tCoordinate.fY_Coordinate = createCoordinate.fY_Coordinate;
+
+            tPhoto Aphoto = (from p in dbFundaytrip.tPhotoes
+                             where p.fId_Location == locId
+                             select p).FirstOrDefault();
+            Aphoto.fTitle_Photo = createphoto.fTitle_Photo;
+            Aphoto.fDescript_Photo = createphoto.fDescript_Photo;
+
+            //檢查是否有修改照片  
+            string photoname = Guid.NewGuid().ToString(); //重新命名一個不會重複的照片ID進資料庫
+            if (loadPostPhoto.PostImage != null)
+            {
+                photoname += Path.GetExtension(loadPostPhoto.PostImage.FileName);//取得副檔名
+                loadPostPhoto.PostImage.SaveAs(Server.MapPath("../Content/" + photoname)); //根目錄:~(不行),要用..回上一層
+                Aphoto.fPath_Photo = "../Content/" + photoname;
+
+            };
+
+            dbFundaytrip.SaveChanges();
+
+
+            return alert;
+        }
+
+
     }
-      
+
 }

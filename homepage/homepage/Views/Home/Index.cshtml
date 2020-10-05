@@ -338,9 +338,8 @@
 
     @* 設定地圖中內容的事件 ==================*@
     <script>
-        var EnableCreateLocation = false;
-
-        //關閉新增資料表單
+       
+        //叉叉:關閉資料表單
         var span = document.getElementsByClassName("close")[0];
         //左側彈出視窗 X按鈕
         $(".close").on("click", function () {
@@ -434,9 +433,13 @@
         //關閉新增/編輯資料 表單
         var span = document.getElementsByClassName("close")[0];
         $("#closeAddLocationForm").on("click", function () {
-            modal.style.display = "none";
-            _marker.remove();
-            map.off("dblclick", alertIfAddLocation);
+            CreateEditmodal.style.display = "none";
+            //console.log(_marker);
+            if ( _marker != undefined) {
+                _marker.remove();
+            };
+            
+           
             $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
         });
 
@@ -452,23 +455,43 @@
                 .addTo(map);
             //地圖上點選地點,在此綁定map click 另一個handler
             map.on('click', positioningClickLocate);
-            //地圖上雙擊決定添加的地點-------------改成按右鍵
-            map.on("dblclick", alertIfAddLocation);  //有問題:沒有按"放置圖釘紐"仍會觸發alert
+            ////地圖上雙擊決定添加的地點-------------改成按右鍵
+           
         };
 
         //函式:alert尋問是否要新增此地點
         function alertIfAddLocation() {
-            reply = window.confirm("要新增此地點嗎?");
-            if (reply) {
-                console.log("yes");
-                modal.style.display = "block";
+            Swal.fire({
+                title: '要新增此地點嗎?',
+                //text: "You won't be able to revert this!",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log("yes");
+                    CreateEditmodal.style.display = "block";
+                    document.getElementById("UploadLocationForm").reset();
+                    $("#save").hide();
+                    $("#create").show();
+                    $("#fx_Coordinate").val(_lng);
+                    $("#fy_Coordinate").val(_lat);
+                    $("#CreateOrEdit").text("新增地點");
+                    document.getElementById('info3').innerHTML = _lng + "," + _lat;
+                    _LocationID = "noLocationID";
+                    console.log("新增時的id" + _LocationID + _lat + _lng);
+
+                } else {
+                    console.log("no");
+                    _marker.remove();
+                    $("#addNewLocationButton").one("click", enableAddLocation);
+                   
+                }
+            })
 
 
-            } else {
-                console.log("no");
-                _marker.remove();
-                $("#addNewLocationButton").one("click", enableAddLocation);
-            }
         }
 
         //新增時,在地圖上要新增的點
@@ -488,6 +511,156 @@
 
             _marker.setLngLat([_lng, _lat]);
         };
+
+        //按編輯按鈕帶出該筆info
+        function CallBackThisLocationInfoWhenEditor() {
+            document.getElementById("UploadLocationForm").reset();
+            $("#create").hide();
+            $("#save").show();
+            CreateEditmodal.style.display = "block";
+            console.log("編輯時的id" + _LocationID);///////////////////////////
+            $("#CreateOrEdit").text("編輯地點");
+            //顯示該地點詳細內容
+            $.ajax({
+                url: "/Home/CallBackThisLocationInfo",
+                type: "POST",
+                data: { locationID: _LocationID },
+            }).done(function (response) {
+                var deJsonResponce = JSON.parse(response);
+
+                deJsonResponce.forEach((item, element) => {
+
+
+                    $("#fId_Location").val(item.fId_Location);
+                    $("#fx_Coordinate").val(item.fX_Coordinate);
+                    $("#fy_Coordinate").val(item.fY_Coordinate);
+                    $("#CoordinateName").val(item.fName_Coordinate);
+                    //console.log(item.fName_Coordinate);
+                    $("#LocationName").val(item.fName_Location);
+                    $("#fAdd_Location").val(item.fAdd_Location);
+                    $("#fDescript_Location").val(item.fDescript_Location);
+                    //console.log(item.fDescript_Location);
+                    $("#fTitle_Photo").val(item.fTitle_Photo);
+                    $("#fDescript_Photo").val(item.fDescript_Photo);
+                    $("#output").attr("src", item.fPath_Photo);//IMAGE
+
+                    console.log(item.fDelete_Location);
+                    if (item.fDelete_Location == 1) {
+                        $('#checkbox').prop("checked", true)
+                    } else {
+                        $('#checkbox').prop("checked", false)
+                    }
+
+                    $('#selector option').removeAttr('selected');
+                    if (item.fId_ShareAuth == 3) {
+                        $('#selector option[value=3]').attr('selected', 'selected');
+                    } else if (item.fId_ShareAuth == 2) {
+                        $('#selector option[value=2]').attr('selected', 'selected');
+                    } else {
+                        $('#selector option[value=1]').attr('selected', 'selected');
+                    };
+
+
+                });
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+
+        };
+
+    </script>
+    <script>
+        //預覽照片
+        var loadFile = function (event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function () {
+                URL.revokeObjectURL(output.src) // free memory
+            }
+        };
+        //變更地點資料庫
+        //新增資料至資料庫
+        function UpLoadLoctionFormButton() {
+            console.log("現在的id是" + _LocationID);
+            $("#UploadLocationForm").ajaxSubmit({
+                type: "POST",
+                url: "/Home/createAlocation",
+                //data: { EditLocationId: _LocationID },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response == "photoIsnotUploaded") {//如果沒有照片
+                        Swal.fire(
+                            '什麼?!沒有照片?',
+                            '來張照片吧',
+                            'warning',
+                        )
+                        return;
+                    }
+                    Swal.fire({
+                        //position: 'top-end',
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+
+                    CreateEditmodal.style.display = "none";
+                    _marker.remove();
+                    reload();
+                },
+                fail: function (failresponse) {
+
+                    console.log(failresponse);
+                }
+
+            });
+        };
+
+        ///更新資料至資料庫
+        function EditLoctionFormButton() {
+
+            console.log("現在的id是" + _LocationID);
+            $("#UploadLocationForm").ajaxSubmit({
+                type: "POST",
+                url: "/Home/EditLocationInfo",
+                //data: { EditLocationId: _LocationID },
+                success: function (response) {
+                    //console.log(response);
+
+
+                    var obj = document.getElementsByName("checkbox");
+
+                    if (response == "photoIsnotUploaded") {//如果沒有照片
+                        Swal.fire(
+                            '什麼?!沒有照片?',
+                            '來張照片吧',
+                            'warning',
+                        )
+                        return;
+                    }
+
+                    Swal.fire({
+                        //position: 'top-end',
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+
+
+                    CreateEditmodal.style.display = "none";
+                    reload();
+
+                },
+                fail: function (failresponse) {
+
+                    console.log(failresponse);
+                }
+
+            });
+        };
+
 
     </script>
 
