@@ -168,27 +168,7 @@
                 Coords_Location = [_fX_Coordinate, _fY_Coordinate];
                 //console.log(Coords_Location);
                 fly(Coords_Location);
-                zoomToLocation(LocationID);
-                //顯示該地點詳細內容
-                //$.ajax({
-                //    url: "/Home/CallBackThisLocationInfo",///////////////////////
-                //    type: "POST",
-                //    data: { locationID: LocationID },
-                //    //dataType: "json",
-                //}).done(function (response) {
-                //    var deJsonResponce = JSON.parse(response);
-                //    deJsonResponce.forEach((item, element) => {
-                //        $("#showExistedPhoto").attr("src", item.fPath_Photo);
-                //        $("#showExistedPhotoTitle").text(item.fTitle_Photo)
-                //        $("#showExistedPhtoDescription").text(item.fDescript_Photo)
-                //        $("#showExistedLocationTime").text(item.fTime_Location);
-                //        $("#showExistedLocationName").text(item.fName_Location);
-                //        $("#showExistedLocationAddress").text(item.fAdd_Location);
-                //        $("#showExistedLocationDescription").text(item.fDescript_Location);
-                //    });
-                //}).fail(function (xhr) {
-                //    console.log(xhr.status + xhr.responseText);
-                //});//end ajax
+                zoomToLocation(LocationID);              
             });
         });
 
@@ -196,47 +176,10 @@
 
     @*  左側內容 _verna_0930  ===========================*@
     <div id="LeftSideMenu">
-
-
-
         <div id="Result_List2" style="width: 200px;">
             @*地點路線資訊*@
             @Html.Partial("_firstLoadAllListPartialView");
         </div>
-
-
-
-
-        <div style="position:absolute;width: 200px;" id="locationInfo">
-
-            <img id="showExistedPhoto" style="height:400px;width:280px" />
-            <br />
-            <span id="clickInfo"></span>
-            <button id="EditExistedLocation" onclick="CallBackThisLocationInfoWhenEditor()">編輯</button>
-            @*按已存在地點的編輯按鈕*@
-            <br />
-            照片標題:
-            <p id="showExistedPhotoTitle"></p>
-            照片心得
-            <p id="showExistedPhtoDescription"></p>
-            時間:
-            <p id="showExistedLocationTime"></p>
-            地點名稱:
-            <p id="showExistedLocationName"></p>
-            地址:
-            <p id="showExistedLocationAddress"></p>
-            地點心得:
-            <p id="showExistedLocationDescription"></p>
-            <br />
-            <button id="testButton" onclick="reload()">next</button>
-            <button id="testButton2" onclick="reloadlocation()">reload</button>
-
-
-
-        </div>
-
-        <button id="test" onclick="closethisdiv()" style="width: 150px;">next2</button>
-
     </div>
 
     <script>
