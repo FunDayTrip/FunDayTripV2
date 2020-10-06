@@ -16,6 +16,12 @@
 <html>
 <head>
 
+    @*sweetAlert2 CDN*@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    @*sweetAlert2 CSS*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
     @*20200916_15*@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -140,7 +146,7 @@
 
         //要求顯示地圖===========================
         //顯示中文地圖
-        mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
+        mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGlua3VvIiwiYSI6ImNrZndleHo0NjAxbXgzMHFmOWFwaWVuangifQ.5awvTJbiG4MyIV8B6ugFYQ';
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v10',
@@ -439,6 +445,12 @@
         ///////////////////////////////////////////////////
     </script>
     <script>
+        function makeIdentity() {
+            window.location.href = "@Url.Action("newCommercialData", "Advertisement")";
+            //document.getElementById("newOne").style.display = "block";
+            alert("ok")
+        };
+
         //我的地點 顯示可新增按鈕
         function showMyLoc() {
             $("#addNewLocationButton").show();
@@ -485,7 +497,11 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes'
             }).then((result) => {
-                if (result.isConfirmed) {
+                //if (result.isConfirmed && Session[SK_AunctionAuth] == 4) {
+                //    window.alert("營利會員成功");
+                //}
+
+                 if (result.isConfirmed) {
                     console.log("yes");
                     CreateEditmodal.style.display = "block";
                     document.getElementById("UploadLocationForm").reset();
@@ -497,13 +513,14 @@
                     document.getElementById('info3').innerHTML = _lng + "," + _lat;
                     _LocationID = "noLocationID";
                     console.log("新增時的id" + _LocationID + _lat + _lng);
+                 }              
 
-                } else {
+                else {
                     console.log("no");
                     _marker.remove();
                     $("#addNewLocationButton").one("click", enableAddLocation);
 
-                }
+                 }
             })
 
 
@@ -1037,8 +1054,17 @@
         }).done(function (response) {
             //alert("account: " + login_data.email + " password: " + login_data.pwd);
             //console.log(response.fEmail_Member);
-            alert(response.loginMessage);
-            window.location.reload()
+            //alert(response.loginMessage);
+            //window.location.reload()
+            Swal.fire({
+                title: response.loginMessage,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            }).then(() => { window.location.reload() });
         }).fail(function (xhr, ajaxOptions, thrownError) {
             $("body").append(xhr.status);
             $("body").append(xhr.responseText);
@@ -1058,8 +1084,17 @@
             dataType: "text",
             data: login_data
         }).done(function (response) {
-            alert(response);
-            window.location.reload()
+            //alert(response);
+            //window.location.reload()
+            Swal.fire({
+                title: response,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            }).then(() => { window.location.reload() });
         }).fail(function (xhr, ajaxOptions, thrownError) {
             $("body").append(xhr.status);
             $("body").append(xhr.responseText);
@@ -1146,8 +1181,30 @@
                 $('#active_role').attr('value', response.fId_Role);
                 document.getElementById("active_role_name").innerHTML = "目前身分:" + response.fNickName_Role;
                 if (response.fId_Slave_Type_Role == "a") {
-                    alert("管理員 " + response.fNickName_Role + ", 您好!");
-                }
+                    //alert("管理員 " + response.fNickName_Role + ", 您好!");
+                    Swal.fire({
+                        title: '管理員 ' + response.fNickName_Role + ', 您好!',
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
+                    });
+                    document.getElementById("backstage").style.display = "block";
+                };
+                if (response.fId_Slave_Type_Role == "b") {
+                    Swal.fire({
+                        title: '營利會員 ' + response.fNickName_Role + ', 您好!',
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
+                    });
+                    document.getElementById("newAD").style.display = "block";
+                };
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 console.log(role_id);
                 $("body").append(xhr.status);

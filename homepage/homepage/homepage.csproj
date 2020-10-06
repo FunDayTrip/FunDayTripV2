@@ -271,7 +271,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\AdvertisementController.cs" />
+    <Compile Include="Controllers\AdvertisementController .cs" />
     <Compile Include="Controllers\backStageController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\GameController.cs" />
