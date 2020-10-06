@@ -18,7 +18,7 @@
       <PropertyRef Name="fId_Admin" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="fId_Admin" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="fId_Admin" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="fId_FunctionAuth" Type="int" Nullable="false" />
     <Property Name="fName_Admin" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="fEmail_Admin" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -77,7 +77,7 @@
       <PropertyRef Name="fId_Comment" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="fId_Comment" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="fId_Comment" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="fId_Location_Route" Type="nvarchar" MaxLength="11" Nullable="false" />
     <Property Name="fId_Type_Location_Route" Type="nvarchar" MaxLength="10" Nullable="false" />
     <Property Name="fId_Role" Type="int" Nullable="false" />
@@ -212,7 +212,7 @@
       <PropertyRef Name="fId_Member" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="fId_Member" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="fId_Member" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="fId_FunctionAuth" Type="int" Nullable="false" />
     <Property Name="fNickName_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="fEmail_Member" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -280,7 +280,7 @@
       <PropertyRef Name="fId_ProfitMember" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="fId_ProfitMember" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="fId_ProfitMember" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="fId_FunctionAuth" Type="int" Nullable="false" />
     <Property Name="fId_ProfitType" Type="int" Nullable="false" />
     <Property Name="fName_ProfitMember" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -327,7 +327,7 @@
       <PropertyRef Name="fId_Route" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="fId_Route" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="fId_Route" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="fId_Role" Type="int" Nullable="false" />
     <Property Name="fId_ShareAuth" Type="int" Nullable="false" />
     <Property Name="fId_Icon" Type="int" Nullable="false" />

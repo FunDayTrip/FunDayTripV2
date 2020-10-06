@@ -15,43 +15,12 @@
     <p>Comment</p>
     <div></div>
     <form id="commentForm">
-        <img id="1" class="i" name="star" src="~/Content/images/star.gif" />
-        <img id="2" class="i" name="star" src="~/Content/images/star.gif" />
-        <img id="3" class="i" name="star" src="~/Content/images/star.gif" />
-        <img id="4" class="i" name="star" src="~/Content/images/star.gif" />
-        <img id="5" class="i" name="star" src="~/Content/images/star.gif" />
-        <p id="starIgive" style="color:white">How many stars do you have? </p>
-        <input />
-        <br />
+     
         <button>送出</button>
 
     </form>
 
 </div>
 <script>
-        $(function () {
-            var aLi = $('.i');
-            var leng = aLi.length;
-
-
-            $(".i").hover(enter, leaves);//hover(移入,移出)
-            function enter() {
-                console.log($(this).attr("id"));
-                $(this).nextAll(".i").attr("src", "../Content/images/star.gif");
-                for (var i = 0; i < $(this).attr("id"); i++)
-                    aLi.eq(i).attr("src", "../Content/images/chngstar.gif");
-                $("#starIgive").text("How many stars do you have?");
-            }
-            function leaves() {
-                $(this).nextAll(".i").attr("src", "../Content/images/star.gif");
-                console.log($(this).attr("id")-1);
-            }
-            $(".i").click(function () {
-                for (var i = 0; i < $(this).attr("id") - 1; i++) {
-                    console.log($(this).attr("id"));
-                    aLi.eq(i).attr("src", "../Content/images/chngstar.gif");
-                }
-                $("#starIgive").text("I have " + $(this).attr("id") + " !");
-            })
-        })
+     
 </script>
