@@ -113,7 +113,7 @@
 
     <div style="position:absolute;top:70px">
         @*新增地點*@
-        @*<span id="info2">get coordinates</span>*@
+        <span id="info2">get coordinates</span>
         <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
     </div>
 
@@ -161,7 +161,7 @@
                 var LocationID = e.features[0].properties.description;
 
                 //CATCH ID跟座標
-                
+                document.getElementById("clickInfo").innerHTML = LocationID + "<br/>" + coordinates + "<br/>";
                 _LocationID = LocationID;
                 _fX_Coordinate = coordinates[0];
                 _fY_Coordinate = coordinates[1];
@@ -501,9 +501,7 @@
                     //console.log(item.fDescript_Location);
                     $("#fTitle_Photo").val(item.fTitle_Photo);
                     $("#fDescript_Photo").val(item.fDescript_Photo);
-                    var photoOutput = document.getElementById("output");
-                    //$("#output").attr("src", item.fPath_Photo);//IMAGE
-                    photoOutput.attr("src", item.fPath_Photo);//IMAGE
+                    $("#output").attr("src", item.fPath_Photo);//IMAGE
 
                     console.log(item.fDelete_Location);
                     if (item.fDelete_Location == 1) {
