@@ -119,7 +119,7 @@
         <button id="addNewRouteButton" type="button" class="btn btn-danger">放置新增路線</button>
     </div>
 
-    <div>
+    <div id="infoi2">
         @*路線地點詳細資訊*@
         @Html.Partial("_DetailInfoView");
     </div>
@@ -174,33 +174,14 @@
                 var LocationID = e.features[0].properties.description;
 
                 //CATCH ID跟座標
-                document.getElementById("clickInfo").innerHTML = LocationID + "<br/>" + coordinates + "<br/>";
+                //document.getElementById("clickInfo").innerHTML = LocationID + "<br/>" + coordinates + "<br/>";
                 _LocationID = LocationID;
                 _fX_Coordinate = coordinates[0];
                 _fY_Coordinate = coordinates[1];
                 Coords_Location = [_fX_Coordinate, _fY_Coordinate];
                 //console.log(Coords_Location);
                 fly(Coords_Location);
-                //顯示該地點詳細內容
-                $.ajax({
-                    url: "/Home/CallBackThisLocationInfo",///////////////////////
-                    type: "POST",
-                    data: { locationID: LocationID },
-                    //dataType: "json",
-                }).done(function (response) {
-                    var deJsonResponce = JSON.parse(response);
-                    deJsonResponce.forEach((item, element) => {
-                        $("#showExistedPhoto").attr("src", item.fPath_Photo);
-                        $("#showExistedPhotoTitle").text(item.fTitle_Photo)
-                        $("#showExistedPhtoDescription").text(item.fDescript_Photo)
-                        $("#showExistedLocationTime").text(item.fTime_Location);
-                        $("#showExistedLocationName").text(item.fName_Location);
-                        $("#showExistedLocationAddress").text(item.fAdd_Location);
-                        $("#showExistedLocationDescription").text(item.fDescript_Location);
-                    });
-                }).fail(function (xhr) {
-                    console.log(xhr.status + xhr.responseText);
-                });//end ajax
+                zoomToLocation(LocationID);              
             });
         });
 
@@ -208,47 +189,10 @@
 
     @*  左側內容 _verna_0930  ===========================*@
     <div id="LeftSideMenu">
-
-
-
         <div id="Result_List2" style="width: 200px;">
             @*地點路線資訊*@
             @Html.Partial("_firstLoadAllListPartialView");
         </div>
-
-
-
-
-        <div style="position:absolute;width: 200px;" id="locationInfo">
-
-            <img id="showExistedPhoto" style="height:400px;width:280px" />
-            <br />
-            <span id="clickInfo"></span>
-            <button id="EditExistedLocation" onclick="CallBackThisLocationInfoWhenEditor()">編輯</button>
-            @*按已存在地點的編輯按鈕*@
-            <br />
-            照片標題:
-            <p id="showExistedPhotoTitle"></p>
-            照片心得
-            <p id="showExistedPhtoDescription"></p>
-            時間:
-            <p id="showExistedLocationTime"></p>
-            地點名稱:
-            <p id="showExistedLocationName"></p>
-            地址:
-            <p id="showExistedLocationAddress"></p>
-            地點心得:
-            <p id="showExistedLocationDescription"></p>
-            <br />
-            <button id="testButton" onclick="reload()">next</button>
-            <button id="testButton2" onclick="reloadlocation()">reload</button>
-
-
-
-        </div>
-
-        <button id="test" onclick="closethisdiv()" style="width: 150px;">next2</button>
-
     </div>
 
     <script>
@@ -257,16 +201,6 @@
             //個人資料方塊
             $("#locationInfo").hide();
         });
-        //顯示關閉左邊表單
-        function closethisdiv() {
-
-            $("#Result_List2").toggle();
-
-            $('#locationInfo').toggle();
-
-
-        };
-
     </script>
 
 
@@ -299,7 +233,7 @@
                             CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
                             <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="float:left" />
                             <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
-                            <div id="active_role_name">目前身分:@memberLogin.fActiveRoleName_Member</div>
+                            <div id="active_role_name" value="@memberLogin.fActiveRoleName_Member">目前身分:@memberLogin.fActiveRoleName_Member</div>
                             <div id="login_email">@memberLogin.fEmail_Member</div>
                             <button id="logoutBtn" style="float:right">登出</button>
                             <br />
@@ -381,7 +315,7 @@
         $(".close").on("click", function () {
             CreateEditmodal.style.display = "none";
             follow_modal.style.display = "none";
-            infoi.style.display = "none";
+            infoi2.style.display = "none";
         });
 
         ///////////////////////////////////////
@@ -605,6 +539,7 @@
                     //console.log(item.fDescript_Location);
                     $("#fTitle_Photo").val(item.fTitle_Photo);
                     $("#fDescript_Photo").val(item.fDescript_Photo);
+                    var existedphoto = document.getElementById("output");
                     $("#output").attr("src", item.fPath_Photo);//IMAGE
 
                     console.log(item.fDelete_Location);
@@ -1329,10 +1264,10 @@
                         }
                     };
                     RouArray.push(rouJson);
-                    //console.log(RouArray);
+                    console.log(RouArray);
 
                 }//end for
-
+                console.log(RouArray);
                 reloadlocation();
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);
@@ -1403,9 +1338,6 @@
                     "line-width": 6
                 }
             });//End：map.addLayer
-
-
-
         };
 
 
@@ -1415,7 +1347,7 @@
     <script>
         //取得該路線/點資料
         //顯示地點資訊，點列表k
-        var listLocRoute= document.getElementById("infoi");
+        var listLocRoute = document.getElementById("infoi2");
         function zoomToLocation(LocationID) {
 
             listLocRoute.style.display = "block";

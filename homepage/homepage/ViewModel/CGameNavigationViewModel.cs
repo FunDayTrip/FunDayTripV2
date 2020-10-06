@@ -11,6 +11,7 @@ namespace homepage.Models
         public CGameGroup fGroup_GameNav { get; set; }
         public List<CGame> fItems_GameNav 
         {  get; set; }
+        public string fPath_GameNav { get; set; }
         
     }
 }

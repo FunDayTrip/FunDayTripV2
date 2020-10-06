@@ -260,6 +260,7 @@ namespace homepage.Controllers
                                         join s2 in dbFundaytrip.tPhotoes on l.fId_Location equals s2.fId_Location
                                         select l).ToList();
 
+
             List<CLocation> clocations = new List<CLocation>();
 
             foreach (var item in location)

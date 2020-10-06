@@ -20,6 +20,7 @@ namespace homepage.Models
                 game.fId_GameGroup = item.fId_GameGroup;
                 game.fName_GameGroup = item.fName_GameGroup;
                 game.fDescription_GameGroup = item.fDescript_GameGroup;
+                game.fId_Route = item.fId_Route;
                 g_group.Add(game);
             }
 
@@ -49,6 +50,9 @@ namespace homepage.Models
             CGameNavigationViewModel nav = new CGameNavigationViewModel();
             nav.fGroup_GameNav = getGroupById(group_id);
             nav.fItems_GameNav = getGamesById(group_id);
+            nav.fPath_GameNav = (from p in db.tRoutes
+                                 where p.fId_Route == nav.fGroup_GameNav.fId_Route
+                                 select p.fPath_Route).FirstOrDefault();
             return nav;
         }
         public List<CGame> getGamesById(int group_id)
