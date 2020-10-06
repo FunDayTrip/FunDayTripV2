@@ -459,7 +459,22 @@ namespace homepage.Controllers
 
             return Json(cRoute);
         }
+        public JsonResult GetLocationPhoto(string LocationID)
+        {
+            List<tPhoto> photo = (from p in dbFundaytrip.tPhotoes
+                                  where p.fId_Location == LocationID
+                                  select p).ToList();
 
+            List<CPhoto> photos = new List<CPhoto>();
+
+            foreach (var item in photo)
+            {
+                CPhoto cPhoto = new CPhoto(item);
+                photos.Add(cPhoto);
+            }
+
+            return Json(photos);
+        }
     }
 
 }

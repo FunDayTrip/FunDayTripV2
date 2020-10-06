@@ -161,7 +161,7 @@
                 var LocationID = e.features[0].properties.description;
 
                 //CATCH ID跟座標
-                document.getElementById("clickInfo").innerHTML = LocationID + "<br/>" + coordinates + "<br/>";
+                //document.getElementById("clickInfo").innerHTML = LocationID + "<br/>" + coordinates + "<br/>";
                 _LocationID = LocationID;
                 _fX_Coordinate = coordinates[0];
                 _fY_Coordinate = coordinates[1];
@@ -188,16 +188,6 @@
             //個人資料方塊
             $("#locationInfo").hide();
         });
-        //顯示關閉左邊表單
-        function closethisdiv() {
-
-            $("#Result_List2").toggle();
-
-            $('#locationInfo').toggle();
-
-
-        };
-
     </script>
 
 
