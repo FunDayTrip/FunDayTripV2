@@ -268,6 +268,7 @@
     <Compile Include="Controllers\NoteController.cs" />
     <Compile Include="Controllers\PointController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="dbFunDayTripModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -452,6 +453,7 @@
     <Content Include="Views\Home\_ContextMenuPartialView.cshtml" />
     <Content Include="Views\Home\_CreateOrEditForm.cshtml" />
     <Content Include="Views\Home\_DetailInfoView.cshtml" />
+    <Content Include="Views\Statistic\ShowHeatMap.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
