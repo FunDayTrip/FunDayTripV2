@@ -10,11 +10,16 @@ body {
     padding: 0;
 }
 
+/*地圖*/
 #map {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
+}
+/*地圖不顯示logo*/
+.mapboxgl-ctrl {
+    display: none !important;
 }
 
 #info {
@@ -251,6 +256,11 @@ body {
     display: none;
 }
 
+.columns {
+    width: 100%;
+    float: left;
+            padding-bottom: 100px;
+}
 
 .portlet {
     margin: 0 1em 1em 0;

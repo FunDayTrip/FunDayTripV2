@@ -21,17 +21,19 @@ namespace homepage.Controllers
         {
             return View();
         }
-        public JsonResult getGames()
+        public JsonResult get(int group_id)
         {
-            var games = new CGameFactory().getNavAll();
-            //games.FirstOrDefault().fItems_GameNav[0].fX_Coordinate;
-            //games.FirstOrDefault().fGroup_GameNav.fId_GameGroup
-            return Json(games,JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult getGameItem(int group_id)
-        {
-            var games = new CGameFactory().getGamesById(group_id);
-            return Json(games, JsonRequestBehavior.AllowGet);
+            if (group_id == 0)
+            {
+                var games = new CGameFactory().getNavAll();
+                return Json(games, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var games = new CGameFactory().getNavById(group_id);
+                return Json(games, JsonRequestBehavior.AllowGet);
+
+            }
         }
 
     }

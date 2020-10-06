@@ -21,7 +21,7 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">路線 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="#">所有</a></li>
-                    <li><a href="#">我的</a></li>
+                    <li><a href="javascript:showMyRou()">我的</a></li>
                     <li><a href="#">追蹤中</a></li>
                 </ul>
             </li>
@@ -29,7 +29,7 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">相簿 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="#">所有</a></li>
-                    <li><a href="#">我的</a></li>
+                    <li><a href="javascript:showMyAlbums(3)">我的</a></li>
                     <li><a href="#">追蹤中</a></li>
                 </ul>
             </li>
@@ -47,7 +47,7 @@
                 <a id="newAD" style="display:none;" @*href="javascript:showMyLoc()"*@ onclick="makeIdentity()" @*href="@Url.Action("newCommercialData", "Advertisement")"*@>新增廣告</a>
             </li>
             <li>
-                <a href="#">統計與分析</a>
+                <a href="@Url.Action("ShowHeatMap", "Statistic")">統計與分析</a>
             </li>
             <li>
                 <a href="#">聯絡管理員</a>
