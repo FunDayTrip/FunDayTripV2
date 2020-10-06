@@ -38,7 +38,6 @@
           <ScalarProperty Name="fDescript_Album" ColumnName="fDescript_Album" />
           <ScalarProperty Name="fName_Album" ColumnName="fName_Album" />
           <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
-          <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
           <ScalarProperty Name="fId_Album" ColumnName="fId_Album" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -136,6 +135,8 @@
     <EntitySetMapping Name="tGameGroups">
       <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameGroup">
         <MappingFragment StoreEntitySet="tGameGroup">
+          <ScalarProperty Name="fId_Route" ColumnName="fId_Route" />
+          <ScalarProperty Name="fPhoto_GameGroup" ColumnName="fPhoto_GameGroup" />
           <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
           <ScalarProperty Name="fDescript_GameGroup" ColumnName="fDescript_GameGroup" />
           <ScalarProperty Name="fGameLV_GameGroup" ColumnName="fGameLV_GameGroup" />
@@ -186,6 +187,15 @@
           <ScalarProperty Name="fPath_Icon" ColumnName="fPath_Icon" />
           <ScalarProperty Name="fStyle_Icon" ColumnName="fStyle_Icon" />
           <ScalarProperty Name="fId_Icon" ColumnName="fId_Icon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tLA_Relation">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tLA_Relation">
+        <MappingFragment StoreEntitySet="tLA_Relation">
+          <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+          <ScalarProperty Name="fId_Album" ColumnName="fId_Album" />
+          <ScalarProperty Name="fId_LARelation" ColumnName="fId_LARelation" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

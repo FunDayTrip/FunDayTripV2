@@ -1,0 +1,81 @@
+﻿
+/*===== 相簿樣式 by kevin 10/06 =====*/
+
+.albums {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 70%;
+    height: 70%;
+    display: none;
+    background-color: rgba(242, 233, 228, 0.9);
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+
+.albumsclose {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: inline-block;
+    padding: 2px 5px;
+    background: #ccc;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.albumList {
+    border: solid black;
+    width: 100%;
+    height: 100%;
+    overflow: inherit;
+}
+
+.album {
+    display: inline-block;
+    border: dotted #4A4E69;
+    margin: 5px;
+    padding: 5px;
+    width: 32%;
+    height: 50%;
+    overflow-y: scroll;
+    background-color: #C9ADA7;
+}
+
+.showAlbumPhoto {
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 180px;
+    border: solid 1px black;
+}
+
+.albumPhoto {
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.Info_alist {
+    display: inline-block;
+    width:100%;
+}
+
+.info_a {
+    margin: 10px;
+    width: 30%;
+    background-color: #003853;
+    border: solid 1px black;
+    float: left;
+}
+
+.addAlbum {
+    position: absolute;
+    top: 25%;
+    left: 35%;
+    width: 30%;
+    height: 50%;
+    display: none;
+    background-color: rgba(46, 196, 182, 0.9);
+}

@@ -5,30 +5,28 @@ using System.Linq;
 using System.Web;
 
 namespace homepage.ViewModel
-{
-    public class CShowLocations
-    {
-        //放tLocation跟坐標，坐標要設定DisplayFormat
-        public virtual tLocation Location { get; set; }
-        [DisplayFormat(DataFormatString = "{0}", ApplyFormatInEditMode = true)]
-        public Nullable<decimal> fX_Coordinate_i { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0}", ApplyFormatInEditMode = true)]
-        public Nullable<decimal> fY_Coordinate_i { get; set; }
-
-        public virtual tCoordinate Coordinate { get; set; }
-
-        public virtual tPhoto Photo { get; set; }
-
-    }
-   
-
+{  
     public class CCreateLocation
     {
 
         public HttpPostedFileBase PostImage { get; set; }
 
 
+    }
+    public class CCoordinate
+    {
+        public int fId_Coordinate { get; set; }
+        public string fName_Coordinate { get; set; }
+        public Nullable<decimal> fX_Coordinate { get; set; }
+        public Nullable<decimal> fY_Coordinate { get; set; }
+        public CCoordinate() { }
+        public CCoordinate(tCoordinate coordinate)
+        {
+            this.fId_Coordinate = coordinate.fId_Coordinate;
+            this.fName_Coordinate = coordinate.fName_Coordinate;
+            this.fX_Coordinate = coordinate.fX_Coordinate;
+            this.fY_Coordinate = coordinate.fY_Coordinate;
+        }
     }
 
     public class CLocation
@@ -51,7 +49,8 @@ namespace homepage.ViewModel
         public Nullable<decimal> fY_Coordinate { get; set; }
         public string fAuth_ShareAuth { get; set; }
         public string fNickName_Role { get; set; }
-
+        public string fPath_Photo { get; set; }
+        public CLocation() { }
 
         public CLocation(tLocation location)
         {
@@ -72,6 +71,7 @@ namespace homepage.ViewModel
             this.fY_Coordinate = location.tCoordinate.fY_Coordinate;
         }
     }
+
     public class CRoute
     {
         public string fId_Route { get; set; }
@@ -130,19 +130,24 @@ namespace homepage.ViewModel
 
     }
 
-    public class CCoordinate
+    public class CAlbum
     {
-        public int fId_Coordinate { get; set; }
-        public string fName_Coordinate { get; set; }
-        public Nullable<decimal> fX_Coordinate { get; set; }
-        public Nullable<decimal> fY_Coordinate { get; set; }
-        public CCoordinate() { }
-        public CCoordinate(tCoordinate coordinate)
+        public int fId_Album { get; set; }
+        public int fId_ShareAuth { get; set; }
+        public string fName_Album { get; set; }
+        public string fDescript_Album { get; set; }
+        public int fDelete_Album { get; set; }
+        public int fId_Role { get; set; }
+        public string fNickName_Role { get; set; }
+        public string fPath_Photo { get; set; }
+        public CAlbum() { }
+        public CAlbum(tAlbum album)
         {
-            this.fId_Coordinate = coordinate.fId_Coordinate;
-            this.fName_Coordinate = coordinate.fName_Coordinate;
-            this.fX_Coordinate = coordinate.fX_Coordinate;
-            this.fY_Coordinate = coordinate.fY_Coordinate;
+            this.fDelete_Album = album.fDelete_Album;
+            this.fDescript_Album = album.fDescript_Album;
+            this.fId_Album = album.fId_Album;
+            this.fId_ShareAuth = album.fId_ShareAuth;
+            this.fName_Album = album.fName_Album;
         }
     }
 
@@ -155,6 +160,52 @@ namespace homepage.ViewModel
         public List<CPhoto> PhotoList { get; set; }
         public List<CCoordinate> CoordinateList { get; set; }
 
+    }
+
+    public class CCreateRouteAjax
+    {
+        public Nullable<decimal>[] fX_Coordinate { get; set; }
+        public Nullable<decimal>[] fY_Coordinate { get; set; }
+        public int[] fId_Coordinate { get; set; }
+        public string[] fName_Coordinate { get; set; }
+        public string fId_Location { get; set; }
+        public int fId_Role { get; set; }
+        public int fId_ShareAuth { get; set; }
+        public int fId_Icon { get; set; }
+        public string fType_Location { get; set; }
+        public string[] fName_Location { get; set; }
+        public string[] fDescript_Location { get; set; }
+        public Nullable<System.DateTime> fTime_Location { get; set; }
+        public string[] fAdd_Location { get; set; }
+        public int[] fDelete_Location { get; set; }
+        public string[] fId_Photo { get; set; }
+        public string[] fTitle_Photo { get; set; }
+        public string[] fDescript_Photo { get; set; }
+        public string[] fPath_Photo { get; set; }
+        public HttpPostedFileBase[] PostImages { get; set; }
+        public Nullable<System.DateTime>[] fTime_Photo { get; set; }
+        public string fNickName_Role { get; set; }
+        public string fId_Route { get; set; }
+        public string fType_Route { get; set; }
+        public string fName_Route { get; set; }
+        public string fDescript_Route { get; set; }
+        public Nullable<System.DateTime> fTime_Route { get; set; }
+        public Nullable<int> fDelete_Route { get; set; }
+        public string fPath_Route { get; set; }
+        public string fAuth_ShareAuth { get; set; }
+        public int fId_LRRelation { get; set; }
+    }
+
+    public class CCreateAlbumAjax
+    {
+        public int fId_Album { get; set; }
+        public int fId_ShareAuth { get; set; }
+        public string fName_Album { get; set; }
+        public string fDescript_Album { get; set; }
+        public int fDelete_Album { get; set; }
+        public int fId_Role { get; set; }
+        public int fId_LARelation { get; set; }
+        public string[] fId_Location { get; set; }
 
     }
 }
