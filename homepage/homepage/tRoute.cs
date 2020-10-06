@@ -17,6 +17,7 @@ namespace homepage
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tRoute()
         {
+            this.tGameGroups = new HashSet<tGameGroup>();
             this.tLR_Relation = new HashSet<tLR_Relation>();
         }
     
@@ -32,6 +33,8 @@ namespace homepage
         public Nullable<System.DateTime> fTime_Route { get; set; }
         public int fDelete_Route { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tGameGroup> tGameGroups { get; set; }
         public virtual tIcon tIcon { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tLR_Relation> tLR_Relation { get; set; }

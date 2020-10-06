@@ -230,7 +230,7 @@
                             CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
                             <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="float:left" />
                             <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
-                            <div id="active_role_name">目前身分:@memberLogin.fActiveRoleName_Member</div>
+                            <div id="active_role_name" value="@memberLogin.fActiveRoleName_Member">目前身分:@memberLogin.fActiveRoleName_Member</div>
                             <div id="login_email">@memberLogin.fEmail_Member</div>
                             <button id="logoutBtn" style="float:right">登出</button>
                             <br />
@@ -746,10 +746,10 @@
                         }
                     };
                     RouArray.push(rouJson);
-                    //console.log(RouArray);
+                    console.log(RouArray);
 
                 }//end for
-
+                console.log(RouArray);
                 reloadlocation();
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);

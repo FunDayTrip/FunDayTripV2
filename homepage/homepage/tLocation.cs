@@ -18,7 +18,7 @@ namespace homepage
         public tLocation()
         {
             this.tAds = new HashSet<tAd>();
-            this.tAlbums = new HashSet<tAlbum>();
+            this.tLA_Relation = new HashSet<tLA_Relation>();
             this.tLR_Relation = new HashSet<tLR_Relation>();
             this.tPhotoes = new HashSet<tPhoto>();
         }
@@ -38,10 +38,10 @@ namespace homepage
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tAd> tAds { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tAlbum> tAlbums { get; set; }
         public virtual tCoordinate tCoordinate { get; set; }
         public virtual tIcon tIcon { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tLA_Relation> tLA_Relation { get; set; }
         public virtual tRole tRole { get; set; }
         public virtual tShareAuth tShareAuth { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
