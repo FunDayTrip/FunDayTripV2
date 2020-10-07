@@ -20,22 +20,206 @@ namespace homepage.Controllers
     {
         DB_FunDayTripEntities dbFundaytrip = new DB_FunDayTripEntities();
         CLoginViewModel loginMember = new CLoginViewModel();
+        string key = "**********";
 
+        [HttpPost]
+        public JsonResult myRoutesshow(int data)
+        {
+            List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == data).AsEnumerable()
+                                  select l).ToList();
+
+            List<CRoute> croutes = new List<CRoute>();
+
+            foreach (var item in route)
+            {
+                CRoute croute = new CRoute(item);
+                croutes.Add(croute);
+            }
+            return Json(croutes);
+
+        }
+
+        [HttpPost]
+        public JsonResult myLocationsshow(int data)
+        {
+            List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == data).AsEnumerable()
+                                        where l.fDelete_Location == 0
+                                        join s2 in dbFundaytrip.tPhotoes on l.fId_Location equals s2.fId_Location
+                                        select l).ToList();
+            List<CLocation> clocations = new List<CLocation>();
+
+            foreach (var item in location)
+            {
+                CLocation clocation = new CLocation(item);
+                clocations.Add(clocation);
+            }
+            return Json(clocations);
+
+        }
+
+        [HttpPost]
+        public JsonResult myRount(int data)
+        {
+            List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == data).AsEnumerable()
+                                  select l).ToList();
+            List<CRoute> croutes = new List<CRoute>();
+            foreach (var item in route)
+            {
+                CRoute croute = new CRoute(item);
+                croutes.Add(croute);
+            }
+            return Json(croutes, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult myLocation(int data)
+        {
+            List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == data).AsEnumerable()
+                                        select l).ToList();
+            List<CLocation> clocations = new List<CLocation>();
+
+            foreach (var item in location)
+            {
+                CLocation clocation = new CLocation(item);
+                clocations.Add(clocation);
+            }
+            return Json(clocations, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult getAllRoutesshow(string data)
+        {
+            if (string.IsNullOrEmpty(data))
+            {
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.AsEnumerable()
+                                      select l).ToList();
+
+                List<CRoute> croutes = new List<CRoute>();
+
+                foreach (var item in route)
+                {
+                    CRoute croute = new CRoute(item);
+                    croutes.Add(croute);
+                }
+                return Json(croutes);
+            }
+            else
+            {
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fName_Route.Contains(data)).AsEnumerable()
+                                      select l).ToList();
+
+                List<CRoute> croutes = new List<CRoute>();
+
+                foreach (var item in route)
+                {
+                    CRoute croute = new CRoute(item);
+                    croutes.Add(croute);
+                }
+                return Json(croutes);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult getAllLocationsshow(string data)
+        {
+            if (string.IsNullOrEmpty(data))
+            {
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.AsEnumerable()
+                                            where l.fDelete_Location == 0
+                                            join s2 in dbFundaytrip.tPhotoes on l.fId_Location equals s2.fId_Location
+                                            select l).ToList();
+                List<CLocation> clocations = new List<CLocation>();
+
+                foreach (var item in location)
+                {
+                    CLocation clocation = new CLocation(item);
+                    clocations.Add(clocation);
+                }
+                return Json(clocations);
+            }
+            else
+            {
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fName_Location.Contains(data)).AsEnumerable()
+                                            where l.fDelete_Location == 0
+                                            join s2 in dbFundaytrip.tPhotoes on l.fId_Location equals s2.fId_Location
+                                            select l).ToList();
+                List<CLocation> clocations = new List<CLocation>();
+
+                foreach (var item in location)
+                {
+                    CLocation clocation = new CLocation(item);
+                    clocations.Add(clocation);
+                }
+                return Json(clocations);
+            }
+        }
+        [HttpPost]
+        public JsonResult SearchLocation(string data)
+        {
+            if (string.IsNullOrEmpty(data))
+            {
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.AsEnumerable()
+                                            select l).ToList();
+                List<CLocation> clocations = new List<CLocation>();
+
+                foreach (var item in location)
+                {
+                    CLocation clocation = new CLocation(item);
+                    clocations.Add(clocation);
+                }
+                return Json(clocations, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fName_Location.Contains(data)).AsEnumerable()
+                                            select l).ToList();
+                List<CLocation> clocations = new List<CLocation>();
+                foreach (var item in location)
+                {
+                    CLocation clocation = new CLocation(item);
+                    clocations.Add(clocation);
+                }
+
+                mapItem.LocationList = clocations;
+                return Json(clocations, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        [HttpPost]
+        public JsonResult SearchRount(string data)
+        {
+            if (string.IsNullOrEmpty(data))
+            {
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.AsEnumerable()
+                                      select l).ToList();
+                List<CRoute> croutes = new List<CRoute>();
+                foreach (var item in route)
+                {
+                    CRoute croute = new CRoute(item);
+                    croutes.Add(croute);
+                }
+                return Json(croutes, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fName_Route.Contains(data)).AsEnumerable()
+                                      select l).ToList();
+                List<CRoute> croutes = new List<CRoute>();
+                foreach (var item in route)
+                {
+                    CRoute croute = new CRoute(item);
+                    croutes.Add(croute);
+                }
+                return Json(croutes, JsonRequestBehavior.AllowGet);
+            }
+
+        }
 
         CMapItem mapItem = new CMapItem();
         // GET: Home _verna_0930
         public ActionResult Index(string trancId)
         {
-            //if (trancId != null)
-            //{
-            //    tBank bank = new tBank();
-            //    bank.fAccount_Bank = trancId;
-            //    bank.fId_Role = int.Parse((string) Session[CDictionary.SK_ActiveRoleId]);
-
-
-            //};
-
-            List<tLocation> location = (from s in dbFundaytrip.tLocations.AsEnumerable()
+            List<tLocation> location = (from s in dbFundaytrip.tLocations.Where(entity => entity.fName_Location.Contains(key)).AsEnumerable()
                                         where s.fId_Coordinate == s.tCoordinate.fId_Coordinate && s.fDelete_Location == 0
                                         join s2 in dbFundaytrip.tPhotoes on s.fId_Location equals s2.fId_Location
                                         select s).ToList();
@@ -48,7 +232,7 @@ namespace homepage.Controllers
                 clocations.Add(clocation);
             }
 
-            List<tRoute> route = (from l in dbFundaytrip.tRoutes.AsEnumerable()
+            List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fName_Route.Contains(key)).AsEnumerable()
                                   select l).ToList();
 
             List<CRoute> croutes = new List<CRoute>();
@@ -64,22 +248,58 @@ namespace homepage.Controllers
 
             return View(mapItem);
         }
-      
-        //public string login(string email, string pwd)
-        //{
-        //    string loginMsg = "";
 
-        //    if (email == "0000" && pwd == "0000" )
-        //    {
-        //        loginMsg = "登入成功";
-        //    }            
-        //    else
-        //    {
-        //        loginMsg = "登入失敗";
-        //    }
+        [HttpPost]
+        public ActionResult googlelogin(string email, string nickname, string firstname, string lastname, string photo)
+        {
+            var q = (from m in dbFundaytrip.tMembers
+                     where m.fEmail_Member == email
+                     select m);
 
-        //    return loginMsg;
-        //}
+            if (!q.Any())
+            {
+                CMember user = new CMember
+                {
+                    fEmail_Member = email,
+                    fNickName_Member = nickname,
+                    fFirstName_Member = firstname,
+                    fLastName_Member = lastname,
+                    fPhoto_Member = photo
+                };
+                MemberController member = new MemberController();
+                member.signUpFromGoogle(user);
+            }
+            else
+            {
+                loginMember.loginMessage = "歡迎回來! " + q.FirstOrDefault().fNickName_Member;
+                loginMember.fId_Member = q.FirstOrDefault().fId_Member;
+                loginMember.fNickName_Member = q.FirstOrDefault().fNickName_Member;
+                loginMember.fEmail_Member = q.FirstOrDefault().fEmail_Member;
+                loginMember.fPassword_Member = q.FirstOrDefault().fPassword_Member;
+                //讀取角色
+                loginMember.fId_FuntionAuth_Member = q.FirstOrDefault().fId_FunctionAuth;
+
+                List<CRole> rolesList = new CRolesFactory().getRoleList(loginMember.fId_Member);
+                loginMember.fActiveRoleId_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fId_Role;
+                loginMember.fActiveRoleName_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fNickName_Role;
+
+                List<tNote> notesList = new CNotesFactory().readNotes(loginMember.fActiveRoleId_Member);
+                loginMember.fNotesCount_Member = notesList.Count(x => x.fIsRead_Note == 0);
+                //讀取點數
+                var member_point = new CPointFactory().getPoint(loginMember.fActiveRoleId_Member);
+                loginMember.fPointTotal_Member = Convert.ToInt32(member_point.Sum(s => s.fPoint_Point));
+
+                //放入Session
+                Session[CDictionary.SK_MemberId] = loginMember.fId_Member;
+                Session[CDictionary.SK_MemberLogin] = loginMember;
+                Session[CDictionary.SK_ActiveRoleId] = loginMember.fActiveRoleId_Member;
+                Session[CDictionary.SK_ActiveRoleName] = loginMember.fActiveRoleName_Member;
+                Session[CDictionary.SK_AunctionAuth] = 1;
+            }
+            return Json(loginMember);
+        }
+
+
         [HttpPost]
         public ActionResult login(string email, string pwd)
         {

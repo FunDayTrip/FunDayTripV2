@@ -210,5 +210,22 @@ namespace homepage.Controllers
                 return "OK";
             }
         }
+
+        public void signUpFromGoogle(CMember data)
+        {
+            tMember tmember = new tMember();
+            tmember.fNickName_Member = data.fNickName_Member;
+            tmember.fEmail_Member = data.fEmail_Member;
+            tmember.fPassword_Member = Guid.NewGuid().ToString();
+            tmember.fFirstName_Member = data.fFirstName_Member;
+            tmember.fLastName_Member = data.fLastName_Member;
+            tmember.fPhoto_Member = data.fPhoto_Member;
+            tmember.fId_FunctionAuth = 1;
+            dbFundaytrip.tMembers.Add(tmember);
+            dbFundaytrip.SaveChanges();
+
+            CRolesFactory roleFactory = new CRolesFactory();
+            roleFactory.createRole(tmember);
+        }
     }
 }
