@@ -56,10 +56,11 @@
             <li class="dropdown">
                 <a id="backstage" style="display:none;" class="dropdown-toggle" data-toggle="dropdown" href="#">管理員後台<span class="caret"></span></a>
                 @*<a id="backstage" style="display:none;" href="@Url.Action("indexBack", "backStage")">管理員後台</a>*@
-                <ul class="dropdown-menu">
-                    <li><a href="@Url.Action("showAllMembers", "backStage")">會員查詢</a></li>
-                    <li><a href="@Url.Action("showApplyAD", "backStage")">審核廣告</a></li>
-                </ul>
+            <ul class="dropdown-menu">
+                <li><a href="@Url.Action("showAllMembers", "backStage")">會員查詢</a></li>
+                <li><a href="@Url.Action("showApplyAD", "backStage")">審核廣告</a></li>
+                <li><a href="@Url.Action("reportedList", "backStag")">檢舉名單</a></li>
+            </ul>
             </li>
         </ul>
         <form class="navbar-form navbar-left" action="/action_page.php">

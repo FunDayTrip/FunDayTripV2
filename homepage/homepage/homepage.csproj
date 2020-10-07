@@ -488,6 +488,7 @@
     <Compile Include="tUnlock.cs">
       <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\CAdDetailVM.cs" />
     <Compile Include="ViewModel\CFanslistViewModel.cs" />
     <Compile Include="ViewModel\CFollowlistViewModel.cs" />
     <Compile Include="ViewModel\CGameNavigationViewModel.cs" />

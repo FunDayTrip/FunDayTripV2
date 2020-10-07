@@ -17,6 +17,10 @@
     body {
         background-image: url("../../Content/灰色背景.jpg")
     }
+
+    .trData td {
+        text-align: center;
+    }
 </style>
 <html>
 <head>
@@ -55,41 +59,48 @@
                     <th>
                         @Html.DisplayNameFor(model => model.fStatus_Ad)
                     </th>
-                    <th></th>
+                    <th style="color:cornflowerblue;">
+                    </th>
+                    <th style="color:cornflowerblue;">
+                    </th>
                 </tr>
             </thead>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
+                <tr class="trData">
+                    <td style="width:80px;vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fId_Ad)
                     </td>
-                    <td>
+                    <td style="width:80px;vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fId_Role)
                     </td>
-                    <td>
+                    <td style="width:80px;vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fId_Admin_Role)
                     </td>
-                    <td>
+                    <td style="width:80px;vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fId_Location)
                     </td>
-                    <td>
+                    <td style="width: 80px; vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fContent_Ad)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fPhoto_Ad)
+                    <td style="width:170px;">
+                        <img src="@item.fPhoto_Ad" style="width:180px;height:110px;" />
+                        @*@Html.DisplayFor(modelItem => item.fPhoto_Ad)*@
                     </td>
-                    <td>
+                    <td style="width:80px;vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fSolution_Ad)
                     </td>
-                    <td>
+                    <td style="width: 80px; vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fStatus_Ad)
                     </td>
-                    <td>
-                        @Html.ActionLink("顯示詳細", "showAdDetail", "backStage", new { id = item.fId_Ad.ToString() }, null)
+                    <td style="width:100px;vertical-align: middle;" >
+                        @Html.ActionLink("顯示詳細", "showAdDetail", "backStage", new { id = item.fId_Ad.ToString() }, new { @class = "btn btn-info" })
+                    </td>
+                    <td style="width:100px;vertical-align: middle;">
+                        @Html.ActionLink("審核通過", "pass", "backStage", new { id = item.fId_Ad.ToString() }, new { @class = "btn btn-warning" })
                     </td>
                 </tr>
-            }
+             }
         </table>
     </div>
 </body>

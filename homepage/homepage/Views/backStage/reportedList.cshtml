@@ -25,7 +25,8 @@
 </head>
 <body>
     <div style="text-align:center;margin:10px;margin-bottom:-1px;">
-        @Html.ActionLink("回查詢列表", "showAllMembers", "backStage", new { @class = "btn btn-info" })
+        @Html.ActionLink("回首頁", "Index", "Home", new { @class = "btn btn-info" })
+        @Html.ActionLink("查詢列表", "showAllMembers", "backStage", new { @class = "btn btn-info" })
     </div>
     <div class="table-responsive">
         @*說明:自動排序命名法*@
