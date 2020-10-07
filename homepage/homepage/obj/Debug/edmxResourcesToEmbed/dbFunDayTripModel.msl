@@ -415,5 +415,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="tGameRecords">
+      <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameRecord">
+        <MappingFragment StoreEntitySet="tGameRecord">
+          <ScalarProperty Name="fFinished_GameRecord" ColumnName="fFinished_GameRecord" />
+          <ScalarProperty Name="fTime_GameRecord" ColumnName="fTime_GameRecord" />
+          <ScalarProperty Name="fOrder_Game" ColumnName="fOrder_Game" />
+          <ScalarProperty Name="fId_GameGroup" ColumnName="fId_GameGroup" />
+          <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+          <ScalarProperty Name="fId_GameRecord" ColumnName="fId_GameRecord" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
