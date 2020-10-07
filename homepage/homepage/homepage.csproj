@@ -273,6 +273,7 @@
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\NoteController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PointController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
