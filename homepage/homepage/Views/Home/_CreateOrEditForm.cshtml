@@ -1,24 +1,19 @@
 ﻿@using homepage.Models
-
-    <div class="row">
-
-        <div id="newOne" style="display:none;">
-            okokokokokokokok
-        </div>
-
-        <div class="column" style="background-color:wheat">
-            <h3 id="CreateOrEdit">新增地點</h3>
-            <br />
-            <p>地點id: </p>
-            <input id="fId_Location" class="fId_LocationClass" style="color: green" name="fId_Location" readonly />
-            <p>座標</p>
-            <span id="info3" style="background-color:bisque"></span>
-            x :<input name="fX_Coordinate" id="fx_Coordinate" readonly />
-            y :<input name="fY_Coordinate" id="fy_Coordinate" readonly />
-            <br />
-            座標名
-            <input name="fName_Coordinate" id="CoordinateName" />
-        </div>
+<div class="row">
+    <div class="column" style="background-color:wheat">
+        <h3 id="CreateOrEdit">新增地點</h3>
+        <br />          
+        人<input name="fId_Role" readonly/>@Session[CDictionary.SK_ActiveRoleId]
+        <p>地點id: </p>
+        <input id="fId_Location" class="fId_LocationClass" style="color: green" name="fId_Location" readonly />        
+        <p>座標</p>        
+        <span id="info3" style="background-color:bisque"></span>
+        x :<input name="fX_Coordinate" id="fx_Coordinate" readonly />
+        y :<input name="fY_Coordinate" id="fy_Coordinate" readonly />
+        <br />
+        座標名
+        <input name="fName_Coordinate" id="CoordinateName" />
+    </div>
 
         <div class="column" style="background-color:wheat">
             <div>
@@ -75,3 +70,10 @@
     </div>
 
 </div>@*row*@
+
+<script>
+    
+   
+   
+
+</script>
