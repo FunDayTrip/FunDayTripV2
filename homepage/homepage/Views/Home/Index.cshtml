@@ -307,13 +307,13 @@
         </div>
         @*跳出新增/編輯視窗*@
         <div id="myModal" class="modal">
-            <div class="modal-dialog">
+            @*<div class="modal-dialog">*@
                 <div class="modal-content ">
                     <form form method="post" enctype="multipart/form-data" id="UploadLocationForm">
                         @Html.Partial("_CreateOrEditForm");
                     </form>
                 </div>@*model-contain*@
-            </div>
+            @*</div>*@
         </div>@*model*@
 
         @*跳出"路線"新增/編輯視窗 by kevin 10/05*@
@@ -429,9 +429,9 @@
             $("#addNewLocationButton").show();
         };
         //click outside close modal windows_verna
-        $(".modal").click(function () {
-            $(".modal").hide();
-        });
+        //$(".modal").click(function () {
+        //    $(".modal").hide();
+        //});
         //取得新增/編輯資料 表單id
         var CreateEditmodal = document.getElementById("myModal");
         //關閉新增/編輯資料 表單

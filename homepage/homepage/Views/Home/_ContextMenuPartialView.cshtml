@@ -65,7 +65,7 @@
                 console.log("delete,yes");
 
                 $.ajax({
-                    url: "/Home/DeleteThisLoc",
+                    url: "/Location/DeleteThisLoc",
                     type: "POST",
                     data: { locationID: _LocationID },
                 }).done(function (response) {
@@ -73,6 +73,7 @@
                 }).fail(function (xhr) {
                     console.log(xhr.status + xhr.responseText);
                 });//end ajax
+                reload();
 
             } else {
                 console.log("no");
