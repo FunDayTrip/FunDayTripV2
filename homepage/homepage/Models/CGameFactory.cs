@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls.Expressions;
 
 namespace homepage.Models
 {
@@ -84,6 +85,88 @@ namespace homepage.Models
             }
             return game_list;
         }
+        public CGameRecord getGameRecord(int group_id, int role_id)
+        {
+            var q = from r in db.tGameRecords
+                    where r.fId_Role == role_id && r.fId_GameGroup == group_id
+                    select r;
 
+            if (q.Any())
+            {
+                var record_table =  q.FirstOrDefault();
+                CGameRecord record = new CGameRecord
+                {
+                    fId_GameGroup = (int)record_table.fId_GameGroup,
+                    fId_Role = record_table.fId_Role,
+                    fTime_GameRecord = (DateTime)record_table.fTime_GameRecord,
+                    fTime_Readable_GameRecord = record_table.fTime_GameRecord.ToString(),
+                    fFinished_GameRecord = record_table.fFinished_GameRecord,
+                    fOrder_Game = record_table.fOrder_Game
+                };
+
+
+                return record;
+            }
+            else
+            {
+                return createGameRecord(role_id, group_id);
+            }
+
+        }
+        public CGameRecord createGameRecord(int role_id, int group_id)
+        {
+            var q = from r in db.tGameRecords
+                    where r.fId_Role == role_id && r.fId_GameGroup == group_id
+                    select r;
+
+            tGameRecord record = new tGameRecord
+            {
+                fId_Role = role_id,
+                fId_GameGroup = group_id,
+                fOrder_Game = 0,
+                fTime_GameRecord = DateTime.Now,
+                fFinished_GameRecord = 0,
+            };
+
+            CGameRecord recordforinfo = new CGameRecord
+            {
+                fId_Role = record.fId_Role,
+                fId_GameGroup = record.fId_GameGroup,
+                fOrder_Game = record.fOrder_Game,
+                fTime_GameRecord = (DateTime)record.fTime_GameRecord,
+                fTime_Readable_GameRecord = record.fTime_GameRecord.ToString(),
+                fFinished_GameRecord = 0,
+            };
+
+            db.tGameRecords.Add(record);
+            db.SaveChanges();
+            return recordforinfo;
+        }
+
+        public void updateGameRecord(int role_id, int group_id, int game_record)
+        {
+            var q = from r in db.tGameRecords
+                    where r.fId_Role == role_id & r.fId_GameGroup == group_id
+                    select r;
+
+            var q_game = (from g in db.tGameGroups
+                          where g.fId_GameGroup == group_id
+                          select g.tGames).ToList();
+
+            if (q.Any())
+            {
+                if(game_record == q_game.Count)
+                {
+                    q.FirstOrDefault().fOrder_Game = 0;
+                    q.FirstOrDefault().fFinished_GameRecord = 1;
+                }
+                else
+                {
+                    q.FirstOrDefault().fOrder_Game = game_record;
+                }    
+
+            }
+            db.SaveChanges();
+        }
     }
 }

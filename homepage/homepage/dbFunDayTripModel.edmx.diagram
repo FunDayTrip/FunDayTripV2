@@ -88,6 +88,9 @@
         <AssociationConnector Association="DB_FunDayTripModel.FK_tUnlock_tRole" />
         <AssociationConnector Association="DB_FunDayTripModel.FK_tRoute_tShareAuth" />
         <AssociationConnector Association="DB_FunDayTripModel.FK_tTagMsgRelations_tTag" />
+        <EntityTypeShape EntityType="DB_FunDayTripModel.tGameRecord" Width="1.5" PointX="18" PointY="46.25" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tGameRecord_tGameGroup" />
+        <AssociationConnector Association="DB_FunDayTripModel.FK_tGameRecord_tRole" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

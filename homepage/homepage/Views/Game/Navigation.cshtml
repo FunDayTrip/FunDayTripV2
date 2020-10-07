@@ -161,7 +161,7 @@
     <div id="game_modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <div style="justify-content:center;">
+            <div style="justify-content:center;"> 
                 <button class="btn btn-info" onclick="" type="submit">確定</button>
                 <button class="btn btn-info" onclick="" type="submit">取消</button>
                 <div id="follower_list"></div>
@@ -349,7 +349,6 @@
             map.on('mouseleave', 'game_group', function  () {
                 map.getCanvas().style.cursor = '';
             });
-
             //show 地點路線
             function getGameItems(id) {
 
@@ -430,7 +429,6 @@
                     var json = JSON.parse(req.response);
                     var data = json.routes[0];
                     var route = data.geometry.coordinates;
-                    console.log(data);
                     var distance = data.distance;
                     var duration = data.duration;
                     console.log(distance + "," + duration)
@@ -450,11 +448,11 @@
                         }
                     };
                     // if the route already exists on the map, reset it using setData
-                    if (map.getSource('route')) {
-                        map.getSource('route').setData(geojson);
+                    if (map.getSource('route'+ group_id)) {
+                        map.getSource('route' + group_id).setData(geojson);
                     } else { // otherwise, make a new request
                         map.addLayer({
-                            id: 'route',
+                            id: 'route' + group_id,
                             type: 'line',
                             source: {
                                 type: 'geojson',
@@ -498,6 +496,12 @@
             //彈跳遊戲視窗
             function gamecon() {
                 game_modal.style.display = "block";
+
+
+
+
+
+
             };
             $(".close").on("click", function () {
                 game_modal.style.display = "none";

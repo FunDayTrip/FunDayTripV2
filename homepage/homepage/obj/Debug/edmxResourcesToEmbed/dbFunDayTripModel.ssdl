@@ -117,7 +117,7 @@
     <Property Name="fId_Coordinate" Type="int" Nullable="false" />
     <Property Name="fType_Game" Type="int" />
     <Property Name="fName_Game" Type="nvarchar" MaxLength="50" />
-    <Property Name="fOrder_Game" Type="int" />
+    <Property Name="fOrder_Game" Type="int" Nullable="false" />
     <Property Name="fId_GameGroup" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="tGameGroup">
@@ -145,6 +145,17 @@
     <Property Name="fOption_4_GameQA" Type="nvarchar(max)" />
     <Property Name="fAnswer_GameQA" Type="int" />
     <Property Name="fReward_GameQA" Type="int" />
+  </EntityType>
+  <EntityType Name="tGameRecord">
+    <Key>
+      <PropertyRef Name="fId_GameRecord" />
+    </Key>
+    <Property Name="fId_GameRecord" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fId_Role" Type="int" />
+    <Property Name="fId_GameGroup" Type="int" />
+    <Property Name="fOrder_Game" Type="int" Nullable="false" />
+    <Property Name="fTime_GameRecord" Type="datetime" />
+    <Property Name="fFinished_GameRecord" Type="int" />
   </EntityType>
   <EntityType Name="tGameStep">
     <Key>
@@ -596,6 +607,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_tGameRecord_tGameGroup">
+    <End Role="tGameGroup" Type="Self.tGameGroup" Multiplicity="0..1" />
+    <End Role="tGameRecord" Type="Self.tGameRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tGameGroup">
+        <PropertyRef Name="fId_GameGroup" />
+      </Principal>
+      <Dependent Role="tGameRecord">
+        <PropertyRef Name="fId_GameGroup" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tGameRecord_tRole">
+    <End Role="tRole" Type="Self.tRole" Multiplicity="0..1" />
+    <End Role="tGameRecord" Type="Self.tGameRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tGameRecord">
+        <PropertyRef Name="fId_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_tGameStep_tGame">
     <End Role="tGame" Type="Self.tGame" Multiplicity="1" />
     <End Role="tGameStep" Type="Self.tGameStep" Multiplicity="*" />
@@ -982,6 +1017,7 @@
     <EntitySet Name="tGame" EntityType="Self.tGame" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tGameGroup" EntityType="Self.tGameGroup" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tGameQA" EntityType="Self.tGameQA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tGameRecord" EntityType="Self.tGameRecord" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tGameStep" EntityType="Self.tGameStep" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tGameUnlock" EntityType="Self.tGameUnlock" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tIcon" EntityType="Self.tIcon" Schema="dbo" store:Type="Tables" />
@@ -1074,6 +1110,14 @@
     <AssociationSet Name="FK_tGameQA_tGame" Association="Self.FK_tGameQA_tGame">
       <End Role="tGame" EntitySet="tGame" />
       <End Role="tGameQA" EntitySet="tGameQA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tGameRecord_tGameGroup" Association="Self.FK_tGameRecord_tGameGroup">
+      <End Role="tGameGroup" EntitySet="tGameGroup" />
+      <End Role="tGameRecord" EntitySet="tGameRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tGameRecord_tRole" Association="Self.FK_tGameRecord_tRole">
+      <End Role="tRole" EntitySet="tRole" />
+      <End Role="tGameRecord" EntitySet="tGameRecord" />
     </AssociationSet>
     <AssociationSet Name="FK_tGameStep_tGame" Association="Self.FK_tGameStep_tGame">
       <End Role="tGame" EntitySet="tGame" />

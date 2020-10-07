@@ -231,6 +231,15 @@
       <End Role="tTag" EntitySet="tTags" />
       <End Role="tTagMsgRelation" EntitySet="tTagMsgRelations" />
     </AssociationSet>
+    <EntitySet Name="tGameRecords" EntityType="DB_FunDayTripModel.tGameRecord" />
+    <AssociationSet Name="FK_tGameRecord_tGameGroup" Association="DB_FunDayTripModel.FK_tGameRecord_tGameGroup">
+      <End Role="tGameGroup" EntitySet="tGameGroups" />
+      <End Role="tGameRecord" EntitySet="tGameRecords" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tGameRecord_tRole" Association="DB_FunDayTripModel.FK_tGameRecord_tRole">
+      <End Role="tRole" EntitySet="tRoles" />
+      <End Role="tGameRecord" EntitySet="tGameRecords" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="tAd">
     <Key>
@@ -369,7 +378,7 @@
     <Property Name="fId_Coordinate" Type="Int32" Nullable="false" />
     <Property Name="fType_Game" Type="Int32" />
     <Property Name="fName_Game" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="fOrder_Game" Type="Int32" />
+    <Property Name="fOrder_Game" Type="Int32" Nullable="false" />
     <Property Name="fId_GameGroup" Type="Int32" Nullable="false" />
     <NavigationProperty Name="tCoordinate" Relationship="DB_FunDayTripModel.FK_tGame_tCoordinate" FromRole="tGame" ToRole="tCoordinate" />
     <NavigationProperty Name="tGameGroup" Relationship="DB_FunDayTripModel.FK_tGame_tGameGroup" FromRole="tGame" ToRole="tGameGroup" />
@@ -391,6 +400,7 @@
     <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tGameGroup_tRole" FromRole="tGameGroup" ToRole="tRole" />
     <NavigationProperty Name="tRoute" Relationship="DB_FunDayTripModel.FK_tGameGroup_tRoute" FromRole="tGameGroup" ToRole="tRoute" />
     <NavigationProperty Name="tGameUnlocks" Relationship="DB_FunDayTripModel.FK_tGameUnlock_tGameGroup" FromRole="tGameGroup" ToRole="tGameUnlock" />
+    <NavigationProperty Name="tGameRecords" Relationship="DB_FunDayTripModel.FK_tGameRecord_tGameGroup" FromRole="tGameGroup" ToRole="tGameRecord" />
   </EntityType>
   <EntityType Name="tGameQA">
     <Key>
@@ -639,6 +649,7 @@
     <NavigationProperty Name="tRoutes" Relationship="DB_FunDayTripModel.FK_tRoute_tRole" FromRole="tRole" ToRole="tRoute" />
     <NavigationProperty Name="tStatistics" Relationship="DB_FunDayTripModel.FK_tStatistic_tRole" FromRole="tRole" ToRole="tStatistic" />
     <NavigationProperty Name="tUnlocks" Relationship="DB_FunDayTripModel.FK_tUnlock_tRole" FromRole="tRole" ToRole="tUnlock" />
+    <NavigationProperty Name="tGameRecords" Relationship="DB_FunDayTripModel.FK_tGameRecord_tRole" FromRole="tRole" ToRole="tGameRecord" />
   </EntityType>
   <EntityType Name="tRoute">
     <Key>
@@ -1295,6 +1306,43 @@
       </Principal>
       <Dependent Role="tTagMsgRelation">
         <PropertyRef Name="fId_Tag" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tGameRecord">
+    <Key>
+      <PropertyRef Name="fId_GameRecord" />
+    </Key>
+    <Property Name="fId_GameRecord" Type="Int32" Nullable="false" />
+    <Property Name="fId_Role" Type="Int32" />
+    <Property Name="fId_GameGroup" Type="Int32" />
+    <Property Name="fOrder_Game" Type="Int32" Nullable="false" />
+    <Property Name="fTime_GameRecord" Type="DateTime" Precision="3" />
+    <Property Name="fFinished_GameRecord" Type="Int32" />
+    <NavigationProperty Name="tGameGroup" Relationship="DB_FunDayTripModel.FK_tGameRecord_tGameGroup" FromRole="tGameRecord" ToRole="tGameGroup" />
+    <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tGameRecord_tRole" FromRole="tGameRecord" ToRole="tRole" />
+  </EntityType>
+  <Association Name="FK_tGameRecord_tGameGroup">
+    <End Type="DB_FunDayTripModel.tGameGroup" Role="tGameGroup" Multiplicity="0..1" />
+    <End Type="DB_FunDayTripModel.tGameRecord" Role="tGameRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tGameGroup">
+        <PropertyRef Name="fId_GameGroup" />
+      </Principal>
+      <Dependent Role="tGameRecord">
+        <PropertyRef Name="fId_GameGroup" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tGameRecord_tRole">
+    <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="0..1" />
+    <End Type="DB_FunDayTripModel.tGameRecord" Role="tGameRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tRole">
+        <PropertyRef Name="fId_Role" />
+      </Principal>
+      <Dependent Role="tGameRecord">
+        <PropertyRef Name="fId_Role" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

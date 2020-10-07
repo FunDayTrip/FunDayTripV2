@@ -46,5 +46,52 @@ namespace homepage.Controllers
 
             return Json(note,JsonRequestBehavior.AllowGet);
         }
+        public void post(int role_id, string message, int admin_id)
+        {
+            //寄通知給所有人，輸入-1 ~1007 王詠平
+            if (role_id == -1)
+            {
+                var q = from n in dbFundaytrip.tRoles
+                        select n;
+                List<tNote> notes = new List<tNote>();
+                foreach (var role in q.ToList())
+                {
+                    tNote _note = new tNote
+                    {
+                        fId_Admin_Role = admin_id,
+                        fId_Role = role.fId_Role,
+                        fMessage_Note = message,
+                        fTime_Note = DateTime.Now,
+                        fIsRead_Note = 0,
+                    };
+                    notes.Add(_note);
+                }
+
+                dbFundaytrip.tNotes.AddRange(notes);
+                dbFundaytrip.SaveChanges();
+            }
+            //寄通知給指定角色
+            else
+            {
+                var q = from n in dbFundaytrip.tRoles
+                        where n.fId_Role == role_id
+                        select n;
+
+                if (q.Any())
+                {
+                    tNote _note = new tNote
+                    {
+                        fId_Admin_Role = admin_id,
+                        fId_Role = role_id,
+                        fMessage_Note = message,
+                        fTime_Note = DateTime.Now,
+                        fIsRead_Note = 0,
+                    };
+                    dbFundaytrip.tNotes.Add(_note);
+                    dbFundaytrip.SaveChanges();
+                }
+            }
+
+        }
     }
 }

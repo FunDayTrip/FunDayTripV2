@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
- 
+
 
 namespace homepage.Controllers
 {
@@ -34,6 +34,12 @@ namespace homepage.Controllers
                 return Json(games, JsonRequestBehavior.AllowGet);
 
             }
+        }
+        public ActionResult post(int group_id, int role_id)
+        {
+            CGameRecord record = new CGameFactory().getGameRecord(group_id,role_id);
+
+            return Json(record, JsonRequestBehavior.AllowGet);
         }
 
     }
