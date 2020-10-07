@@ -25,7 +25,7 @@ namespace homepage.Controllers
                                    select l).FirstOrDefault();
             ALocation.fDelete_Location = 1;
             dbFundaytrip.SaveChanges();
-            return "delete sucess";
+            return "delete sucess"+ LocationID;
         }
     }
 }
