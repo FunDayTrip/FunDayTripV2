@@ -12,6 +12,7 @@ namespace homepage.Models
         public List<CGame> fItems_GameNav 
         {  get; set; }
         public string fPath_GameNav { get; set; }
+        public string fPhoto_GameNav { get; set; }
         
     }
 }

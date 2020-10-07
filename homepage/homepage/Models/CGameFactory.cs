@@ -21,6 +21,7 @@ namespace homepage.Models
                 game.fName_GameGroup = item.fName_GameGroup;
                 game.fDescription_GameGroup = item.fDescript_GameGroup;
                 game.fId_Route = item.fId_Route;
+                game.fPhoto_GameGroup = item.fPhoto_GameGroup;
                 g_group.Add(game);
             }
 

@@ -11,5 +11,6 @@ namespace homepage.Models
         public string fName_GameGroup { get; set; }
         public string fDescription_GameGroup { get; set; }
         public string fId_Route { get; set; }
+        public string fPhoto_GameGroup { get; set; }
     }
 }
