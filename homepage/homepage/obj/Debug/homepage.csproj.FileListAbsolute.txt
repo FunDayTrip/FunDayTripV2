@@ -1007,3 +1007,5 @@ C:\Users\user\主要\資策會\期末專題\期末測試\masterv2\FunDayTripV2\h
 C:\Users\user\主要\資策會\期末專題\期末測試\masterv2\FunDayTripV2\homepage\homepage\obj\Debug\homepage.csproj.CopyComplete
 C:\Users\user\主要\資策會\期末專題\期末測試\masterv2\FunDayTripV2\homepage\homepage\obj\Debug\homepage.dll
 C:\Users\user\主要\資策會\期末專題\期末測試\masterv2\FunDayTripV2\homepage\homepage\obj\Debug\homepage.pdb
+C:\Users\user\主要\資策會\期末專題\期末測試\masterv2\FunDayTripV2\homepage\homepage\bin\zh-Hant\Microsoft.AspNet.SignalR.Core.resources.dll
+C:\Users\user\主要\資策會\期末專題\期末測試\masterv2\FunDayTripV2\homepage\homepage\bin\zh-Hant\Microsoft.AspNet.SignalR.SystemWeb.resources.dll

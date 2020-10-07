@@ -332,7 +332,7 @@
             <PropertyRef Name="fId_Route" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="fId_Route" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="fId_Route" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="fId_Role" Type="int" Nullable="false" />
           <Property Name="fId_ShareAuth" Type="int" Nullable="false" />
           <Property Name="fId_Icon" Type="int" Nullable="false" />
@@ -1854,7 +1854,7 @@
             <PropertyRef Name="fId_Route" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="fId_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
           <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" />
           <Property Name="fId_Icon" Type="Int32" Nullable="false" />

@@ -645,7 +645,7 @@
       <PropertyRef Name="fId_Route" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="fId_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="fId_Role" Type="Int32" Nullable="false" />
     <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" />
     <Property Name="fId_Icon" Type="Int32" Nullable="false" />

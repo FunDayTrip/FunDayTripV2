@@ -1,4 +1,5 @@
 ﻿using homepage.Models;
+using homepage.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +20,7 @@ namespace homepage.Controllers
 
         public ActionResult showAdDetail(string id)
         {
-            tAd item = (new CAdFactory()).getAdDetail(id);
+            CAdDetailVM item = (new CAdFactory()).getAdDetail(id);
             return View(item);
         }
 
