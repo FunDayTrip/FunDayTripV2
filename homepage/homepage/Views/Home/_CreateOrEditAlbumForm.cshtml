@@ -4,10 +4,16 @@
 <div>相簿敘述</div>
 <input name="fDescript_Album" id="fDescript_Album" />
 <div>分享權限</div>
-<input name="fId_ShareAuth" id="fId_ShareAuth" />
+<select id="selector" name="fId_ShareAuth">
+    <option id="Public" value=3 selected="selected">Public</option>
+    <option id="Follower" value=2>Follower</option>
+    <option id="Private" value=1>Private</option>
+</select>
+<div>是否刪除</div>
+<input type="checkbox" name="fDelete_Album" id="checkboxa" onclick="IfDeleteAlbum()">刪除(請打勾)
 <div>將地點加入相簿</div>
-<select name="fId_Location" id="aloc" multiple></select>
-<div></div>
+<div id="aloc"></div>
+
 <div>
     <button type="button" onclick="addAlbumFormButton()" id="addAlbumForm" style="position:relative; bottom: 10px; right: 10px">確定</button>
 </div>

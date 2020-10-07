@@ -115,7 +115,7 @@
 
 
     @*上列選項清單_verna_0930 *@
-    @Html.Partial("_topMenuNavigation");
+    @Html.Partial("_topMenuNavigation")
 
     <div style="position:absolute;top:70px">
         @*新增地點*@
@@ -127,21 +127,21 @@
 
     <div id="infoi2">
         @*路線地點詳細資訊*@
-        @Html.Partial("_DetailInfoView");
+        @Html.Partial("_DetailInfoView")
     </div>
 
     @*滑鼠右鍵清單*@
-    @Html.Partial("_ContextMenuPartialView");
+    @Html.Partial("_ContextMenuPartialView")
 
 
     @*顯示相簿*@
-    @Html.Partial("_ShowAlbumView");
+    @Html.Partial("_ShowAlbumView")
 
     @*新增/編輯相簿*@
     <div class="addAlbum" id="addAlbum">
         <span class="albumsclose close" onclick="setDivDisplay('addAlbum', 'none')">X</span>
         <form form method="post" enctype="multipart/form-data" id="addAlbumForm">
-            @Html.Partial("_CreateOrEditAlbumForm");
+            @Html.Partial("_CreateOrEditAlbumForm")
         </form>
     </div>
 
@@ -187,7 +187,7 @@
                 Coords_Location = [_fX_Coordinate, _fY_Coordinate];
                 //console.log(Coords_Location);
                 fly(Coords_Location);
-                zoomToLocation(LocationID);              
+                zoomToLocation(LocationID);
             });
         });
 
@@ -426,6 +426,8 @@
             $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
         });
 
+
+
         //點選新增地點,才可添加marker
         var _marker;//地圖上marker變數
         $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
@@ -466,7 +468,7 @@
                     document.getElementById('info3').innerHTML = _lng + "," + _lat;
                     _LocationID = "noLocationID";
                     console.log("新增時的id" + _LocationID + _lat + _lng);
-                 }              
+                 }
 
                 else {
                     console.log("no");
@@ -678,8 +680,11 @@
     @* ========= 新增我的路線 by kevin 10/06 ========= *@
     <script>
         //我的路線 顯示可新增按鈕
-        function showMyRou() {
+        function showMyRou(roleID) {
+
             $("#addNewRouteButton").show();
+
+            //TODO:路線列表顯示自己的路線
         };
 
         //設定div狀態
@@ -689,6 +694,16 @@
                 x.style.display = Type
         }
 
+        //是否刪除路線
+        function IfDeleteRoute() {
+            var ifIsChecked = $('#checkboxes').is(":checked");
+
+            if (ifIsChecked == true) {
+                $('#checkboxes').val(1);
+            } else {
+                $('#checkboxes').val(0);
+            }
+        }
 
         //預覽路線照片
         var RoateloadFile = function (event) {
@@ -728,6 +743,7 @@
                     setDivDisplay("instructions2", "block");
                     //document.getElementById("UploadLocationForm").reset();
                     $("#CreateOrEditRoute").text("新增路線");
+                    $("#fId_Role").val(@Session[CDictionary.SK_ActiveRoleId]);
                     $("#save2").hide();
                     $("#create2").show();
                     for (var i = 0; i < CoordinateCnt + 1; i++) {
@@ -840,7 +856,9 @@
                         showConfirmButton: false,
                         timer: 1000
                     })
-
+                    //setDivDisplay("", "none");
+                    //$("#addNewRouteButton").show();
+                    $("#addNewRouteButton").hide();
                     setDivDisplay("instructions2", "none");
                     _marker.remove();
                 },
@@ -940,7 +958,7 @@
 
     @* ========= 編輯我的路線 by kevin 10/06 ========= *@
     <script>
-        //按編輯按鈕帶出該筆路線info by kevin 10/06 =======路線照片修改有問題，再更新==========//
+        //按編輯按鈕帶出該筆路線info by kevin 10/06 =======路線修改有問題，再更新==========//
         function CallBackThisRouteInfoWhenEditor() {
             document.getElementById("UploadRouteForm").reset();
             $("#create2").hide();
@@ -1262,7 +1280,7 @@
                 dataType: "json",
                 //data: { }
             }).done(function (response) {
-                console.log(response);
+                //console.log(response);
                 for (var i = 0; i < response.length; i++) {
 
                     Id_Route = response[i].fId_Route;
@@ -1281,10 +1299,10 @@
                         }
                     };
                     RouArray.push(rouJson);
-                    console.log(RouArray);
+                    //console.log(RouArray);
 
                 }//end for
-                console.log(RouArray);
+                //console.log(RouArray);
                 reloadlocation();
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);
@@ -1706,6 +1724,7 @@
     <script>
         //顯示相簿列表
         function showMyAlbums(roleID) {
+        
             setDivDisplay("albums", "block");
 
             $.ajax({
@@ -1719,29 +1738,31 @@
                 if (response.length == 0) {
                     albumInstructions =
                         '<div class="album">' +
-                        '<button type="button" class="btn btn-info" onclick="addAlbum(3)">新增相簿</button>' +
+                        '<button type="button" class="btn btn-info" onclick="addAlbum('+@Session[CDictionary.SK_ActiveRoleId]+')">新增相簿</button>' +
                         '</div>';
                     album.innerHTML += albumInstructions;
                 }
                 else {
                     for (var i = 0; i < response.length; i++) {
                         albumInstructions =
-                            '<div class="album" onclick="showAlbumDetail(' + response[i].fId_Album + ')">' +
+                            '<div class="album" >' +
+                            '<div onclick="showAlbumDetail(' + response[i].fId_Album + ')">' +
                             '<div class="albumUserName" id="fNickName_Role' + i + '"><h5>' + response[i].fNickName_Role + '</h5></div>' +
                             '<div class="showAlbumPhoto" id="showAlbumPhoto">' +
                             '<img class="albumPhoto" src="' + response[i].fPath_Photo + '"/>' +
                             '</div>' +
                             '<div class="albumName" id="fName_Album' + i + '"><h6>' + response[i].fName_Album + '</h6></div>' +
                             '<div class="albumDescript" id="fDescript_Album' + i + '" ><h7>' + response[i].fDescript_Album + '</h7></div>' +
+                            '</div>' +
                             '<div>' +
-                            '<button type="button" class="btn btn-info" onclick="editAlbum(3)">修改相簿</button>' +
-                            '</div>'
-                        '</div>';
+                        '<button type="button" class="btn btn-info" onclick="editAlbum(' + @Session[CDictionary.SK_ActiveRoleId] +',' + response[i].fId_Album+')">修改相簿</button>' +
+                            '</div>' +
+                            '</div>';
                         album.innerHTML += albumInstructions;
                     }
                     album.innerHTML +=
                         '<div class="album">' +
-                        '<button type="button" class="btn btn-info" onclick="addAlbum(3)">新增相簿</button>' +
+                        '<button type="button" class="btn btn-info" onclick="addAlbum(' + @Session[CDictionary.SK_ActiveRoleId] +')">新增相簿</button>' +
                         '</div>';
                 }
 
@@ -1802,14 +1823,40 @@
                 //console.log(response);
                 var opt = document.getElementById("aloc");
                 for (var i = 0; i < response.length; i++) {
-                    optinfo = '<option id="' + response[i].fId_Location + '" value="' + response[i].fId_Location + '">' + response[i].fName_Location + '</option>';
+                    var optid = "aloc" + i;
+                    var locid = response[i].fId_Location + "";
+
+                    optinfo = '<input type="checkbox" name="fId_Location[]" id="' + optid + '" onclick="IfSelectedLocations(' + "\'" + locid + "\'" + "," + "\'" + optid + "\'" + ')">' + response[i].fName_Location + '</br>';
+
                     opt.innerHTML += optinfo;
                 }
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText)
             });//end ajax
-
         }//end addAlbum()
+
+        //是否刪除相簿
+        function IfDeleteAlbum() {
+            var ifIsChecked = $('#checkboxa').is(":checked");
+
+            if (ifIsChecked == true) {
+                $('#checkboxea').val(1);
+            } else {
+                $('#checkboxea').val(0);
+            }
+        }
+
+        //相簿加入地點
+        function IfSelectedLocations(idLocSelected, loci) {
+            console.log("id = " + idLocSelected + ",loci = " + loci);
+            var ifIsChecked = $('#' + loci).is(":checked");
+
+            if (ifIsChecked == true) {
+                $('#' + loci).val(idLocSelected);
+            } else {
+                return;
+            }
+        }
 
         //確定新增相簿-寫入資料庫
         function addAlbumFormButton() {
@@ -1836,7 +1883,60 @@
 
     @* ========= 修改我的相簿 by kevin 10/06 ========= *@
     <script>
-        //TODO ing
+        //按編輯帶入相簿資料
+        function editAlbum(roleID, albumID) {
+            console.log("roleID = " + roleID + "albumId = " + albumID);
+
+            setDivDisplay("addAlbum", "block");
+            $.ajax({
+                url: "/Home/editMyAlbums",
+                type: "POST",
+                dataType: "json",
+                data: { roleID: roleID, albumID: albumID }
+            }).done(function (response) {
+                console.log(response);
+
+                $("#fDescript_Album").val(response.fDescript_Album);
+                $("#fId_Album").val(albumID);
+                $("#fName_Album").val(response.fName_Album);
+                $("#fId_Role").val(roleID);
+
+                if (response.fDelete_Album == 1) {
+                    $('#checkboxa').prop("checked", true)
+                } else {
+                    $('#checkboxa').prop("checked", false)
+                }
+
+                $('#selector option').removeAttr('selected');
+                if (response.fId_ShareAuth == 3) {
+                    $('#selector option[value=3]').attr('selected', 'selected');
+                } else if (response.fId_ShareAuth == 2) {
+                    $('#selector option[value=2]').attr('selected', 'selected');
+                } else {
+                    $('#selector option[value=1]').attr('selected', 'selected');
+                };
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText)
+            });//end ajax
+
+            //帶入有打勾的資料
+            $.ajax({
+                url: "/Home/editMyAlbumsLoc",
+                type: "POST",
+                dataType: "json",
+                data: { roleID: roleID, albumID: albumID }
+            }).done(function (response) {
+                console.log(response);
+
+                //TODO:只撈有打勾的 fName_Location[]
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText)
+            });//end ajax
+
+        }//end editAlbum()
+
     </script>
 </body>
 </html>

@@ -275,10 +275,11 @@ namespace homepage.Controllers
         }
 
 
-        //載入所有路線//verna_0930
+        //載入所有路線//verna_0930 kevin 10/06
         public JsonResult getAllRoutes()
         {
             List<tRoute> route = (from l in dbFundaytrip.tRoutes.AsEnumerable()
+                                  where l.fDelete_Route==0
                                   select l).ToList();
 
             List<CRoute> croutes = new List<CRoute>();
@@ -322,11 +323,7 @@ namespace homepage.Controllers
 
             return InfoJson;
         }
-
-
-        
-
-
+      
         //新增地點
         public string createAlocation(tCoordinate createCoordinate, CCreateLocation loadPostPhoto, tLocation createlocation, tPhoto createphoto)
         {
@@ -437,7 +434,7 @@ namespace homepage.Controllers
             return alert;
         }
 
-        //k的getloc
+        //===== 獲得地點 by kevin 10/06 =====//
         public JsonResult GetLocation(string LocationID)
         {
             List<tLocation> location = (from l in dbFundaytrip.tLocations.AsEnumerable()
@@ -453,8 +450,8 @@ namespace homepage.Controllers
             }
             return Json(clocations);
         }
-        
-        //k-getRoute
+
+        //===== 獲得路線 by kevin 10/06 =====//
         public JsonResult GetRoute(string RouteID)
         {
             tRoute Route = (from s in dbFundaytrip.tRoutes
@@ -464,7 +461,8 @@ namespace homepage.Controllers
 
             return Json(cRoute);
         }
-        //k
+
+        //===== 獲得路線中的地點 by kevin 10/06 =====//
         public JsonResult RouteGetPoint(string RouteID)
         {
             List<tLR_Relation> RelationList = (from s in dbFundaytrip.tLR_Relation
@@ -484,7 +482,7 @@ namespace homepage.Controllers
             return Json(cLocations);
         }
 
-        //k
+        //===== 獲得路線中的地點照片 by kevin 10/06 =====//
         public JsonResult GetLocationPhoto(string LocationID)
         {
             List<tPhoto> photo = (from p in dbFundaytrip.tPhotoes
@@ -501,7 +499,8 @@ namespace homepage.Controllers
 
             return Json(photos);
         }
-        //===== 判斷點擊地是否有已知坐標 by kevin 10/06=====//
+        
+        //===== 判斷點擊地是否有已知坐標 by kevin 10/06 =====//
         public JsonResult SearchXY(decimal x, decimal y)
         {
             CCoordinate cxy;
@@ -522,7 +521,7 @@ namespace homepage.Controllers
             return Json(cxy);
         }
 
-        //===== 新增路線 by kevin 10/06=====//
+        //===== 新增路線 by kevin 10/06 =====//
         public string createAroute(CCreateRouteAjax Coordinate, tRoute createroute, tLR_Relation createLRrelation)
         {
             string alert = null;
@@ -573,16 +572,22 @@ namespace homepage.Controllers
                 createlocation.fDescript_Location = Coordinate.fDescript_Location[i];
                 createlocation.fName_Location = Coordinate.fName_Location[i];
 
-                createlocation.fId_Role = 3;
+                createlocation.fId_Role = Coordinate.fId_Role;
                 createlocation.fId_Coordinate = coordFid[i];
-                createlocation.fId_ShareAuth = 3;
-                createlocation.fId_Icon = 3;
+                createlocation.fId_ShareAuth = Coordinate.fId_ShareAuth[0];
+                createlocation.fId_Icon = Coordinate.fId_ShareAuth[0];
                 createlocation.fType_Location = "point";
                 createlocation.fTime_Location = DateTime.Now;
-                createlocation.fDelete_Location = 0;
+
+                if (Coordinate.fDelete_Route != null)
+                {
+                    createlocation.fDelete_Location = (int)Coordinate.fDelete_Route;
+                }
+                
                 dbFundaytrip.tLocations.Add(createlocation);
                 dbFundaytrip.SaveChanges();
             }
+
 
             //新增照片
             int tempi = 0;
@@ -608,15 +613,19 @@ namespace homepage.Controllers
             }
 
             //新增路線
-            createroute.fId_Icon = 3;
-            createroute.fId_Role = 3;
-            createroute.fId_ShareAuth = 1;
+            createroute.fId_Role = Coordinate.fId_Role;
+            createroute.fId_Icon = Coordinate.fId_ShareAuth[0];            
+            createroute.fId_ShareAuth = Coordinate.fId_ShareAuth[0];
             createroute.fTime_Route = DateTime.Now;
             createroute.fType_Route = "line";
-            createroute.fDelete_Route = 0;
             createroute.fDescript_Route = Coordinate.fDescript_Route;
             createroute.fName_Route = Coordinate.fName_Route;
             createroute.fPath_Route = Coordinate.fPath_Route;
+
+            if (Coordinate.fDelete_Route != null)
+            {
+                createroute.fDelete_Route = (int)Coordinate.fDelete_Route;
+            }
 
             dbFundaytrip.tRoutes.Add(createroute);
             dbFundaytrip.SaveChanges();
@@ -642,6 +651,7 @@ namespace homepage.Controllers
             return "checkfordbCoordinate";
         }
 
+        //===== 編輯路線 by kevin 10/06=====//
         public string EditRouteInfo(CCreateRouteAjax Coordinate, tRoute createroute, tLR_Relation createLRrelation)
         {
             //修改坐標
@@ -665,8 +675,6 @@ namespace homepage.Controllers
             }
 
             //修改地點
-            //tLocation createlocation = new tLocation();
-            //tPhoto createphoto = new tPhoto();
             List<int> tempcoordFid = new List<int>();
 
             for (int i = 0; i < Coordinate.fX_Coordinate.Length; i++)
@@ -687,11 +695,18 @@ namespace homepage.Controllers
                                           where t.fId_Coordinate == templid
                                           select t).FirstOrDefault();
 
-                editlocation.fAdd_Location = Coordinate.fAdd_Location[i];
-                //editlocation.fDelete_Location = Coordinate.fDelete_Location[i];
+                editlocation.fAdd_Location = Coordinate.fAdd_Location[i];                                
+                editlocation.fId_ShareAuth = createroute.fId_ShareAuth;
+                editlocation.fId_Icon = createroute.fId_ShareAuth;
                 editlocation.fDescript_Location = Coordinate.fDescript_Location[i];
                 editlocation.fName_Location = Coordinate.fName_Location[i];
                 editlocation.fTime_Location = DateTime.Now;
+                
+                if (Coordinate.fDelete_Route != null)
+                {
+                    editlocation.fDelete_Location = (int)Coordinate.fDelete_Route;
+                }
+
                 dbFundaytrip.SaveChanges();
             }
 
@@ -730,11 +745,18 @@ namespace homepage.Controllers
             tRoute editroute = (from r in dbFundaytrip.tRoutes
                                 where r.fId_Route == createroute.fId_Route
                                 select r).FirstOrDefault();
-            editroute.fDelete_Route = Convert.ToInt32(createroute.fDelete_Route);
+            //editroute.fDelete_Route = Convert.ToInt32(createroute.fDelete_Route);
+            editroute.fId_ShareAuth = createroute.fId_ShareAuth;
             editroute.fDescript_Route = createroute.fDescript_Route;
             editroute.fName_Route = createroute.fName_Route;
             editroute.fPath_Route = createroute.fPath_Route;
             editroute.fTime_Route = DateTime.Now;
+
+            if (Coordinate.fDelete_Route != null)
+            {
+                editroute.fDelete_Route = (int)createroute.fDelete_Route;
+            }
+
             dbFundaytrip.SaveChanges();
 
             //修改地點路線關聯
@@ -767,6 +789,7 @@ namespace homepage.Controllers
             return "修改成功";
         }
 
+        // ===== 顯示相簿 by kevin 10/06 =====//
         public JsonResult showMyAlbums(int roleID)
         {
             List<tLocation> loclist = (from l in dbFundaytrip.tLocations
@@ -818,6 +841,7 @@ namespace homepage.Controllers
             return Json(albumlist);
         }
 
+        // ===== 相簿內地點 by kevin 10/06 =====//
         public JsonResult showAlbumDetail(int albumId)
         {
             List<tLA_Relation> lare = (from la in dbFundaytrip.tLA_Relation.AsEnumerable()
@@ -844,6 +868,7 @@ namespace homepage.Controllers
             return Json(cloc);
         }
 
+        // ===== 相簿新增地點選項 by kevin 10/06 =====//
         public JsonResult showLocOptions(int roleID)
         {
             List<tLocation> loc = (from l in dbFundaytrip.tLocations.AsEnumerable()
@@ -858,6 +883,7 @@ namespace homepage.Controllers
             return Json(cloc);
         }
 
+        // ===== 新增相簿 by kevin 10/06 =====//
         public string addAlbum(tLA_Relation tLA_Relation, tAlbum tAlbum, tLocation tLocation, CCreateAlbumAjax CCreateAlbumAjax)
         {
             tAlbum createAlbum = new tAlbum();
@@ -891,6 +917,38 @@ namespace homepage.Controllers
             }
             return "新增相簿成功";
         }
+
+        // ===== 編輯相簿 by kevin 10/07 =====//
+        public JsonResult editMyAlbums(int roleID, int albumID)
+        {           
+            tAlbum q = (from p in dbFundaytrip.tAlbums
+                    where p.fId_Album == albumID
+                    select p).FirstOrDefault();
+
+            CAlbum albumlist = new CAlbum(q);
+            return Json(albumlist);
+        }
+
+        // ===== 編輯相簿中的地點 by kevin 10/07 =====//
+        public JsonResult editMyAlbumsLoc(int roleID, int albumID)
+        {
+            List<string> la = (from a in dbFundaytrip.tLA_Relation
+                               where a.fId_Album == albumID
+                               select a.fId_Location).ToList();
+
+            List<CLocation> locationlist = new List<CLocation>();
+            foreach (var item in la)
+            {
+                tLocation b = (from l in dbFundaytrip.tLocations
+                               where l.fId_Location == item
+                               select l).FirstOrDefault();
+                CLocation loc = new CLocation(b);
+                locationlist.Add(loc);
+            }
+            
+            return Json(locationlist);
+        }
+        
     }
 
 }

@@ -170,8 +170,8 @@ namespace homepage.ViewModel
         public string[] fName_Coordinate { get; set; }
         public string fId_Location { get; set; }
         public int fId_Role { get; set; }
-        public int fId_ShareAuth { get; set; }
-        public int fId_Icon { get; set; }
+        public int[] fId_ShareAuth { get; set; }
+        public int[] fId_Icon { get; set; }
         public string fType_Location { get; set; }
         public string[] fName_Location { get; set; }
         public string[] fDescript_Location { get; set; }
@@ -207,5 +207,11 @@ namespace homepage.ViewModel
         public int fId_LARelation { get; set; }
         public string[] fId_Location { get; set; }
 
+    }
+
+    public class CEditAlbumAjax
+    {
+        public List<CLocation> locationList { get; set; }
+        public List<CAlbum> albumList { get; set; }
     }
 }
