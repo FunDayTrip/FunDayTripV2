@@ -289,6 +289,7 @@
     <Compile Include="Controllers\NoteController.cs" />
     <Compile Include="Controllers\PointController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="dbFunDayTripModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -316,12 +317,10 @@
     </Compile>
     <Compile Include="Models\CAd.cs" />
     <Compile Include="Models\CAdFactory.cs" />
-    <Compile Include="Models\CCoordinate.cs" />
     <Compile Include="Models\CDictionary.cs" />
     <Compile Include="Models\CGame.cs" />
     <Compile Include="Models\CGameFactory.cs" />
     <Compile Include="Models\CGameGroup.cs" />
-    <Compile Include="Models\CGameNavigationViewModel.cs" />
     <Compile Include="Models\CMember.cs" />
     <Compile Include="Models\CMemberFactory.cs" />
     <Compile Include="Models\CMessage.cs" />
@@ -439,6 +438,7 @@
     </Compile>
     <Compile Include="ViewModel\CFanslistViewModel.cs" />
     <Compile Include="ViewModel\CFollowlistViewModel.cs" />
+    <Compile Include="ViewModel\CGameNavigationViewModel.cs" />
     <Compile Include="ViewModel\CHistoryMessage.cs" />
     <Compile Include="ViewModel\CLoginViewModel.cs" />
     <Compile Include="ViewModel\CShowLocations.cs" />
@@ -489,6 +489,7 @@
     <Content Include="Scripts\jquery-3.5.1.min.map" />
     <Content Include="Views\Home\_ShowAlbumView.cshtml" />
     <Content Include="Views\Home\_CreateOrEditAlbumForm.cshtml" />
+    <Content Include="Views\Statistic\ShowHeatMap.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
