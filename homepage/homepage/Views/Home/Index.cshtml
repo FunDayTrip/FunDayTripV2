@@ -120,14 +120,17 @@
     <div style="position:absolute;top:70px">
         @*新增地點*@
         <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
-
+       
         @*新增路線*@
         <button id="addNewRouteButton" type="button" class="btn btn-danger">放置新增路線</button>
+
+        <button style="background-color:red" onclick="location.href='@Url.Action("LvVIP","Payment")'">升級</button>
     </div>
 
     <div id="infoi2">
         @*路線地點詳細資訊*@
         @Html.Partial("_DetailInfoView")
+
     </div>
 
     @*滑鼠右鍵清單*@
@@ -153,6 +156,19 @@
 
 
     <script>
+        function pay() {
+            $.ajax({
+                url: "/Payment/LvVIP",
+                type: "POST",
+                dataType: "json",
+            }).done(function (response) {
+                console.log("suc");
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+        };
+
         //全域變數===============================
         //經緯度變數
         var _lng, _lat;
@@ -215,9 +231,7 @@
 
              };
 
-
-
-
+         
              });
     </script>
 
@@ -305,11 +319,11 @@
         @*跳出新增/編輯視窗*@
         <div id="myModal" class="modal">
             @*<div class="modal-dialog">*@
-                <div class="modal-content ">
-                    <form form method="post" enctype="multipart/form-data" id="UploadLocationForm">
-                        @Html.Partial("_CreateOrEditForm");
-                    </form>
-                </div>@*model-contain*@
+            <div class="modal-content ">
+                <form form method="post" enctype="multipart/form-data" id="UploadLocationForm">
+                    @Html.Partial("_CreateOrEditForm");
+                </form>
+            </div>@*model-contain*@
             @*</div>*@
         </div>@*model*@
 
@@ -1740,7 +1754,7 @@
     <script>
         //顯示相簿列表
         function showMyAlbums(roleID) {
-        
+
             setDivDisplay("albums", "block");
 
             $.ajax({

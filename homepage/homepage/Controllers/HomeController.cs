@@ -24,8 +24,17 @@ namespace homepage.Controllers
 
         CMapItem mapItem = new CMapItem();
         // GET: Home _verna_0930
-        public ActionResult Index()
+        public ActionResult Index(string trancId)
         {
+            //if (trancId != null)
+            //{
+            //    tBank bank = new tBank();
+            //    bank.fAccount_Bank = trancId;
+            //    bank.fId_Role = int.Parse((string) Session[CDictionary.SK_ActiveRoleId]);
+
+
+            //};
+
             List<tLocation> location = (from s in dbFundaytrip.tLocations.AsEnumerable()
                                         where s.fId_Coordinate == s.tCoordinate.fId_Coordinate && s.fDelete_Location == 0
                                         join s2 in dbFundaytrip.tPhotoes on s.fId_Location equals s2.fId_Location
