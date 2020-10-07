@@ -137,7 +137,7 @@
         //經緯度變數
         var _lng, _lat;
         var Addedmarker;
-
+        var _LocationID;
         //要求顯示地圖===========================
         //顯示中文地圖
         mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
@@ -168,7 +168,7 @@
                 Coords_Location = [_fX_Coordinate, _fY_Coordinate];
                 //console.log(Coords_Location);
                 fly(Coords_Location);
-                zoomToLocation(LocationID);              
+                zoomToLocation(LocationID);
             });
         });
 
@@ -183,11 +183,23 @@
     </div>
 
     <script>
+        var LogIn
         //文件載入鎖定部分按鈕事件/顯示_verna_0930
         $(document).ready(function () {
             //個人資料方塊
-            $("#locationInfo").hide();
-        });
+            //$("#locationInfo").hide();
+
+             @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
+             {
+                 CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
+                 @:console.log("@memberLogin.fNickName_Member"+"@memberLogin.fId_Member");
+
+             };
+
+
+
+
+             });
     </script>
 
 
@@ -273,12 +285,13 @@
         </div>
         @*跳出新增/編輯視窗*@
         <div id="myModal" class="modal">
-
-            <div class="modal-content ">
-                <form form method="post" enctype="multipart/form-data" id="UploadLocationForm">
-                    @Html.Partial("_CreateOrEditForm");
-                </form>
-            </div>@*model-contain*@
+            <div class="modal-dialog">
+                <div class="modal-content ">
+                    <form form method="post" enctype="multipart/form-data" id="UploadLocationForm">
+                        @Html.Partial("_CreateOrEditForm");
+                    </form>
+                </div>@*model-contain*@
+            </div>
         </div>@*model*@
     </div>
     @*</div>*@
@@ -377,6 +390,10 @@
         function showMyLoc() {
             $("#addNewLocationButton").show();
         };
+        //click outside close modal windows_verna
+        $(".modal").click(function () {
+            $(".modal").hide();
+        });
         //取得新增/編輯資料 表單id
         var CreateEditmodal = document.getElementById("myModal");
         //關閉新增/編輯資料 表單
@@ -535,7 +552,6 @@
             $("#UploadLocationForm").ajaxSubmit({
                 type: "POST",
                 url: "/Home/createAlocation",
-                //data: { EditLocationId: _LocationID },
                 success: function (response) {
                     console.log(response);
 
@@ -718,7 +734,7 @@
                 dataType: "json",
                 //data: { }
             }).done(function (response) {
-                console.log(response);
+                //console.log(response);
                 for (var i = 0; i < response.length; i++) {
 
                     Id_Route = response[i].fId_Route;
@@ -737,10 +753,10 @@
                         }
                     };
                     RouArray.push(rouJson);
-                    console.log(RouArray);
+                    //console.log(RouArray);
 
                 }//end for
-                console.log(RouArray);
+                //console.log(RouArray);
                 reloadlocation();
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);
@@ -821,14 +837,14 @@
         //顯示地點資訊，點列表k
         var listLocRoute = document.getElementById("infoi2");
         function zoomToLocation(LocationID) {
-            
+
             listLocRoute.style.display = "block";
             getLocAjax(LocationID);
         };
 
         //顯示路線&地點資訊，點列表k
         function zoomToRoute(RouteID) {
-            
+
             listLocRoute.style.display = "block";
             getRouAjax(RouteID);
         }//end zoomToRoute

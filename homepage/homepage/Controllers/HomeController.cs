@@ -12,6 +12,7 @@ using Newtonsoft;
 using Newtonsoft.Json;
 using System.Web.Helpers;
 using homepage.Models;
+using System.Text;
 
 namespace homepage.Controllers
 {
@@ -351,7 +352,7 @@ namespace homepage.Controllers
 
             int sa = createlocation.fId_ShareAuth;
             //tLocation location = new tLocation();
-            createlocation.fId_Role = 3;
+            //createlocation.fId_Role 
             createlocation.fId_Coordinate = lastestCoordinateFid;
             createlocation.fId_ShareAuth = createlocation.fId_ShareAuth;
             createlocation.fId_Icon = createlocation.fId_ShareAuth;
@@ -476,6 +477,9 @@ namespace homepage.Controllers
 
             return Json(photos);
         }
+
+     
+
     }
 
 }

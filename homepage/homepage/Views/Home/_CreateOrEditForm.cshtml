@@ -1,8 +1,9 @@
-﻿
+﻿@using homepage.Models
 <div class="row">
     <div class="column" style="background-color:wheat">
         <h3 id="CreateOrEdit">新增地點</h3>
-        <br />
+        <br />          
+        人<input name="fId_Role" readonly/>@Session[CDictionary.SK_ActiveRoleId]
         <p>地點id: </p>
         <input id="fId_Location" class="fId_LocationClass" style="color: green" name="fId_Location" readonly />        
         <p>座標</p>        
@@ -68,3 +69,10 @@
         <button type="button" onclick="EditLoctionFormButton()" id="save" style="position:relative; bottom: 10px; right: 10px">編輯存檔</button>
     </div>
 </div>@*row*@
+
+<script>
+    
+   
+   
+
+</script>

@@ -181,6 +181,12 @@
     <Content Include="Scripts\jquery-3.0.0.min.js" />
     <Content Include="Scripts\jquery-3.0.0.slim.js" />
     <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -264,6 +270,7 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\NoteController.cs" />
     <Compile Include="Controllers\PointController.cs" />
@@ -457,6 +464,10 @@
     <Content Include="Views\Home\_CreateOrEditForm.cshtml" />
     <Content Include="Views\Home\_DetailInfoView.cshtml" />
     <Content Include="Views\Statistic\ShowHeatMap.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -468,7 +479,9 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Common\" />
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\Location\" />
     <Folder Include="Views\Note\" />
+    <Folder Include="Views\Payment\" />
     <Folder Include="Views\Point\" />
     <Folder Include="Views\Profile\" />
     <Folder Include="Views\Role\" />

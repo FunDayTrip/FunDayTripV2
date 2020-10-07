@@ -13,8 +13,34 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
 
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    @*jquery*@
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    @*mapbox plugins language*@
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v0.10.1/mapbox-gl-language.js'></script>
+
+    <title>jQuery UI Slider - Range slider</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    @*<link rel="stylesheet" href="/resources/demos/style.css">*@
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
 
     <style>
         body {
@@ -32,26 +58,78 @@
 </head>
 <body>
 
-    <div id="map" onclick="remove()" ondblclick="selfreload()"></div>
+    <div id="map" onclick="remove()"></div>
+    <div style="position:absolute;left: 800px;top:500px "id="loading">
+        <div class="spinner-grow text-muted"></div>
+        <div class="spinner-grow text-primary"></div>
+        <div class="spinner-grow text-success"></div>
+        <div class="spinner-grow text-info"></div>
+        <div class="spinner-grow text-warning"></div>
+        <div class="spinner-grow text-danger"></div>
+        <div class="spinner-grow text-secondary"></div>
+        <div class="spinner-grow text-dark"></div>
+        <div class="spinner-grow text-light"></div>
+    </div>
+    
+    <div style="background-color:white; width:400px; height:350px;position:absolute;left:50px;top:50px">
+        <div style="margin:10px">
+            <p>
+                <label for="amount">Age range:</label>
+                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+
+            <div id="slider-range" onclick="showAgeHeat()"></div>
+            <br />
+            <hr />
+            <p>Gender:</p>
+            
+            <div onclick="genderHeat()" id="checkboxGender">
+
+                <div class="form-check form-check-inline" >
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="所有" checked>
+                    <label class="form-check-label" for="inlineRadio1">ALL</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="男">
+                    <label class="form-check-label" for="inlineRadio2">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="女">
+                    <label class="form-check-label" for="inlineRadio3">Female</label>
+                </div>
+
+            </div>
+        
+
+            <hr />
+
+            <button onclick="showAgeHeat()" class="btn btn-dark">update</button>
+
+
+        </div>
+
+    </div>
     <script>
         //要求顯示地圖===========================
         //顯示中文地圖
         mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
         var map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mapbox/dark-v10',
-            center: [-120, 50],
-            zoom: 2
+            style: 'mapbox://styles/mapbox/dark-v9',
+            center: [120.757769, 23.535394],
+            zoom: 6
         });
-      
+        //改成中文
+        var language = new MapboxLanguage({ defaultLanguage: 'zh' });
+        map.addControl(language);
+
         map.on('load', function () {
             // Add a geojson point source.
             // Heatmap layers also work with a vector tile source.
             map.addSource('earthquakes', {
                 'type': 'geojson',
                 'data':
-                    geojson
-                //'https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson'
+                    'https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson'
             });
 
             map.addLayer(
@@ -188,10 +266,16 @@
     <script>
 
 
-        var LocArray = [];
+        var _LocArray = [];
+
+        $(document).ready(function (e) {
+            //connectDB();
+            $("#loading").hide();
+        });
+
         function connectDB() {
             console.log("connectdb");
-            LocArray = [];
+            _LocArray = [];
 
             $.ajax({
                 url: "/Home/getAllLocations",
@@ -199,7 +283,7 @@
                 dataType: "json",
                 //data: { }
             }).done(function (response) {
-                console.log(response);
+                //console.log(response);
                 for (var i = 0; i < response.length; i++) {
                     Coords_Location = [response[i].fX_Coordinate, response[i].fY_Coordinate];
                     Id_Location = response[i].fId_Location;
@@ -216,19 +300,18 @@
                             'coordinates': Coords_Location
                         }
                     }
-                    LocArray.push(locJson);
+                    _LocArray.push(locJson);
                 }//end for
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);
             });//end ajax
         };
-        $(document).ready(function (e) {
-            connectDB();
-        });
+
     </script>
     <script>
-       
-            function remove() {
+
+        function remove() {
+            console.log(_LocArray);
             if (map.getLayer("earthquakes-point")) {
                 map.removeLayer("earthquakes-point");
             }
@@ -241,22 +324,22 @@
             }
 
             console.log("addnewsource");
-            map.addSource('trees', {
+            map.addSource('earthquakes', {
                 'type': 'geojson',
                 'data': {
-                'type': 'FeatureCollection',
-                    'features': LocArray
+                    'type': 'FeatureCollection',
+                    'features': _LocArray
                 }
             });
             map.addLayer({
-                'id': 'trees-heat',
+                'id': 'earthquakes-heat',
                 'type': 'heatmap',
-                'source': 'trees',
+                'source': 'earthquakes',
                 'maxzoom': 15,
                 'paint': {
-                // increase weight as diameter breast height increases
-                'heatmap-weight': {
-                'property': 'dbh',
+                    // increase weight as diameter breast height increases
+                    'heatmap-weight': {
+                        'property': 'dbh',
                         'type': 'exponential',
                         'stops': [
                             [1, 0],
@@ -265,7 +348,7 @@
                     },
                     // increase intensity as zoom level increases
                     'heatmap-intensity': {
-                stops: [
+                        stops: [
                             [11, 1],
                             [15, 3]
                         ]
@@ -283,7 +366,7 @@
                     ],
                     // increase radius as zoom increases
                     'heatmap-radius': {
-                stops: [
+                        stops: [
                             [11, 15],
                             [15, 20]
                         ]
@@ -300,24 +383,24 @@
             }, 'waterway-label');
 
             map.addLayer({
-                'id': 'trees-point',
+                'id': 'earthquakes-point',
                 'type': 'circle',
-                'source': 'trees',
+                'source': 'earthquakes',
                 'minzoom': 14,
                 'paint': {
-                // increase the radius of the circle as the zoom level and dbh value increases
-                'circle-radius': {
-                'property': 'dbh',
+                    // increase the radius of the circle as the zoom level and dbh value increases
+                    'circle-radius': {
+                        'property': 'dbh',
                         'type': 'exponential',
                         'stops': [
-                            [{zoom: 15, value: 1 }, 5],
-                            [{zoom: 15, value: 62 }, 10],
-                            [{zoom: 22, value: 1 }, 20],
-                            [{zoom: 22, value: 62 }, 50],
+                            [{ zoom: 15, value: 1 }, 5],
+                            [{ zoom: 15, value: 62 }, 10],
+                            [{ zoom: 22, value: 1 }, 20],
+                            [{ zoom: 22, value: 62 }, 50],
                         ]
                     },
                     'circle-color': {
-                'property': 'dbh',
+                        'property': 'dbh',
                         'type': 'exponential',
                         'stops': [
                             [0, 'rgba(236,222,239,0)'],
@@ -332,7 +415,7 @@
                     'circle-stroke-color': 'white',
                     'circle-stroke-width': 1,
                     'circle-opacity': {
-                'stops': [
+                        'stops': [
                             [14, 0],
                             [15, 1]
                         ]
@@ -341,57 +424,115 @@
             }, 'waterway-label');
 
 
-           
+
         };
     </script>
+
     <script>
-        var geojson = {
-            "type": "FeatureCollection",
-            "crs": {
-                "type": "name",
-                "properties": {
-                    "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+        var _lower = 25;
+        var _upper = 50;
+        $(function () {
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 100,
+                values: [25, 50],
+                slide: function (event, ui) {
+                    $("#amount").val(ui.values[0] + " - " + ui.values[1]);
+                    _lower = ui.values[0];
+                    _upper = ui.values[1];
                 }
-            },
-            "features": [
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "id": "ak16994521",
-                        "mag": 2.3,
-                        "time": 1507425650893,
-                        "felt": null,
-                        "tsunami": 0
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-                            -151.5129,
-                            63.1016,
-                            0.0
-                        ]
+            });
+            $("#amount").val($("#slider-range").slider("values", 0) +
+                " - " + $("#slider-range").slider("values", 1));
+        });
+
+        function showAgeHeat() {
+            $("#loading").show();
+            _LocArray = [];
+            $.ajax({
+                url: "/Statistic/getAgeHeat",
+                type: "POST",
+                data: { upper: _upper, lower: _lower },
+            }).done(function (response) {
+                console.log(response);
+                $("#loading").hide();
+                for (var i = 0; i < response.length; i++) {
+                    Coords_Location = [response[i].fX_Coordinate, response[i].fY_Coordinate];
+                    Id_Location = response[i].fId_Location;
+
+                    locJson =
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'dbh': 65,
+
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': Coords_Location
+                        }
                     }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "id": "ak16994519",
-                        "mag": 1.7,
-                        "time": 1507425289659,
-                        "felt": null,
-                        "tsunami": 0
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-                            -150.4048,
-                            63.1224,
-                            105.5
-                        ]
-                    }
-                }
-            ]
+                    _LocArray.push(locJson);
+                };
+                remove();
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+
         };
+
+    </script>
+    <script>
+
+        var gender = $('#checkboxGender input:radio:checked').val()
+
+
+        $(".checkboxform-check-input").change(function () {
+            if (this.checked) {
+                console.log(this.value);
+            }
+        });
+
+        function genderHeat() {
+            $("#loading").show();
+            _LocArray = [];
+            console.log(gender);
+            //$.ajax({
+            //    url: "/Statistic/getgenderHeat",
+            //    type: "POST",
+            //    data: { upper: _upper, lower: _lower },
+            //}).done(function (response) {
+            //    console.log(response);
+            //    $("#loading").hide();
+            //    for (var i = 0; i < response.length; i++) {
+            //        Coords_Location = [response[i].fX_Coordinate, response[i].fY_Coordinate];
+            //        Id_Location = response[i].fId_Location;
+
+            //        locJson =
+            //        {
+            //            'type': 'Feature',
+            //            'properties': {
+            //                'dbh': 65,
+
+            //            },
+            //            'geometry': {
+            //                'type': 'Point',
+            //                'coordinates': Coords_Location
+            //            }
+            //        }
+            //        _LocArray.push(locJson);
+            //    };
+            //    remove();
+
+            //}).fail(function (xhr) {
+            //    console.log(xhr.status + xhr.responseText);
+            //});//end ajax
+
+        };
+        
+
     </script>
 </body>
 </html>
