@@ -1,61 +1,23 @@
 ﻿@model homepage.ViewModel.CMapItem
 
-@*<div class="show_LR_List">
-    <ul class="slides">
-        <li>
-            <div class="list-group">
-
-                地點
-                @foreach (var item in Model.LocationList)
-                {
-                    <button type="button" class="list-group-item list-group-item-warning zoomToLocation" onclick="zoomToLocation('@Html.DisplayFor(modelItem => item.fId_Location)')">
-                        @Html.DisplayFor(modelItem => item.fName_Location)
-                    </button>
-                    <div style="display:none" class="zoomToLocationID">@Html.DisplayFor(modelItem => item.fId_Location)</div>
-                }
-                路線
-                @foreach (var item in Model.RouteList)
-                {
-                    <button type="button" class="list-group-item list-group-item-info zoomToRoute" onclick="zoomToRoute('@Html.DisplayFor(modelItem => item.fId_Route)')">
-                        @Html.DisplayFor(modelItem => item.fName_Route)
-                    </button>
-                    <div style="display:none" class="zoomToRouteID">@Html.DisplayFor(modelItem => item.fId_Route)</div>
-                }
-            </div>
-        </li>
-    </ul>
-</div>*@
-
 
 <div class="container" style="width: 280px;">
 
     <ul class="nav nav-tabs">
         <li class="active">
-            <a data-toggle="tab" href="#home">地點</a>
+            <a data-toggle="tab" href="#locationshow">地點</a>
         </li>
         <li>
-            <a data-toggle="tab" href="#menu1">路線</a>
+            <a data-toggle="tab" href="#rountshow">路線</a>
         </li>
     </ul>
 
     <div class="tab-content" style="width: 280px;">
-        <div id="home" class="tab-pane fade in active" >
-            @foreach (var item in Model.LocationList)
-            {
-                <button type="button" class="zoomToLocation" onclick="zoomToLocation('@Html.DisplayFor(modelItem => item.fId_Location)')">
-                    @Html.DisplayFor(modelItem => item.fName_Location)
-                </button>
-                <div style="display:none;" class="zoomToLocationID">@Html.DisplayFor(modelItem => item.fId_Location)</div><br />
-            }
+        <div id="locationshow" class="tab-pane fade in active">
+
         </div>
-        <div id="menu1" class="tab-pane fade">
-            @foreach (var item in Model.RouteList)
-            {
-                <button type="button" class="zoomToRoute" onclick="zoomToRoute('@Html.DisplayFor(modelItem => item.fId_Route)')">
-                    @Html.DisplayFor(modelItem => item.fName_Route)
-                </button>
-                <div style="display:none;" class="zoomToRouteID">@Html.DisplayFor(modelItem => item.fId_Route)</div>
-            }
+        <div id="rountshow" class="tab-pane fade">
+
         </div>
     </div>
 </div>
