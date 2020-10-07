@@ -78,4 +78,5 @@
     height: 50%;
     display: none;
     background-color: rgba(46, 196, 182, 0.9);
+    overflow-y:scroll;
 }
