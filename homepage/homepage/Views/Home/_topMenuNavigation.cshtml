@@ -9,7 +9,7 @@
                 <a href="#">探索</a>
             </li>
             @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
-            { 
+            {
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">地點 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -63,6 +63,7 @@
                 <li><a href="@Url.Action("reportedList", "backStag")">檢舉名單</a></li>
             </ul>
             </li>
+            }
         </ul>
         <form class="navbar-form navbar-left" action="/action_page.php">
             <div class="form-group">
