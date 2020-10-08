@@ -1,24 +1,27 @@
-﻿<div>
+﻿@using homepage.Models
+<div>
     <div>
         <h4 id="CreateOrEditRoute">新增路線</h4>
-        <div>使用者id</div>
-        <input name="fId_Role" id="fId_Role" />
-        <div>路線id</div>
-        <input name="fId_Route" id="fId_Route" />
+        <div style="display:none">
+            <div>使用者id</div>
+            <input name="fId_Role" id="fId_Roles" />@Session[CDictionary.SK_ActiveRoleId]
+            <div>路線id</div>
+            <input name="fId_Route" id="fId_Route" />
+            <div>路線path</div>
+            <input name="fPath_Route" id="fPath_Route" />
+        </div>
         <div>路線名稱</div>
         <input name="fName_Route" id="fName_Route" />
-        <div>路線path</div>
-        <input name="fPath_Route" id="fPath_Route" />
         <div>路線簡介</div>
         <input name="fDescript_Route" id="fDescript_Route" />
-        <div>分享權限</div>
+        <div>與誰分享</div>
         <select id="selector" name="fId_ShareAuth">
-            <option id="Public" value=3 selected="selected">Public</option>
-            <option id="Follower" value=2>Follower</option>
-            <option id="Private" value=1>Private</option>
+            <option id="Public" value=3 selected="selected">公開</option>
+            <option id="Follower" value=2>粉絲</option>
+            <option id="Private" value=1>私人</option>
         </select>
         <div>是否刪除</div>
-        <input type="checkbox" name="fDelete_Route" id="checkboxes" onclick="IfDeleteRoute()">刪除(請打勾)
+        <input type="checkbox" name="fDelete_Route" id="checkboxes" onclick="IfDeleteRoute()">是否刪除(請打勾)
         <div class="columns" id="columns"></div>
     </div>
     <div>
@@ -27,3 +30,35 @@
         <button type="button" onclick="EditRouteFormButton()" id="save2" style="position:relative; bottom: 10px; right: 10px">編輯存檔</button>
     </div>
 </div>
+
+
+
+@*<div class="portlet">
+        <div class="portlet-header" id="header' + CoordinateCnt + '" name="header"></div>
+        <div class="portlet-content" id="content" name="content">
+            <div>
+                <h5 id="CreateOrEdit">新增地點</h5>
+                <div style="display:none">
+                    坐標
+                    <div>坐標id</div>
+                    <input name="fId_Coordinate[]" id="fId_Coordinate' + CoordinateCnt + '" />
+                    <div>x</div>
+                    <input name="fX_Coordinate[]" id="fx_Coordinate' + CoordinateCnt + '" />
+                    <div>y</div>
+                    <input name="fY_Coordinate[]" id="fy_Coordinate' + CoordinateCnt + '" />
+                </div>
+                <div>
+                    地點
+                    <div>地名</div>
+                    <input name="fName_Location[]" id="fName_Location' + CoordinateCnt + '" />
+                    <div>地點描述</div>
+                    <input name="fDescript_Location[]" id="fDescript_Location' + CoordinateCnt + '" />
+                </div>
+                <div>
+                    <div>上傳照片</div>
+                    <input type="file" accept="image/*" onchange="RoateloadFile(event)" name="PostImages">
+                    <img id="output' + CoordinateCnt + '" style="width:300px;height:200px" />
+                </div>
+            </div>
+        </div>
+    </div>*@

@@ -23,6 +23,110 @@ namespace homepage.Controllers
         string key = "**********";
 
         [HttpPost]
+        public JsonResult myfriendRoutesshow(int data)
+        {
+            List<tFollow> flist = new List<tFollow>();
+            var friend = from f in dbFundaytrip.tFollows
+                         where f.fId_Self_Role == data
+                         select f;
+            flist = friend.ToList();
+            List<CRoute> croutes = new List<CRoute>();
+            List<CRoute> allcroutes = new List<CRoute>();
+            foreach (var f in flist)
+            {
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                                      select l).ToList();
+
+                foreach (var item in route)
+                {
+                    CRoute croute = new CRoute(item);
+                    croutes.Add(croute);
+                }
+                allcroutes = croutes;
+            }
+            return Json(allcroutes);
+
+        }
+
+        [HttpPost]
+        public JsonResult myfriendLocationsshow(int data)
+        {
+            List<tFollow> flist = new List<tFollow>();
+            var friend = from f in dbFundaytrip.tFollows
+                         where f.fId_Self_Role == data
+                         select f;
+            flist = friend.ToList();
+            List<CLocation> clocations = new List<CLocation>();
+            List<CLocation> allclocations = new List<CLocation>();
+            foreach (var f in flist)
+            {
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                                            where l.fDelete_Location == 0
+                                            join s2 in dbFundaytrip.tPhotoes on l.fId_Location equals s2.fId_Location
+                                            select l).ToList();
+
+
+                foreach (var item in location)
+                {
+                    CLocation clocation = new CLocation(item);
+                    clocations.Add(clocation);
+                }
+                allclocations = clocations;
+            }
+            return Json(allclocations);
+        }
+
+        [HttpPost]
+        public JsonResult myfriendRount(int data)
+        {
+            List<tFollow> flist = new List<tFollow>();
+            var friend = from f in dbFundaytrip.tFollows
+                         where f.fId_Self_Role == data
+                         select f;
+            flist = friend.ToList();
+            List<CRoute> croutes = new List<CRoute>();
+            List<CRoute> allcroutes = new List<CRoute>();
+            foreach (var f in flist)
+            {
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                                      select l).ToList();
+                foreach (var item in route)
+                {
+                    CRoute croute = new CRoute(item);
+                    croutes.Add(croute);
+                }
+                allcroutes = croutes;
+            }
+            return Json(allcroutes, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult myfriendLocation(int data)
+        {
+            List<tFollow> flist = new List<tFollow>();
+            var friend = from f in dbFundaytrip.tFollows
+                         where f.fId_Self_Role == data
+                         select f;
+            flist = friend.ToList();
+            List<CLocation> allclocations = new List<CLocation>();
+            List<CLocation> clocations = new List<CLocation>();
+               
+            foreach (var f in flist)
+            {
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                                            select l).ToList();
+                foreach (var item in location)
+                {
+                    CLocation clocation = new CLocation(item);
+                    clocations.Add(clocation);
+                    
+                }
+                allclocations = clocations;
+             }
+            return Json(allclocations, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public JsonResult myRoutesshow(int data)
         {
             List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == data).AsEnumerable()
@@ -279,7 +383,7 @@ namespace homepage.Controllers
                 loginMember.fEmail_Member = q.FirstOrDefault().fEmail_Member;
                 loginMember.fPassword_Member = q.FirstOrDefault().fPassword_Member;
                 //讀取角色
-                loginMember.fId_FuntionAuth_Member = q.FirstOrDefault().fId_FunctionAuth;
+                loginMember.fId_FuntionAuth_Member = 1;
 
                 List<CRole> rolesList = new CRolesFactory().getRoleList(loginMember.fId_Member);
                 loginMember.fActiveRoleId_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fId_Role;
@@ -323,7 +427,7 @@ namespace homepage.Controllers
                 loginMember.fEmail_Member = q.FirstOrDefault().fEmail_Member;
                 loginMember.fPassword_Member = q.FirstOrDefault().fPassword_Member;
                 //讀取會員權限 by 郭松明
-                loginMember.fId_FuntionAuth_Member = q.FirstOrDefault().fId_FunctionAuth;
+                loginMember.fId_FuntionAuth_Member = 1;
 
                 //讀取角色
                 List<CRole> rolesList = new CRolesFactory().getRoleList(loginMember.fId_Member);
@@ -358,7 +462,7 @@ namespace homepage.Controllers
             {
                 loginMember.loginMessage = "登入失敗";
             }
-            return Json(loginMember);
+            return Json(loginMember, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public string logout()
@@ -385,7 +489,7 @@ namespace homepage.Controllers
                 note.Add(nc);
             }
 
-            return Json(note.OrderByDescending(n => n.fTime_Note));
+            return Json(note.OrderByDescending(n => n.fTime_Note), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult readRoles(string member_id)
@@ -393,7 +497,7 @@ namespace homepage.Controllers
             List<CRole> roles = new CRolesFactory().getRoleList(member_id);
 
 
-            return Json(roles);
+            return Json(roles, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -403,7 +507,7 @@ namespace homepage.Controllers
 
             Session[CDictionary.SK_ActiveRoleId] = rol.fId_Role;
             Session[CDictionary.SK_ActiveRoleName] = rol.fNickName_Role;
-            return Json(rol);
+            return Json(rol, JsonRequestBehavior.AllowGet);
         }
         public JsonResult showFollow(int role_id)
         {
@@ -420,7 +524,7 @@ namespace homepage.Controllers
                 FV.follow_Self_ID = x.tRole1.fId_Role;
                 f.Add(FV);
             }
-            return Json(f);
+            return Json(f, JsonRequestBehavior.AllowGet);
         }
         public JsonResult showFan(int role_id)
         {
@@ -437,7 +541,7 @@ namespace homepage.Controllers
                 FN.follow_Target_ID = x.tRole.fId_Role;
                 f.Add(FN);
             }
-            return Json(f);
+            return Json(f, JsonRequestBehavior.AllowGet);
         }
         public void pushMessage(int fId_To_Role, int fId_From_Role, string message)
         {
@@ -483,7 +587,7 @@ namespace homepage.Controllers
             }
             var res = f.OrderBy(x => x.fId);
 
-            return Json(res);
+            return Json(res, JsonRequestBehavior.AllowGet);
         }
         ///////////////////////////////////
 
@@ -503,7 +607,7 @@ namespace homepage.Controllers
                 CLocation clocation = new CLocation(item);
                 clocations.Add(clocation);
             }
-            return Json(clocations);
+            return Json(clocations, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -521,7 +625,7 @@ namespace homepage.Controllers
                 CRoute croute = new CRoute(item);
                 croutes.Add(croute);
             }
-            return Json(croutes);
+            return Json(croutes, JsonRequestBehavior.AllowGet);
         }
         //顯示點擊該地點的資料_verna_0930
         [HttpPost]
@@ -662,7 +766,6 @@ namespace homepage.Controllers
 
             dbFundaytrip.SaveChanges();
 
-
             return alert;
         }
 
@@ -680,7 +783,7 @@ namespace homepage.Controllers
                 CLocation clocation = new CLocation(item);
                 clocations.Add(clocation);
             }
-            return Json(clocations);
+            return Json(clocations, JsonRequestBehavior.AllowGet);
         }
 
         //===== 獲得路線 by kevin 10/06 =====//
@@ -691,7 +794,7 @@ namespace homepage.Controllers
                             select s).FirstOrDefault();
             CRoute cRoute = new CRoute(Route);
 
-            return Json(cRoute);
+            return Json(cRoute, JsonRequestBehavior.AllowGet);
         }
 
         //===== 獲得路線中的地點 by kevin 10/06 =====//
@@ -711,7 +814,7 @@ namespace homepage.Controllers
                 CLocation cspot = new CLocation(location);
                 cLocations.Add(cspot);
             }
-            return Json(cLocations);
+            return Json(cLocations, JsonRequestBehavior.AllowGet);
         }
 
         //===== 獲得路線中的地點照片 by kevin 10/06 =====//
@@ -729,7 +832,7 @@ namespace homepage.Controllers
                 photos.Add(cPhoto);
             }
 
-            return Json(photos);
+            return Json(photos, JsonRequestBehavior.AllowGet);
         }
         
         //===== 判斷點擊地是否有已知坐標 by kevin 10/06 =====//
@@ -750,7 +853,7 @@ namespace homepage.Controllers
                 cxy = new CCoordinate(xy);
             }
 
-            return Json(cxy);
+            return Json(cxy, JsonRequestBehavior.AllowGet);
         }
 
         //===== 新增路線 by kevin 10/06 =====//
@@ -777,7 +880,7 @@ namespace homepage.Controllers
                 {
                     createCoordinate.fX_Coordinate = Coordinate.fX_Coordinate[i];
                     createCoordinate.fY_Coordinate = Coordinate.fY_Coordinate[i];
-                    createCoordinate.fName_Coordinate = Coordinate.fName_Coordinate[i];
+                    //createCoordinate.fName_Coordinate = Coordinate.fName_Coordinate[i];
                     dbFundaytrip.tCoordinates.Add(createCoordinate);
                     dbFundaytrip.SaveChanges();
                 }
@@ -800,7 +903,7 @@ namespace homepage.Controllers
                 if (coordFid.Count == 0)
                     return "新增地點失敗";
 
-                createlocation.fAdd_Location = Coordinate.fAdd_Location[i];
+                //createlocation.fAdd_Location = Coordinate.fAdd_Location[i];
                 createlocation.fDescript_Location = Coordinate.fDescript_Location[i];
                 createlocation.fName_Location = Coordinate.fName_Location[i];
 
@@ -836,8 +939,8 @@ namespace homepage.Controllers
                 photoname += Path.GetExtension(Coordinate.PostImages[tempi].FileName);//取得副檔名
                 Coordinate.PostImages[tempi].SaveAs(Server.MapPath("../Content/" + photoname)); //根目錄:~(不行),要用..回上一層
                 createphoto.fPath_Photo = "../Content/" + photoname;
-                createphoto.fTitle_Photo = Coordinate.fTitle_Photo[tempi];
-                createphoto.fDescript_Photo = Coordinate.fDescript_Photo[tempi];
+                //createphoto.fTitle_Photo = Coordinate.fTitle_Photo[tempi];
+                //createphoto.fDescript_Photo = Coordinate.fDescript_Photo[tempi];
                 createphoto.fTime_Photo = DateTime.Now;
                 dbFundaytrip.tPhotoes.Add(createphoto);
                 dbFundaytrip.SaveChanges();
@@ -901,7 +1004,6 @@ namespace homepage.Controllers
                     c.fId_Coordinate = Coordinate.fId_Coordinate[i];
                     c.fX_Coordinate = Coordinate.fX_Coordinate[i];
                     c.fY_Coordinate = Coordinate.fY_Coordinate[i];
-                    c.fName_Coordinate = Coordinate.fName_Coordinate[i];
                     dbFundaytrip.SaveChanges();
                 }
             }
@@ -926,8 +1028,7 @@ namespace homepage.Controllers
                 tLocation editlocation = (from t in dbFundaytrip.tLocations
                                           where t.fId_Coordinate == templid
                                           select t).FirstOrDefault();
-
-                editlocation.fAdd_Location = Coordinate.fAdd_Location[i];                                
+                               
                 editlocation.fId_ShareAuth = createroute.fId_ShareAuth;
                 editlocation.fId_Icon = createroute.fId_ShareAuth;
                 editlocation.fDescript_Location = Coordinate.fDescript_Location[i];
@@ -967,8 +1068,6 @@ namespace homepage.Controllers
 
                 };//end
 
-                editphoto.fDescript_Photo = Coordinate.fDescript_Photo[temppi];
-                editphoto.fTitle_Photo = Coordinate.fTitle_Photo[temppi];
                 editphoto.fTime_Photo = DateTime.Now;
                 dbFundaytrip.SaveChanges();
                 temppi++;
@@ -977,7 +1076,7 @@ namespace homepage.Controllers
             tRoute editroute = (from r in dbFundaytrip.tRoutes
                                 where r.fId_Route == createroute.fId_Route
                                 select r).FirstOrDefault();
-            //editroute.fDelete_Route = Convert.ToInt32(createroute.fDelete_Route);
+
             editroute.fId_ShareAuth = createroute.fId_ShareAuth;
             editroute.fDescript_Route = createroute.fDescript_Route;
             editroute.fName_Route = createroute.fName_Route;
@@ -1032,11 +1131,12 @@ namespace homepage.Controllers
 
             foreach (var item in loclist)
             {
-                tLA_Relation las = (from la in dbFundaytrip.tLA_Relation
+                List<tLA_Relation> TemplasList = (from la in dbFundaytrip.tLA_Relation
                                     where la.fId_Location == item.fId_Location
-                                    select la).FirstOrDefault();
-                if (las != null)
-                    lalist.Add(las);
+                                    select la).ToList();
+
+                if(TemplasList.Count!=0)
+                    lalist.AddRange(TemplasList);
             }
 
             List<CAlbum> albumlist = new List<CAlbum>();
@@ -1070,7 +1170,7 @@ namespace homepage.Controllers
                     albumlist.Add(cAlbum);
                 }
             }
-            return Json(albumlist);
+            return Json(albumlist, JsonRequestBehavior.AllowGet);
         }
 
         // ===== 相簿內地點 by kevin 10/06 =====//
@@ -1097,7 +1197,7 @@ namespace homepage.Controllers
 
                 cloc.Add(cLocation);
             }
-            return Json(cloc);
+            return Json(cloc, JsonRequestBehavior.AllowGet);
         }
 
         // ===== 相簿新增地點選項 by kevin 10/06 =====//
@@ -1112,7 +1212,7 @@ namespace homepage.Controllers
                 CLocation cLocation = new CLocation(item);
                 cloc.Add(cLocation);
             }
-            return Json(cloc);
+            return Json(cloc, JsonRequestBehavior.AllowGet);
         }
 
         // ===== 新增相簿 by kevin 10/06 =====//
@@ -1158,10 +1258,10 @@ namespace homepage.Controllers
                     select p).FirstOrDefault();
 
             CAlbum albumlist = new CAlbum(q);
-            return Json(albumlist);
+            return Json(albumlist, JsonRequestBehavior.AllowGet);
         }
 
-        // ===== 編輯相簿中的地點 by kevin 10/07 =====//
+        // ===== 編輯相簿中的地點 by kevin 10/08 =====//
         public JsonResult editMyAlbumsLoc(int roleID, int albumID)
         {
             List<string> la = (from a in dbFundaytrip.tLA_Relation
@@ -1178,9 +1278,56 @@ namespace homepage.Controllers
                 locationlist.Add(loc);
             }
             
-            return Json(locationlist);
+            return Json(locationlist,JsonRequestBehavior.AllowGet);
         }
-        
+
+        // ===== 編輯相簿中回存資料庫 by kevin 10/08 =====//
+        public string EditAlbumInfo(CCreateAlbumAjax album)
+        {
+            //編輯相簿資訊
+            tAlbum editalbum = (from a in dbFundaytrip.tAlbums
+                               where a.fId_Album == album.fId_Album
+                               select a).FirstOrDefault();
+
+            editalbum.fDelete_Album = album.fDelete_Album;
+            editalbum.fDescript_Album = album.fDescript_Album;
+            editalbum.fId_Album = album.fId_Album;
+            editalbum.fId_ShareAuth = album.fId_ShareAuth;
+            editalbum.fName_Album = album.fName_Album;
+
+            dbFundaytrip.SaveChanges();
+
+            //編輯相簿地點關聯，先刪掉再重建
+
+            for(var i = 0; i < album.fId_Location.Length; i++)
+            {
+                var tLA_Relation = (from la in dbFundaytrip.tLA_Relation.AsEnumerable()
+                                where la.fId_Album == album.fId_Album
+                                select la).FirstOrDefault();
+                
+                dbFundaytrip.tLA_Relation.Remove(tLA_Relation);
+                dbFundaytrip.SaveChanges();
+            }
+            
+
+            tLA_Relation createLArelation = new tLA_Relation();
+            tLocation locs = new tLocation();
+
+            for (int i = 0; i < album.fId_Location.Length; i++)
+            {
+                var templid = album.fId_Location[i];
+                locs = (from l in dbFundaytrip.tLocations
+                        where l.fId_Location == templid
+                        select l).FirstOrDefault();
+
+                createLArelation.fId_Location = locs.fId_Location;
+                createLArelation.fId_Album = album.fId_Album;
+                dbFundaytrip.tLA_Relation.Add(createLArelation);
+                dbFundaytrip.SaveChanges();
+            }
+
+            return "編輯成功";
+        }
     }
 
 }
