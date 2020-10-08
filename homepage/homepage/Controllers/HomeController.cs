@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 using System.Web.Helpers;
 using homepage.Models;
 using System.Text;
+using System.Data.Entity.Core.Mapping;
+using System.Security.Cryptography;
 
 namespace homepage.Controllers
 {
@@ -513,33 +515,45 @@ namespace homepage.Controllers
         {
             var q = from p in dbFundaytrip.tFollows
                     where p.fId_Self_Role == role_id
-                    select p;
+                    select new { p.fId_Self_Role, p.fId_Target_Role, p.tRole1.fNickName_Role };
 
-
+            var g = from b in dbFundaytrip.tBlocks
+                    where b.fId_Self_Role == role_id & b.C0_Follow1_Fans==0
+                    select new { b.fId_Self_Role, b.fId_Target_Role, b.tRole1.fNickName_Role };
+            var c = q.Except(g);
             List<CFollowlistViewModel> f = new List<CFollowlistViewModel>();
-            foreach (var x in q.ToList())
+
+            foreach (var x in c.ToList())
             {
                 CFollowlistViewModel FV = new CFollowlistViewModel();
-                FV.follow_Self_Name = x.tRole1.fNickName_Role;
-                FV.follow_Self_ID = x.tRole1.fId_Role;
+
+                FV.follow_Self_Name = x.fNickName_Role;
+                FV.follow_Self_ID = x.fId_Target_Role;
                 f.Add(FV);
             }
             return Json(f, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult showFan(int role_id)
         {
             var q = from p in dbFundaytrip.tFollows
                     where p.fId_Target_Role == role_id
-                    select p;
-            
+                    select new { p.fId_Self_Role,p.fId_Target_Role,p.tRole.fNickName_Role};
 
-            List<CFanslistViewModel> f = new List<CFanslistViewModel>();
-            foreach (var x in q.ToList())
+            var g = from b in dbFundaytrip.tBlocks
+                    where b.fId_Target_Role == role_id && b.C0_Follow1_Fans == 1
+                    select new { b.fId_Self_Role, b.fId_Target_Role, b.tRole.fNickName_Role };
+
+            var c = q.Except(g);
+            List<CFanslistViewModel> ff = new List<CFanslistViewModel>();
+
+            foreach (var x in c.ToList())
             {
-                CFanslistViewModel FN = new CFanslistViewModel();
-                FN.follow_Target_Name = x.tRole.fNickName_Role;
-                FN.follow_Target_ID = x.tRole.fId_Role;
-                f.Add(FN);
+                CFanslistViewModel FV = new CFanslistViewModel();
+
+                FV.follow_Target_Name = x.fNickName_Role;
+                FV.follow_Target_ID = x.fId_Self_Role;
+                ff.Add(FV);
             }
             return Json(f, JsonRequestBehavior.AllowGet);
         }
