@@ -12,6 +12,8 @@ using Newtonsoft;
 using Newtonsoft.Json;
 using System.Web.Helpers;
 using homepage.Models;
+using System.Data.Entity.Core.Mapping;
+using System.Security.Cryptography;
 
 namespace homepage.Controllers
 {
@@ -174,35 +176,49 @@ namespace homepage.Controllers
         {
             var q = from p in dbFundaytrip.tFollows
                     where p.fId_Self_Role == role_id
-                    select p;
+                    select new { p.fId_Self_Role, p.fId_Target_Role, p.tRole1.fNickName_Role };
 
-
+            var g = from b in dbFundaytrip.tBlocks
+                    where b.fId_Self_Role == role_id & b.C0_Follow1_Fans==0
+                    select new { b.fId_Self_Role, b.fId_Target_Role, b.tRole1.fNickName_Role };
+            var c = q.Except(g);
             List<CFollowlistViewModel> f = new List<CFollowlistViewModel>();
-            foreach (var x in q.ToList())
+
+            foreach (var x in c.ToList())
             {
                 CFollowlistViewModel FV = new CFollowlistViewModel();
-                FV.follow_Self_Name = x.tRole1.fNickName_Role;
-                FV.follow_Self_ID = x.tRole1.fId_Role;
+
+                FV.follow_Self_Name = x.fNickName_Role;
+                FV.follow_Self_ID = x.fId_Target_Role;
                 f.Add(FV);
             }
+
             return Json(f);
         }
+
         public JsonResult showFan(int role_id)
         {
             var q = from p in dbFundaytrip.tFollows
                     where p.fId_Target_Role == role_id
-                    select p;
-            
+                    select new { p.fId_Self_Role,p.fId_Target_Role,p.tRole.fNickName_Role};
 
-            List<CFanslistViewModel> f = new List<CFanslistViewModel>();
-            foreach (var x in q.ToList())
+            var g = from b in dbFundaytrip.tBlocks
+                    where b.fId_Target_Role == role_id && b.C0_Follow1_Fans == 1
+                    select new { b.fId_Self_Role, b.fId_Target_Role, b.tRole.fNickName_Role };
+
+            var c = q.Except(g);
+            List<CFanslistViewModel> ff = new List<CFanslistViewModel>();
+
+            foreach (var x in c.ToList())
             {
-                CFanslistViewModel FN = new CFanslistViewModel();
-                FN.follow_Target_Name = x.tRole.fNickName_Role;
-                FN.follow_Target_ID = x.tRole.fId_Role;
-                f.Add(FN);
+                CFanslistViewModel FV = new CFanslistViewModel();
+
+                FV.follow_Target_Name = x.fNickName_Role;
+                FV.follow_Target_ID = x.fId_Self_Role;
+                ff.Add(FV);
             }
-            return Json(f);
+
+            return Json(ff);
         }
         public void pushMessage(int fId_To_Role, int fId_From_Role, string message)
         {
@@ -458,6 +474,79 @@ namespace homepage.Controllers
             CRoute cRoute = new CRoute(Route);
 
             return Json(cRoute);
+        }
+        public void CommentTextWrite(int role_id,string CString,string Loction_Id)
+        {
+            tComment CM = new tComment();
+            DB_FunDayTripEntities db = new DB_FunDayTripEntities();
+
+            CM.fId_Role = role_id;
+            CM.fComment_Comment = CString;
+            CM.fId_Location_Route = Loction_Id;
+            string type = Loction_Id;
+            string fId_Type=type.Substring(0, 1);
+            CM.fId_Type_Location_Route = fId_Type;
+            CM.fTime_Comment = DateTime.Now;
+            db.tComments.Add(CM);
+            db.SaveChanges();
+        }
+        public JsonResult HistoryLocationComment(string LocationID)
+        {
+            var q = from p in dbFundaytrip.tComments
+                    where p.fId_Location_Route==LocationID
+                    select p;
+            List<CHistoryComment> f = new List<CHistoryComment>();
+            foreach(var x in q.ToList())
+            {
+                CHistoryComment CH = new CHistoryComment();
+
+                CH.fComment_Name = x.tRole.tMember.fNickName_Member;
+                CH.fComment_Comment = x.fComment_Comment;
+                CH.fTime_Comment = Convert.ToString(x.fTime_Comment);
+                f.Add(CH);
+            }
+            return Json(f);
+        }
+        public JsonResult HistoryRouteComment(string RouteID)
+        {
+            var q = from p in dbFundaytrip.tComments
+                    where p.fId_Location_Route == RouteID
+                    select p;
+            List<CHistoryComment> f = new List<CHistoryComment>();
+            foreach (var x in q.ToList())
+            {
+                CHistoryComment CH = new CHistoryComment();
+
+                CH.fComment_Name = x.tRole.tMember.fNickName_Member;
+                CH.fComment_Comment = x.fComment_Comment;
+                CH.fTime_Comment = Convert.ToString(x.fTime_Comment);
+                f.Add(CH);
+            }
+            return Json(f);
+        }
+        public void deletefollower(int role_id,int target_id)
+        {
+            DB_FunDayTripEntities db = new DB_FunDayTripEntities();
+            tBlock TB = new tBlock();
+            TB.fId_Self_Role = role_id;
+            TB.fId_Target_Role = target_id;
+            TB.C0_Follow1_Fans = 0;
+
+
+            db.tBlocks.Add(TB);
+            db.SaveChanges();
+        }
+        public void deletefans(int role_id, int target_id)
+        {
+            DB_FunDayTripEntities db = new DB_FunDayTripEntities();
+            tBlock TB = new tBlock();
+            TB.fId_Self_Role = target_id;
+            TB.fId_Target_Role = role_id;
+            TB.C0_Follow1_Fans = 1;
+
+
+            db.tBlocks.Add(TB);
+            db.SaveChanges();
         }
 
     }

@@ -12,14 +12,16 @@ namespace homepage
     using System;
     using System.Collections.Generic;
     
-    public partial class tBlock
+    public partial class tGameRecord
     {
-        public int fId_Block { get; set; }
-        public int fId_Self_Role { get; set; }
-        public int fId_Target_Role { get; set; }
-        public Nullable<int> C0_Follow1_Fans { get; set; }
+        public int fId_GameRecord { get; set; }
+        public Nullable<int> fId_Role { get; set; }
+        public Nullable<int> fId_GameGroup { get; set; }
+        public int fOrder_Game { get; set; }
+        public Nullable<System.DateTime> fTime_GameRecord { get; set; }
+        public Nullable<int> fFinished_GameRecord { get; set; }
     
+        public virtual tGameGroup tGameGroup { get; set; }
         public virtual tRole tRole { get; set; }
-        public virtual tRole tRole1 { get; set; }
     }
 }

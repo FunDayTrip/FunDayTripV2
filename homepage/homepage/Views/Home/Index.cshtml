@@ -140,7 +140,7 @@
 
         //要求顯示地圖===========================
         //顯示中文地圖
-        mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic2tyYWJiaXQwMDAwIiwiYSI6ImNrZndidHY2NTExcTkydXFxaHMwYW5kcWUifQ.dcmQlRlWs7ZfZo5ipZO4vQ';
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v10',
@@ -243,6 +243,10 @@
         $(document).ready(function () {
             //個人資料方塊
             $("#locationInfo").hide();
+
+            deletefollower();
+            deletefans();
+
         });
         //顯示關閉左邊表單
         function closethisdiv() {
@@ -254,6 +258,83 @@
 
         };
 
+        function deletefollower() {
+            $(document).on('click', '.deletefollower', function () {
+                var obj = $(this).parents('.trtest');
+                
+
+                console.log(obj);
+                /////sweetalert
+                Swal.fire({
+                    title: '確定要刪除嗎',
+                    text: "我們將會刪除這筆資料",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '是的,刪除',
+                    cancelButtonText:'取消' 
+
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(obj).remove();
+                        $.ajax({
+                            url: "/Home/deletefollower",
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                role_id: $("#active_role").val(),
+                                target_id: $(obj).find('.btntest').val()
+                            }
+
+                        });
+                        Swal.fire(                          
+                            '刪除成功!'                              
+                        )
+
+                      
+                    }
+                })
+                //////ajax
+            
+            });
+        }
+        function deletefans() {
+            $(document).on('click', '.deletefans', function () {
+                var obj = $(this).parents('.trtest2');
+
+                console.log(obj);
+                ////ajax
+                Swal.fire({
+                    title: '確定要刪除嗎?',
+                    text: "我們將會刪除這筆資料",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '是的,刪除',
+                    cancelButtonText: '取消' 
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(obj).remove();
+                        $.ajax({
+                            url: "/Home/deletefans",
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                role_id: $("#active_role").val(),
+                                target_id: $(obj).find('.btntest').val()
+                            }
+
+                        });
+                        Swal.fire(
+                            '刪除成功!'                           
+                        )
+                    }
+                })
+               
+            });
+        }
     </script>
 
 
@@ -286,7 +367,8 @@
                             CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
                             <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="float:left" />
                             <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
-                            <div id="active_role_name">目前身分:@memberLogin.fActiveRoleName_Member</div>
+                            <span>目前身分:</span>
+                            <span id="active_role_name">@memberLogin.fActiveRoleName_Member</span>
                             <div id="login_email">@memberLogin.fEmail_Member</div>
                             <button id="logoutBtn" style="float:right">登出</button>
                             <br />
@@ -382,11 +464,11 @@
                     console.log(response);
                     $("#follower_list").html("");
                     for (let i = 0; i < response.length; i++) {
-
-                        let CD = '<tr>';
+                        
+                        let CD = '<tr class="trtest">';
                         CD += '<td>' + response[i].follow_Self_Name + '</td>';
                         CD += '<td>';
-                        CD += '<button class="btn btn-link" onclick="creatchatroom(this)" name="';
+                        CD += '<button class="btn btn-link btntest" onclick="creatchatroom(this)" name="';
                         //style="border-bottom:dashed;margin-bottom:5px;border-color:blue;"
                         CD += response[i].follow_Self_Name;
                         CD += '"';
@@ -395,8 +477,10 @@
                         CD += '">';
                         CD += '聊天</button>';
                         CD += '</td>';
+                        CD += '<td>';
+                        CD += '<button style="margin-top:2px" class="btn btn-danger deletefollower">刪除好友</button>';
+                        CD += '</td>';
                         CD += '</tr>';
-
                         CD += '<div></div>'
                         $("#follower_list").prepend(CD);
                     }
@@ -414,10 +498,10 @@
                     console.log(response);
                     $("#follower_list").html("");
                     for (let i = 0; i < response.length; i++) {
-                        let CD = '<tr>';
+                        let CD = '<tr class="trtest2">';
                         CD += '<td>' + response[i].follow_Target_Name + '</td>';
                         CD += '<td>';
-                        CD += '<button class="btn btn-link" onclick="creatchatroom(this)" name="';
+                        CD += '<button class="btn btn-link btntest" onclick="creatchatroom(this)" name="';
                         //style="border-bottom:dashed;margin-bottom:5px;border-color:blue;"
                         CD += response[i].follow_Target_Name;
                         CD += '"';
@@ -425,6 +509,9 @@
                         CD += response[i].follow_Target_ID;
                         CD += '">';
                         CD += '聊天</button>';
+                        CD += '</td>';                       
+                        CD += '<td>';
+                        CD += '<button style="margin-top:2px" class="btn btn-danger deletefans">刪除粉絲</button>';
                         CD += '</td>';
                         CD += '</tr>';
 
@@ -437,6 +524,9 @@
         };
 
         ///////////////////////////////////////////////////
+      
+        
+
     </script>
     <script>
         //我的地點 顯示可新增按鈕
@@ -910,13 +1000,15 @@
                 dataType: "json",
                 data: { LocationID: LocationID }
             }).done(function (response) {
-                //console.log(response);
+                console.log(response[0].fId_Location);
+                fId_Location = response[0].fId_Location;                
                 Coords_Location = [response[0].fX_Coordinate, response[0].fY_Coordinate];
                 NickName_Role = (response[0].fNickName_Role);
                 Name_Location = response[0].fName_Location;
                 Auth_ShareAuth = response[0].fAuth_ShareAuth;
                 Descript_Location = response[0].fDescript_Location;
                 Time_Location = response[0].fTime_Location;
+
                 //console.log("Coords_Location = " + Coords_Location);
                 //console.log("NickName_Role = " + NickName_Role);
                 //console.log("Name_Location = " + Name_Location);
@@ -924,6 +1016,7 @@
                 //console.log("Descript_Location = " + Descript_Location);
                 //console.log("Time_Location = " + Time_Location);
                 fly(Coords_Location);
+                $("#id_location").html(fId_Location);
                 $("#name_role").html(NickName_Role);
                 $("#name_lr").html(Name_Location);
                 $("#auth_lr").html(Auth_ShareAuth);
@@ -956,6 +1049,41 @@
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);
             });//end ajax
+            //////
+            document.getElementById("Comment").innerHTML = '';
+            $.ajax({
+                url: "/Home/HistoryLocationComment",
+                type: "POST",
+                dataType: "json",
+                data: { LocationID: LocationID },
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+                        let HCMT = '<div class="comment-box-wrapper">';
+                        HCMT += '<div class="comment-box">';
+                        HCMT += ' <img src="https://i.imgur.com/vyWwMlr.png" class="commenter-image" alt="commenter_image">';
+                        HCMT += '<div class="comment-content">';
+                        HCMT += ' <div class="commenter-head">';
+                        HCMT += '  <span class="commenter-name"><a href="">';
+                        HCMT += response[i].fComment_Name
+                        HCMT += '</a ></span > ';
+                        HCMT += ' <span class="comment-date"><i class="far fa-clock"></i>';
+                        HCMT += response[i].fTime_Comment;
+                        HCMT+='</span > ';
+                        HCMT += '    </div>';
+                        HCMT += ' <div class="comment-body">';
+                        HCMT += '<span class="comment">' + response[i].fComment_Comment + '</span>';
+                        HCMT += '</div>';
+                        HCMT += '  <div class="comment-footer">';
+                        HCMT += '</div>';
+                        HCMT += ' </div>';
+                        HCMT += '</div>';
+                        HCMT += '  </div>';
+                        $("#Comment").append(HCMT);
+                    }
+                }
+            });
+            //////
+
         }
 
         //顯示路線&地點資訊k => 點列表@*!!!*@
@@ -970,6 +1098,7 @@
             }).done(function (response) {
                 //console.log(response);
                 Route = GetRoutePathArray(response.fPath_Route);
+                Id_Route = response.fId_Route;
                 NickName_Role = (response.fNickName_Role);
                 Name_Route = response.fName_Route;
                 Auth_ShareAuth = response.fAuth_ShareAuth;
@@ -983,6 +1112,7 @@
                 //console.log("Time_Route = " + Time_Route);
                 _routeID = RouteID;
                 fly(Route[0]);
+                $("#id_location").html(Id_Route);
                 $("#name_role").html(NickName_Role);
                 $("#name_lr").html(Name_Route);
                 $("#auth_lr").html(Auth_ShareAuth);
@@ -1016,6 +1146,40 @@
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);
             });//end ajax
+            //////
+            document.getElementById("Comment").innerHTML = '';
+            $.ajax({
+                url: "/Home/HistoryRouteComment",
+                type: "POST",
+                dataType: "json",
+                data: { RouteID: RouteID },
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+                        let HCMT = '<div class="comment-box-wrapper">';
+                        HCMT += '<div class="comment-box">';
+                        HCMT += ' <img src="https://i.imgur.com/vyWwMlr.png" class="commenter-image" alt="commenter_image">';
+                        HCMT += '<div class="comment-content">';
+                        HCMT += ' <div class="commenter-head">';
+                        HCMT += '  <span class="commenter-name"><a href="">';
+                        HCMT += response[i].fComment_Name
+                        HCMT += '</a ></span > ';
+                        HCMT += ' <span class="comment-date"><i class="far fa-clock"></i>';
+                        HCMT += response[i].fTime_Comment;
+                        HCMT += '</span > ';
+                        HCMT += '    </div>';
+                        HCMT += ' <div class="comment-body">';
+                        HCMT += '<span class="comment">' + response[i].fComment_Comment + '</span>';
+                        HCMT += '</div>';
+                        HCMT += '  <div class="comment-footer">';
+                        HCMT += '</div>';
+                        HCMT += ' </div>';
+                        HCMT += '</div>';
+                        HCMT += '  </div>';
+                        $("#Comment").append(HCMT);
+                    }
+                }
+            });
+            //////////
         }
     </script>
 

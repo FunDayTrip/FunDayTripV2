@@ -1,4 +1,4 @@
-﻿<style type="text/css" >
+﻿
 .user {
     padding: 5px;
     margin-bottom: 5px;
@@ -15,6 +15,10 @@ body {
     top: 0;
     bottom: 0;
     width: 100%;
+}
+.mapboxgl-ctrl{
+    display:none !important;
+
 }
 
 #info {

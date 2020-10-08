@@ -25,7 +25,7 @@ namespace homepage
         public int fId_Coordinate { get; set; }
         public Nullable<int> fType_Game { get; set; }
         public string fName_Game { get; set; }
-        public Nullable<int> fOrder_Game { get; set; }
+        public int fOrder_Game { get; set; }
         public int fId_GameGroup { get; set; }
     
         public virtual tCoordinate tCoordinate { get; set; }

@@ -38,9 +38,11 @@ namespace homepage
         public virtual DbSet<tGame> tGames { get; set; }
         public virtual DbSet<tGameGroup> tGameGroups { get; set; }
         public virtual DbSet<tGameQA> tGameQAs { get; set; }
+        public virtual DbSet<tGameRecord> tGameRecords { get; set; }
         public virtual DbSet<tGameStep> tGameSteps { get; set; }
         public virtual DbSet<tGameUnlock> tGameUnlocks { get; set; }
         public virtual DbSet<tIcon> tIcons { get; set; }
+        public virtual DbSet<tLA_Relation> tLA_Relation { get; set; }
         public virtual DbSet<tLocation> tLocations { get; set; }
         public virtual DbSet<tLR_Relation> tLR_Relation { get; set; }
         public virtual DbSet<tMember> tMembers { get; set; }
