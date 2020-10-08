@@ -549,6 +549,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Views\Payment\LvVIP.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -562,7 +563,6 @@
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Location\" />
     <Folder Include="Views\Note\" />
-    <Folder Include="Views\Payment\" />
     <Folder Include="Views\Point\" />
     <Folder Include="Views\Profile\" />
     <Folder Include="Views\Role\" />

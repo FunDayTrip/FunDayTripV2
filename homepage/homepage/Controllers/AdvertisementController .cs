@@ -14,7 +14,7 @@ namespace homepage.Controllers
         {
             return View();
         }
-
+        //儲存廣告
         [HttpPost]
         public ActionResult newCommercialData(CAd data)
         {
