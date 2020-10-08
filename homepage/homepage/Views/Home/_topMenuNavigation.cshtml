@@ -15,7 +15,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="#">所有</a></li>
                         <li><a href="javascript:showMyLoc()" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow();">我的</a></li>
-                        <li><a href="#">追蹤中</a></li>
+                        <li><a href="#" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myflocation();">追蹤中</a></li>
                     </ul>
                 </li>
 
@@ -75,6 +75,159 @@
 </nav>
 
 <script>
+    function myflocation() {
+        var objData = {
+            data: 3,
+        }
+        $.ajax({
+            url: "/Home/myfriendLocationsshow",
+            type: "POST",
+            data: objData,
+            //data: { }
+        }).done(function (response) {
+            //console.log(response);
+            LocArray = [];
+            for (var i = 0; i < response.length; i++) {
+                Coords_Location = [response[i].fX_Coordinate, response[i].fY_Coordinate];
+                Id_Location = response[i].fId_Location;
+                locJson =
+                {
+                    'type': 'Feature',
+                    'properties': {
+                        'description': Id_Location
+                    },
+                    'geometry': {
+                        'type': 'Point',
+                        'coordinates': Coords_Location
+                    }
+                };
+                LocArray.push(locJson);
+            }//end for
+            if (map.getLayer("places")) {
+                map.removeLayer("places");
+            }
+
+            if (map.getLayer("routes")) {
+                map.removeLayer("routes");
+            }
+            if (map.getSource("places")) {
+                map.removeSource("places");
+            }
+
+            if (map.getSource("routes")) {
+                map.removeSource("routes");
+            }
+            Routeshow();
+
+        }).fail(function (xhr) {
+            console.log(xhr.status + xhr.responseText);
+        });//end ajax
+    };
+    function myfriendRoutesshow() {
+        var objData = {
+            data: 3,
+        }
+        $.ajax({
+            url: "/Home/myfriendRoutesshow",
+            type: "POST",
+            data: objData,
+        }).done(function (response) {
+            RouArray = [];
+            for (var i = 0; i < response.length; i++) {
+                Id_Route = response[i].fId_Route;
+                //console.log(Id_Route);
+                Path_Route = GetRoutePathArray(response[i].fPath_Route);
+
+                rouJson =
+                {
+                    'type': 'Feature',
+                    'properties': {
+                        'description': Id_Route
+                    },
+                    'geometry': {
+                        'type': 'LineString',
+                        'coordinates': Path_Route
+                    }
+                };
+                RouArray.push(rouJson);
+                //console.log(RouArray);
+
+            }//end for
+            console.log(RouArray);
+            if (map.getLayer("places")) {
+                map.removeLayer("places");
+            }
+
+            if (map.getLayer("routes")) {
+                map.removeLayer("routes");
+            }
+            if (map.getSource("places")) {
+                map.removeSource("places");
+            }
+
+            if (map.getSource("routes")) {
+                map.removeSource("routes");
+            }
+            // reloadRoute();
+            reloadlocation();
+        }).fail(function (xhr) {
+            console.log(xhr.status + xhr.responseText);
+        });//end ajax
+    };
+
+    function myfriendRount() {
+        var objData = {
+            data: 3,
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Home/myfriendRount",
+            data: objData,
+            success: function (data) {
+                var rount2 = [];
+                for (var i in data) {
+                    var rounts = document.getElementById('rountshow');
+                    rount2 += '<div><input type="button" onclick="zoomToRoute';
+                    rount2 += "('" + data[i].fId_Route + "')" + '"';
+                    rount2 += 'value =';
+                    rount2 += '"' + data[i].fName_Route + '"';
+                    rount2 += ' /></div >';
+                }
+                rounts.innerHTML = rount2;
+            },
+            error: function () {
+                alert("error");
+            }
+        })
+    }
+
+    function myfriendLocation() {
+        var objData = {
+            data: 3,
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Home/myfriendLocation",
+            data: objData,
+            success: function (data) {
+                var loc2 = [];
+                for (var i in data) {
+                    var locations = document.getElementById('locationshow');
+                    loc2 += '<div><input type="button" onclick="zoomToLocation';
+                    loc2 += "('" + data[i].fId_Location + "')" + '"';
+                    loc2 += 'value =';
+                    loc2 += '"' + data[i].fName_Location + '"';
+                    loc2 += ' /></div >';
+
+                }
+                locations.innerHTML = loc2;
+            },
+            error: function () {
+                alert("error");
+            }
+        })
+    }
+
     function mylocationshow() {
         var objData = {
             data: 3,
@@ -123,24 +276,6 @@
             console.log(xhr.status + xhr.responseText);
         });//end ajax
     }
-
-    //"取得路線"的第一個坐標，fly()要用到k
-    function GetRoutePathArray(RouteInnerHTMLPath) {
-        var RoutePath = new Array();
-        var tempPoint = new Array();
-        var strRoutePath = (RouteInnerHTMLPath + "").split(',');
-        for (var i = 0; i < strRoutePath.length; i += 2) {
-            tempPoint[i / 2] = new Array();
-            tempPoint[i / 2][1] = strRoutePath[i + 1];
-            tempPoint[i / 2][0] = strRoutePath[i];
-            RoutePath.push(tempPoint[i / 2]);
-        }
-        return RoutePath;
-    }
-
-    //重新放入路線
-    //路線所有資訊組成json，放到陣列
-    var RouArray;
     function myRouteshow() {
         var objData = {
             data: 3,
@@ -150,9 +285,7 @@
             type: "POST",
             data: objData,
         }).done(function (response) {
-
             RouArray = [];
-
             for (var i = 0; i < response.length; i++) {
                 Id_Route = response[i].fId_Route;
                 //console.log(Id_Route);
@@ -386,7 +519,6 @@
                 Id_Route = response[i].fId_Route;
                 //console.log(Id_Route);
                 Path_Route = GetRoutePathArray(response[i].fPath_Route);
-
                 rouJson =
                 {
                     'type': 'Feature',

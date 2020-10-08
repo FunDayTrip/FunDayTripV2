@@ -23,6 +23,110 @@ namespace homepage.Controllers
         string key = "**********";
 
         [HttpPost]
+        public JsonResult myfriendRoutesshow(int data)
+        {
+            List<tFollow> flist = new List<tFollow>();
+            var friend = from f in dbFundaytrip.tFollows
+                         where f.fId_Self_Role == data
+                         select f;
+            flist = friend.ToList();
+            List<CRoute> croutes = new List<CRoute>();
+            List<CRoute> allcroutes = new List<CRoute>();
+            foreach (var f in flist)
+            {
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                                      select l).ToList();
+
+                foreach (var item in route)
+                {
+                    CRoute croute = new CRoute(item);
+                    croutes.Add(croute);
+                }
+                allcroutes = croutes;
+            }
+            return Json(allcroutes);
+
+        }
+
+        [HttpPost]
+        public JsonResult myfriendLocationsshow(int data)
+        {
+            List<tFollow> flist = new List<tFollow>();
+            var friend = from f in dbFundaytrip.tFollows
+                         where f.fId_Self_Role == data
+                         select f;
+            flist = friend.ToList();
+            List<CLocation> clocations = new List<CLocation>();
+            List<CLocation> allclocations = new List<CLocation>();
+            foreach (var f in flist)
+            {
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                                            where l.fDelete_Location == 0
+                                            join s2 in dbFundaytrip.tPhotoes on l.fId_Location equals s2.fId_Location
+                                            select l).ToList();
+
+
+                foreach (var item in location)
+                {
+                    CLocation clocation = new CLocation(item);
+                    clocations.Add(clocation);
+                }
+                allclocations = clocations;
+            }
+            return Json(allclocations);
+        }
+
+        [HttpPost]
+        public JsonResult myfriendRount(int data)
+        {
+            List<tFollow> flist = new List<tFollow>();
+            var friend = from f in dbFundaytrip.tFollows
+                         where f.fId_Self_Role == data
+                         select f;
+            flist = friend.ToList();
+            List<CRoute> croutes = new List<CRoute>();
+            List<CRoute> allcroutes = new List<CRoute>();
+            foreach (var f in flist)
+            {
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                                      select l).ToList();
+                foreach (var item in route)
+                {
+                    CRoute croute = new CRoute(item);
+                    croutes.Add(croute);
+                }
+                allcroutes = croutes;
+            }
+            return Json(allcroutes, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult myfriendLocation(int data)
+        {
+            List<tFollow> flist = new List<tFollow>();
+            var friend = from f in dbFundaytrip.tFollows
+                         where f.fId_Self_Role == data
+                         select f;
+            flist = friend.ToList();
+            List<CLocation> allclocations = new List<CLocation>();
+            List<CLocation> clocations = new List<CLocation>();
+               
+            foreach (var f in flist)
+            {
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                                            select l).ToList();
+                foreach (var item in location)
+                {
+                    CLocation clocation = new CLocation(item);
+                    clocations.Add(clocation);
+                    
+                }
+                allclocations = clocations;
+             }
+            return Json(allclocations, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public JsonResult myRoutesshow(int data)
         {
             List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == data).AsEnumerable()
@@ -277,7 +381,7 @@ namespace homepage.Controllers
                 loginMember.fEmail_Member = q.FirstOrDefault().fEmail_Member;
                 loginMember.fPassword_Member = q.FirstOrDefault().fPassword_Member;
                 //讀取角色
-                loginMember.fId_FuntionAuth_Member = q.FirstOrDefault().fId_FunctionAuth;
+                loginMember.fId_FuntionAuth_Member = 1;
 
                 List<CRole> rolesList = new CRolesFactory().getRoleList(loginMember.fId_Member);
                 loginMember.fActiveRoleId_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fId_Role;
@@ -321,7 +425,7 @@ namespace homepage.Controllers
                 loginMember.fEmail_Member = q.FirstOrDefault().fEmail_Member;
                 loginMember.fPassword_Member = q.FirstOrDefault().fPassword_Member;
                 //讀取會員權限 by 郭松明
-                loginMember.fId_FuntionAuth_Member = q.FirstOrDefault().fId_FunctionAuth;
+                loginMember.fId_FuntionAuth_Member = 1;
 
                 //讀取角色
                 List<CRole> rolesList = new CRolesFactory().getRoleList(loginMember.fId_Member);
