@@ -208,10 +208,4 @@ namespace homepage.ViewModel
         public string[] fId_Location { get; set; }
 
     }
-
-    public class CEditAlbumAjax
-    {
-        public List<CLocation> locationList { get; set; }
-        public List<CAlbum> albumList { get; set; }
-    }
 }
