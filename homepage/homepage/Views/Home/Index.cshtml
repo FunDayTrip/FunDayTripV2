@@ -15,6 +15,10 @@
 
 <html>
 <head>
+    @*google登入 09/30*@
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="640701122888-kqkl96t9a7tjtkug7f2ve6pdovm9mrjs.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
     @*sweetAlert2 CDN*@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -120,14 +124,17 @@
     <div style="position:absolute;top:70px">
         @*新增地點*@
         <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
-
+       
         @*新增路線*@
         <button id="addNewRouteButton" type="button" class="btn btn-danger">放置新增路線</button>
+
+        <button style="background-color:red" onclick="location.href='@Url.Action("LvVIP","Payment")'">升級</button>
     </div>
 
     <div id="infoi2">
         @*路線地點詳細資訊*@
         @Html.Partial("_DetailInfoView")
+
     </div>
 
     @*滑鼠右鍵清單*@
@@ -153,6 +160,19 @@
 
 
     <script>
+        function pay() {
+            $.ajax({
+                url: "/Payment/LvVIP",
+                type: "POST",
+                dataType: "json",
+            }).done(function (response) {
+                console.log("suc");
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+        };
+
         //全域變數===============================
         //經緯度變數
         var _lng, _lat;
@@ -215,8 +235,7 @@
 
              };
 
-
-
+         
 
              });
     </script>
@@ -244,6 +263,7 @@
                             @Html.ActionLink("註冊會員", "signUp", "Member")
                             @*<button type="submit" id="signupBtn">註冊帳號</button>*@
                             <button type="submit" id="forgetPwdBtn" onclick="window.open('../ForgetPassword.aspx', 'FP', 'width=500,height=50,top=300,left=500,fullscreen=no,resizable=0');">忘記密碼</button>
+                            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" id="googlelogin"></div>
                         }
                         @*如果已經登入，顯示登入資訊*@
                         @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
@@ -1562,6 +1582,45 @@
     </script>
 
     <script>
+         @* google登入 *@
+         $('#googlelogin').on('click', onSignIn);
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('Full Name: ' + profile.getName());
+            console.log('Given Name: ' + profile.getGivenName());
+            console.log('Family Name: ' + profile.getFamilyName());
+            console.log("Image URL: " + profile.getImageUrl());
+            console.log("Email: " + profile.getEmail());
+            var login_data = {
+                email: profile.getEmail(),
+                nickname: profile.getName(),
+                firstname: profile.getGivenName(),
+                lastname: profile.getFamilyName(),
+                photo: profile.getImageUrl()
+            };
+        $.ajax({
+            url: '@Url.Action("googlelogin", "Home")',
+            type: "POST",
+            dataType: "json",
+            data: login_data
+        }).done(function (response) {
+            Swal.fire({
+                title: response.loginMessage,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            }).then(() => { window.location.reload() });
+            //alert(response.loginMessage);
+            //window.location.reload()
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            $("body").append(xhr.status);
+            $("body").append(xhr.responseText);
+            alert(thrownError);
+        });
+        };
     @* 登入 *@
     $('#loginBtn').on('click', login);
     function login() {
@@ -1569,7 +1628,6 @@
                 email: $("#account").val(),
                 pwd: $("#password").val()
             };
-
         $.ajax({
             url: '@Url.Action("login", "Home")',
             type: "POST",
@@ -2029,6 +2087,57 @@
             });
         };
 
+    </script>
+
+    <script type="text/javascript">
+        let CLIENT_ID = "640701122888-kqkl96t9a7tjtkug7f2ve6pdovm9mrjs.apps.googleusercontent.com";
+        //let API_KEY = '';//Javascript SDK無須 API 金鑰
+        // Array of API discovery doc URLs for APIs
+        let DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/people/v1/rest"];
+    </script>
+    @*執行Google API必須的.js，callback function名稱請自訂
+        ↓https://apis.google.com/js/platform.js 或 https://apis.google.com/js/api.js 兩者網址都行得通 這裡採用跟官網寫法一樣*@
+    <script async defer src="https://apis.google.com/js/api.js"
+            onload="this.onload=function(){};GoogleClientInit()"
+            onreadystatechange="if (this.readyState === 'complete') this.onload()">
+
+    </script>
+
+    <script type="text/javascript">
+        //jQuery處理button click event 當畫面DOM都載入時....
+        $(function () {
+            $("#btnSignIn").on("click", function () {
+                GoogleLogin();//Google 登入
+            });
+            $("#logoutBtn").on("click", function () {
+                Google_disconnect();//和Google App斷連
+            });
+        });
+
+        function GoogleClientInit() {
+            //官網範例寫client:auth2，但本人實測由於待會要呼叫gapi.client.init而不是gapi.auth2.init，所以給client即可
+            gapi.load('client', function () {
+                gapi.client.init({
+                    //client_id 和 scope 兩者參數必填
+                    clientId: CLIENT_ID,
+                    //scope列表參考：https://developers.google.com/people/api/rest/v1/people/get
+                    //"profile"是簡寫，要用完整scope名稱也可以
+                    scope: "profile",//"https://www.googleapis.com/auth/userinfo.profile",
+                    discoveryDocs: DISCOVERY_DOCS
+                });
+            });//end gapi.load
+        }//end GoogleClientInit function
+
+        function GoogleLogin() {
+            let auth2 = gapi.auth2.getAuthInstance();//取得GoogleAuth物件
+        }
+        //end function GoogleLogin
+        function Google_disconnect() {
+            let auth2 = gapi.auth2.getAuthInstance(); //取得GoogleAuth物件
+            auth2.disconnect().then(function () {
+                console.log('User disconnect.');
+            });
+        }
     </script>
 </body>
 </html>

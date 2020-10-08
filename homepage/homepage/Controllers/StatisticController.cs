@@ -35,37 +35,50 @@ namespace homepage.Controllers
             return Json(clocations);
         }
 
-        public JsonResult getAgeHeat(int upper, int lower)
-        {
+        //public JsonResult getAgeHeat(int upper, int lower)
+        //{
 
-            List<tLocation> location = (from l in dbFundaytrip.tLocations
-                                        where (DateTime.Now.Year - l.tRole.tMember.fBirthday_Member.Value.Year) > lower && (DateTime.Now.Year - l.tRole.tMember.fBirthday_Member.Value.Year) < upper
-                                        select l).ToList();
+        //    List<tLocation> location = (from l in dbFundaytrip.tLocations
+        //                                where (DateTime.Now.Year - l.tRole.tMember.fBirthday_Member.Value.Year) > lower && (DateTime.Now.Year - l.tRole.tMember.fBirthday_Member.Value.Year) < upper
+        //                                select l).ToList();
+
+        //    List<CLocation> clocations = new List<CLocation>();
+
+        //    foreach (var item in location)
+        //    {
+        //        CLocation clocation = new CLocation(item);
+        //        clocations.Add(clocation);
+        //    }
+        //    return Json(clocations);
+
+        //    //return lower +"~"+ upper;
+        //}
+
+
+
+        public JsonResult getgenderHeat(string gender, int upper, int lower)
+        {
+            List<tLocation> _location = new List<tLocation>();
+
+            if (gender == "所有") {
+                List<tLocation> location = (from l in dbFundaytrip.tLocations
+                                            select l).ToList();
+                _location = location;
+
+            };
+
+            if (gender != "所有") { 
+            
+             List<tLocation> location = (from l in dbFundaytrip.tLocations
+                                        where l.tRole.tMember.fGender_Member == gender && (DateTime.Now.Year - l.tRole.tMember.fBirthday_Member.Value.Year) > lower && (DateTime.Now.Year - l.tRole.tMember.fBirthday_Member.Value.Year) < upper
+                                         select l).ToList();
+                _location = location;
+            };
+           
 
             List<CLocation> clocations = new List<CLocation>();
 
-            foreach (var item in location)
-            {
-                CLocation clocation = new CLocation(item);
-                clocations.Add(clocation);
-            }
-            return Json(clocations);
-
-            //return lower +"~"+ upper;
-        }
-
-
-
-        public JsonResult getgenderHeat(int upper, int lower)
-        {
-
-            List<tLocation> location = (from l in dbFundaytrip.tLocations
-                                        where (DateTime.Now.Year - l.tRole.tMember.fBirthday_Member.Value.Year) > lower && (DateTime.Now.Year - l.tRole.tMember.fBirthday_Member.Value.Year) < upper
-                                        select l).ToList();
-
-            List<CLocation> clocations = new List<CLocation>();
-
-            foreach (var item in location)
+            foreach (var item in _location)
             {
                 CLocation clocation = new CLocation(item);
                 clocations.Add(clocation);
