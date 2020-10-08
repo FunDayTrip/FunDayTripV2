@@ -13,56 +13,58 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">地點 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">所有</a></li>
+
                         <li><a href="javascript:showMyLoc()" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow();">我的</a></li>
                         <li><a href="#">追蹤中</a></li>
                     </ul>
                 </li>
 
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">路線 <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">所有</a></li>
-                    <li><a href="javascript:showMyRou(@Session[CDictionary.SK_ActiveRoleId])" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow();">我的</a></li>
-                    <li><a href="#">追蹤中</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">相簿 <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">所有</a></li>
-                    <li><a href="javascript:showMyAlbums(@Session[CDictionary.SK_ActiveRoleId])">我的</a></li>
-                    <li><a href="#">追蹤中</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="@Url.Action("Navigation", "Game")" target="_blank">遊戲</a>
-            </li>
-            <li>
-                <a href="javascript:followcon()">追蹤/粉絲</a>
-                @*<a href="javascript:fansModal()">追蹤/粉絲</a>*@
-            </li>
-            <li>
-                <a href="#">功能導覽</a>
-            </li>
-            <li>
-                <a id="newAD" style="display:none;" @*href="javascript:showMyLoc()"*@ onclick="makeIdentity()">新增廣告</a>
-            </li>
-            <li>
-                <a href="@Url.Action("ShowHeatMap", "Statistic")">統計與分析</a>
-            </li>
-            <li>
-                <a href="#">聯絡管理員</a>
-            </li>
-            <li class="dropdown">
-                <a id="backstage" style="display:none;" class="dropdown-toggle" data-toggle="dropdown" href="#">管理員後台<span class="caret"></span></a>
-                @*<a id="backstage" style="display:none;" href="@Url.Action("indexBack", "backStage")">管理員後台</a>*@
-            <ul class="dropdown-menu">
-                <li><a href="@Url.Action("showAllMembers", "backStage")">會員查詢</a></li>
-                <li><a href="@Url.Action("showApplyAD", "backStage")">審核廣告</a></li>
-                <li><a href="@Url.Action("reportedList", "backStag")">檢舉名單</a></li>
-            </ul>
-            </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">路線 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+
+                        <li><a href="javascript:showMyRou(@Session[CDictionary.SK_ActiveRoleId])" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow();">我的</a></li>
+                        <li><a href="#">追蹤中</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">相簿 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+
+                        <li><a href="javascript:showMyAlbums(@Session[CDictionary.SK_ActiveRoleId])">我的</a></li>
+                        <li><a href="#">追蹤中</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="@Url.Action("Navigation", "Game")" target="_blank">遊戲</a>
+                </li>
+                <li>
+                    <a href="javascript:followcon()">追蹤/粉絲</a>
+                    @*<a href="javascript:fansModal()">追蹤/粉絲</a>*@
+                </li>
+
+                <li>
+                    <a id="newAD" style="display:none;" @*href="javascript:showMyLoc()"*@ onclick="makeIdentity()">新增廣告</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("ShowHeatMap", "Statistic")">統計與分析</a>
+                </li>
+                <li>
+                    <a href="#">聯絡管理員</a>
+                </li>
+                <li class="dropdown">
+                    <a id="backstage" style="display:none;" class="dropdown-toggle" data-toggle="dropdown" href="#">管理員後台<span class="caret"></span></a>
+                    @*<a id="backstage" style="display:none;" href="@Url.Action("indexBack", "backStage")">管理員後台</a>*@
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("showAllMembers", "backStage")">會員查詢</a></li>
+                        <li><a href="@Url.Action("showApplyAD", "backStage")">審核廣告</a></li>
+                        <li><a href="@Url.Action("reportedList", "backStag")">檢舉名單</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#">關於我們</a>
+                </li>
             }
         </ul>
         <form class="navbar-form navbar-left" action="/action_page.php" method="post" id="search">
@@ -212,7 +214,8 @@
                     rount2 += "('" + data[i].fId_Route + "')" + '"';
                     rount2 += 'value =';
                     rount2 += '"' + data[i].fName_Route + '"';
-                    rount2 += ' /></div >';
+                    rount2 += ' /></div >'; 
+
                 }
                 rounts.innerHTML = rount2;
             },
@@ -260,8 +263,9 @@
             data: objData,
             success: function (data) {
                 var loc2 = [];
+                var locations = document.getElementById('locationshow');
                 for (var i in data) {
-                    var locations = document.getElementById('locationshow');
+                    
                     loc2 += '<div><input type="button" onclick="zoomToLocation';
                     loc2 += "('" + data[i].fId_Location + "')" + '"';
                     loc2 += 'value =';
@@ -287,8 +291,9 @@
             data: objData,
             success: function (data) {
                 var rount2 = [];
+                var rounts = document.getElementById('rountshow');
                 for (var i in data) {
-                    var rounts = document.getElementById('rountshow');
+                    
                     rount2 += '<div><input type="button" onclick="zoomToRoute';
                     rount2 += "('" + data[i].fId_Route + "')" + '"';
                     rount2 += 'value =';
@@ -297,8 +302,8 @@
                 }
                 rounts.innerHTML = rount2;
             },
-            error: function () {
-                alert("error");
+            error: function (xhr) {
+                    console.log(xhr.status + xhr.responseText);
             }
         })
     }

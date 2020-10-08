@@ -121,15 +121,16 @@
     @*上列選項清單_verna_0930 *@
     @Html.Partial("_topMenuNavigation")
 
-    <div style="position:absolute;top:70px">
-        @*新增地點*@
-        <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
-       
-        @*新增路線*@
-        <button id="addNewRouteButton" type="button" class="btn btn-danger">放置新增路線</button>
+<div style="position:absolute;top:70px">
+    @*新增地點*@
+    <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
 
-        <button style="background-color:red" onclick="location.href='@Url.Action("LvVIP","Payment")'">升級</button>
-    </div>
+    @*新增路線*@
+    <button id="addNewRouteButton" type="button" class="btn btn-danger">放置新增路線</button>
+
+   
+    
+</div>
 
     <div id="infoi2">
         @*路線地點詳細資訊*@
@@ -138,9 +139,11 @@
     </div>
 
     @*滑鼠右鍵清單*@
-    @Html.Partial("_ContextMenuPartialView")
+    @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
+    {
+        @Html.Partial("_ContextMenuPartialView")
 
-
+    }
     @*顯示相簿*@
     @Html.Partial("_ShowAlbumView")
 
@@ -235,7 +238,7 @@
 
              };
 
-         
+
 
              });
     </script>
@@ -281,6 +284,7 @@
                             <button id="change_role" style="float:left" onclick="showRoles()">切換身分</button>
                             @Html.ActionLink("編輯個人檔案", "edit", "Member")
                             @*<button id="edit_profile" style="float:right" >編輯個人檔案</button><br />*@
+                            <button style="background-color:red" onclick="location.href='@Url.Action("LvVIP","Payment")'">升級</button>
                             <hr />
 
                             //通知按鈕
