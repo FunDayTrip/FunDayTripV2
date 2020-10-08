@@ -148,7 +148,7 @@
 
     @*---------------------------------聊天室生成 2020/09/24 by曾開誠---------------------------------*@
     @*_verna_0930*@
-    @Html.Partial("_ChatBoxPartialView");
+    @Html.Partial("_ChatBoxPartialView")
     @*---------------------------------聊天室生成---------------------------------*@
 
 
@@ -305,11 +305,11 @@
         @*跳出新增/編輯視窗*@
         <div id="myModal" class="modal">
             @*<div class="modal-dialog">*@
-                <div class="modal-content ">
-                    <form form method="post" enctype="multipart/form-data" id="UploadLocationForm">
-                        @Html.Partial("_CreateOrEditForm");
-                    </form>
-                </div>@*model-contain*@
+            <div class="modal-content ">
+                <form form method="post" enctype="multipart/form-data" id="UploadLocationForm">
+                    @Html.Partial("_CreateOrEditForm")
+                </form>
+            </div>@*model-contain*@
             @*</div>*@
         </div>@*model*@
 
@@ -414,13 +414,20 @@
 
         ///////////////////////////////////////////////////
     </script>
+    
+    @* ===== 新增廣告 by kevin 10/08 ===== *@
     <script>
         function makeIdentity() {
+
+            //TODO:新增廣告的地點
+
             window.location.href = "@Url.Action("newCommercialData", "Advertisement")";
             //document.getElementById("newOne").style.display = "block";
             alert("ok")
-        };
-
+        }
+    </script>
+    
+    <script>
         //我的地點 顯示可新增按鈕
         function showMyLoc() {
             $("#addNewLocationButton").show();
@@ -481,6 +488,7 @@
                     $("#create").show();
                     $("#fx_Coordinate").val(_lng);
                     $("#fy_Coordinate").val(_lat);
+                    $("#fId_Role").val(@Session[CDictionary.SK_ActiveRoleId]);
                     $("#CreateOrEdit").text("新增地點");
                     document.getElementById('info3').innerHTML = _lng + "," + _lat;
                     _LocationID = "noLocationID";
@@ -563,18 +571,17 @@
 
                 deJsonResponce.forEach((item, element) => {
 
-
                     $("#fId_Location").val(item.fId_Location);
                     $("#fx_Coordinate").val(item.fX_Coordinate);
                     $("#fy_Coordinate").val(item.fY_Coordinate);
                     $("#CoordinateName").val(item.fName_Coordinate);
                     //console.log(item.fName_Coordinate);
                     $("#LocationName").val(item.fName_Location);
-                    $("#fAdd_Location").val(item.fAdd_Location);
+                    //$("#fAdd_Location").val(item.fAdd_Location);
                     $("#fDescript_Location").val(item.fDescript_Location);
                     //console.log(item.fDescript_Location);
-                    $("#fTitle_Photo").val(item.fTitle_Photo);
-                    $("#fDescript_Photo").val(item.fDescript_Photo);
+                    //$("#fTitle_Photo").val(item.fTitle_Photo);
+                    //$("#fDescript_Photo").val(item.fDescript_Photo);
                     var existedphoto = document.getElementById("output");
                     $("#output").attr("src", item.fPath_Photo);//IMAGE
 
@@ -759,9 +766,12 @@
                     setDivDisplay("instructions2", "block");
                     //document.getElementById("UploadLocationForm").reset();
                     $("#CreateOrEditRoute").text("新增路線");
-                    $("#fId_Role").val(@Session[CDictionary.SK_ActiveRoleId]);
+
                     $("#save2").hide();
                     $("#create2").show();
+
+                    $("#fId_Roles").val(@Session[CDictionary.SK_ActiveRoleId]);
+
                     for (var i = 0; i < CoordinateCnt + 1; i++) {
                         console.log(CoordinateCnt);
                         $("#fx_Coordinate" + i).val(X_Coordinate[i]);
@@ -770,7 +780,7 @@
 
                         if (Id_Coordinate != 0) {
                             $("#fId_Coordinate" + i).val(Id_Coordinate[i]);
-                            $("#fName_Coordinate" + i).val(Name_Coordinate[i]);
+                            //$("#fName_Coordinate" + i).val(Name_Coordinate[i]);
                         }
                     }
                     CoordinateCnt++;
@@ -790,36 +800,24 @@
                 '<div class="portlet-header" id="header' + CoordinateCnt + '" name="header">' + '</div>' +
                 '<div class="portlet-content" id="content" name="content" >' + '<div>' +
                 '<h5 id="CreateOrEdit">新增地點</h5>' +
-                '<div>坐標' +
+                '<div style="display:none">坐標' +
                 '<div>坐標id</div>' +
                 '<input name="fId_Coordinate[]" id="fId_Coordinate' + CoordinateCnt + '" />' +
                 '<div>x</div>' +
                 '<input name="fX_Coordinate[]" id="fx_Coordinate' + CoordinateCnt + '" />' +
                 '<div>y</div>' +
                 '<input name="fY_Coordinate[]" id="fy_Coordinate' + CoordinateCnt + '" />' +
-                '<div>坐標名</div>' +
-                '<input name="fName_Coordinate[]" id="fName_Coordinate' + CoordinateCnt + '" />' +
                 '</div>' +
                 '<div>地點' +
                 '<div>地名</div>' +
                 '<input name="fName_Location[]" id="fName_Location' + CoordinateCnt + '" />' +
-                '<div>地址</div>' +
-                '<input name="fAdd_Location[]" id="fAdd_Location' + CoordinateCnt + '" />' +
                 '<div>地點描述</div>' +
                 '<input name="fDescript_Location[]" id="fDescript_Location' + CoordinateCnt + '" />' +
-                '</div>' +
-                '<div>' +
-                '<div>照片' +
-                '<div>照片標題</div>' +
-                '<input name="fTitle_Photo[]" id="fTitle_Photo' + CoordinateCnt + '" />' +
-                '<div>照片敘述</div>' +
-                '<input name="fDescript_Photo[]" id="fDescript_Photo' + CoordinateCnt + '" />' +
                 '</div>' +
                 '<div>' +
                 '<div>上傳照片</div>' +
                 '<input type="file" accept="image/*" onchange="RoateloadFile(event)" name="PostImages">' +
                 '<img id="output' + CoordinateCnt + '" style="width:300px;height:200px" />' +
-                '</div>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
@@ -877,6 +875,7 @@
                     $("#addNewRouteButton").hide();
                     setDivDisplay("instructions2", "none");
                     _marker.remove();
+                    reload();
                 },
                 fail: function (failresponse) {
                     console.log(failresponse);
@@ -1050,40 +1049,68 @@
                         '<div class="portlet-header" id="header' + i + '" name="header">' + '</div>' +
                         '<div class="portlet-content" id="content" name="content" >' + '<div>' +
                         '<h5 id="CreateOrEdit">新增地點</h5>' +
-                        '<div>坐標' +
+                        '<div style="display:none">坐標' +
                         '<div>坐標id</div>' +
                         '<input name="fId_Coordinate[]" id="fId_Coordinate' + i + '" />' +
                         '<div>x</div>' +
                         '<input name="fX_Coordinate[]" id="fx_Coordinate' + i + '" />' +
                         '<div>y</div>' +
                         '<input name="fY_Coordinate[]" id="fy_Coordinate' + i + '" />' +
-                        '<div>坐標名</div>' +
-                        '<input name="fName_Coordinate[]" id="fName_Coordinate' + i + '" />' +
                         '</div>' +
                         '<div>地點' +
                         '<div>地名</div>' +
                         '<input name="fName_Location[]" id="fName_Location' + i + '" />' +
-                        '<div>地址</div>' +
-                        '<input name="fAdd_Location[]" id="fAdd_Location' + i + '" />' +
                         '<div>地點描述</div>' +
                         '<input name="fDescript_Location[]" id="fDescript_Location' + i + '" />' +
                         '</div>' +
                         '<div>' +
-                        '<div>照片' +
-                        '<div>照片標題</div>' +
-                        '<input name="fTitle_Photo[]" id="fTitle_Photo' + i + '" />' +
-                        '<div>照片敘述</div>' +
-                        '<input name="fDescript_Photo[]" id="fDescript_Photo' + i + '" />' +
-                        '</div>' +
-                        '<div>' +
                         '<div>上傳照片</div>' +
                         '<input type="file" accept="image/*" onchange="RoateloadFile(event)" name="PostImages">' +
-                        '<img id="output' + i + '" src="" style="width:300px;height:200px" />' +
-                        '</div>' +
+                        '<img id="output' + i + '" style="width:300px;height:200px" />' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
                         '</div>';
+
+
+                    //'<div class="portlet">' +
+                    //'<div class="portlet-header" id="header' + i + '" name="header">' + '</div>' +
+                    //'<div class="portlet-content" id="content" name="content" >' + '<div>' +
+                    //'<h5 id="CreateOrEdit">新增地點</h5>' +
+                    //'<div>坐標' +
+                    //'<div>坐標id</div>' +
+                    //'<input name="fId_Coordinate[]" id="fId_Coordinate' + i + '" />' +
+                    //'<div>x</div>' +
+                    //'<input name="fX_Coordinate[]" id="fx_Coordinate' + i + '" />' +
+                    //'<div>y</div>' +
+                    //'<input name="fY_Coordinate[]" id="fy_Coordinate' + i + '" />' +
+                    //'<div>坐標名</div>' +
+                    //'<input name="fName_Coordinate[]" id="fName_Coordinate' + i + '" />' +
+                    //'</div>' +
+                    //'<div>地點' +
+                    //'<div>地名</div>' +
+                    //'<input name="fName_Location[]" id="fName_Location' + i + '" />' +
+                    //'<div>地址</div>' +
+                    //'<input name="fAdd_Location[]" id="fAdd_Location' + i + '" />' +
+                    //'<div>地點描述</div>' +
+                    //'<input name="fDescript_Location[]" id="fDescript_Location' + i + '" />' +
+                    //'</div>' +
+                    //'<div>' +
+                    //'<div>照片' +
+                    //'<div>照片標題</div>' +
+                    //'<input name="fTitle_Photo[]" id="fTitle_Photo' + i + '" />' +
+                    //'<div>照片敘述</div>' +
+                    //'<input name="fDescript_Photo[]" id="fDescript_Photo' + i + '" />' +
+                    //'</div>' +
+                    //'<div>' +
+                    //'<div>上傳照片</div>' +
+                    //'<input type="file" accept="image/*" onchange="RoateloadFile(event)" name="PostImages">' +
+                    //'<img id="output' + i + '" src="" style="width:300px;height:200px" />' +
+                    //'</div>' +
+                    //'</div>' +
+                    //'</div>' +
+                    //'</div>' +
+                    //'</div>';
 
                     columns.innerHTML = tripInstructions;
 
@@ -1736,11 +1763,11 @@
         };
     </script>
 
-    @* ========= 顯示我的相簿 by kevin 10/06 ========= *@
+    @* ========= 顯示我的相簿 by kevin 10/07 ========= *@
     <script>
         //顯示相簿列表
         function showMyAlbums(roleID) {
-        
+
             setDivDisplay("albums", "block");
 
             $.ajax({
@@ -1828,8 +1855,13 @@
 
     @* ========= 新增我的相簿 by kevin 10/06 ========= *@
     <script>
+        var loccnt = 0;
+        var locid = "";
         function addAlbum(roleID) {
             setDivDisplay("addAlbum", "block");
+            $("#createa").show();
+            $("#savea").hide();
+
             //動態生成地點選項
             $.ajax({
                 url: "/Home/showLocOptions",
@@ -1838,11 +1870,15 @@
             }).done(function (response) {
                 //console.log(response);
                 var opt = document.getElementById("aloc");
+                opt.innerHTML = "";
+                var lloccnt = response.length;
+                loccnt = lloccnt;
                 for (var i = 0; i < response.length; i++) {
                     var optid = "aloc" + i;
-                    var locid = response[i].fId_Location + "";
-
-                    optinfo = '<input type="checkbox" name="fId_Location[]" id="' + optid + '" onclick="IfSelectedLocations(' + "\'" + locid + "\'" + "," + "\'" + optid + "\'" + ')">' + response[i].fName_Location + '</br>';
+                    locid = response[i].fId_Location + "";
+                    var cnt = i + 1;
+                    //optinfo = '<input type="checkbox" name="fId_Location[]" id="' + optid + '" onclick="IfSelectedLocations(' + "\'" + locid + "\'" + "," + "\'" + optid + "\'" + ')">' + response[i].fName_Location + '</br>';
+                    optinfo = '<input type="checkbox" name="fId_Location[]" id="' + locid + '" onclick="IfSelectedLocations(' + "\'" + locid + "\'" + "," + "\'" + optid + "\'" + ')">' + cnt + "：" + response[i].fName_Location + '</br>';
 
                     opt.innerHTML += optinfo;
                 }
@@ -1865,10 +1901,10 @@
         //相簿加入地點
         function IfSelectedLocations(idLocSelected, loci) {
             console.log("id = " + idLocSelected + ",loci = " + loci);
-            var ifIsChecked = $('#' + loci).is(":checked");
+            var ifIsChecked = $('#' + idLocSelected).is(":checked");
 
             if (ifIsChecked == true) {
-                $('#' + loci).val(idLocSelected);
+                $('#' + idLocSelected).val(idLocSelected);
             } else {
                 return;
             }
@@ -1897,13 +1933,17 @@
         }
     </script>
 
-    @* ========= 修改我的相簿 by kevin 10/06 ========= *@
+    @* ========= 編輯我的相簿 by kevin 10/08 ========= *@
     <script>
         //按編輯帶入相簿資料
+        var tempArrLoc = [];
         function editAlbum(roleID, albumID) {
             console.log("roleID = " + roleID + "albumId = " + albumID);
 
-            setDivDisplay("addAlbum", "block");
+            addAlbum(roleID);
+            $("#savea").show();
+            $("#createa").hide();
+
             $.ajax({
                 url: "/Home/editMyAlbums",
                 type: "POST",
@@ -1943,15 +1983,51 @@
                 dataType: "json",
                 data: { roleID: roleID, albumID: albumID }
             }).done(function (response) {
-                console.log(response);
 
-                //TODO:只撈有打勾的 fName_Location[]
-
+                //console.log(response[0].fName_Location);
+                //只撈有打勾的 fName_Location[]
+                var Relocid = 0;
+                var divLen = document.getElementById("aloc").childElementCount / 2; // 我不知道為什麼這邊都找到兩倍數量,可能是含名字
+                var childID = 0;
+                for (var i = 0; i < response.length; i++) {
+                    Relocid = response[i].fId_Location;
+                    for (j = 0; j < divLen; j++) {
+                        childID = document.getElementById("aloc").children[j].id;
+                        if (childID == Relocid) {
+                            $('#' + Relocid).prop("checked", true);
+                        }
+                    }
+                }
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText)
             });//end ajax
-
         }//end editAlbum()
+
+        //更新相簿資料至資料庫
+        function editAlbumFormButton() {
+            $("#addAlbumForm").ajaxSubmit({
+                type: "POST",
+                url: "/Home/EditAlbumInfo",
+                //data: { EditLocationId: _LocationID },
+                success: function (response) {
+                    //console.log(response);
+
+                    Swal.fire({
+                        //position: 'top-end',
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+
+                    setDivDisplay("addAlbum", "none");
+                    //reload();
+                },
+                fail: function (failresponse) {
+                    console.log(failresponse);
+                }
+            });
+        };
 
     </script>
 </body>

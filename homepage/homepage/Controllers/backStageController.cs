@@ -11,19 +11,20 @@ namespace homepage.Controllers
 {
     public class backStageController : Controller
     {
+        //帶ad_id通過回傳
         public ActionResult pass(string id)
         {
             new CAdFactory().getPass(id);
             Session["pass"] = "pass";
             return RedirectToAction("showApplyAD");
         }
-
+        //顯示詳細廣告
         public ActionResult showAdDetail(string id)
         {
             CAdDetailVM item = (new CAdFactory()).getAdDetail(id);
             return View(item);
         }
-
+        //待審核廣告列表
         public ActionResult showApplyAD()
         {
             List<tAd> applyAD;
