@@ -59,7 +59,7 @@
 <body>
 
     <div id="map" onclick="remove()"></div>
-    <div style="position:absolute;left: 800px;top:500px "id="loading">
+    <div style="position:absolute;left: 800px;top:500px " id="loading">
         <div class="spinner-grow text-muted"></div>
         <div class="spinner-grow text-primary"></div>
         <div class="spinner-grow text-success"></div>
@@ -70,22 +70,23 @@
         <div class="spinner-grow text-dark"></div>
         <div class="spinner-grow text-light"></div>
     </div>
-    
+
     <div style="background-color:white; width:400px; height:350px;position:absolute;left:50px;top:50px">
         <div style="margin:10px">
+            @*年齡拉霸*@
             <p>
                 <label for="amount">Age range:</label>
                 <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
             </p>
 
-            <div id="slider-range" onclick="showAgeHeat()"></div>
+            <div id="slider-range" onmouseup="filter()"></div>
             <br />
             <hr />
+            @*性別*@
             <p>Gender:</p>
-            
-            <div onclick="genderHeat()" id="checkboxGender">
+            <div id="myForm">
 
-                <div class="form-check form-check-inline" >
+                <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="所有" checked>
                     <label class="form-check-label" for="inlineRadio1">ALL</label>
                 </div>
@@ -97,9 +98,8 @@
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="女">
                     <label class="form-check-label" for="inlineRadio3">Female</label>
                 </div>
-
             </div>
-        
+
 
             <hr />
 
@@ -431,6 +431,8 @@
     <script>
         var _lower = 25;
         var _upper = 50;
+        var _selectedGenderValue = "所有";
+
         $(function () {
             $("#slider-range").slider({
                 range: true,
@@ -446,63 +448,56 @@
             $("#amount").val($("#slider-range").slider("values", 0) +
                 " - " + $("#slider-range").slider("values", 1));
         });
+        //單純年齡分布
+        //function showAgeHeat() {
+        //    $("#loading").show();
+        //    _LocArray = [];
+        //    $.ajax({
+        //        url: "/Statistic/getAgeHeat",
+        //        type: "POST",
+        //        data: { upper: _upper, lower: _lower },
+        //    }).done(function (response) {
+        //        console.log(response);
+        //        $("#loading").hide();
+        //        for (var i = 0; i < response.length; i++) {
+        //            Coords_Location = [response[i].fX_Coordinate, response[i].fY_Coordinate];
+        //            Id_Location = response[i].fId_Location;
 
-        function showAgeHeat() {
-            $("#loading").show();
-            _LocArray = [];
-            $.ajax({
-                url: "/Statistic/getAgeHeat",
-                type: "POST",
-                data: { upper: _upper, lower: _lower },
-            }).done(function (response) {
-                console.log(response);
-                $("#loading").hide();
-                for (var i = 0; i < response.length; i++) {
-                    Coords_Location = [response[i].fX_Coordinate, response[i].fY_Coordinate];
-                    Id_Location = response[i].fId_Location;
+        //            locJson =
+        //            {
+        //                'type': 'Feature',
+        //                'properties': {
+        //                    'dbh': 65,
 
-                    locJson =
-                    {
-                        'type': 'Feature',
-                        'properties': {
-                            'dbh': 65,
+        //                },
+        //                'geometry': {
+        //                    'type': 'Point',
+        //                    'coordinates': Coords_Location
+        //                }
+        //            }
+        //            _LocArray.push(locJson);
+        //        };
+        //        remove();
 
-                        },
-                        'geometry': {
-                            'type': 'Point',
-                            'coordinates': Coords_Location
-                        }
-                    }
-                    _LocArray.push(locJson);
-                };
-                remove();
+        //    }).fail(function (xhr) {
+        //        console.log(xhr.status + xhr.responseText);
+        //    });//end ajax
 
-            }).fail(function (xhr) {
-                console.log(xhr.status + xhr.responseText);
-            });//end ajax
-
-        };
+        //};
 
     </script>
     <script>
 
-        var gender = $('#checkboxGender input:radio:checked').val()
-
-
-        $(".checkboxform-check-input").change(function () {
-            if (this.checked) {
-                console.log(this.value);
-            }
-        });
-
-        function genderHeat() {
-            $("#loading").show();
+        $('#myForm input').on('change', function () {
+            console.log($('input[name=inlineRadioOptions]:checked', '#myForm').val());
+            _selectedGenderValue = $('input[name=inlineRadioOptions]:checked', '#myForm').val();
             _LocArray = [];
-            console.log(gender);
-            //$.ajax({
+            filter();
+            //$("#loading").show();
+            // $.ajax({
             //    url: "/Statistic/getgenderHeat",
             //    type: "POST",
-            //    data: { upper: _upper, lower: _lower },
+            //     data: { gender: _selectedGenderValue, upper: _upper, lower: _lower},
             //}).done(function (response) {
             //    console.log(response);
             //    $("#loading").hide();
@@ -530,9 +525,49 @@
             //    console.log(xhr.status + xhr.responseText);
             //});//end ajax
 
-        };
-        
+        });
 
+
+        function filter() {
+
+            console.log("gender:"+ _selectedGenderValue+" upper:"+ _upper+ "lower:"+ _lower);
+            _LocArray = [];
+            $("#loading").show();
+            $.ajax({
+                url: "/Statistic/getgenderHeat",
+                type: "POST",
+                data: { gender: _selectedGenderValue, upper: _upper, lower: _lower },
+            }).done(function (response) {
+                console.log(response);
+                $("#loading").hide();
+                for (var i = 0; i < response.length; i++) {
+                    Coords_Location = [response[i].fX_Coordinate, response[i].fY_Coordinate];
+                    Id_Location = response[i].fId_Location;
+
+                    locJson =
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'dbh': 65,
+
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': Coords_Location
+                        }
+                    }
+                    _LocArray.push(locJson);
+                };
+                remove();
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+
+
+        };
     </script>
+
+
 </body>
 </html>
