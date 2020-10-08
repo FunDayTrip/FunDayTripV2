@@ -10,6 +10,23 @@ namespace homepage.Models
 
         DB_FunDayTripEntities db = new DB_FunDayTripEntities();
 
+        internal string getDisappear(string id)
+        {
+
+            var q = from data in db.tReports
+                    where data.fId_Report.ToString() == id
+                    select data;
+            var reportedData = q.FirstOrDefault();
+            reportedData.fStatus_Report = "已審核";
+            //foreach (var x in q) 
+            //{
+            //    x.fStatus_Report = "已審核";
+            //}
+
+            db.SaveChanges();
+            return "disappered";
+        }
+
         internal List<tMember> getReportedMember(string rId)
         {
             var resultFromRole = db.tRoles.FirstOrDefault(data => data.fId_Role.ToString() == rId);
@@ -28,6 +45,5 @@ namespace homepage.Models
             var QList = q.ToList();
             return QList;
         }
-
     }
 }

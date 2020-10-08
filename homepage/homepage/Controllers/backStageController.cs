@@ -10,7 +10,8 @@ using System.Web.Mvc;
 namespace homepage.Controllers
 {
     public class backStageController : Controller
-    {
+    {       
+
         public ActionResult pass(string id)
         {
             new CAdFactory().getPass(id);
@@ -71,6 +72,15 @@ namespace homepage.Controllers
                 return View(reportedMember);
             }
             return RedirectToAction("showAllMembers");
+        }
+
+        //審核控制器
+        public ActionResult disappearData(string id)
+        {
+            string result = "";
+            result = (new CReportFactory().getDisappear(id));
+            Session["disappered"] = result;
+            return RedirectToAction("reportedList");
         }
 
         //說明:停權控制器

@@ -31,6 +31,9 @@
     <title>showApplyAD</title>
 </head>
 <body>
+    <div style="text-align:right;margin-top:10px;margin-right:10px;">
+        @Html.ActionLink("回首頁", "Index", "Home", null, new { @class = "btn btn-info" })
+    </div>
     <div class="table-responsive" style="margin-bottom:30px">
         <table id="myTable" class="tablesorter">
             <thead>
@@ -93,14 +96,14 @@
                     <td style="width: 80px; vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fStatus_Ad)
                     </td>
-                    <td style="width:100px;vertical-align: middle;" >
+                    <td style="width:100px;vertical-align: middle;">
                         @Html.ActionLink("顯示詳細", "showAdDetail", "backStage", new { id = item.fId_Ad.ToString() }, new { @class = "btn btn-info" })
                     </td>
                     <td style="width:100px;vertical-align: middle;">
                         @Html.ActionLink("審核通過", "pass", "backStage", new { id = item.fId_Ad.ToString() }, new { @class = "btn btn-warning" })
                     </td>
                 </tr>
-             }
+            }
         </table>
     </div>
 </body>

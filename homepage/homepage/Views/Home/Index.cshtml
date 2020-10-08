@@ -80,6 +80,21 @@
 
     @*_verna_0930*@
     <style>
+
+        .footer {
+            position: fixed;
+            z-index: 1;
+            left: 400px;
+            bottom: 0;
+            height: 18%;
+            width: 50%;
+            background-color: rgba(192, 192, 192, 0.85);
+            color: black;
+            text-align: center;
+            border-top-left-radius:10px;
+            border-top-right-radius:10px;
+        }
+
         /*通知按鈕*/
         .noteBtn {
             width: 32px;
@@ -152,7 +167,30 @@
     @*---------------------------------聊天室生成---------------------------------*@
 
 
-    <script>
+<script>
+        $(function () {
+            window.onload = function () {
+                $.ajax({
+                    url: "@Url.Action("ShowAD", "Advertisement")",
+                    dataType: "json",
+                    type:"POST",
+                    success: function (response) {
+                        //JSON OBJ
+                        console.log(response);
+                        for (var i = 0; i <= response.length; i += 1)
+                        {
+                            var img = $("<img>").attr({
+                                'src': response[i].fPhoto_Ad
+                            }).css({ width: '230px', height: '130px', left:'10px' })
+                            $("#inner_content").append(img);
+                        }   
+                    },
+                    fail: function (response) {
+                        alert("失敗")
+                    }
+                });
+            }
+        });
         //全域變數===============================
         //經緯度變數
         var _lng, _lat;
@@ -309,6 +347,29 @@
             </form>
         </div>
 
+    </div>
+    @*<script>
+        $(function () {
+            window.onload = function () {                
+                $.ajax({
+                    url:"@Url.Action("ShowAD", "Advertisement")",
+                    type:"POST",
+                    success: function (response) {
+                        alert(response);
+                        //$("#pwChange").css("display", "none")
+                    },
+                    fail: function (response) {
+                        alert("失敗")
+                    }
+                });
+            }
+        });
+    </script>*@
+    <div id="foot-content" class="footer">      
+        <div id="current_position" value="">推薦地點(廣告)</div>
+        <div id="inner_content" value="">
+
+        </div>
     </div>
     @*</div>*@
 
@@ -1724,7 +1785,7 @@
     <script>
         //顯示相簿列表
         function showMyAlbums(roleID) {
-        
+
             setDivDisplay("albums", "block");
 
             $.ajax({

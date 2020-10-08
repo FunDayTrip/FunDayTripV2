@@ -36,143 +36,148 @@
                 <input type="submit" value="查詢" class="btn btn-info" style="height:32px;" />
             </form>
         </div>
-        <div style="display:inline-block;margin-left:385px;">
+        <div style="display:inline-block;margin-left:325px;">
             @Html.ActionLink("查詢全部", "backToAllMembers", "backStage", null, new { @class = "btn btn-info" })
         </div>
-        <div style="display:inline-block;margin-left:10px;">
+        <div style="display:inline-block;margin-left:5px;">
             @Html.ActionLink("檢視檢舉名單", "reportedList", "backStage", null, new { @class = "btn btn-info" })
         </div>
-    </div>
+        <div style="display:inline-block;margin-left:5px;">
+            @Html.ActionLink("回首頁", "Index", "Home", null, new { @class = "btn btn-info" })
+        </div>
+     </div>
 
-    @if (ViewBag.nothing != null)
-    {
-        <script>
-    window.onload = function () {
-                Swal.fire({
-                    title: '查無資料',
-                    showClass: {
-                        popup: 'animate__animated animate__fadeInDown'
-                    },
-                    hideClass: {
-                        popup: 'animate__animated animate__fadeOutUp'
-                    }
-                }).then(function () { document.location.href = "/backStage/showAllMembers" })
-            }
-        </script>
-    }
-    else
-    {
-        if (ViewBag.suspensionOK == "ok")
+        @if (ViewBag.nothing != null)
         {
             <script>
                 window.onload = function () {
                     Swal.fire({
-                        title: '已成功停權',
+                        title: '查無資料',
                         showClass: {
                             popup: 'animate__animated animate__fadeInDown'
                         },
                         hideClass: {
                             popup: 'animate__animated animate__fadeOutUp'
                         }
-                    })
+                    }).then(function () { document.location.href = "/backStage/showAllMembers" })
                 }
             </script>
-            Session["ok"] = "";
         }
+        else
+        {
+            if (ViewBag.suspensionOK == "ok")
+            {
+                <script>
+                    window.onload = function () {
+                        Swal.fire({
+                            title: '已成功停權',
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                    }
+                </script>
+                Session["ok"] = "";
+            }
 
-        <div class="table-responsive" style="margin-bottom:30px">
-            @*說明:自動排序命名法*@
-            <table id="myTable" class="tablesorter">
-                <thead>
-                    <tr>
-                        <th scope="col" class="text-nowrap">
-                            會員編號
-                        </th>
-                        <th scope="col" class="text-nowrap">
-                            會員暱稱
-                        </th>
-                        <th scope="col" class="text-nowrap">
-                            帳號
-                        </th>
-                        <th scope="col" class="text-nowrap">
-                            地址
-                        </th>
-                        <th scope="col" class="text-nowrap">
-                            性別
-                        </th>
-                        <th scope="col" class="text-nowrap">
-                            生日
-                        </th>
-                        <th scope="col" class="text-nowrap">
-                            電話
-                        </th>
-                        <th scope="col" class="text-nowrap">
-                            國家
-                        </th>
-                        <th scope="col" class="text-nowrap">
-                            姓氏
-                        </th>
-                        <th scope="col" class="text-nowrap">
-                            名字
-                        </th>
-                        <th scope="col" class="text-nowrap">
-                            遊戲等級
-                        </th>
-                        <th scope="col" class="text-nowrap">
-                            會員權限
-                        </th>
-                    </tr>
-                </thead>
+            <div class="table-responsive" style="margin-bottom:30px">
+                @*說明:自動排序命名法*@
+                <table id="myTable" class="tablesorter">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-nowrap">
+                                會員編號
+                            </th>
+                            <th scope="col" class="text-nowrap">
+                                會員暱稱
+                            </th>
+                            <th scope="col" class="text-nowrap">
+                                帳號
+                            </th>
+                            <th scope="col" class="text-nowrap">
+                                地址
+                            </th>
+                            <th scope="col" class="text-nowrap">
+                                性別
+                            </th>
+                            <th scope="col" class="text-nowrap">
+                                生日
+                            </th>
+                            <th scope="col" class="text-nowrap">
+                                電話
+                            </th>
+                            <th scope="col" class="text-nowrap">
+                                國家
+                            </th>
+                            <th scope="col" class="text-nowrap">
+                                姓氏
+                            </th>
+                            <th scope="col" class="text-nowrap">
+                                名字
+                            </th>
+                            <th scope="col" class="text-nowrap">
+                                遊戲等級
+                            </th>
+                            <th scope="col" class="text-nowrap">
+                                會員權限
+                            </th>
+                        </tr>
+                    </thead>
 
-                @foreach (var item in Model)
-                {
-                    string s = "return confirm('確定停用 " + item.fNickName_Member + " 的帳戶嗎')";
-                    <tr>
-                        <td id="memberId" class="text-nowrap" style="vertical-align: middle; text-align:left;">
-                            @Html.DisplayFor(modelItem => item.fId_Member)
-                        </td>
-                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
-                            @Html.DisplayFor(modelItem => item.fNickName_Member)
-                        </td>
-                        <td class="text-nowrap" style="vertical-align: middle; text-align:left;">
-                            @Html.DisplayFor(modelItem => item.fEmail_Member)
-                        </td>
-                        <td style="vertical-align: middle; text-align:left;">
-                            @Html.DisplayFor(modelItem => item.fAdd_Member)
-                        </td>
-                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
-                            @Html.DisplayFor(modelItem => item.fGender_Member)
-                        </td>
-                        <td style="vertical-align: middle; text-align:center;">
-                            @Html.DisplayFor(modelItem => item.fBirthday_Member)
-                        </td>
-                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
-                            @Html.DisplayFor(modelItem => item.fPhone_Member)
-                        </td>
-                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
-                            @Html.DisplayFor(modelItem => item.fCountry_Member)
-                        </td>
-                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
-                            @Html.DisplayFor(modelItem => item.fLastName_Member)
-                        </td>
-                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
-                            @Html.DisplayFor(modelItem => item.fFirstName_Member)
-                        </td>
-                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
-                            @Html.DisplayFor(modelItem => item.fGameLV_Member)
-                        </td>
-                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
-                            @Html.DisplayFor(modelItem => item.tFuntionAuth.fAuth_FunctionAuth)
-                        </td>
-                        <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                    @foreach (var item in Model)
+                    {
+                        string s = "return confirm('確定停用 " + item.fNickName_Member + " 的帳戶嗎')";
+                <tr>
+                    <td id="memberId" class="text-nowrap" style="vertical-align: middle; text-align:left;">
+                        @Html.DisplayFor(modelItem => item.fId_Member)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fNickName_Member)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:left;">
+                        @Html.DisplayFor(modelItem => item.fEmail_Member)
+                    </td>
+                    <td style="vertical-align: middle; text-align:left;">
+                        @Html.DisplayFor(modelItem => item.fAdd_Member)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fGender_Member)
+                    </td>
+                    <td style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fBirthday_Member)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fPhone_Member)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fCountry_Member)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fLastName_Member)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fFirstName_Member)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.fGameLV_Member)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @Html.DisplayFor(modelItem => item.tFuntionAuth.fAuth_FunctionAuth)
+                    </td>
+                    <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                        @if (item.fId_FunctionAuth == 1 || item.fId_FunctionAuth == 4)
+                        {
                             @Html.ActionLink("停權", "suspendAccountController", "backStage", new { id = item.ID.ToString() }, new { OnClick = s, @class = "btn btn-danger" })
-                            @*<button type="button" id="suspensionBtn" class="alert alert-danger">停權</button>*@
-                        </td>
-                    </tr>
-                }
-            </table>
-        </div>
-    }
+                        }
+                    </td>                
+                </tr>
+                    }
+                </table>
+            </div>
+        }
 </body>
 </html>
 

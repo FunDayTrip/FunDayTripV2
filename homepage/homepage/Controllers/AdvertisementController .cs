@@ -1,4 +1,5 @@
 ﻿using homepage.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +11,34 @@ namespace homepage.Controllers
 {
     public class AdvertisementController : Controller
     {
+        public JsonResult ShowAD()
+        {
+            List<CAdJson> adLsit = new List<CAdJson>();
+            DB_FunDayTripEntities db = new DB_FunDayTripEntities();
+            var q = from photo in db.tAds
+                    where photo.fStatus_Ad == "通過"
+                    select photo;
+
+            foreach(var item in q)
+            {
+                CAdJson ad = new CAdJson
+                {
+                    fId_Ad = item.fId_Ad,
+                    fId_Role = item.fId_Role,
+                    fId_Admin_Role = item.fId_Admin_Role,
+                    fContent_Ad = item.fContent_Ad,
+                    fId_Location = item.fId_Location,
+                    fPhoto_Ad = item.fPhoto_Ad,
+                    fSolution_Ad = item.fSolution_Ad,
+                    fStatus_Ad = item.fStatus_Ad
+                };
+
+                adLsit.Add(ad);
+            }
+
+            return Json(adLsit,JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult newCommercialData()
         {
             return View();

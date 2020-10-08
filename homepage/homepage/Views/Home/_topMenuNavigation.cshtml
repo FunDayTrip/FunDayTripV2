@@ -45,7 +45,7 @@
                 <a href="#">功能導覽</a>
             </li>
             <li>
-                <a id="newAD" style="display:none;" @*href="javascript:showMyLoc()"*@ onclick="makeIdentity()" @*href="@Url.Action("newCommercialData", "Advertisement")"*@>新增廣告</a>
+                <a id="newAD" style="display:none;" onclick="makeIdentity()">新增廣告</a>
             </li>
             <li>
                 <a href="@Url.Action("ShowHeatMap", "Statistic")">統計與分析</a>
@@ -59,7 +59,7 @@
             <ul class="dropdown-menu">
                 <li><a href="@Url.Action("showAllMembers", "backStage")">會員查詢</a></li>
                 <li><a href="@Url.Action("showApplyAD", "backStage")">審核廣告</a></li>
-                <li><a href="@Url.Action("reportedList", "backStag")">檢舉名單</a></li>
+                <li><a href="@Url.Action("reportedList", "backStage")">檢舉名單</a></li>
             </ul>
             </li>
         </ul>

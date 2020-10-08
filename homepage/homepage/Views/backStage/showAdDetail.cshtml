@@ -21,45 +21,61 @@
         background-size: cover;
     }
 
-    .detailData {
-        margin-left:366px;
-        margin-top:150px;
-        color:whitesmoke;
-        border:solid 1px black;
-        width:718px;
-        border-radius:15px;
-        background-color:dimgrey;
-    }
-
-    .detailData2 {
-        margin-left:385px;
-        margin-top:10px;
-    }
-
-    .detailData input {
+    #detailData input{
          background-color: lightsteelblue;        
+    }
+
+    #detailData label {
+        color: whitesmoke;
     }
 
     .TopDiv {
         text-align: right;
-        margin-right: 20px;
-        margin-top: 8px;
+        background-image: url("../../Content/black1.jpeg");
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        height:35px;
     }
 
     form {
-        margin-left: 365px;
-        height: 300px;
+        margin-left: 420px;
+        margin-top:60px;
+        height: 715px;
         width: 720px;
         background-color: dimgrey;
         border-radius: 15px;
         border: solid 1px black;
     }
 
+    .AdData {
+        margin-top: 3px;
+        margin-left: 10px;
+        color: whitesmoke;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
     .IMG {
         width: 370px;
         height: 300px;
         border-radius: 15px;
-        margin-bottom:200px;
+        margin-bottom: 200px;
+    }
+
+    .BmemberData {
+        margin-top:10px;
+        margin-left:10px;
+        color:whitesmoke;
+        font-weight:bold;
+        font-size:18px;
+    }
+
+    .bottomDiv {
+        background-image: url("../../Content/black1.jpeg");
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        height:35px;
+        z-index:1;
     }
 
 </style>
@@ -70,56 +86,11 @@
     <title>newCommercialData</title>
 </head>
 <body>
-
-    <div class="detailData">
-        <div style="display:inline-block">
-            <img src="../@Model.fPhoto_Member"/>
-        </div>
-        <div style="display:inline-block;">
-            <div class="TopDiv">
-                <label style="font-size:18px;color:whitesmoke;">@Html.ActionLink("回首頁", "Index", "Home", null, new { style = "color:whitesmoke;" })</label>
-            </div>
-            <div class="detailData2">
-                <p style="margin-left:-15px;">
-                    <label>廣告ID</label>
-                    <input readonly type="text" value="@Model.fId_Ad" />
-                </p>
-                <p style="margin-left:-15px;">
-                    <label>身分ID</label>
-                    <input readonly type="text" value="@Model.fId_Role" />
-                </p>
-                <p style="margin-left:-15px;">
-                    <label>會員ID</label>
-                    <input readonly type="text" value="@Model.fId_Member" />
-                </p>
-                <p>
-                    <label>暱稱</label>
-                    <input readonly type="text" value="@Model.fNickName_Member" />
-                </p>
-                <p>
-                    <label>姓氏</label>
-                    <input readonly type="text" value="@Model.fLastName_Member" />
-                </p>
-                <p>
-                    <label>名字</label>
-                    <input readonly type="text" value="@Model.fFirstName_Member" />
-                </p>
-                <p>
-                    <label>國家</label>
-                    <input readonly type="text" value="@Model.fCountry_Member" />
-                </p>
-                <p>
-                    <label>住所</label>
-                    <input readonly type="text" value="@Model.fAdd_Member" />
-                </p>
-                <p>
-                    <label>電話</label>
-                    <input readonly type="text" value="@Model.fPhone_Member" />
-                </p>
-            </div>
-            </div>
-        </div>
     <form>
+        <div class="TopDiv">
+            <label style="font-size:18px;color:whitesmoke;">@Html.ActionLink("回上一頁", "showApplyAD", "backStage", null, new { style = "color:whitesmoke;" })</label>
+        </div>
+        <p class="AdData">廣告申請資料</p>
         <div class="form-group" style="display:inline-block;">
             <div>
                 <img id="output" class="IMG" src="../@Model.fPhoto_Ad" />
@@ -128,16 +99,57 @@
         <div class="form-group" style="display:inline-block;">
             <div style="margin-left:10px;">
                 <label style="color:whitesmoke;font-size:large;">地點位置</label><br />
-                <input style="background-color: lightsteelblue;width:80px;" type="text" value="@Model.fId_Location" /><br />
+                <input style="background-color: lightsteelblue;width:320px;" type="text" value="@Model.fId_Location" /><br />
                 <label style="color:whitesmoke;font-size:large;">描述內容</label><br />
                 <textarea readonly style="height:80px;width:320px;background-color:lightsteelblue;" maxlength="30">@Model.fContent_Ad</textarea><br /><br />
                 <label style="color:whitesmoke;font-size:large;">方案</label><br />
                 <input readonly type="text" style="width:80px;margin-top:-10px;margin-bottom:30px;background-color:lightsteelblue;" value="@Model.fSolution_Ad"><br />
             </div>
         </div>
-        <div style="margin-left:600px;margin-top:-280px;position:relative;">
+        <div style="margin-left:600px;margin-top:-285px;position:relative;">
             @Html.ActionLink("審核通過", "pass", "backStage", new { id = Model.fId_Ad.ToString() }, new { @class = "btn btn-warning" })
         </div>
+        <div style="height:1px;border:dotted 1px whitesmoke;margin-top:40px;"></div>
+        <p class="BmemberData">營利會員資料</p>
+        <div id="detailData" class="form-row" style="margin-top:3px;margin-left:110px;">
+            <div class="form-group col-md-3">
+                <label>廣告ID</label>
+                <input readonly type="text" value="@Model.fId_Ad" />
+            </div>
+            <div class="form-group col-md-3">
+                <label>身分ID</label>
+                <input readonly type="text" value="@Model.fId_Role" />
+            </div>
+            <div class="form-group col-md-3">
+                <label>會員ID</label>
+                <input readonly type="text" value="@Model.fId_Member" />
+            </div>
+            <div class="form-group col-md-3" style="margin-right:1px;">
+                <label> 暱 稱 </label>
+                <input readonly type="text" value="@Model.fNickName_Member" />
+            </div>
+            <div class="form-group col-md-3">
+                <label> 姓 氏 </label>
+                <input readonly type="text" value="@Model.fLastName_Member" />
+            </div>
+            <dvi class="form-group col-md-3">
+                <label> 名 字 </label>
+                <input readonly type="text" value="@Model.fFirstName_Member" />
+            </dvi>
+            <div class="form-group col-md-3" style="margin-right:1px;">
+                <label> 國 家 </label>
+                <input readonly type="text" value="@Model.fCountry_Member" />
+            </div>
+            <div class="form-group col-md-3">
+                <label> 住 所 </label>
+                <input readonly type="text" value="@Model.fAdd_Member" />
+            </div>
+            <div class="form-group col-md-3">
+                <label> 電 話 </label>
+                <input readonly type="text" value="@Model.fPhone_Member" />
+            </div>
+        </div>
+        <div class="bottomDiv"></div>
     </form>
 </body>
 </html>
