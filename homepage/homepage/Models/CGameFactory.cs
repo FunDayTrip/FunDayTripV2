@@ -80,7 +80,18 @@ namespace homepage.Models
                 game.fId_GameGroup = item.fId_GameGroup;
                 game.fName_Game = item.fName_Game;
                 game.fType_Game = item.fType_Game;
-                game.fOrder_Game = item.fOrder_Game;
+                switch (game.fType_Game) 
+                {
+                    case 1:
+                        game.cGamesteps = getSteps(game.fId_Game);
+                        break;
+                    case 2:
+                        game.cGameQA = getQA(game.fId_Game);
+                        break;                
+                }
+
+                game.fOrder_Game = item.fOrder_Game;                
+
                 game_list.Add(game);
             }
             return game_list;
@@ -167,6 +178,42 @@ namespace homepage.Models
 
             }
             db.SaveChanges();
+        }
+
+        public CGameSteps getSteps(int game_id)
+        {
+            var q = (from g in db.tGameSteps
+                     where g.fId_Game == game_id
+                     select g).FirstOrDefault();
+            CGameSteps steps = new CGameSteps
+            {
+                fId_Game = q.fId_Game,
+                fId_GameStep = q.fId_GameStep,
+                fTitle_GameStep = q.fTitle_GameStep,
+                fContent_GameStep = q.fContent_GameStep,
+                fReward_GameStep = q.fReward_GameStep                
+            };
+            return steps;
+        }
+
+        public CGameQA getQA(int game_id)
+        {
+            var q = (from g in db.tGameQAs
+                     where g.fId_Game == game_id
+                     select g).FirstOrDefault();
+            CGameQA qa = new CGameQA
+            {
+                fId_Game = q.fId_Game,
+                fId_GameQA = q.fId_GameQA,
+                fQuestion_GameQA = q.fQuestion_GameQA,
+                fAnswer_GameQA = q.fAnswer_GameQA,
+                fOption_1_GameQA = q.fOption_1_GameQA,
+                fOption_2_GameQA = q.fOption_2_GameQA,
+                fOption_3_GameQA = q.fOption_3_GameQA,
+                fOption_4_GameQA = q.fOption_4_GameQA,
+                fReward_GameQA = q.fReward_GameQA
+            };
+            return qa;
         }
     }
 }

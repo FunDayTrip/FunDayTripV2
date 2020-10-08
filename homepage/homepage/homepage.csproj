@@ -371,7 +371,9 @@
     <Compile Include="Models\CGame.cs" />
     <Compile Include="Models\CGameFactory.cs" />
     <Compile Include="Models\CGameGroup.cs" />
+    <Compile Include="Models\CGameQA.cs" />
     <Compile Include="Models\CGameRecord.cs" />
+    <Compile Include="Models\CGameSteps.cs" />
     <Compile Include="Models\CMember.cs" />
     <Compile Include="Models\CMemberFactory.cs" />
     <Compile Include="Models\CMessage.cs" />

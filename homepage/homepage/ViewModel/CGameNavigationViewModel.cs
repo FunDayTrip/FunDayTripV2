@@ -13,6 +13,9 @@ namespace homepage.Models
         {  get; set; }
         public string fPath_GameNav { get; set; }
         public string fPhoto_GameNav { get; set; }
+
+        public int fPlaying_GameNav { get; set; }
+        public int fStatus_GameNav { get; set; }
         
     }
 }

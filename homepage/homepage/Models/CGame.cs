@@ -16,5 +16,8 @@ namespace homepage.Models
         public int fId_GameGroup { get; set; }
         public decimal? fX_Coordinate { get; set; }
         public decimal? fY_Coordinate { get; set; }
+
+        public CGameSteps cGamesteps { get; set; }
+        public CGameQA cGameQA { get; set; }
     }
 }

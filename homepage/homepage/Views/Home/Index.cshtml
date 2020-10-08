@@ -254,7 +254,7 @@
                             CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
                             <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="float:left" />
                             <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
-                            <div id="active_role_name" value="@memberLogin.fActiveRoleName_Member">目前身分:@memberLogin.fActiveRoleName_Member</div>
+                            <div id="active_role_name" value="@Session[CDictionary.SK_ActiveRoleName]">目前身分:@Session[CDictionary.SK_ActiveRoleName]</div>
                             <div id="login_email">@memberLogin.fEmail_Member</div>
                             <button id="logoutBtn" style="float:right">登出</button>
                             <br />
@@ -1707,7 +1707,6 @@
             $("#follower_list").html("");
 
             var role_id = { role_id: myobj.value };
-            alert("即將切換為: " + myobj.name);
 
             $.ajax({
                 url: '@Url.Action("changeRole", "Home")',
@@ -1715,7 +1714,6 @@
                 dataType: "json",
                 data: role_id
             }).done(function (response) {
-                alert("已切換身分為: " + response.fNickName_Role);
                 $('#active_role').attr('value', response.fId_Role);
                 document.getElementById("active_role_name").innerHTML = "目前身分:" + response.fNickName_Role;
                 if (response.fId_Slave_Type_Role == "a") {
@@ -1741,8 +1739,24 @@
                             popup: 'animate__animated animate__fadeOutUp'
                         }
                     });
+
                     document.getElementById("newAD").style.display = "block";
-                };
+                } else {
+                    Swal.fire({
+                        title: '' + response.fNickName_Role + ', 您好!',
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
+                    });
+
+                    document.getElementById("newAD").style.display = "block";
+
+                }
+
+
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 console.log(role_id);
                 $("body").append(xhr.status);
