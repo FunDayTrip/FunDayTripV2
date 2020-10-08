@@ -208,15 +208,15 @@
     <Content Include="css\theme\pinklady.css" />
     <Content Include="css\theme\somebook.css" />
     <Content Include="css\theme\zenburn.css" />
-    <Content Include="DB_FunDayTripEntities.Context.tt">
+    <Content Include="dbFunDayTripModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DB_FunDayTripEntities.edmx</DependentUpon>
-      <LastGenOutput>DB_FunDayTripEntities.Context.cs</LastGenOutput>
+      <LastGenOutput>dbFunDayTripModel.Context.cs</LastGenOutput>
+      <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
     </Content>
-    <Content Include="DB_FunDayTripEntities.tt">
+    <Content Include="dbFunDayTripModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DB_FunDayTripEntities.edmx</DependentUpon>
-      <LastGenOutput>DB_FunDayTripEntities.cs</LastGenOutput>
+      <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
+      <LastGenOutput>dbFunDayTripModel.cs</LastGenOutput>
     </Content>
     <Content Include="ForgetPassword.aspx" />
     <Content Include="Global.asax" />
@@ -242,6 +242,13 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <EntityDeploy Include="dbFunDayTripModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>dbFunDayTripModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="dbFunDayTripModel.edmx.diagram">
+      <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FunDayTrip - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
@@ -343,20 +350,19 @@
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="dbFunDayTripModel.Context.cs">
-    <Compile Include="DB_FunDayTripEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DB_FunDayTripEntities.Context.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DB_FunDayTripEntities.cs">
+    <Compile Include="dbFunDayTripModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DB_FunDayTripEntities.Designer.cs">
+    <Compile Include="dbFunDayTripModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DB_FunDayTripEntities.edmx</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="ForgetPassword.aspx.cs">
       <DependentUpon>ForgetPassword.aspx</DependentUpon>
@@ -390,115 +396,109 @@
     <Compile Include="SignalR\MyHub.cs" />
     <Compile Include="SignalR\Startup.cs" />
     <Compile Include="tAd.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tAdmin.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tAlbum.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tBalance.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tBank.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tBlock.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tComment.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tCoordinate.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tFollow.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tFuntionAuth.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tGame.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tGameGroup.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tGameQA.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tGameRecord.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tGameRecord.cs">
       <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tGameStep.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tGameUnlock.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tIcon.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tLA_Relation.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tLA_Relation.cs">
       <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tLocation.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tLR_Relation.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tMember.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tMessage.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tNote.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tPhoto.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tPoint.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tProfitMember.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tProfitType.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tReport.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tRole.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tRoute.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tShareAuth.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tStatistic.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tTag.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tTagMsgRelation.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tUnlock.cs">
-      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\CAdDetailVM.cs" />
     <Compile Include="ViewModel\CBlocksViewModel.cs" />

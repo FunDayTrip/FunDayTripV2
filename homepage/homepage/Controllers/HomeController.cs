@@ -555,7 +555,7 @@ namespace homepage.Controllers
                 FV.follow_Target_ID = x.fId_Self_Role;
                 ff.Add(FV);
             }
-            return Json(f, JsonRequestBehavior.AllowGet);
+            return Json(ff, JsonRequestBehavior.AllowGet);
         }
         public void pushMessage(int fId_To_Role, int fId_From_Role, string message)
         {

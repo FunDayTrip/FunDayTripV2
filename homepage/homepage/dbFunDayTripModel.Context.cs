@@ -60,6 +60,5 @@ namespace homepage
         public virtual DbSet<tTag> tTags { get; set; }
         public virtual DbSet<tTagMsgRelation> tTagMsgRelations { get; set; }
         public virtual DbSet<tUnlock> tUnlocks { get; set; }
-        public virtual DbSet<tGameRecord> tGameRecords { get; set; }
     }
 }
