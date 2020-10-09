@@ -16,6 +16,6 @@ namespace homepage.Models
 
         public int fPlaying_GameNav { get; set; }
         public int fStatus_GameNav { get; set; }
-        
+        public string fMessage_GameNav { get; set; }
     }
 }

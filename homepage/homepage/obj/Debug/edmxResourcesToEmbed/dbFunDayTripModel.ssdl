@@ -71,6 +71,7 @@
     <Property Name="fId_Block" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="fId_Self_Role" Type="int" Nullable="false" />
     <Property Name="fId_Target_Role" Type="int" Nullable="false" />
+    <Property Name="0=Follow1=Fans" Type="int" />
   </EntityType>
   <EntityType Name="tComment">
     <Key>
@@ -119,6 +120,8 @@
     <Property Name="fName_Game" Type="nvarchar" MaxLength="50" />
     <Property Name="fOrder_Game" Type="int" Nullable="false" />
     <Property Name="fId_GameGroup" Type="int" Nullable="false" />
+    <Property Name="fAR_Game" Type="int" />
+    <Property Name="fSource_Game" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="tGameGroup">
     <Key>
@@ -131,6 +134,7 @@
     <Property Name="fId_Role" Type="int" Nullable="false" />
     <Property Name="fPhoto_GameGroup" Type="nvarchar(max)" />
     <Property Name="fId_Route" Type="nvarchar" MaxLength="11" />
+    <Property Name="fCost_GameGroup" Type="int" />
   </EntityType>
   <EntityType Name="tGameQA">
     <Key>

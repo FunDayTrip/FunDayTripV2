@@ -1,0 +1,93 @@
+﻿.footer {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    height: 10%;
+    width: 100%;
+    background-color: rgba(192, 192, 192, 0.85);
+    color: black;
+    text-align: center;
+}
+
+.footer_withcontent {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    height: 50%;
+    width: 100%;
+    background-color: rgba(192, 192, 192, 0.85);
+    color: black;
+    text-align: center;
+}
+
+.toggleUp {
+    margin-top: 0.5em;
+}
+
+.imageblock {
+    margin: 1em;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: -1;
+}
+
+#inner_content {
+    border-radius: 15px;
+    width: 90%;
+    height: 80%;
+    margin: 0px auto;
+    background-color: rgba(255, 255, 255, 0.90)
+}
+
+    #inner_content img {
+        width: 20%;
+        float: left;
+        margin: 1em;
+        display: flex;
+        align-items: center;
+    }
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: no-display; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /*Fallback color */
+    background-color: rgba(0,0,0,0.4); /*Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: wheat;
+    margin: 10% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+}
+
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}

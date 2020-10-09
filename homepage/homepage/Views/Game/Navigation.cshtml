@@ -1,7 +1,11 @@
 ﻿@using homepage.ViewModel
 @using homepage.Models
+@if (Session[CDictionary.SK_ActiveRoleId] == null)
+{
+    Session[CDictionary.SK_ActiveRoleId] = 3;
+}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-hant">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,80 +31,8 @@
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link href="~/css/CustomerlizeCSSofLocationAndRoute.css" rel="stylesheet" />
-    <style>
-        .footer {
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            bottom: 0;
-            height: 10%;
-            width: 100%;
-            background-color: rgba(192, 192, 192, 0.85);
-            color: black;
-            text-align: center;
-        }
+    <link href="~/css/Game.css" rel="stylesheet" />
 
-        .footer_withcontent {
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            bottom: 0;
-            height: 50%;
-            width: 100%;
-            background-color: rgba(192, 192, 192, 0.85);
-            color: black;
-            text-align: center;
-        }
-
-        .toggleUp {
-            margin-top: 0.5em;
-        }
-
-        .imageblock {
-            margin: 1em;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        .map {
-            position: absolute;
-            top: 50px;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            z-index: -1;
-        }
-
-        #reposition {
-            z-index: 1;
-            position: fixed;
-            right: 1em;
-            margin-top: 0;
-            border-radius: 50%;
-            height: 2em;
-            width: 2em;
-        }
-
-        #inner_content {
-            border-radius: 15px;
-            width: 90%;
-            height: 80%;
-            margin: 0px auto;
-            background-color: rgba(255, 255, 255, 0.90)
-        }
-
-            #inner_content img {
-                width: 20%;
-                float: left;
-                margin: 1em;
-                display: flex;
-                align-items: center;
-            }
-    </style>
 </head>
 <body>
     @*Navbar*@
@@ -129,9 +61,13 @@
                     <li><a href="#">Page 3</a></li> -->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="javascript:showResponse()"><span class="glyphicon glyphicon-user"></span> @Session[CDictionary.SK_ActiveRoleName]</a></li>
+                    <li>
+                        <a href="javascript:showResponse()"><span class="glyphicon glyphicon-user"></span> @Session[CDictionary.SK_ActiveRoleName]</a>
+                    </li>
                     @*<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>*@
-                    <li><a href="javascript:exitGame()"><span class="glyphicon glyphicon-remove"></span>退出遊戲</a></li>
+                    <li>
+                        <a href="javascript:exitGame()"><span class="glyphicon glyphicon-remove"></span>退出遊戲</a>
+                    </li>
 
                 </ul>
             </div>
@@ -147,8 +83,6 @@
             <span class="close">&times;</span>
             <div style="justify-content:center;">
                 <div id="playing_game"></div>
-                <button class="btn btn-info" onclick="" type="submit">確定</button>
-                <button class="btn btn-info" onclick="" type="submit">取消</button>
             </div>
         </div>
     </div>
@@ -157,7 +91,9 @@
     @*內容框*@
     <div id="foot-content" class="footer">
         <div id="now_play" value="-1" style="display:none"></div>
-        <div id="content-toggle" class="toggleUp"><span id="content-icon" class="glyphicon glyphicon-chevron-up"></span></div>
+        <div id="content-toggle" class="toggleUp">
+            <span id="content-icon" class="glyphicon glyphicon-chevron-up"></span>
+        </div>
         <div id="current_position" value="">目前位置:</div>
         <div id="inner_content" value="">
 
@@ -196,9 +132,8 @@
         //===================================
         //地點所有資訊組成json，顯示在地圖
         function displayAllRoutes() {
-
             var groupArray = [];
-            var response = getGameGroup(0);
+            var response = getGameGroup();
             for (var i = 0; i < response.length; i++) {
                 console.log(response);
                 var Name_Group = response[i].fGroup_GameNav.fName_GameGroup;
@@ -331,16 +266,20 @@
             map.on('mouseleave', 'game_group', function  () {
                 map.getCanvas().style.cursor = '';
             });
+
             //show 地點路線
-            function getGameItems(id) {
+            function showGameItems(id) {
                 if (map.getSource('game_items')) {
                     map.removeLayer('game_items');
                     map.removeSource('game_items');
                 };
 
-                var response = getGameGroup(id);
+                var gamegroup = { group_id: id, role_id: @Session[CDictionary.SK_ActiveRoleId] };
+
+
+                var response = getGameRecord(gamegroup);
                 let itemArray = [];
-                for (var j = 0; j < response.fItems_GameNav.length; j++) {
+                for (var j = response.fStatus_GameNav; j < response.fItems_GameNav.length; j++) {
                     let Name_Item = response.fItems_GameNav[j].fName_Game;
                     let Coords_Item = [response.fItems_GameNav[j].fX_Coordinate, response.fItems_GameNav[j].fY_Coordinate];
                     let Id_Item = response.fItems_GameNav[j].fId_GameGroup;
@@ -374,45 +313,6 @@
                         'icon-allow-overlap': true
                     }
                 });
-                //單獨遊戲內容
-                map.on('click', 'game_items', function (e) {
-                    var coordinates = e.features[0].geometry.coordinates.slice();
-                    var description = e.features[0].properties.description;
-                    var group_id = e.features[0].properties.groupId;
-                    var photo = e.features[0].properties.photo;
-                    position_now();
-                    var userPosition = [now_x, now_y];
-                    // Ensure that if the map is zoomed out such that multiple
-                    // copies of the feature are visible, the popup appears
-                    // over the copy being pointed to.
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    }
-                    _fX_Coordinate = coordinates[0];
-                    _fY_Coordinate = coordinates[1];
-                    Coords_Location = [_fX_Coordinate, _fY_Coordinate];
-
-                    var obj = {
-                        group_id: group_id,
-                        end: coordinates,
-                        description: description,
-                        photo: photo
-                    }
-
-
-                    showContent(obj);
-                    fly(Coords_Location);
-                    });
-
-                    // Change the cursor to a pointer when the mouse is over the places layer.
-                    map.on('mouseenter', 'game_group', function () {
-                        map.getCanvas().style.cursor = 'pointer';
-                    });
-
-                    // Change it back to a pointer when it leaves.
-                    map.on('mouseleave', 'game_group', function () {
-                        map.getCanvas().style.cursor = '';
-                    });
             }
 
         //內容框上拉
@@ -433,31 +333,35 @@
                     $("#content-icon").toggleClass("glyphicon-chevron-down", 1500, "swing");
                 });
 
-                var start = [now_x, now_y]; 
+                var start = [now_x, now_y];
                 //導引使用者到該地點
-                let url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + start[0] + ',' + start[1] + ';' + obj.end[0] + ',' + obj.end[1] + '?steps=false&geometries=geojson&access_token=' + mapboxgl.accessToken;
-                var req = new XMLHttpRequest();
+                var reqRecord = { group_id: obj.group_id, role_id:@Session[CDictionary.SK_ActiveRoleId] }
+                var record = getGameRecord(reqRecord);
 
-                req.open('GET', url, true);
+                    let url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + start[0] + ',' + start[1] + ';' + obj.end[0] + ',' + obj.end[1] + '?steps=false&geometries=geojson&access_token=' + mapboxgl.accessToken;
+                    var req = new XMLHttpRequest();
+
+                    req.open('GET', url, true);
                 req.onload = function () {
-                    var json = JSON.parse(req.response);
-                    var data = json.routes[0];
-                    var route = data.geometry.coordinates;
-                    var distance = data.distance;
-                    var duration = data.duration;
-                    console.log(distance + "," + duration)
+                        var json = JSON.parse(req.response);
+                        var data = json.routes[0];
+                        var route = data.geometry.coordinates;
+                        var distance = data.distance;
+                        var duration = data.duration;
+                        console.log(distance + "," + duration)
 
                     var content = "您與該點距離: " + (distance / 1000).toFixed(1) + "公里, 步行時間: " + (duration / 60).toFixed(1) + "分鐘<br>";
                     content += obj.end + "<br>" + obj.descript + "<br>";
+                    content += "<div>已遊玩至第" + record.fStatus_GameNav + "點</div>"
                     content += "<img src='" + obj.photo + "' / >";
-                    content += "<button value='" + obj.group_id + "' onclick='beginGame(this)'> 開始遊戲 </button>";
+                        content += "<button value='" + obj.group_id + "' onclick='beginGame(this)'> 開始遊戲 </button>";
                     $("#inner_content").html(content);
 
-                    var geojson = {
+                        var geojson = {
                         type: 'Feature',
                         properties: {},
                         geometry: {
-                            type: 'LineString',
+                        type: 'LineString',
                             coordinates: route
                         }
                     };
@@ -465,100 +369,98 @@
                     // if the route already exists on the map, reset it using setData
                     if (map.getSource('route')) {
                         map.getSource('route').setData(geojson);
-                    } else { // otherwise, make a new request
-                        map.addLayer({
-                            id: 'route',
+                } else { // otherwise, make a new request
+                    map.addLayer({
+                    id: 'route',
                             type: 'line',
                             source: {
-                                type: 'geojson',
+                        type: 'geojson',
                                 data: {
-                                    type: 'Feature',
+                            type: 'Feature',
                                     properties: {},
                                     geometry: {
-                                        type: 'LineString',
+                                type: 'LineString',
                                         coordinates: geojson
                                     }
-                                }
-                            },
+                            }
+                        },
                             layout: {
-                                'line-join': 'round',
+                            'line-join': 'round',
                                 'line-cap': 'round'
                             },
                             paint: {
-                                'line-color': '#3887be',
+                            'line-color': '#3887be',
                                 'line-width': 5,
                                 'line-opacity': 0.75
                             }
-                        });
-                        map.getSource('route').setData(geojson);
+                    });
+                    map.getSource('route').setData(geojson);
 
-                    }
+                }
                     // add turn instructions here at the end
                 };
                 req.send();
 
             };
-        //開始遊戲
-        function beginGame(obj) {
-            getGameItems(obj.value);
-            map.setLayoutProperty('game_group', 'visibility', 'none');
-            var userPosition = [now_x, now_y];
-            var toRecordObj = {
+                //開始遊戲
+                function beginGame(obj) {
+                    showGameItems(obj.value);
+                    map.setLayoutProperty('game_group', 'visibility', 'none');
+                    var userPosition = [now_x, now_y];
+                    var toRecordObj = {
                 group_id: obj.value,
-                role_id: 3, //記得改成Session的role_id
+                role_id: @Session[CDictionary.SK_ActiveRoleId], //記得改成Session的role_id
             };
 
-
-            var response = getGameRecord(toRecordObj)
+                var response = getGameRecord(toRecordObj)
 
             var order = response.fStatus_GameNav;
-            var game_id = response.fItems_GameNav[order].fId_Game;
-            var end = [response.fItems_GameNav[order].fX_Coordinate, response.fItems_GameNav[order].fY_Coordinate];
-            var descript = [response.fItems_GameNav[order].cGamesteps.fTitle_GameStep, response.fItems_GameNav[order].cGamesteps.fContent_GameStep];
+                var game_id = response.fItems_GameNav[order].fId_Game;
+                var end = [response.fItems_GameNav[order].fX_Coordinate, response.fItems_GameNav[order].fY_Coordinate];
+                var name = response.fItems_GameNav[order].fName_Game;
 
+                var toGuideObj = {
+                    game_id: game_id,
+                    end: end,
+                    name: name
+                };
 
-            var toGuideObj = {
-                game_id: game_id,
-                end: end,
-                descript: descript
-            };
-
-            guideRoute(toGuideObj);
-            $("#now_play").attr("value",obj.value);            
+                guideRoute(toGuideObj);
+            $("#now_play").attr("value",obj.value);
         };
 
 
-        //遊戲進行導引路線
-        function guideRoute(obj) {
-            //導引下個地點
-            var start = [now_x, now_y];
+                //遊戲進行導引路線
+                function guideRoute(obj) {
+                    //導引下個地點
+                    var start = [now_x, now_y];
 
-            let url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + start[0] + ',' + start[1] + ';' + obj.end[0] + ',' + obj.end[1] + '?steps=false&geometries=geojson&access_token=' + mapboxgl.accessToken;
-            var req = new XMLHttpRequest();
+                    let url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + start[0] + ',' + start[1] + ';' + obj.end[0] + ',' + obj.end[1] + '?steps=false&geometries=geojson&access_token=' + mapboxgl.accessToken;
+                    var req = new XMLHttpRequest();
 
 
-            req.open('GET', url, true);
-            req.onload = function () {
-                var json = JSON.parse(req.response);
-                var data = json.routes[0];
-                var route = data.geometry.coordinates;
-                var distance = data.distance;
-                var duration = data.duration;
-                console.log(distance + "," + duration)
+                    req.open('GET', url, true);
+                    req.onload = function () {
+                        var json = JSON.parse(req.response);
+                        var data = json.routes[0];
+                        var route = data.geometry.coordinates;
+                        var distance = data.distance;
+                        var duration = data.duration;
+                        console.log(distance + "," + duration)
 
                 var content = "您與該點距離: " + (distance / 1000).toFixed(1) + "公里, 步行時間: " + (duration / 60).toFixed(1) + "分鐘<br>";
-                content += obj.end + "<br>" + obj.descript[0] + "<br>";
-                content += "<br>" + obj.descript[1] + "<br>";
-                //content += "<img src='" + photo + "' / >";
-                content += "<button value='" + obj.game_id + "' onclick='enterGame(this)'> 進入 </button>";
-                content += "<input id='distance' value='" + distance + "' style='display:none'>";
+                        content += obj.end;
+                        content += "<br>" + obj.name + "<br>";
+                        //content += "<img src='" + photo + "' / >";
+                        content += "<button value='" + obj.game_id + "' onclick='enterGame(this)'> 進入 </button>";
+                        content += "<input id='distance' value='" + distance + "' style='display:none'>";
                 $("#inner_content").html(content);
 
-                var geojson = {
+                        var geojson = {
                     type: 'Feature',
                     properties: {},
                     geometry: {
-                        type: 'LineString',
+                type: 'LineString',
                         coordinates: route
                     }
                 };
@@ -568,15 +470,15 @@
                     map.getSource('route').setData(geojson);
                 } else { // otherwise, make a new request
                     map.addLayer({
-                        id: 'route',
+                    id: 'route',
                         type: 'line',
                         source: {
-                            type: 'geojson',
+                        type: 'geojson',
                             data: {
-                                type: 'Feature',
+                            type: 'Feature',
                                 properties: {},
                                 geometry: {
-                                    type: 'LineString',
+                                type: 'LineString',
                                     coordinates: geojson
                                 }
                             }
@@ -596,24 +498,24 @@
                 }
                 // add turn instructions here at the end
             };
-            req.send();
+                req.send();
 
         };
-        function enterGame(game_id) {
+                function enterGame(game_id) {
 
-            var role_id = 3;//記得改回Session Role Id
+                    var role_id = @Session[CDictionary.SK_ActiveRoleId];//記得改回Session Role Id
 
-            var group_id = $("#now_play").attr("value");
+                    var group_id = $("#now_play").attr("value");
 
-            var toRecordObj = {
+                    var toRecordObj = {
                 group_id: group_id,
-                role_id: 3, //記得改成Session的role_id
+                role_id: @Session[CDictionary.SK_ActiveRoleId], //記得改成Session的role_id
             };
 
-            var distance = $("#distance").val();
+                var distance = $("#distance").val();
 
-            if (distance > 10000) {
-                Swal.fire({
+                if (distance > 1000000) {
+                    Swal.fire({
                     title: "尚未到達目的地",
                     showClass: {
                         popup: 'animate__animated animate__fadeInDown'
@@ -621,78 +523,185 @@
                     hideClass: {
                         popup: 'animate__animated animate__fadeOutUp'
                     }
-                });
-            } else {
-                Swal.fire({
-                    title: "進入遊戲",
-                    showClass: {
-                        popup: 'animate__animated animate__fadeInDown'
-                    },
-                    hideClass: {
-                        popup: 'animate__animated animate__fadeOutUp'
-                    }
-                });
-                var response = getGameRecord(toRecordObj);
+                    });
+                } else {
 
-                var order = response.fStatus_GameNav + 1;
-                var game_id = response.fItems_GameNav[order].fId_Game;
-                var end = [response.fItems_GameNav[order].fX_Coordinate, response.fItems_GameNav[order].fY_Coordinate];
-                var title = response.fItems_GameNav[order].cGamesteps.fTitle_GameStep;
-                var content = response.fItems_GameNav[order].cGamesteps.fContent_GameStep;
+                    var response = getGameRecord(toRecordObj);
 
-                let play = "<h3>" + title + "</h3>";
-                play += "<div>" + content + "</div>";
+                    var order = response.fStatus_GameNav;
+                    var game_id = response.fItems_GameNav[order].fId_Game;
+                    var end = [response.fItems_GameNav[order].fX_Coordinate, response.fItems_GameNav[order].fY_Coordinate];
+                    var img = response.fItems_GameNav[order].fSource_Game;
 
-                $("#playing_game").html(play);
-                gamecon();
-            }
+                    if (response.fItems_GameNav[order].fType_Game == 1) {
+                        var title = response.fItems_GameNav[order].cGamesteps.fTitle_GameStep;
+                        var content = response.fItems_GameNav[order].cGamesteps.fContent_GameStep;
+                        //var play = "<h3>" + title + "</h3>";
+                        //play += "<div>" + content + "</div>";
+                        //play += '<button class="btn btn-info"';
+                        //play += 'onclick="finishItem(' + response.fItems_GameNav[order].fOrder_Game + ')" ';
+                        //play += 'type = "submit" >確定</button > ';
+                        Swal.fire({
+                            title: title,
+                            text: content,
+                            imageUrl: img,
+                            imageWidth: 400,
+                            imageAlt: '踩點遊戲',
+                            showCancelButton: true,
+                            confirmButtonText: '確定',
+                            cancelButtonText: '取消',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                Swal.fire(
+                                    '完成!',
+                                    '',
+                                    'success'
+                                );
+                                finishItem(response.fItems_GameNav[order].fOrder_Game);
+                            }
+                        });
+
+                    } else if (response.fItems_GameNav[order].fType_Game == 2) {
+                        var question = response.fItems_GameNav[order].cGameQA.fQuestion_GameQA;
+                        var op1 = response.fItems_GameNav[order].cGameQA.fOption_1_GameQA;
+                        var op2 = response.fItems_GameNav[order].cGameQA.fOption_2_GameQA;
+                        var op3 = response.fItems_GameNav[order].cGameQA.fOption_3_GameQA;
+                        var op4 = response.fItems_GameNav[order].cGameQA.fOption_4_GameQA;
+
+                        let inputOptions = new Promise((resolve) => {
+                            setTimeout(() => {
+                                resolve({
+                                    '1': op1,
+                                    '2': op2,
+                                    '3': op3,
+                                    '4': op4
+                                })
+                            }, 1000)
+                        });
+
+                        let { value: answer } = Swal.fire({
+                            title: question,
+                            imageUrl: img,
+                            imageWidth: 400,
+                            text: '請選擇答案',
+                            input: 'radio',
+                            confirmButtonText: '確定',
+                            inputOptions: inputOptions,
+                            inputValidator: (value) => {
+                                if (!value) {
+                                    return '請選擇一個答案!'
+                                }
+                            }
+                        });
+
+                        if (answer) {
+                            checkQA(game_id, answer);
+
+                        }
+                        //var play = "<form><h3>" + question + "</h3>";
+                        //play += "<input type='radio' name='options' value='1'>" + op1;
+                        //play += "<input type='radio' name='options' value='2'>" + op2;
+                        //play += "<input type='radio' name='options' value='3'>" + op3;
+                        //play += "<input type='radio' name='options' value='4'>" + op4;
+                        //play += "</form>"
+
+                }
+
+
+                //    play += '<button class="btn btn-info" onclick="gameconClose()" type="submit">取消</button>';
+
+                //$("#playing_game").html(play);
+                    //gamecon();
+                }
+        };
+
+        function finishItem(now_play) {
+            //得到目前遊玩的group
+            var now_play_group = $("#now_play").attr("value");
+            var next_play = now_play;
+            //更新資料
+            var response = $.ajax({
+                url: "@Url.Action("put","Game")",
+                async: false,
+                type: "POST",
+                dataType: "json",
+                data: {
+                    group_id: now_play_group,
+                    role_id:@Session[CDictionary.SK_ActiveRoleId],
+                    finish: now_play
+                }
+            }).done(function (response) {
+                console.log(response)
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            }).responseJSON;
+
+            var nextGame = response.fItems_GameNav[next_play].fId_Game;
+            var nextPoint = [response.fItems_GameNav[next_play].fX_Coordinate, response.fItems_GameNav[next_play].fY_Coordinate];
+            var nextName = response.fItems_GameNav[next_play].fName_Game;
+            //導去下一個點
+            var toGuideObj = {
+                game_id: nextGame,
+                end: nextPoint,
+                name: nextName
+            };
+
+            guideRoute(toGuideObj);
         };
 
 
         function exitGame() {
-            map.setLayoutProperty('game_group', 'visibility', 'visible');
-            map.setLayoutProperty('game_items', 'visibility', 'none');
+                    map.setLayoutProperty('game_group', 'visibility', 'visible');
+                    map.setLayoutProperty('game_items', 'visibility', 'none');
 
-        };
-        //彈跳遊戲視窗
-        function gamecon() {
-            game_modal.style.display = "block";
-        };
-        $(".close").on("click", function () {
-            game_modal.style.display = "none";
-        });
+                };
 
-        function getGameGroup(group_id) {
-            return $.ajax({
-                url: "@Url.Action("get","Game")",
+
+        function getGameGroup() {
+                    return $.ajax({
+                    url: "@Url.Action("get","Game")",
                 async: false,
                 type: "GET",
                 dataType: "json",
-                data: { group_id: group_id }
             }).done(function (response) {
-            }).fail(function (xhr) {
-                console.log(xhr.status + xhr.responseText);
-            }).responseJSON;
+                }).fail(function (xhr) {
+                    console.log(xhr.status + xhr.responseText);
+                }).responseJSON;
         };
 
         function getGameRecord(obj) {
-            return $.ajax({
-                url: "@Url.Action("post","Game")",
-                async:false,
+                    return $.ajax({
+                    url: "@Url.Action("post","Game")",
+                async: false,
                 type: "POST",
                 dataType: "json",
                 data: { group_id: obj.group_id, role_id: obj.role_id }
-            }).done(function (response) {
-            }).fail(function (xhr) {
-                console.log(xhr.status + xhr.responseText);
-            }).responseJSON;
+                    }).done(function (response) {
+                }).fail(function (xhr) {
+                    console.log(xhr.status + xhr.responseText);
+                }).responseJSON;
+        };
 
+        function checkQA(game_id, answer) {
+            return $.ajax({
+                    url: "@Url.Action("get","Game")",
+                async: false,
+                type: "GET",
+                dataType: "json",
+                data: { game_id: game_id, answer: answer}
+            }).done(function (response) {
+                console.log(response);
+                }).fail(function (xhr) {
+                    console.log(xhr.status + xhr.responseText);
+                }).responseJSON;
         };
 
         function showResponse() {
-            var response = getGameGroup(2);
+            var response = getGameGroup();
             console.log($("#now_play").attr("value"));
-        }
+        };
+
+
 
     </script>
 

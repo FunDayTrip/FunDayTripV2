@@ -324,6 +324,7 @@
     <Property Name="fId_Target_Role" Type="Int32" Nullable="false" />
     <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tBlock_tRole_Self" FromRole="tBlock" ToRole="tRole" />
     <NavigationProperty Name="tRole1" Relationship="DB_FunDayTripModel.FK_tBlock_tRole_Target" FromRole="tBlock" ToRole="tRole" />
+    <Property Name="C0_Follow1_Fans" Type="Int32" />
   </EntityType>
   <EntityType Name="tComment">
     <Key>
@@ -384,6 +385,8 @@
     <NavigationProperty Name="tGameGroup" Relationship="DB_FunDayTripModel.FK_tGame_tGameGroup" FromRole="tGame" ToRole="tGameGroup" />
     <NavigationProperty Name="tGameQAs" Relationship="DB_FunDayTripModel.FK_tGameQA_tGame" FromRole="tGame" ToRole="tGameQA" />
     <NavigationProperty Name="tGameSteps" Relationship="DB_FunDayTripModel.FK_tGameStep_tGame" FromRole="tGame" ToRole="tGameStep" />
+    <Property Name="fAR_Game" Type="Int32" />
+    <Property Name="fSource_Game" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tGameGroup">
     <Key>
@@ -401,6 +404,7 @@
     <NavigationProperty Name="tRoute" Relationship="DB_FunDayTripModel.FK_tGameGroup_tRoute" FromRole="tGameGroup" ToRole="tRoute" />
     <NavigationProperty Name="tGameUnlocks" Relationship="DB_FunDayTripModel.FK_tGameUnlock_tGameGroup" FromRole="tGameGroup" ToRole="tGameUnlock" />
     <NavigationProperty Name="tGameRecords" Relationship="DB_FunDayTripModel.FK_tGameRecord_tGameGroup" FromRole="tGameGroup" ToRole="tGameRecord" />
+    <Property Name="fCost_GameGroup" Type="Int32" />
   </EntityType>
   <EntityType Name="tGameQA">
     <Key>

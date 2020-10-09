@@ -73,6 +73,7 @@
     <EntitySetMapping Name="tBlocks">
       <EntityTypeMapping TypeName="DB_FunDayTripModel.tBlock">
         <MappingFragment StoreEntitySet="tBlock">
+          <ScalarProperty Name="C0_Follow1_Fans" ColumnName="0=Follow1=Fans" />
           <ScalarProperty Name="fId_Target_Role" ColumnName="fId_Target_Role" />
           <ScalarProperty Name="fId_Self_Role" ColumnName="fId_Self_Role" />
           <ScalarProperty Name="fId_Block" ColumnName="fId_Block" />
@@ -123,6 +124,8 @@
     <EntitySetMapping Name="tGames">
       <EntityTypeMapping TypeName="DB_FunDayTripModel.tGame">
         <MappingFragment StoreEntitySet="tGame">
+          <ScalarProperty Name="fSource_Game" ColumnName="fSource_Game" />
+          <ScalarProperty Name="fAR_Game" ColumnName="fAR_Game" />
           <ScalarProperty Name="fId_GameGroup" ColumnName="fId_GameGroup" />
           <ScalarProperty Name="fOrder_Game" ColumnName="fOrder_Game" />
           <ScalarProperty Name="fName_Game" ColumnName="fName_Game" />
@@ -135,6 +138,7 @@
     <EntitySetMapping Name="tGameGroups">
       <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameGroup">
         <MappingFragment StoreEntitySet="tGameGroup">
+          <ScalarProperty Name="fCost_GameGroup" ColumnName="fCost_GameGroup" />
           <ScalarProperty Name="fId_Route" ColumnName="fId_Route" />
           <ScalarProperty Name="fPhoto_GameGroup" ColumnName="fPhoto_GameGroup" />
           <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
