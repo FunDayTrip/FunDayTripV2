@@ -1,4 +1,5 @@
 ﻿using homepage.Models;
+using homepage.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,35 +61,47 @@ namespace homepage.Controllers
             CGameNavigationViewModel status = factory.getStatus(group_id, role_id);
             if (isFinish)
             {
-                status.fMessage_GameNav = "完成遊戲!";
+                status.fIsPass_GameNav = 1;
             }
 
             return Json(status, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult checkQA(int game_id,int answer)
+        public ActionResult checkQA(int role_id, int group_id, int game_id,int answer)
         {
-            CGameQA qa = new CGameFactory().getQA(game_id);
-            string result = "";
+            CGameFactory factory = new CGameFactory();
+            CGame qa = factory.get1GameById(game_id);
+            CCheckQAGameViewModel result = new CCheckQAGameViewModel();
+
             if (qa != null)
             {
                 
-                if(answer == qa.fAnswer_GameQA)
+                if(answer == qa.cGameQA.fAnswer_GameQA)//正確
                 {
-                    result = "Correct!";
+                    result.fMessage_CheckQA = "答對了!";
+                    result.fResult_CheckQA = 1;
+                    result.fCorrect_CheckQA = true;
+                    int finish = qa.fOrder_Game;
+
                 }
-                else
+                else //錯誤
                 {
-                    result = "Wrong!";
+                    result.fMessage_CheckQA = "答錯了!";
+                    result.fResult_CheckQA = 0;
+                    result.fCorrect_CheckQA = false;
+
                 }
 
-                return Json(qa, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                result = "no feed back";
-                return Json(result, JsonRequestBehavior.AllowGet);
+                result.fMessage_CheckQA = "這個問題不存在!";
+                result.fResult_CheckQA = 0;
+                result.fCorrect_CheckQA = false;
+
             }
+            return Json(result, JsonRequestBehavior.AllowGet);
+
         }
 
 

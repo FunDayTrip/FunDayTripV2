@@ -98,6 +98,42 @@ namespace homepage.Models
             }
             return game_list;
         }
+        public CGame get1GameById(int game_id)
+        {
+            var item = (from g in db.tGames
+                        where g.fId_Game == game_id
+                        select g).FirstOrDefault();
+
+            CGame game = new CGame();
+            game.fId_Game = item.fId_Game;
+            game.fId_Coordinate = item.fId_Coordinate;
+
+            var co = from c in db.tCoordinates
+                     where c.fId_Coordinate == item.fId_Coordinate
+                     select c;
+
+            game.fX_Coordinate = co.FirstOrDefault().fX_Coordinate;
+            game.fY_Coordinate = co.FirstOrDefault().fY_Coordinate;
+            game.fId_GameGroup = item.fId_GameGroup;
+            game.fName_Game = item.fName_Game;
+            game.fType_Game = item.fType_Game;
+
+            switch (game.fType_Game)
+            {
+                case 1:
+                    game.cGamesteps = getSteps(game.fId_Game);
+                    break;
+                case 2:
+                    game.cGameQA = getQA(game.fId_Game);
+                    break;
+            }
+            game.fAR_Game = item.fAR_Game;
+            game.fSource_Game = item.fSource_Game;
+            game.fOrder_Game = item.fOrder_Game;
+
+            return game;
+        }
+
         public CGameRecord getGameRecord(int group_id, int role_id)
         {
             var q = from r in db.tGameRecords

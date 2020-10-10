@@ -105,7 +105,7 @@
             var now_x = 0;
             var now_y = 0;
         //目前位置
-        //$("#reposition").on("click", position_now);
+        $("#reposition").on("click", position_now);
         function position_now() {
             navigator.geolocation.getCurrentPosition(function (position) {
                 let x = position.coords.longitude;
@@ -228,12 +228,12 @@
 
             //點擊遊戲圖標
         map.on('click', 'game_group', function (e) {
-
+            position_now();
                 var coordinates = e.features[0].geometry.coordinates.slice();
                 var description = e.features[0].properties.description;
                 var group_id = e.features[0].properties.groupId;
                 var photo = e.features[0].properties.photo;
-                position_now();
+                
                 var userPosition = [now_x, now_y];
                 // Ensure that if the map is zoomed out such that multiple
                 // copies of the feature are visible, the popup appears
@@ -498,22 +498,22 @@
                 }
                 // add turn instructions here at the end
             };
-                req.send();
-
+            req.send();
         };
+
+        //=======進入遊戲=====================
                 function enterGame(game_id) {
 
-                    var role_id = @Session[CDictionary.SK_ActiveRoleId];//記得改回Session Role Id
-
+                    var role_id = @Session[CDictionary.SK_ActiveRoleId];
                     var group_id = $("#now_play").attr("value");
-
                     var toRecordObj = {
-                group_id: group_id,
-                role_id: @Session[CDictionary.SK_ActiveRoleId], //記得改成Session的role_id
-            };
+                        group_id: group_id,
+                        role_id: @Session[CDictionary.SK_ActiveRoleId], 
+                    };
 
-                var distance = $("#distance").val();
+                    var distance = $("#distance").val();
 
+                    //判斷使用者距離是否靠近
                 if (distance > 1000000) {
                     Swal.fire({
                     title: "尚未到達目的地",
@@ -527,93 +527,29 @@
                 } else {
 
                     var response = getGameRecord(toRecordObj);
-
                     var order = response.fStatus_GameNav;
                     var game_id = response.fItems_GameNav[order].fId_Game;
                     var end = [response.fItems_GameNav[order].fX_Coordinate, response.fItems_GameNav[order].fY_Coordinate];
                     var img = response.fItems_GameNav[order].fSource_Game;
 
-                    if (response.fItems_GameNav[order].fType_Game == 1) {
-                        var title = response.fItems_GameNav[order].cGamesteps.fTitle_GameStep;
-                        var content = response.fItems_GameNav[order].cGamesteps.fContent_GameStep;
-                        //var play = "<h3>" + title + "</h3>";
-                        //play += "<div>" + content + "</div>";
-                        //play += '<button class="btn btn-info"';
-                        //play += 'onclick="finishItem(' + response.fItems_GameNav[order].fOrder_Game + ')" ';
-                        //play += 'type = "submit" >確定</button > ';
-                        Swal.fire({
-                            title: title,
-                            text: content,
-                            imageUrl: img,
-                            imageWidth: 400,
-                            imageAlt: '踩點遊戲',
-                            showCancelButton: true,
-                            confirmButtonText: '確定',
-                            cancelButtonText: '取消',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                Swal.fire(
-                                    '完成!',
-                                    '',
-                                    'success'
-                                );
-                                finishItem(response.fItems_GameNav[order].fOrder_Game);
-                            }
-                        });
-
+                    //判斷為踩點或是QA
+                    if (response.fItems_GameNav[order].fType_Game == 1) { //
+                        fireSteps(response);
                     } else if (response.fItems_GameNav[order].fType_Game == 2) {
-                        var question = response.fItems_GameNav[order].cGameQA.fQuestion_GameQA;
-                        var op1 = response.fItems_GameNav[order].cGameQA.fOption_1_GameQA;
-                        var op2 = response.fItems_GameNav[order].cGameQA.fOption_2_GameQA;
-                        var op3 = response.fItems_GameNav[order].cGameQA.fOption_3_GameQA;
-                        var op4 = response.fItems_GameNav[order].cGameQA.fOption_4_GameQA;
-
-                        let inputOptions = new Promise((resolve) => {
-                            setTimeout(() => {
-                                resolve({
-                                    '1': op1,
-                                    '2': op2,
-                                    '3': op3,
-                                    '4': op4
-                                })
-                            }, 1000)
-                        });
-
-                        let { value: answer } = Swal.fire({
-                            title: question,
-                            imageUrl: img,
-                            imageWidth: 400,
-                            text: '請選擇答案',
-                            input: 'radio',
-                            confirmButtonText: '確定',
-                            inputOptions: inputOptions,
-                            inputValidator: (value) => {
-                                if (!value) {
-                                    return '請選擇一個答案!'
-                                }
-                            }
-                        });
-
-                        if (answer) {
-                            checkQA(game_id, answer);
-
-                        }
+                        fireQA(response);                        
+                    }
                         //var play = "<form><h3>" + question + "</h3>";
                         //play += "<input type='radio' name='options' value='1'>" + op1;
                         //play += "<input type='radio' name='options' value='2'>" + op2;
                         //play += "<input type='radio' name='options' value='3'>" + op3;
                         //play += "<input type='radio' name='options' value='4'>" + op4;
                         //play += "</form>"
-
                 }
-
-
                 //    play += '<button class="btn btn-info" onclick="gameconClose()" type="submit">取消</button>';
 
                 //$("#playing_game").html(play);
                     //gamecon();
-                }
-        };
+                };
 
         function finishItem(now_play) {
             //得到目前遊玩的group
@@ -636,23 +572,33 @@
                 console.log(xhr.status + xhr.responseText);
             }).responseJSON;
 
-            var nextGame = response.fItems_GameNav[next_play].fId_Game;
-            var nextPoint = [response.fItems_GameNav[next_play].fX_Coordinate, response.fItems_GameNav[next_play].fY_Coordinate];
-            var nextName = response.fItems_GameNav[next_play].fName_Game;
-            //導去下一個點
-            var toGuideObj = {
-                game_id: nextGame,
-                end: nextPoint,
-                name: nextName
-            };
+            //完成遊戲項目
+            if (response.fIsPass_GameNav != 1) {
+                var nextGame = response.fItems_GameNav[next_play].fId_Game;
+                var nextPoint = [response.fItems_GameNav[next_play].fX_Coordinate, response.fItems_GameNav[next_play].fY_Coordinate];
+                var nextName = response.fItems_GameNav[next_play].fName_Game;
+                //導去下一個點
+                var toGuideObj = {
+                    game_id: nextGame,
+                    end: nextPoint,
+                    name: nextName
+                };
 
-            guideRoute(toGuideObj);
+                guideRoute(toGuideObj);
+            } else {//完成一組遊戲
+
+
+            }
+
+
+
         };
 
 
         function exitGame() {
                     map.setLayoutProperty('game_group', 'visibility', 'visible');
-                    map.setLayoutProperty('game_items', 'visibility', 'none');
+            map.setLayoutProperty('game_items', 'visibility', 'none');
+            map.setLayoutProperty('route', 'visibility', 'none');
 
                 };
 
@@ -682,18 +628,117 @@
                 }).responseJSON;
         };
 
-        function checkQA(game_id, answer) {
-            return $.ajax({
-                    url: "@Url.Action("get","Game")",
-                async: false,
+        function fireSteps(response) {
+            var order = response.fStatus_GameNav;
+            var title = response.fItems_GameNav[order].cGamesteps.fTitle_GameStep;
+            var content = response.fItems_GameNav[order].cGamesteps.fContent_GameStep;
+            var game_id = response.fItems_GameNav[order].fId_Game;
+            var end = [response.fItems_GameNav[order].fX_Coordinate, response.fItems_GameNav[order].fY_Coordinate];
+            var img = response.fItems_GameNav[order].fSource_Game;
+
+            Swal.fire({
+                title: title,
+                text: content,
+                imageUrl: img,
+                imageWidth: 400,
+                imageAlt: '踩點遊戲',
+                showCancelButton: true,
+                confirmButtonText: '確定',
+                cancelButtonText: '取消',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        '完成!',
+                        '',
+                        'success'
+                    );
+                    finishItem(response.fItems_GameNav[order].fOrder_Game);
+                }
+            });
+
+        };
+        async function fireQA(response) {
+            var order = response.fStatus_GameNav;
+            var game_id = response.fItems_GameNav[order].fId_Game;
+            var end = [response.fItems_GameNav[order].fX_Coordinate, response.fItems_GameNav[order].fY_Coordinate];
+            var img = response.fItems_GameNav[order].fSource_Game;
+
+            var question = response.fItems_GameNav[order].cGameQA.fQuestion_GameQA;
+            var op1 = response.fItems_GameNav[order].cGameQA.fOption_1_GameQA;
+            var op2 = response.fItems_GameNav[order].cGameQA.fOption_2_GameQA;
+            var op3 = response.fItems_GameNav[order].cGameQA.fOption_3_GameQA;
+            var op4 = response.fItems_GameNav[order].cGameQA.fOption_4_GameQA;
+
+                let inputOptions = new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({
+                            '1': op1,
+                            '2': op2,
+                            '3': op3,
+                            '4': op4
+                        })
+                    }, 1000)
+                });
+
+                let { value: answer } = await Swal.fire({
+                    title: question,
+                    imageUrl: img,
+                    imageWidth: 400,
+                    text: '請選擇答案',
+                    input: 'radio',
+                    confirmButtonText: '確定',
+                    inputOptions: inputOptions,
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return '請選擇一個答案!'
+                        }
+                    },
+                });
+
+                if (answer) {
+                    var toQA = {
+                        role_id: @Session[CDictionary.SK_ActiveRoleId],
+                        group_id: $("#now_play").attr("value"),
+                        game_id: game_id,
+                        answer: answer,
+                        finish: response.fItems_GameNav[order].fOrder_Game
+                    };
+
+                    checkQA(toQA);
+                };
+
+           
+        };
+
+        function checkQA(toQA) {
+
+            $.ajax({
+                url: "@Url.Action("checkQA", "Game")",
                 type: "GET",
                 dataType: "json",
-                data: { game_id: game_id, answer: answer}
+                data: {
+                    role_id: toQA.role_id,
+                    group_id: toQA.group_id,
+                    game_id: toQA.game_id,
+                    answer: toQA.answer
+                }
             }).done(function (response) {
                 console.log(response);
-                }).fail(function (xhr) {
-                    console.log(xhr.status + xhr.responseText);
-                }).responseJSON;
+                if (response.fResult_CheckQA == 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: response.fMessage_CheckQA
+                    });
+                    finishItem(toQA.finish)
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: response.fMessage_CheckQA
+                    })
+                }
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });
         };
 
         function showResponse() {
