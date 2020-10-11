@@ -126,7 +126,10 @@
 
 </head>
 <body>
-
+    <script>
+        //現在頁籤位置
+        var TabNow = "探索";
+    </script>
 
 
     @*地圖 /綁定右鍵清單_verna_0930*@
@@ -136,29 +139,32 @@
     @*上列選項清單_verna_0930 *@
     @Html.Partial("_topMenuNavigation")
 
-<div style="position:absolute;top:70px">
-    @*新增地點*@
-    <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
+    <div style="position:absolute;top:70px">
+        @*新增地點*@
+        <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
 
-    @*新增路線*@
-    <button id="addNewRouteButton" type="button" class="btn btn-danger">放置新增路線</button>
+        @*新增路線*@
+        <button id="addNewRouteButton" type="button" class="btn btn-danger">放置新增路線</button>
 
-   
-    
-</div>
 
-    <div id="infoi2">
+
+    </div>
+
+    <div id="infoi2" style="display:none">
         @*路線地點詳細資訊*@
         @Html.Partial("_DetailInfoView")
 
     </div>
 
     @*滑鼠右鍵清單*@
-    @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
-    {
-        @Html.Partial("_ContextMenuPartialView")
 
-    }
+    @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous )
+    {
+           @Html.Partial("_ContextMenuPartialView")
+        
+    };
+
+
     @*顯示相簿*@
     @Html.Partial("_ShowAlbumView")
 
@@ -176,8 +182,17 @@
     @Html.Partial("_ChatBoxPartialView")
     @*---------------------------------聊天室生成---------------------------------*@
 
+    @*  左側內容 _verna_0930  ===========================*@
+    <div id="LeftSideMenu">
+        <div id="Result_List2" style="width: 200px;">
+            @*地點路線資訊*@
+            @Html.Partial("_firstLoadAllListPartialView");
+        </div>
+    </div>
 
-<script>
+    <script>
+
+
         $(function () {
             window.onload = function () {
                 $.ajax({
@@ -193,7 +208,7 @@
                                 'src': response[i].fPhoto_Ad
                             }).css({ width: '230px', height: '130px', left:'10px' })
                             $("#inner_content").append(img);
-                        }   
+                        }
                     },
                     fail: function (response) {
                         alert("失敗")
@@ -241,16 +256,10 @@
 
     </script>
 
-    @*  左側內容 _verna_0930  ===========================*@
-    <div id="LeftSideMenu">
-        <div id="Result_List2" style="width: 200px;">
-            @*地點路線資訊*@
-            @Html.Partial("_firstLoadAllListPartialView");
-        </div>
-    </div>
+
 
     <script>
-        var LogIn
+        var LogIn;
         //文件載入鎖定部分按鈕事件/顯示_verna_0930
         $(document).ready(function () {
             //個人資料方塊
@@ -275,7 +284,7 @@
         function deletefollower() {
             $(document).on('click', '.deletefollower', function () {
                 var obj = $(this).parents('.trtest');
-                
+
 
                 console.log(obj);
                 /////sweetalert
@@ -287,7 +296,7 @@
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: '是的,刪除',
-                    cancelButtonText:'取消' 
+                    cancelButtonText:'取消'
 
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -302,15 +311,15 @@
                             }
 
                         });
-                        Swal.fire(                          
-                            '刪除成功!'                              
+                        Swal.fire(
+                            '刪除成功!'
                         )
 
-                      
+
                     }
                 })
                 //////ajax
-            
+
             });
         }
         function deletefans() {
@@ -327,7 +336,7 @@
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: '是的,刪除',
-                    cancelButtonText: '取消' 
+                    cancelButtonText: '取消'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $(obj).remove();
@@ -342,11 +351,11 @@
 
                         });
                         Swal.fire(
-                            '刪除成功!'                           
+                            '刪除成功!'
                         )
                     }
                 })
-               
+
             });
         }
     </script>
@@ -457,23 +466,23 @@
 
     </div>
     @*<script>
-        $(function () {
-            window.onload = function () {                
-                $.ajax({
-                    url:"@Url.Action("ShowAD", "Advertisement")",
-                    type:"POST",
-                    success: function (response) {
-                        alert(response);
-                        //$("#pwChange").css("display", "none")
-                    },
-                    fail: function (response) {
-                        alert("失敗")
-                    }
-                });
-            }
-        });
-    </script>*@
-    <div id="foot-content" class="footer">      
+            $(function () {
+                window.onload = function () {
+                    $.ajax({
+                        url:"@Url.Action("ShowAD", "Advertisement")",
+                        type:"POST",
+                        success: function (response) {
+                            alert(response);
+                            //$("#pwChange").css("display", "none")
+                        },
+                        fail: function (response) {
+                            alert("失敗")
+                        }
+                    });
+                }
+            });
+        </script>*@
+    <div id="foot-content" class="footer">
         <div id="current_position" value="">推薦地點(廣告)</div>
         <div id="inner_content" value="">
 
@@ -514,7 +523,7 @@
                     console.log(response);
                     $("#follower_list").html("");
                     for (let i = 0; i < response.length; i++) {
-                        
+
                         let CD = '<tr class="trtest">';
                         CD += '<td>' + response[i].follow_Self_Name + '</td>';
                         CD += '<td>';
@@ -559,7 +568,7 @@
                         CD += response[i].follow_Target_ID;
                         CD += '">';
                         CD += '聊天</button>';
-                        CD += '</td>';                       
+                        CD += '</td>';
                         CD += '<td>';
                         CD += '<button style="margin-top:2px" class="btn btn-danger deletefans">刪除粉絲</button>';
                         CD += '</td>';
@@ -574,11 +583,11 @@
         };
 
         ///////////////////////////////////////////////////
-      
-        
+
+
 
     </script>
-    
+
     @* ===== 新增廣告 by kevin 10/08 ===== *@
     <script>
         function makeIdentity() {
@@ -590,16 +599,21 @@
             alert("ok")
         }
     </script>
-    
+
     <script>
         //我的地點 顯示可新增按鈕
-        function showMyLoc() {
-            $("#addNewLocationButton").show();
+            function showMyLoc() {
+                
+                TabNow = "我的地點";
+                $("#addNewLocationButton").show();
+                console.log(TabNow+"1");
+
         };
         //click outside close modal windows_verna
         //$(".modal").click(function () {
         //    $(".modal").hide();
         //});
+           
         //取得新增/編輯資料 表單id
         var CreateEditmodal = document.getElementById("myModal");
         //關閉新增/編輯資料 表單
@@ -625,8 +639,8 @@
             _marker = new mapboxgl.Marker()
             //地圖上點選地點,在此綁定map click 另一個handler
             map.on('click', positioningClickLocate);
-            ////地圖上雙擊決定添加的地點-------------改成按右鍵
-
+            ////地圖上雙擊決定添加的地點
+            map.on('dblclick', alertIfAddLocation);
         };
 
         //函式:alert尋問是否要新增此地點
@@ -786,7 +800,8 @@
         };
         //變更地點資料庫
         //新增資料至資料庫
-        function UpLoadLoctionFormButton() {
+            function UpLoadLoctionFormButton() {
+            infoi2.style.display = "none";
             console.log("現在的id是" + _LocationID);
             $("#UploadLocationForm").ajaxSubmit({
                 type: "POST",
@@ -824,7 +839,7 @@
 
         ///更新資料至資料庫
         function EditLoctionFormButton() {
-
+            infoi2.style.display = "none";
             console.log("現在的id是" + _LocationID);
             $("#UploadLocationForm").ajaxSubmit({
                 type: "POST",
@@ -1613,7 +1628,7 @@
                 data: { LocationID: LocationID }
             }).done(function (response) {
                 console.log(response[0].fId_Location);
-                fId_Location = response[0].fId_Location;                
+                fId_Location = response[0].fId_Location;
                 Coords_Location = [response[0].fX_Coordinate, response[0].fY_Coordinate];
                 NickName_Role = (response[0].fNickName_Role);
                 Name_Location = response[0].fName_Location;
@@ -2314,7 +2329,7 @@
         let DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/people/v1/rest"];
     </script>
     @*執行Google API必須的.js，callback function名稱請自訂
-   ↓https://apis.google.com/js/platform.js 或 https://apis.google.com/js/api.js 兩者網址都行得通 這裡採用跟官網寫法一樣*@
+        ↓https://apis.google.com/js/platform.js 或 https://apis.google.com/js/api.js 兩者網址都行得通 這裡採用跟官網寫法一樣*@
     <script async defer src="https://apis.google.com/js/api.js"
             onload="this.onload=function(){};GoogleClientInit()"
             onreadystatechange="if (this.readyState === 'complete') this.onload()">
