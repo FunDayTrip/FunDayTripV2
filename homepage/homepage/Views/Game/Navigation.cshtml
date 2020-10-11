@@ -8,7 +8,7 @@
 <html lang="zh-hant">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
     @*mapbox*@
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
@@ -22,7 +22,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
-
     @*ajax*@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -32,6 +31,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="~/css/Game.css" rel="stylesheet" />
+
+    @*AR.JS & A-Frame*@
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+
+    <!-- This is a hack because at the time of writing there are some distortions in the provided visuals until the -->
+    <!-- system receives a resize event. The resize event must be triggered when everything has been loaded and the -->
+    <!-- camera has been initialized. All the events I tried didn't work, so in the end I resorted using a 3 seconds -->
+    <!-- time-out after the load event. When this problem will be fixed in the AR.js library, this hack won't be necessary -->
+    <!-- anymore -->
+   
 
 </head>
 <body>
@@ -44,7 +56,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">FunDayTrip 探索遊戲</a>
+                <a class="navbar-brand" href="javascript:void(0)">FunDayTrip 探索遊戲</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav" style="display:none">
@@ -62,9 +74,12 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="javascript:showResponse()"><span class="glyphicon glyphicon-user"></span> @Session[CDictionary.SK_ActiveRoleName]</a>
+                        <a href="javascript:void(0)"><span class="glyphicon glyphicon-user"></span> @Session[CDictionary.SK_ActiveRoleName]</a>
                     </li>
                     @*<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>*@
+                    <li>
+                        <a href="javascript:showResponse()"><span class="glyphicon glyphicon-refresh"></span> AR Demo</a>
+                    </li>
                     <li>
                         <a href="javascript:exitGame()"><span class="glyphicon glyphicon-remove"></span>退出遊戲</a>
                     </li>
@@ -76,21 +91,12 @@
 
     @*地圖內容*@
     <div id="map" class="map"></div>
-
-    @*遊戲框*@
-    <div id="game_modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div style="justify-content:center;">
-                <div id="playing_game"></div>
-            </div>
-        </div>
-    </div>
-    @*遊戲框*@
+    @*AR*@
+    <div id="AR" class="AR"> Some AR Content</div>
 
     @*內容框*@
     <div id="foot-content" class="footer">
-        <div id="now_play" value="-1" style="display:none"></div>
+        <div id="now_play" name="group_name" value="-1" style="display:none"></div>
         <div id="content-toggle" class="toggleUp">
             <span id="content-icon" class="glyphicon glyphicon-chevron-up"></span>
         </div>
@@ -99,9 +105,18 @@
 
         </div>
     </div>
-
+    <script>
+        window.onload = function () {
+            setTimeout(function () {
+                var resizeEvent = window.document.createEvent('UIEvents');
+                resizeEvent.initUIEvent('resize', true, false, window, 0);
+                window.dispatchEvent(resizeEvent);
+            }, 3000);
+        };
+    </script>
 
     <script>
+        $("#AR").toggle();
             var now_x = 0;
             var now_y = 0;
         //目前位置
@@ -148,6 +163,7 @@
                     'type': 'Feature',
                         'properties': {
                             'groupId': Id_Group,
+                            'group_name': Name_Group,
                             'photo': Photo_Group,
                             'description': '<strong>' + Name_Group + '</strong><p>' + Description_Group + '</p>'
                         },
@@ -226,14 +242,15 @@
             // Add the control to the map.
             map.addControl(geolocate);
 
-            //點擊遊戲圖標
+            //點擊遊戲群組圖標
         map.on('click', 'game_group', function (e) {
             position_now();
-                var coordinates = e.features[0].geometry.coordinates.slice();
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var group_name = e.features[0].properties.group_name;
                 var description = e.features[0].properties.description;
                 var group_id = e.features[0].properties.groupId;
                 var photo = e.features[0].properties.photo;
-                
+
                 var userPosition = [now_x, now_y];
                 // Ensure that if the map is zoomed out such that multiple
                 // copies of the feature are visible, the popup appears
@@ -247,6 +264,7 @@
 
             let toShowContentObj = {
                 group_id: group_id,
+                group_name: group_name,
                 end: coordinates,
                 descript: description,
                 photo: photo,
@@ -268,17 +286,14 @@
             });
 
             //show 地點路線
-            function showGameItems(id) {
-                if (map.getSource('game_items')) {
-                    map.removeLayer('game_items');
-                    map.removeSource('game_items');
-                };
+        function showGameItems(id) {
+            var gamegroup = { group_id: id, role_id: @Session[CDictionary.SK_ActiveRoleId] };
+            var response = getGameRecord(gamegroup);
+            var itemArray = {
+                    'type': 'FeatureCollection',
+                'features': []
+            };
 
-                var gamegroup = { group_id: id, role_id: @Session[CDictionary.SK_ActiveRoleId] };
-
-
-                var response = getGameRecord(gamegroup);
-                let itemArray = [];
                 for (var j = response.fStatus_GameNav; j < response.fItems_GameNav.length; j++) {
                     let Name_Item = response.fItems_GameNav[j].fName_Game;
                     let Coords_Item = [response.fItems_GameNav[j].fX_Coordinate, response.fItems_GameNav[j].fY_Coordinate];
@@ -295,14 +310,16 @@
                             'coordinates': Coords_Item
                         }
                     };
-                    itemArray.push(itemJson);
+                    itemArray.features.push(itemJson);
                 }
+
+            if (map.getSource('game_items')) {
+                map.getSource('game_items').setData(itemArray);
+            } else {
+                itemArray
                 map.addSource('game_items', {
                     'type': 'geojson',
-                    'data': {
-                        'type': 'FeatureCollection',
-                        'features': itemArray
-                    }
+                    'data': itemArray
                 });//End：map.addSource
                 map.addLayer({
                     'id': 'game_items',
@@ -314,6 +331,8 @@
                     }
                 });
             }
+            map.setLayoutProperty('game_items', 'visibility', 'visible');
+        }
 
         //內容框上拉
         function content_up(){
@@ -337,7 +356,7 @@
                 //導引使用者到該地點
                 var reqRecord = { group_id: obj.group_id, role_id:@Session[CDictionary.SK_ActiveRoleId] }
                 var record = getGameRecord(reqRecord);
-
+                console.log(record);
                     let url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + start[0] + ',' + start[1] + ';' + obj.end[0] + ',' + obj.end[1] + '?steps=false&geometries=geojson&access_token=' + mapboxgl.accessToken;
                     var req = new XMLHttpRequest();
 
@@ -352,9 +371,10 @@
 
                     var content = "您與該點距離: " + (distance / 1000).toFixed(1) + "公里, 步行時間: " + (duration / 60).toFixed(1) + "分鐘<br>";
                     content += obj.end + "<br>" + obj.descript + "<br>";
-                    content += "<div>已遊玩至第" + record.fStatus_GameNav + "點</div>"
+                    content += "<div>您已遊玩過" + record.fRecords_GameNav.fFinished_GameRecord + "次</div>"
+                    content += "<div>目前進度: 第" + record.fStatus_GameNav + "點</div>"
                     content += "<img src='" + obj.photo + "' / >";
-                        content += "<button value='" + obj.group_id + "' onclick='beginGame(this)'> 開始遊戲 </button>";
+                        content += "<button name='"+obj.group_name+"' value='" + obj.group_id + "' onclick='beginGame(this)'> 開始遊戲 </button>";
                     $("#inner_content").html(content);
 
                         var geojson = {
@@ -400,7 +420,7 @@
                     // add turn instructions here at the end
                 };
                 req.send();
-
+                map.setLayoutProperty('route', 'visibility', 'visible');
             };
                 //開始遊戲
                 function beginGame(obj) {
@@ -426,7 +446,8 @@
                 };
 
                 guideRoute(toGuideObj);
-            $("#now_play").attr("value",obj.value);
+                    $("#now_play").attr("value", obj.value);
+                    $("#now_play").attr("name", obj.name);
         };
 
 
@@ -498,7 +519,8 @@
                 }
                 // add turn instructions here at the end
             };
-            req.send();
+                    req.send();
+                    map.setLayoutProperty('route', 'visibility', 'visible');
         };
 
         //=======進入遊戲=====================
@@ -508,7 +530,7 @@
                     var group_id = $("#now_play").attr("value");
                     var toRecordObj = {
                         group_id: group_id,
-                        role_id: @Session[CDictionary.SK_ActiveRoleId], 
+                        role_id: @Session[CDictionary.SK_ActiveRoleId],
                     };
 
                     var distance = $("#distance").val();
@@ -536,24 +558,15 @@
                     if (response.fItems_GameNav[order].fType_Game == 1) { //
                         fireSteps(response);
                     } else if (response.fItems_GameNav[order].fType_Game == 2) {
-                        fireQA(response);                        
+                        fireQA(response);
                     }
-                        //var play = "<form><h3>" + question + "</h3>";
-                        //play += "<input type='radio' name='options' value='1'>" + op1;
-                        //play += "<input type='radio' name='options' value='2'>" + op2;
-                        //play += "<input type='radio' name='options' value='3'>" + op3;
-                        //play += "<input type='radio' name='options' value='4'>" + op4;
-                        //play += "</form>"
                 }
-                //    play += '<button class="btn btn-info" onclick="gameconClose()" type="submit">取消</button>';
-
-                //$("#playing_game").html(play);
-                    //gamecon();
-                };
+        };
 
         function finishItem(now_play) {
             //得到目前遊玩的group
             var now_play_group = $("#now_play").attr("value");
+            var now_play_group_name = $("#now_play").attr("name");
             var next_play = now_play;
             //更新資料
             var response = $.ajax({
@@ -583,11 +596,16 @@
                     end: nextPoint,
                     name: nextName
                 };
-
+                showGameItems(now_play_group);
                 guideRoute(toGuideObj);
             } else {//完成一組遊戲
 
-
+                Swal.fire(
+                    '完成遊戲!',
+                    '恭喜你完成' + now_play_group_name,
+                    'success'
+                );
+                exitGame();
             }
 
 
@@ -596,10 +614,14 @@
 
 
         function exitGame() {
-                    map.setLayoutProperty('game_group', 'visibility', 'visible');
+            map.setLayoutProperty('game_group', 'visibility', 'visible');
             map.setLayoutProperty('game_items', 'visibility', 'none');
             map.setLayoutProperty('route', 'visibility', 'none');
-
+            $("#now_play").attr("value", "-1");
+            $("#now_play").attr("name", "group_name");
+            $("#inner_content").html("");
+            $("#AR").html("");
+            $("video").remove();
                 };
 
 
@@ -707,7 +729,7 @@
                     checkQA(toQA);
                 };
 
-           
+
         };
 
         function checkQA(toQA) {
@@ -741,9 +763,23 @@
             });
         };
 
+        function loadARcontent() {
+            $.ajax({
+                url: "@Url.Action("showAR", "Game")",
+                type: "GET",
+                dataType: "html"
+            }).done(function (response) {
+                console.log(response);
+                $("#AR").html(response);
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });
+        };
+
         function showResponse() {
-            var response = getGameGroup();
-            console.log($("#now_play").attr("value"));
+            $("#map").toggle();
+            loadARcontent();
+            $("#AR").toggle();
         };
 
 

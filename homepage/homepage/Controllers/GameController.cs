@@ -20,9 +20,35 @@ namespace homepage.Controllers
             List<CGameNavigationViewModel> game_list = new CGameFactory().getNavAll();
             return View(game_list);
         }
-        public ActionResult AR()
+        [HttpGet]        
+        public string showAR()
         {
-            return View();
+            string response = @"<a-scene class='aframeblock' renderer='logarithmicDepthBuffer: true;'";
+            response += @"embedded loading-screen='enabled: false;'";
+            response += @"vr-mode-ui='enabled: false'";
+            response += @"arjs='sourceType: webcam; sourceWidth: 600; sourceHeight: 400; displayWidth: 600; displayHeight: 400; canvasWidth: 600; canvasHeight: 400;";
+            response += @"debugUIEnabled: false;'>";
+
+            response += @"<a-assets>";
+            response += @"<a-asset-item id='animated-asset'";
+            response += @"src='../Content/ARmodels/banana.glb'>";
+            response += @"</a-asset-item>";
+            response += @"</a-assets>";
+
+            response += @"<a-entity look-at='[gps-camera]'";
+            response += @"animation-mixer='loop: repeat'";
+            response += @"gltf-model='#animated-asset'";
+            response += @"scale='3 3 3'";
+            response += @"gps-entity-place='latitude: 25.033552; longitude: 121.5427783;'>";
+            response += @"</a-entity>";
+
+            response += @"<a-camera gps-camera='simulateLatitude: 25.033550; simulateLongitude:121.542778' ";
+            response += @"rotation-reader>";
+            response += @"</a-camera>";
+
+            response += @"</a-scene>";
+
+            return response;
         }
         public JsonResult get()
         {
@@ -35,7 +61,7 @@ namespace homepage.Controllers
         {
             CGameFactory factory = new CGameFactory();
             CGameNavigationViewModel status = factory.getStatus(group_id,role_id);
-           
+            status.fRecords_GameNav = factory.getGameRecord(group_id, role_id);
             return Json(status, JsonRequestBehavior.AllowGet);
         }
         public ActionResult put(int group_id, int role_id, int finish)
@@ -102,6 +128,10 @@ namespace homepage.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
 
+        }
+        public ActionResult renderHTML()
+        {
+            return Content("<script>alert('hi!!!')</script>");
         }
 
 

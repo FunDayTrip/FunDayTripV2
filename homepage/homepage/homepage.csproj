@@ -165,6 +165,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ARmodels\ARcontent.html" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -200,6 +201,7 @@
     <Content Include="css\BootSideMenu.css" />
     <Content Include="css\CustomerlizeCSSofLocationAndRoute.css" />
     <Content Include="css\FixedPosition.css" />
+    <Content Include="css\Game.css" />
     <Content Include="css\test.css" />
     <Content Include="css\theme\darkblue.css" />
     <Content Include="css\theme\dracula.css" />
@@ -240,6 +242,9 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\ARmodels\asset.glb" />
+    <Content Include="Content\ARmodels\banana.glb" />
+    <Content Include="Content\ARmodels\spaghetti.glb" />
     <None Include="Properties\PublishProfiles\FunDayTrip - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
