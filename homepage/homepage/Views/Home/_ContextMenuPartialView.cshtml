@@ -40,12 +40,6 @@
     });
 
 
-
-    function createLocRou() {
-        console.log("i want to create");
-        alertIfAddLocation();
-    };
-
     function editLocRou() {
         console.log("i want to edit");
         CallBackThisLocationInfoWhenEditor();
@@ -55,8 +49,7 @@
         console.log("delete:" + _LocationID);
 
         Swal.fire({
-            title: '要刪除此' + _LocationID + '地點嗎?',
-            //text: "You won't be able to revert this!",
+            title: '要刪除此' + _LocationID + '地點嗎?',           
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
