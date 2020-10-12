@@ -90,7 +90,7 @@
       <PropertyRef Name="fId_Comment" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="fId_Comment" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="fId_Comment" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="fId_Location_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="fId_Type_Location_Route" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="fId_Role" Type="Int32" Nullable="false" />

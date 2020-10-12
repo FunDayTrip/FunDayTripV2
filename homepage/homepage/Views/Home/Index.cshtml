@@ -212,7 +212,7 @@
                             }
                             var DIV = $("<div>").attr({
                                 'id': "DIV" + [i] + "",
-                                'value': response[i].fId_Location,
+                                //'value': response[i].fId_Location,
                                 'class': "item " + movementClassName + "",
                                 'onclick': "ZoomAD('" +response[i].fId_Location +"')"
                             }).css({height:'140px',width:'379px'})
@@ -263,6 +263,7 @@
                 //CATCH ID跟座標
                 //document.getElementById("clickInfo").innerHTML = LocationID + "<br/>" + coordinates + "<br/>";
                 _LocationID = LocationID;
+                console.log(_LocationID);
                 _fX_Coordinate = coordinates[0];
                 _fY_Coordinate = coordinates[1];
                 Coords_Location = [_fX_Coordinate, _fY_Coordinate];
@@ -295,7 +296,8 @@
             deletefollower();
             deletefans();
 
-        });
+        })
+
         //顯示關閉左邊表單
         function closethisdiv() {
 
@@ -337,19 +339,6 @@
                                 target_id: $(obj).find('.btntest').val()
                             }
 
-    <script>
-        //文件載入鎖定部分按鈕事件/顯示_verna_0930
-        $(document).ready(function () {
-            //個人資料方塊
-            $("#locationInfo").hide();
-
-            deletefollower();
-            deletefans();
-
-
-        });
-        //顯示關閉左邊表單
-        function closethisdiv() {
                         });
                         Swal.fire(
                             '刪除成功!'
@@ -362,6 +351,8 @@
 
             });
         }
+
+
         function deletefans() {
             $(document).on('click', '.deletefans', function () {
                 var obj = $(this).parents('.trtest2');
@@ -395,48 +386,10 @@
                         )
                     }
                 })
-
-        function deletefollower() {
-            $(document).on('click', '.deletefollower', function () {
-                var obj = $(this).parents('.trtest');
-                
-
-             //   console.log(obj);
-                /////sweetalert
-                Swal.fire({
-                    title: '確定要刪除嗎',
-                    text: "我們將會刪除這筆資料",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: '是的,刪除',
-                    cancelButtonText:'取消' 
-
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $(obj).remove();
-                        $.ajax({
-                            url: "/Home/deletefollower",
-                            type: "POST",
-                            dataType: "json",
-                            data: {
-                                role_id: $("#active_role").val(),
-                                target_id: $(obj).find('.btntest').val()
-                            }
-
-                        });
-                        Swal.fire(                          
-                            '刪除成功!'                              
-                        )
-
-                      
-                    }
-                })
-                //////ajax
-            
             });
         }
+
+
         function deletefans() {
             $(document).on('click', '.deletefans', function () {
                 var obj = $(this).parents('.trtest2');
@@ -451,7 +404,7 @@
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: '是的,刪除',
-                    cancelButtonText: '取消' 
+                    cancelButtonText: '取消'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $(obj).remove();
@@ -466,11 +419,11 @@
 
                         });
                         Swal.fire(
-                            '刪除成功!'                           
+                            '刪除成功!'
                         )
                     }
                 })
-               
+
             });
         }
     </script>
@@ -924,6 +877,7 @@
         //變更地點資料庫
         //新增資料至資料庫
         function UpLoadLoctionFormButton() {
+            _marker.remove();
             infoi2.style.display = "none";
             console.log("現在的id是" + _LocationID);
             $("#UploadLocationForm").ajaxSubmit({
@@ -971,7 +925,7 @@
                 success: function (response) {
                     //console.log(response);
 
-
+                   
                     var obj = document.getElementsByName("checkbox");
 
                     if (response == "photoIsnotUploaded") {//如果沒有照片
@@ -1870,8 +1824,6 @@
             /////
         }
 
-        }
-
         //顯示路線&地點資訊k => 點列表
         var _routeID;
         function getRouAjax(RouteID) {
@@ -1981,10 +1933,7 @@
                 }
             });
             //////////
-        }
-    </script>
-
-
+       
             //////
             document.getElementById("Comment").innerHTML = '';
             $.ajax({
