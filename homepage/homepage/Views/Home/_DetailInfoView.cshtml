@@ -138,6 +138,7 @@
     </div>
     <div id="id_location" class="id_location"></div>
     <div id="name_role" class="name_role"></div>@*發文者名稱*@
+    <button id="addfollowbtn"class="addfollowbtn" onclick="addfollower()"></button>
     <div id="auth_lr" class="auth_lr"></div>@*分享權限*@
     <img id="photo_lr" class="photo_lr" />@*照片*@
     <div id="name_lr" class="name_lr"></div>@*名稱*@
@@ -178,6 +179,22 @@
     </div>
 </div>
 <script>
+    function addfollower() {        
+        $.ajax({
+            url: "/Home/addfollower",
+            type: "POST",
+            dataType: "text",
+            data: {
+                statestring: $("#addfollowbtn").html(),
+                myID: $("#active_role").val(),
+                Loction_Id: $("#id_location").text()
+            },
+            success: function (response) {
+                console.log(response);
+                $("#addfollowbtn").html(response);
+            }
+        });
+    };
     function changeCommentText() {
 
         var CommentS = document.getElementById("CommentTextArea");
@@ -202,6 +219,9 @@
         CMT += '  </div>';
         $("#Comment").append(CMT);
         CommentS.value = "";
+
+
+
 
         $.ajax({
             url: "/Home/CommentTextWrite",

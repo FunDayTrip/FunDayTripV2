@@ -212,8 +212,8 @@
     <Content Include="css\theme\zenburn.css" />
     <Content Include="dbFunDayTripModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>dbFunDayTripModel.Context.cs</LastGenOutput>
       <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
+      <LastGenOutput>dbFunDayTripModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="dbFunDayTripModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -504,6 +504,7 @@
     </Compile>
     <Compile Include="ViewModel\CAdDetailVM.cs" />
     <Compile Include="ViewModel\CBlocksViewModel.cs" />
+    <Compile Include="ViewModel\Cchatroom2.cs" />
     <Compile Include="ViewModel\CFanslistViewModel.cs" />
     <Compile Include="ViewModel\CFollowlistViewModel.cs" />
     <Compile Include="ViewModel\CGameNavigationViewModel.cs" />

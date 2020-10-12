@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="014b15498a074712beb27ab3c2129591" Name="Diagram1" ZoomLevel="40">
+      <Diagram DiagramId="cc7b9a6ea1214ac48a6f587f14680ae3" Name="Diagram1">
         <EntityTypeShape EntityType="DB_FunDayTripModel.tAd" Width="1.5" PointX="10.5" PointY="40.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_FunDayTripModel.tAdmin" Width="1.5" PointX="3" PointY="23.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_FunDayTripModel.tAlbum" Width="1.5" PointX="12.5" PointY="31.25" IsExpanded="true" />
