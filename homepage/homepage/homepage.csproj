@@ -245,6 +245,7 @@
     <Content Include="Content\ARmodels\asset.glb" />
     <Content Include="Content\ARmodels\banana.glb" />
     <Content Include="Content\ARmodels\spaghetti.glb" />
+    <Content Include="Content\ARmodels\duck.glb" />
     <None Include="Properties\PublishProfiles\FunDayTrip - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />

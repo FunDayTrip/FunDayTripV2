@@ -22,6 +22,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
+
+
     @*ajax*@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -31,19 +33,30 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="~/css/Game.css" rel="stylesheet" />
+    @*signalR*@
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+    <script src="~/signalr/hubs"></script>
 
     @*AR.JS & A-Frame*@
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <!--<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
-
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>-->
     <!-- This is a hack because at the time of writing there are some distortions in the provided visuals until the -->
     <!-- system receives a resize event. The resize event must be triggered when everything has been loaded and the -->
     <!-- camera has been initialized. All the events I tried didn't work, so in the end I resorted using a 3 seconds -->
     <!-- time-out after the load event. When this problem will be fixed in the AR.js library, this hack won't be necessary -->
     <!-- anymore -->
-   
+    @*<script>
+            window.onload = function () {
+                setTimeout(function () {
+                    var resizeEvent = window.document.createEvent('UIEvents');
+                    resizeEvent.initUIEvent('resize', true, false, window, 0);
+                    window.dispatchEvent(resizeEvent);
+                }, 3000);
+            };
+        </script>*@
+
 
 </head>
 <body>
@@ -91,8 +104,6 @@
 
     @*地圖內容*@
     <div id="map" class="map"></div>
-    @*AR*@
-    <div id="AR" class="AR"> Some AR Content</div>
 
     @*內容框*@
     <div id="foot-content" class="footer">
@@ -105,32 +116,22 @@
 
         </div>
     </div>
-    <script>
-        window.onload = function () {
-            setTimeout(function () {
-                var resizeEvent = window.document.createEvent('UIEvents');
-                resizeEvent.initUIEvent('resize', true, false, window, 0);
-                window.dispatchEvent(resizeEvent);
-            }, 3000);
-        };
-    </script>
 
     <script>
-        $("#AR").toggle();
+        const role_id = @Session[CDictionary.SK_ActiveRoleId];
             var now_x = 0;
             var now_y = 0;
         //目前位置
-        $("#reposition").on("click", position_now);
-        function position_now() {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                let x = position.coords.longitude;
-                let y = position.coords.latitude;
-                $("#current_position").html("目前位置: " + x.toFixed(6) + ", " + y.toFixed(6));
-                now_x = x;
-                now_y = y;
-            });
-            };
-            position_now();
+        //function position_now() {
+        //    navigator.geolocation.getCurrentPosition(function (position) {
+        //        let x = position.coords.longitude;
+        //        let y = position.coords.latitude;
+        //        $("#current_position").html("目前位置: " + x.toFixed(6) + ", " + y.toFixed(6));
+        //        now_x = x;
+        //        now_y = y;
+        //    });
+        //    };
+        //    position_now();
 
         //地圖初始化==========================
         mapboxgl.accessToken = 'pk.eyJ1IjoicGVhY2V3YW5nIiwiYSI6ImNrZmx6YWl6cTB6YWcyd21xMzFqNTZ5YzYifQ.WxjLSvp5k6yCWELcbMWeMw';
@@ -157,7 +158,7 @@
                 var Id_Group = response[i].fGroup_GameNav.fId_GameGroup;
                 var Route_Group = response[i].fGroup_GameNav.fId_Route;
                 var Photo_Group = response[i].fGroup_GameNav.fPhoto_GameGroup;
-
+                var Count_Group = response[i].fItems_GameNav.length;
                 groupJson =
                     {
                     'type': 'Feature',
@@ -165,6 +166,7 @@
                             'groupId': Id_Group,
                             'group_name': Name_Group,
                             'photo': Photo_Group,
+                            'count': Count_Group,
                             'description': '<strong>' + Name_Group + '</strong><p>' + Description_Group + '</p>'
                         },
                         'geometry': {
@@ -203,7 +205,12 @@
 
 
                 });
-            geolocate.trigger();
+                geolocate.trigger();
+                geolocate.on('geolocate', function (data) {
+                    now_x = data.coords.longitude;
+                    now_y = data.coords.latitude;
+                    $("#current_position").html("目前位置: " + now_x.toFixed(6) + ", " + now_y.toFixed(6));
+                });
         });
         };
 
@@ -244,12 +251,13 @@
 
             //點擊遊戲群組圖標
         map.on('click', 'game_group', function (e) {
-            position_now();
+            geolocate.trigger();
             var coordinates = e.features[0].geometry.coordinates.slice();
             var group_name = e.features[0].properties.group_name;
-                var description = e.features[0].properties.description;
-                var group_id = e.features[0].properties.groupId;
-                var photo = e.features[0].properties.photo;
+            var description = e.features[0].properties.description;
+            var group_id = e.features[0].properties.groupId;
+            var photo = e.features[0].properties.photo;
+            var count = e.features[0].properties.count;
 
                 var userPosition = [now_x, now_y];
                 // Ensure that if the map is zoomed out such that multiple
@@ -268,6 +276,7 @@
                 end: coordinates,
                 descript: description,
                 photo: photo,
+                count: count
             };
 
             showContent(toShowContentObj);
@@ -287,6 +296,7 @@
 
             //show 地點路線
         function showGameItems(id) {
+            geolocate.trigger();
             var gamegroup = { group_id: id, role_id: @Session[CDictionary.SK_ActiveRoleId] };
             var response = getGameRecord(gamegroup);
             var itemArray = {
@@ -339,6 +349,7 @@
             $("#foot-content").toggleClass("footer_withcontent", 1000, "swing", function () {
                 $("#content-icon").toggleClass("glyphicon-chevron-down", 1500, "swing");
             });
+
         };
 
         $("#foot-content").on("click", function () {
@@ -351,12 +362,11 @@
                 $("#foot-content").toggleClass("footer_withcontent", 1000, "swing", function () {
                     $("#content-icon").toggleClass("glyphicon-chevron-down", 1500, "swing");
                 });
-
+                geolocate.trigger();
                 var start = [now_x, now_y];
                 //導引使用者到該地點
                 var reqRecord = { group_id: obj.group_id, role_id:@Session[CDictionary.SK_ActiveRoleId] }
                 var record = getGameRecord(reqRecord);
-                console.log(record);
                     let url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + start[0] + ',' + start[1] + ';' + obj.end[0] + ',' + obj.end[1] + '?steps=false&geometries=geojson&access_token=' + mapboxgl.accessToken;
                     var req = new XMLHttpRequest();
 
@@ -367,14 +377,15 @@
                         var route = data.geometry.coordinates;
                         var distance = data.distance;
                         var duration = data.duration;
-                        console.log(distance + "," + duration)
 
                     var content = "您與該點距離: " + (distance / 1000).toFixed(1) + "公里, 步行時間: " + (duration / 60).toFixed(1) + "分鐘<br>";
                     content += obj.end + "<br>" + obj.descript + "<br>";
+                    content += "<br>一共" + obj.count + "點<br>";
                     content += "<div>您已遊玩過" + record.fRecords_GameNav.fFinished_GameRecord + "次</div>"
-                    content += "<div>目前進度: 第" + record.fStatus_GameNav + "點</div>"
+                    content += "<div id='currentStatus'>目前進度: 第" + record.fStatus_GameNav + "點</div>"
                     content += "<img src='" + obj.photo + "' / >";
-                        content += "<button name='"+obj.group_name+"' value='" + obj.group_id + "' onclick='beginGame(this)'> 開始遊戲 </button>";
+                    content += "<button name='" + obj.group_name + "' value='" + obj.group_id + "' onclick='beginGame(this)'> 開始遊戲 </button>";
+                    content += "<button name='" + obj.group_name + "' value='" + obj.group_id + "' onclick='resetRecord(this)'>重新開始</button> ";
                     $("#inner_content").html(content);
 
                         var geojson = {
@@ -452,13 +463,13 @@
 
 
                 //遊戲進行導引路線
-                function guideRoute(obj) {
+        function guideRoute(obj) {
+            geolocate.trigger();
                     //導引下個地點
                     var start = [now_x, now_y];
 
                     let url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + start[0] + ',' + start[1] + ';' + obj.end[0] + ',' + obj.end[1] + '?steps=false&geometries=geojson&access_token=' + mapboxgl.accessToken;
                     var req = new XMLHttpRequest();
-
 
                     req.open('GET', url, true);
                     req.onload = function () {
@@ -467,24 +478,23 @@
                         var route = data.geometry.coordinates;
                         var distance = data.distance;
                         var duration = data.duration;
-                        console.log(distance + "," + duration)
-
-                var content = "您與該點距離: " + (distance / 1000).toFixed(1) + "公里, 步行時間: " + (duration / 60).toFixed(1) + "分鐘<br>";
+                        console.log(json);
+                        var content = "<div id='distance' value='" + distance + "'>您與該點距離: " + (distance / 1000).toFixed(1) + "公里</div>";
+                        content += "<div id='duration' value'" + duration + "'>步行時間: " + (duration / 60).toFixed(1) + "分鐘</div><br>";
                         content += obj.end;
                         content += "<br>" + obj.name + "<br>";
                         //content += "<img src='" + photo + "' / >";
                         content += "<button value='" + obj.game_id + "' onclick='enterGame(this)'> 進入 </button>";
-                        content += "<input id='distance' value='" + distance + "' style='display:none'>";
-                $("#inner_content").html(content);
+                        $("#inner_content").html(content);
 
                         var geojson = {
-                    type: 'Feature',
-                    properties: {},
-                    geometry: {
-                type: 'LineString',
-                        coordinates: route
-                    }
-                };
+                            type: 'Feature',
+                            properties: {},
+                            geometry: {
+                                type: 'LineString',
+                                coordinates: route
+                            }
+                        };
 
                 // if the route already exists on the map, reset it using setData
                 if (map.getSource('route')) {
@@ -521,7 +531,76 @@
             };
                     req.send();
                     map.setLayoutProperty('route', 'visibility', 'visible');
+                    //routeFresh(obj);
         };
+
+
+        //更新導航路線每3秒
+        //var routeFresh = setInterval(function (obj) {
+        //    geolocate.trigger();
+        //    var start = [now_x, now_y];
+
+        //    let url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + start[0] + ',' + start[1] + ';' + obj.end[0] + ',' + obj.end[1] + '?steps=false&geometries=geojson&access_token=' + mapboxgl.accessToken;
+        //    var req = new XMLHttpRequest();
+
+        //    req.open('GET', url, true);
+        //    req.onload = function () {
+        //        var json = JSON.parse(req.response);
+        //        var data = json.routes[0];
+        //        var route = data.geometry.coordinates;
+        //        var distance = data.distance;
+        //        var duration = data.duration;
+
+        //        $("#distance").val(distance);
+        //        $("#distance").html("您與該點距離: " + (distance / 1000).toFixed(1) + "公里");
+        //        $("#duration").val(duration);
+        //        $("#duration").html("步行時間: " + (duration / 60).toFixed(1) + "分鐘");
+
+        //        var geojson = {
+        //            type: 'Feature',
+        //            properties: {},
+        //            geometry: {
+        //                type: 'LineString',
+        //                coordinates: route
+        //            }
+        //        };
+
+        //        // if the route already exists on the map, reset it using setData
+        //        if (map.getSource('route')) {
+        //            map.getSource('route').setData(geojson);
+
+        //        } else { // otherwise, make a new request
+        //            map.addLayer({
+        //                id: 'route',
+        //                type: 'line',
+        //                source: {
+        //                    type: 'geojson',
+        //                    data: {
+        //                        type: 'Feature',
+        //                        properties: {},
+        //                        geometry: {
+        //                            type: 'LineString',
+        //                            coordinates: geojson
+        //                        }
+        //                    }
+        //                },
+        //                layout: {
+        //                    'line-join': 'round',
+        //                    'line-cap': 'round'
+        //                },
+        //                paint: {
+        //                    'line-color': '#3887be',
+        //                    'line-width': 5,
+        //                    'line-opacity': 0.75
+        //                }
+        //            });
+        //            map.getSource('route').setData(geojson);
+
+        //        }
+        //        // add turn instructions here at the end
+        //    };
+        //    req.send();
+        //}, 3000);
 
         //=======進入遊戲=====================
                 function enterGame(game_id) {
@@ -536,7 +615,7 @@
                     var distance = $("#distance").val();
 
                     //判斷使用者距離是否靠近
-                if (distance > 1000000) {
+                if (distance > 500) {
                     Swal.fire({
                     title: "尚未到達目的地",
                     showClass: {
@@ -554,8 +633,12 @@
                     var end = [response.fItems_GameNav[order].fX_Coordinate, response.fItems_GameNav[order].fY_Coordinate];
                     var img = response.fItems_GameNav[order].fSource_Game;
 
-                    //判斷為踩點或是QA
-                    if (response.fItems_GameNav[order].fType_Game == 1) { //
+
+                    //判斷是否為AR
+                    if (response.fItems_GameNav[order].fAR_Game == 1) {
+                        ARwindow = window.open("../Game/AR", null);
+                    }//判斷為踩點或是QA
+                    else if (response.fItems_GameNav[order].fType_Game == 1) { //
                         fireSteps(response);
                     } else if (response.fItems_GameNav[order].fType_Game == 2) {
                         fireQA(response);
@@ -620,8 +703,6 @@
             $("#now_play").attr("value", "-1");
             $("#now_play").attr("name", "group_name");
             $("#inner_content").html("");
-            $("#AR").html("");
-            $("video").remove();
                 };
 
 
@@ -763,23 +844,117 @@
             });
         };
 
-        function loadARcontent() {
-            $.ajax({
-                url: "@Url.Action("showAR", "Game")",
-                type: "GET",
-                dataType: "html"
-            }).done(function (response) {
-                console.log(response);
-                $("#AR").html(response);
-            }).fail(function (xhr) {
-                console.log(xhr.status + xhr.responseText);
+        function resetRecord(obj) {
+
+            Swal.fire({
+                title: obj.name,
+                text: '確定要從頭開始嗎？',
+                showCancelButton: true,
+                confirmButtonText: '確定',
+                cancelButtonText: '取消',
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "@Url.Action("delete","Game")",
+                        async: false,
+                        type: "POST",
+                        dataType: "json",
+                        data: { group_id: obj.value, role_id: role_id }
+                    }).done(function (response) {
+                        console.log(response);
+                        $("#currentStatus").html("目前進度: 第" + response.fStatus_GameNav + "點");
+                    }).fail(function (xhr) {
+                        console.log(xhr.status + xhr.responseText);
+                    })
+                }
             });
+
+
         };
 
         function showResponse() {
-            $("#map").toggle();
-            loadARcontent();
-            $("#AR").toggle();
+            //$("#map").toggle();
+            //loadARcontent();
+            //$("#AR").toggle();
+            noteToUser("Hi!");
+
+        };
+
+        function noteToUser(message) {
+
+            @*var response = $.ajax({
+                url: "@Url.Action("post","Note")",
+                type: "POST",
+                async: false,
+                data: { role_id: role_id, message: message, admin_id: 25 },
+                dataType: "json"
+            }).done(function (response) {
+            }).responseJSON;
+
+            console.log(response);
+
+            Swal.fire({
+                position: 'bottom-end',
+                title: response.fMessage_Note,
+                backdrop: 'rgba(0, 0, 0, 0)',
+                showConfirmButton: false,
+                timer: 1500
+            });*@
+
+            hub.server.notes(-1, message);
+
+        }
+        var hub = $.connection.myHub;
+        $.connection.hub.start().done();
+
+        hub.client.notes = function (role, message) {
+            if (role === -1) {
+                console.log(message);
+
+                var response = $.ajax({
+                    url: "@Url.Action("post","Note")",
+                    type: "POST",
+                    async: false,
+                    data: { role_id: role_id, message: message, admin_id: 25 },
+                    dataType: "json"
+                }).done(function (response) {
+                }).responseJSON;
+
+                console.log(response);
+
+                Swal.fire({
+                    position: 'center-end',
+                    title: '通知!',
+                    width: '10%',
+                    text: response.fMessage_Note,
+                    backdrop: 'rgba(0, 0, 0, 0)',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } else if (role === role_id) {
+
+                var response = $.ajax({
+                    url: "@Url.Action("post","Note")",
+                    type: "POST",
+                    async: false,
+                    data: { role_id: role_id, message: message, admin_id: 25 },
+                    dataType: "json"
+                }).done(function (response) {
+                }).responseJSON;
+
+                console.log(response);
+
+                Swal.fire({
+                    position: 'center-end',
+                    title: '通知!',
+                    width: '10%',
+                    text: response.fMessage_Note,
+                    backdrop: 'rgba(0, 0, 0, 0)',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            };
         };
 
 

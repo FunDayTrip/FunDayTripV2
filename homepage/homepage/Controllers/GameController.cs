@@ -20,36 +20,51 @@ namespace homepage.Controllers
             List<CGameNavigationViewModel> game_list = new CGameFactory().getNavAll();
             return View(game_list);
         }
-        [HttpGet]        
-        public string showAR()
+        public ActionResult AR()
         {
-            string response = @"<a-scene class='aframeblock' renderer='logarithmicDepthBuffer: true;'";
-            response += @"embedded loading-screen='enabled: false;'";
-            response += @"vr-mode-ui='enabled: false'";
-            response += @"arjs='sourceType: webcam; sourceWidth: 600; sourceHeight: 400; displayWidth: 600; displayHeight: 400; canvasWidth: 600; canvasHeight: 400;";
-            response += @"debugUIEnabled: false;'>";
-
-            response += @"<a-assets>";
-            response += @"<a-asset-item id='animated-asset'";
-            response += @"src='../Content/ARmodels/banana.glb'>";
-            response += @"</a-asset-item>";
-            response += @"</a-assets>";
-
-            response += @"<a-entity look-at='[gps-camera]'";
-            response += @"animation-mixer='loop: repeat'";
-            response += @"gltf-model='#animated-asset'";
-            response += @"scale='3 3 3'";
-            response += @"gps-entity-place='latitude: 25.033552; longitude: 121.5427783;'>";
-            response += @"</a-entity>";
-
-            response += @"<a-camera gps-camera='simulateLatitude: 25.033550; simulateLongitude:121.542778' ";
-            response += @"rotation-reader>";
-            response += @"</a-camera>";
-
-            response += @"</a-scene>";
-
-            return response;
+            CGameNavigationViewModel status = Session[CDictionary.SK_GameStatus] as CGameNavigationViewModel;
+            if(status == null)
+            {
+                return RedirectToAction("Navigation");
+            }
+            else
+            {                
+                return View(status);
+            }
         }
+
+
+
+        //[HttpGet]        
+        //public string showAR()
+        //{
+        //    string response = @"<a-scene class='aframeblock' renderer='logarithmicDepthBuffer: true;'";
+        //    response += @"embedded loading-screen='enabled: false;'";
+        //    response += @"vr-mode-ui='enabled: false'";
+        //    response += @"arjs='sourceType: webcam; sourceWidth: 600; sourceHeight: 400; displayWidth: 600; displayHeight: 400; canvasWidth: 600; canvasHeight: 400;";
+        //    response += @"debugUIEnabled: false;'>";
+
+        //    response += @"<a-assets>";
+        //    response += @"<a-asset-item id='animated-asset'";
+        //    response += @"src='../Content/ARmodels/banana.glb'>";
+        //    response += @"</a-asset-item>";
+        //    response += @"</a-assets>";
+
+        //    response += @"<a-entity look-at='[gps-camera]'";
+        //    response += @"animation-mixer='loop: repeat'";
+        //    response += @"gltf-model='#animated-asset'";
+        //    response += @"scale='3 3 3'";
+        //    response += @"gps-entity-place='latitude: 25.033552; longitude: 121.5427783;'>";
+        //    response += @"</a-entity>";
+
+        //    response += @"<a-camera gps-camera='simulateLatitude: 25.033550; simulateLongitude:121.542778' ";
+        //    response += @"rotation-reader>";
+        //    response += @"</a-camera>";
+
+        //    response += @"</a-scene>";
+
+        //    return response;
+        //}
         public JsonResult get()
         {
             var games = new CGameFactory().getNavAll();
@@ -62,6 +77,7 @@ namespace homepage.Controllers
             CGameFactory factory = new CGameFactory();
             CGameNavigationViewModel status = factory.getStatus(group_id,role_id);
             status.fRecords_GameNav = factory.getGameRecord(group_id, role_id);
+            Session[CDictionary.SK_GameStatus] = status;
             return Json(status, JsonRequestBehavior.AllowGet);
         }
         public ActionResult put(int group_id, int role_id, int finish)
@@ -88,8 +104,20 @@ namespace homepage.Controllers
             if (isFinish)
             {
                 status.fIsPass_GameNav = 1;
+                Session[CDictionary.SK_GameStatus] = null;
+                Session.Remove(CDictionary.SK_GameStatus);
             }
+            Session[CDictionary.SK_GameStatus] = status;
+            return Json(status, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult delete(int role_id, int group_id)
+        {
+            CGameFactory factory = new CGameFactory();
+            factory.updateGameRecord(role_id, group_id, 0);
 
+            CGameNavigationViewModel status = factory.getStatus(group_id, role_id);
+            status.fRecords_GameNav = factory.getGameRecord(group_id, role_id);
+            Session[CDictionary.SK_GameStatus] = status;
             return Json(status, JsonRequestBehavior.AllowGet);
         }
 
@@ -128,10 +156,6 @@ namespace homepage.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
 
-        }
-        public ActionResult renderHTML()
-        {
-            return Content("<script>alert('hi!!!')</script>");
         }
 
 

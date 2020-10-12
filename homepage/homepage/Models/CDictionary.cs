@@ -17,5 +17,7 @@ namespace homepage.Models
         //新增會員權限by郭松明
         public static readonly string SK_AunctionAuth = "SK_AunctionAuth";
         public static readonly string SK_AuthPass = "SK_AuthPass";
+        //遊戲暫存檔
+        public static readonly string SK_GameStatus = "SK_GameStatus";
     }
 }

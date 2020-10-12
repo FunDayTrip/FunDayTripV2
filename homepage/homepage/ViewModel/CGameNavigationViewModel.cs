@@ -1,10 +1,10 @@
-﻿using System;
+﻿using homepage.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-
-namespace homepage.Models
+namespace homepage.ViewModel
 {
     public class CGameNavigationViewModel
     {
