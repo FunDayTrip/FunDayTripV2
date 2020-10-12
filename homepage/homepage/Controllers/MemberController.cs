@@ -87,7 +87,7 @@ namespace homepage.Controllers
 
 
                 //說明:把值代入ViewBag傳到mainPage控制器，為了顯示註冊成功alert
-                Session["ok"] = "ok";
+                //Session["ok"] = "ok";
 
                 //說明:轉跳到mainPage控制器
                 return RedirectToAction("Index","Home");
@@ -146,11 +146,11 @@ namespace homepage.Controllers
         }
 
         //說明: 停用帳號的控制器
-        public ActionResult suspension(string id)
+        public string suspension(string id)
         {
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 tMember data = dbFundaytrip.tMembers.FirstOrDefault(x => x.fId_Member == id);
 
                 //說明: 把一般會員全線改為3，停用帳號
@@ -158,16 +158,16 @@ namespace homepage.Controllers
                 dbFundaytrip.SaveChanges();
 
                 //說明:代入session到homePage以顯示alert
-                Session["stopped"] = "stopped";
-
+                //Session["stopped"] = "stopped";      
+                Session[CDictionary.SK_MemberId] = CDictionary.SK_anonymous;
                 //說明: 停用帳號後轉到登入頁面
-                return RedirectToAction("Index","Home");
-            }
-            else
-            {
+                return "suspensionSucceed"; /*RedirectToAction("Index","Home");*/
+                //}
+                //else
+                //{
                 //說明: 取消的話停留原畫面
-                return RedirectToAction("edit");
-            }
+                //    return RedirectToAction("edit");
+                //}
         }
 
         //說明:變更密碼AJAX方法

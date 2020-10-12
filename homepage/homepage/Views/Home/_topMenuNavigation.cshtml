@@ -6,7 +6,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li class="active">
-                <a href="#">探索</a>
+                <a href="#" onclick="showAdBlock()">探索</a>
             </li>
             @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
             {
@@ -14,8 +14,8 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">地點 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
-                        <li><a href="javascript:showMyLoc()" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow();">我的</a></li>
-                        <li><a href="#" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myflocation();">追蹤中</a></li>
+                        <li><a href="javascript:showMyLoc()" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow(); hideAdBlock();">我的</a></li>
+                        <li><a href="#" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myflocation(); hideAdBlock();">追蹤中</a></li>
                     </ul>
                 </li>
 
@@ -23,34 +23,34 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">路線 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
-                        <li><a href="javascript:showMyRou(@Session[CDictionary.SK_ActiveRoleId])" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow();">我的</a></li>
-                        <li><a href="#">追蹤中</a></li>
+                        <li><a href="javascript:showMyRou(@Session[CDictionary.SK_ActiveRoleId])" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow(); hideAdBlock();">我的</a></li>
+                        <li><a href="#" onclick="hideAdBlock();">追蹤中</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">相簿 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
-                        <li><a href="javascript:showMyAlbums(@Session[CDictionary.SK_ActiveRoleId])">我的</a></li>
-                        <li><a href="#">追蹤中</a></li>
+                        <li><a onclick="hideAdBlock();" href="javascript:showMyAlbums(@Session[CDictionary.SK_ActiveRoleId])">我的</a></li>
+                        <li><a onclick="hideAdBlock();" href="#">追蹤中</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="@Url.Action("Navigation", "Game")" target="_blank">遊戲</a>
                 </li>
                 <li>
-                    <a href="javascript:followcon()">追蹤/粉絲</a>
+                    <a href="javascript:followcon()" onclick="hideAdBlock();">追蹤/粉絲</a>
                     @*<a href="javascript:fansModal()">追蹤/粉絲</a>*@
                 </li>
 
                 <li>
-                    <a id="newAD" style="display:none;" @*href="javascript:showMyLoc()"*@ onclick="makeIdentity()">新增廣告</a>
+                    <a id="newAD" style="display:none;" @*href="javascript:showMyLoc()"*@ onclick="makeIdentity(); hideAdBlock()">新增廣告</a>
                 </li>
                 <li>
                     <a href="@Url.Action("ShowHeatMap", "Statistic")">統計與分析</a>
                 </li>
                 <li>
-                    <a href="#">聯絡管理員</a>
+                    <a href="#" onclick="hideAdBlock();">聯絡管理員</a>
                 </li>
                 <li class="dropdown">
                     <a id="backstage" style="display:none;" class="dropdown-toggle" data-toggle="dropdown" href="#">管理員後台<span class="caret"></span></a>
@@ -58,12 +58,12 @@
                     <ul class="dropdown-menu">
                         <li><a href="@Url.Action("showAllMembers", "backStage")">會員查詢</a></li>
                         <li><a href="@Url.Action("showApplyAD", "backStage")">審核廣告</a></li>
-                        <li><a href="@Url.Action("reportedList", "backStag")">檢舉名單</a></li>
+                        <li><a href="@Url.Action("reportedList", "backStage")">檢舉名單</a></li>
                     </ul>
                 </li>
 
                 <li>
-                    <a href="#">關於我們</a>
+                    <a href="#" onclick="hideAdBlock();">關於我們</a>
                 </li>
             }
         </ul>
@@ -71,12 +71,20 @@
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Search" name="txtkeyword" id="key">
             </div>
-            <button type="button" class="btn btn-default" name="查詢" id="post" onclick="SearchLocation(); SearchRount(); locationshow(); Routeshow();">查詢</button>
+            <button type="button" class="btn btn-default" name="查詢" id="post" onclick="SearchLocation(); SearchRount(); locationshow(); Routeshow(); hideAdBlock();">查詢</button>
         </form>
     </div>
 </nav>
 
 <script>
+    function showAdBlock() {
+        $("#foot-content").css('display','block')
+    };
+
+    function hideAdBlock() {
+        $("#foot-content").css('display', 'none')
+    };
+
     function myflocation() {
         var objData = {
             data: 3,

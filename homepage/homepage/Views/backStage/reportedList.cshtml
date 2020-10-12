@@ -17,6 +17,12 @@
     body {
         background-image: url("../../Content/灰色背景.jpg");
     }
+
+    #tableDiv {
+        margin-left: 50px;
+        width: 1400px;
+        border-radius: 15px;
+    }
 </style>
 <!DOCTYPE html>
 <html>
@@ -32,7 +38,7 @@
         @Html.ActionLink("回首頁", "Index", "Home", null, new { @class = "btn btn-info" })
         @Html.ActionLink("查詢列表", "showAllMembers", "backStage", null, new { @class = "btn btn-info" })
     </div>
-    <div class="table-responsive">
+    <div id="tableDiv" class="table-responsive">
         @*說明:自動排序命名法*@
         <table Id="myTable" class="tablesorter">
             <thead>
@@ -102,13 +108,13 @@
                     </td>
                     <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
                         @Html.DisplayFor(modelItem => item.fStatus_Report)
-                    </td>
-                    @if (item.fStatus_Report == "未審核")
-                    {
+                    </td>                  
                     <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
+                     @if (item.fStatus_Report == "未審核")
+                      {
                         @Html.ActionLink("隱蔽發文", "disappearData", "backStage", new { id = item.fId_Report.ToString() }, new { @class = "btn btn-warning" })
-                    </td>
-                    }
+                      }
+                    </td>                    
                 </tr>
             }
         </table>

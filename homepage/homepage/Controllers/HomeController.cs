@@ -419,6 +419,11 @@ namespace homepage.Controllers
             {
                 loginMember.loginMessage = "無此帳號";
             }
+            //10/11 郭松名新增停用帳號判斷
+            else if (q.FirstOrDefault().fId_FunctionAuth == 3)
+            {
+                loginMember.loginMessage = "此帳號已停用!";
+            }
             else if (q.FirstOrDefault().fPassword_Member == pwd)
             {
                 loginMember.loginMessage = "歡迎回來! " + q.FirstOrDefault().fNickName_Member;
@@ -444,7 +449,7 @@ namespace homepage.Controllers
                 //讀取點數
                 var member_point = new CPointFactory().getPoint(loginMember.fActiveRoleId_Member);
                 loginMember.fPointTotal_Member = Convert.ToInt32(member_point.Sum(s => s.fPoint_Point));
-                
+
                 //放入Session
                 Session[CDictionary.SK_MemberId] = loginMember.fId_Member;
                 Session[CDictionary.SK_MemberLogin] = loginMember;
@@ -457,7 +462,7 @@ namespace homepage.Controllers
             else if (q.FirstOrDefault().fPassword_Member != pwd)
             {
                 loginMember.loginMessage = "密碼錯誤";
-            }
+            }       
             else
             {
                 loginMember.loginMessage = "登入失敗";
