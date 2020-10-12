@@ -183,6 +183,11 @@
 
     @*10/09 郭松明廣告旋轉木馬*@
     <script>
+        function ZoomAD(locationId) {
+            listLocRoute.style.display = "block";
+            getLocAjax(locationId);
+        }
+
         $(function () {
             window.onload = function () {
                 $.ajax({
@@ -199,11 +204,12 @@
                             else
                             {
                                 movementClassName = "";
-                            }
+                            }           
                             var DIV = $("<div>").attr({
                                 'id': "DIV" + [i] + "",
                                 'value': response[i].fId_Location,
-                                'class': "item " + movementClassName + ""
+                                'class': "item " + movementClassName + "",
+                                'onclick': "ZoomAD('" +response[i].fId_Location +"')"
                             }).css({height:'140px',width:'379px'})
                             var img = $("<img>").attr({
                                 'id': "AD" + [i] + "",
