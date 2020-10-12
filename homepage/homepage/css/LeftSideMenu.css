@@ -1,0 +1,86 @@
+﻿
+/*左側內容標題*/
+.title {
+    color: #ffaa22;
+    font-size: 1.1em;
+    margin-bottom: 1.5em;
+    text-align: center;
+    font-weight: 100;
+    line-height: 1.5;
+}
+
+    .title span {
+        display: block;
+        font-size: 2em;
+        color: #1D3557;
+        font-family: Impact;
+        position: relative;
+    }
+
+        .title span:before,
+        .title span:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            background: #1D3557;
+            width: 7%;
+            height: 1px;
+        }
+
+        .title span:before {
+            left: 6%;
+        }
+
+        .title span:after {
+            right: 6%;
+        }
+
+/*左側清單按鈕*/
+.animate {
+    transition: all 0.1s;
+    -webkit-transition: all 0.1s;
+}
+
+.action-button {
+    position: relative;
+    /*padding: 10px 40px;
+            margin: 0px 10px 10px 0px;*/
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: SimHei;
+    color: #1D3557;
+    text-decoration: none;
+}
+
+.blue {
+    background-color: #b7e6ee;
+    border-bottom: 5px solid #8ed7e4;
+    /*text-shadow: 0px -2px #2980B9;*/
+}
+
+.green {
+    background-color: #d0efe9;
+    border-bottom: 5px solid #8bcbc6;
+    /*text-shadow: 0px -2px #669644;*/
+}
+
+.action-button:active {
+    transform: translate(0px,3px);
+    -webkit-transform: translate(0px,3px);
+    /*border-bottom: 1px solid;*/
+}
+
+.tab_locshow {
+    width: 94%;
+    line-height: 1.8;
+}
+
+.tab_roushow {
+    width: 94%;
+    line-height: 1.8;
+}
+
+.tab_div {
+    padding-top: 0.25em;
+    padding-bottom: 0.15em;
+}
