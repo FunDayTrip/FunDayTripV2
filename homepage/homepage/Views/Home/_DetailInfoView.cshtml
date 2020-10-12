@@ -1,57 +1,243 @@
 ﻿
+<style>
+    .comments-section {
+        background: #003853;
+    }
+
+    .comment-area {
+        margin-top:5px;
+        background: #003853;
+        border: medium none;
+        -webkit-border-radius: 4px 4px 0 0;
+        -moz-border-radius: 4px 4px 0 0;
+        border-radius: 4px 4px 0 0;
+        color: white;
+        float: left;
+        font-family: Lato;
+        font-size: 14px;
+        height: 85px;
+        letter-spacing: 0.3px;
+        padding: 10px 20px;
+        width: 90%;
+        height:100%;
+        resize: vertical;
+        outline: none;
+        border: 3px solid #f2f3f5;
+    }
+
+    .comment-btn {
+        float: right;
+        background: #4CAF50;
+        margin: 25px 5px;
+        padding: 6px 15px;
+        color: #fff;
+        letter-spacing: 1.5px;
+        outline: none;
+        border-radius: 4px;
+        box-shadow: none;
+    }
+
+        .comment-btn:hover, .comment-btn:focus {
+            background: #2E7D32;
+            outline: none;
+            border-radius: 4px;
+            box-shadow: none;
+        }
+
+    .comment-box-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin: 5px 0px;
+    }
+
+    .comment-box {
+        display: flex;
+        width: 80%;
+        margin-top: 8px;
+    }
+
+        .comment-box a {
+            color: #242475;
+        }
+
+    .commenter-image {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+    }
+
+    .comment-content {
+        display: flex;
+        flex-direction: column;
+        background: #f2f3f5;
+        margin-left: 2px;
+        padding: 4px 10px;
+        border-radius: 10px;
+    }
+
+    .commenter-head {
+        display: block;
+    }
 
 
-<div style="position:absolute;top:120px;width:500px;height:720px;overflow:scroll" class="Info_lr" id="infoi">
+        .commenter-head .commenter-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+
+
+
+    .comment-date {
+        font-size: 0.7rem;
+    }
+
+        .comment-date i {
+            margin: 0 5px 0 10px;
+        }
+
+    .comment-body {
+        padding: 0 0 0 5px;
+        display: flex;
+        font-size: 1rem;
+        font-size: 0.8rem;
+        font-weight: 100;
+        color:black;
+    }
+
+    .comment-footer {
+        font-size: 0.8rem;
+        font-weight: 300;
+    }
+
+        .comment-footer span {
+            margin: 0 15px 0 0;
+        }
+
+            .comment-footer span a {
+                margin: 0 0px 0 2px;
+            }
+
+
+            .comment-footer span.comment-likes .active .fa-heart {
+                color: black;
+                font-size: 1rem;
+            }
+
+
+
+    .nested-comments {
+        margin-left: 30px;
+    }
+</style>
+
+<div style="position:absolute;top:120px;width:600px;height:600px;overflow:scroll" class="Info_lr" id="infoi">
     <div>
         <span class="close" id="closeAddLocationForm">&times;</span>
     </div>
+    <div id="id_location" class="id_location"></div>
     <div id="name_role" class="name_role"></div>@*發文者名稱*@
+    <button id="addfollowbtn"class="addfollowbtn" onclick="addfollower()"></button>
     <div id="auth_lr" class="auth_lr"></div>@*分享權限*@
     <img id="photo_lr" class="photo_lr" />@*照片*@
     <div id="name_lr" class="name_lr"></div>@*名稱*@
     <div id="descript_lr" class="descript_lr"></div>@*簡介*@
     <div id="loc" style="color:chocolate; font-size:medium;"></div>@*如為路線，才會塞入地點資訊*@
     <div id="time_lr" class="time_lr"></div>@*時間*@
-    <p>Comment</p>
-    <div></div>
-    <form id="commentForm">
-        <img id="1" class="i" name="star" src="~/Content/images/star.gif" />
-        <img id="2" class="i" name="star" src="~/Content/images/star.gif" />
-        <img id="3" class="i" name="star" src="~/Content/images/star.gif" />
-        <img id="4" class="i" name="star" src="~/Content/images/star.gif" />
-        <img id="5" class="i" name="star" src="~/Content/images/star.gif" />
-        <p id="starIgive">How many stars do you have? </p>
-        <input />
-        <br />
-        <button>送出</button>
+    <div class="container">
+        <div class="row d-flex align-items-center">
 
-    </form>
+            <div class="col-md-6 comments-section">
+                <!--====COMMENT AREA START====-->
+                <div class="col-10">
+                    <textarea id="CommentTextArea" class="comment-area"></textarea>
+                    <button type="button" class="btn btn-info" style="margin-top:18px;margin-left:1px" onclick="changeCommentText()">送出</button>
+                </div>
+                <!-- =======COMMENTS START=======-->
+                <div class="col-12" id="Comment">
+                    @*<div class="comment-box-wrapper">
+                        <div class="comment-box">
+                            <img src="https://cdn.pixabay.com/photo/2017/04/06/19/34/girl-2209147_960_720.jpg" class="commenter-image" alt="commenter_image">
+                            <div class="comment-content">
+                                <div class="commenter-head">
+                                    <span class="commenter-name"><a href="">Eliza Gautam</a></span>
 
+                                </div>
+                                <div class="comment-body">
+                                    <span class="comment" id="aaa">你的路線真棒</span>
+                                </div>
+                                <div class="comment-footer">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
-        $(function () {
-            var aLi = $('.i');
-            var leng = aLi.length;
+    function addfollower() {        
+        $.ajax({
+            url: "/Home/addfollower",
+            type: "POST",
+            dataType: "text",
+            data: {
+                statestring: $("#addfollowbtn").html(),
+                myID: $("#active_role").val(),
+                Loction_Id: $("#id_location").text()
+            },
+            success: function (response) {
+                console.log(response);
+                $("#addfollowbtn").html(response);
+            }
+        });
+    };
+    function changeCommentText() {
+
+        var CommentS = document.getElementById("CommentTextArea");
+        var CommentString = CommentS.value;
+        var CMT = '<div class="comment-box-wrapper">';
+        CMT += '<div class="comment-box">';
+        CMT += ' <img src="https://i.imgur.com/vyWwMlr.png" class="commenter-image" alt="commenter_image">';
+        CMT += '<div class="comment-content">';
+        CMT += ' <div class="commenter-head">';
+        CMT += '  <span class="commenter-name"><a href="">';
+        CMT += document.getElementById("active_role_name").innerHTML;       
+        CMT+='</a ></span > ';
+        CMT += ' <span class="comment-date"><i class="far fa-clock"></i>剛剛</span>';
+        CMT += '    </div>';
+        CMT += ' <div class="comment-body">';
+        CMT += '<span class="comment">' + CommentString + '</span>';
+        CMT += '</div>';
+        CMT += '  <div class="comment-footer">';
+        CMT += '</div>';
+        CMT += ' </div>';
+        CMT += '</div>';
+        CMT += '  </div>';
+        $("#Comment").append(CMT);
+        CommentS.value = "";
 
 
-            $(".i").hover(enter, leaves);//hover(移入,移出)
-            function enter() {
-                console.log($(this).attr("id"));
-                $(this).nextAll(".i").attr("src", "../Content/images/star.gif");
-                for (var i = 0; i < $(this).attr("id"); i++)
-                    aLi.eq(i).attr("src", "../Content/images/chngstar.gif");
-                $("#starIgive").text("How many stars do you have?");
+
+
+        $.ajax({
+            url: "/Home/CommentTextWrite",
+            type: "POST",
+            dataType: "json",
+            data: {
+                role_id: $("#active_role").val(),
+                CString: CommentString,
+                Loction_Id: $("#id_location").text()
+
+            },
+            success: function (response) {
+
             }
-            function leaves() {
-                $(this).nextAll(".i").attr("src", "../Content/images/star.gif");
-                console.log($(this).attr("id")-1);
-            }
-            $(".i").click(function () {
-                for (var i = 0; i < $(this).attr("id") - 1; i++) {
-                    console.log($(this).attr("id"));
-                    aLi.eq(i).attr("src", "../Content/images/chngstar.gif");
-                }
-                $("#starIgive").text("I have " + $(this).attr("id") + " !");
-            })
-        })
+        });
+
+        document.getElementById('infoi').scrollTop = document.getElementById('infoi').scrollHeight;
+    }
 </script>

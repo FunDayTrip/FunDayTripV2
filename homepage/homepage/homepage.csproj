@@ -142,15 +142,15 @@
     <Content Include="css\theme\pinklady.css" />
     <Content Include="css\theme\somebook.css" />
     <Content Include="css\theme\zenburn.css" />
-    <Content Include="dbFunDayTripModel.Context.tt">
+    <Content Include="DB_FunDayTripEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
-      <LastGenOutput>dbFunDayTripModel.Context.cs</LastGenOutput>
+      <DependentUpon>DB_FunDayTripEntities.edmx</DependentUpon>
+      <LastGenOutput>DB_FunDayTripEntities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="dbFunDayTripModel.tt">
+    <Content Include="DB_FunDayTripEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
-      <LastGenOutput>dbFunDayTripModel.cs</LastGenOutput>
+      <DependentUpon>DB_FunDayTripEntities.edmx</DependentUpon>
+      <LastGenOutput>DB_FunDayTripEntities.cs</LastGenOutput>
     </Content>
     <Content Include="ForgetPassword.aspx" />
     <Content Include="Global.asax" />
@@ -176,6 +176,13 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <EntityDeploy Include="DB_FunDayTripEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DB_FunDayTripEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DB_FunDayTripEntities.edmx.diagram">
+      <DependentUpon>DB_FunDayTripEntities.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -268,20 +275,20 @@
     <Compile Include="Controllers\NoteController.cs" />
     <Compile Include="Controllers\PointController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
-    <Compile Include="dbFunDayTripModel.Context.cs">
+    <Compile Include="DB_FunDayTripEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>dbFunDayTripModel.Context.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="dbFunDayTripModel.cs">
+    <Compile Include="DB_FunDayTripEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="dbFunDayTripModel.Designer.cs">
+    <Compile Include="DB_FunDayTripEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="ForgetPassword.aspx.cs">
       <DependentUpon>ForgetPassword.aspx</DependentUpon>
@@ -311,119 +318,121 @@
     <Compile Include="SignalR\MyHub.cs" />
     <Compile Include="SignalR\Startup.cs" />
     <Compile Include="tAd.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tAdmin.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tAlbum.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tBalance.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tBank.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tBlock.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tComment.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tCoordinate.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tFollow.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tFuntionAuth.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tGame.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tGameGroup.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tGameQA.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tGameRecord.cs">
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tGameStep.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tGameUnlock.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tIcon.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tLA_Relation.cs">
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tLocation.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tLR_Relation.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tMember.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tMessage.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tNote.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tPhoto.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tPoint.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tProfitMember.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tProfitType.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tReport.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tRole.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tRoute.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tShareAuth.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tStatistic.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tTag.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tTagMsgRelation.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="tUnlock.cs">
-      <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
+      <DependentUpon>DB_FunDayTripEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\CBlocksViewModel.cs" />
+    <Compile Include="ViewModel\Cchatroom2.cs" />
     <Compile Include="ViewModel\CFanslistViewModel.cs" />
     <Compile Include="ViewModel\CFollowlistViewModel.cs" />
+    <Compile Include="ViewModel\CHistoryComment.cs" />
     <Compile Include="ViewModel\CHistoryMessage.cs" />
     <Compile Include="ViewModel\CLoginViewModel.cs" />
     <Compile Include="ViewModel\CShowLocations.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
-    <EntityDeploy Include="dbFunDayTripModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>dbFunDayTripModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="dbFunDayTripModel.edmx.diagram">
-      <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />

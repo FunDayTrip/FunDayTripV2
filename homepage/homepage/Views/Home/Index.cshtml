@@ -140,7 +140,7 @@
 
         //要求顯示地圖===========================
         //顯示中文地圖
-        mapboxgl.accessToken = 'pk.eyJ1IjoidmVybmFuYW5hbmFuYW5hbmFuYSIsImEiOiJja2VtbjM3MXgwOG53MnlzYWh4b3ozb3l4In0.WV0nJqpHVfMdABV83v_6hQ';
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic2tyYWJiaXQwMDAwIiwiYSI6ImNrZndidHY2NTExcTkydXFxaHMwYW5kcWUifQ.dcmQlRlWs7ZfZo5ipZO4vQ';
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v10',
@@ -186,7 +186,7 @@
                         $("#showExistedLocationDescription").text(item.fDescript_Location);
                     });
                 }).fail(function (xhr) {
-                    console.log(xhr.status + xhr.responseText);
+                  //  console.log(xhr.status + xhr.responseText);
                 });//end ajax
             });
         });
@@ -243,6 +243,11 @@
         $(document).ready(function () {
             //個人資料方塊
             $("#locationInfo").hide();
+
+            deletefollower();
+            deletefans();
+
+
         });
         //顯示關閉左邊表單
         function closethisdiv() {
@@ -254,6 +259,83 @@
 
         };
 
+        function deletefollower() {
+            $(document).on('click', '.deletefollower', function () {
+                var obj = $(this).parents('.trtest');
+                
+
+             //   console.log(obj);
+                /////sweetalert
+                Swal.fire({
+                    title: '確定要刪除嗎',
+                    text: "我們將會刪除這筆資料",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '是的,刪除',
+                    cancelButtonText:'取消' 
+
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(obj).remove();
+                        $.ajax({
+                            url: "/Home/deletefollower",
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                role_id: $("#active_role").val(),
+                                target_id: $(obj).find('.btntest').val()
+                            }
+
+                        });
+                        Swal.fire(                          
+                            '刪除成功!'                              
+                        )
+
+                      
+                    }
+                })
+                //////ajax
+            
+            });
+        }
+        function deletefans() {
+            $(document).on('click', '.deletefans', function () {
+                var obj = $(this).parents('.trtest2');
+
+          //      console.log(obj);
+                ////ajax
+                Swal.fire({
+                    title: '確定要刪除嗎?',
+                    text: "我們將會刪除這筆資料",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '是的,刪除',
+                    cancelButtonText: '取消' 
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(obj).remove();
+                        $.ajax({
+                            url: "/Home/deletefans",
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                role_id: $("#active_role").val(),
+                                target_id: $(obj).find('.btntest').val()
+                            }
+
+                        });
+                        Swal.fire(
+                            '刪除成功!'                           
+                        )
+                    }
+                })
+               
+            });
+        }
     </script>
 
 
@@ -286,7 +368,8 @@
                             CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
                             <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="float:left" />
                             <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
-                            <div id="active_role_name">目前身分:@memberLogin.fActiveRoleName_Member</div>
+                            <span>目前身分:</span>
+                            <span id="active_role_name">@memberLogin.fActiveRoleName_Member</span>
                             <div id="login_email">@memberLogin.fEmail_Member</div>
                             <button id="logoutBtn" style="float:right">登出</button>
                             <br />
@@ -379,14 +462,14 @@
                 dataType: "json",
                 data: { role_id: $("#active_role").val() },
                 success: function (response) {
-                    console.log(response);
+           //         console.log(response);
                     $("#follower_list").html("");
                     for (let i = 0; i < response.length; i++) {
-
-                        let CD = '<tr>';
+                        
+                        let CD = '<tr class="trtest">';
                         CD += '<td>' + response[i].follow_Self_Name + '</td>';
                         CD += '<td>';
-                        CD += '<button class="btn btn-link" onclick="creatchatroom(this)" name="';
+                        CD += '<button class="btn btn-link btntest" onclick="creatchatroom(this)" name="';
                         //style="border-bottom:dashed;margin-bottom:5px;border-color:blue;"
                         CD += response[i].follow_Self_Name;
                         CD += '"';
@@ -395,8 +478,10 @@
                         CD += '">';
                         CD += '聊天</button>';
                         CD += '</td>';
+                        CD += '<td>';
+                        CD += '<button style="margin-top:2px" class="btn btn-danger deletefollower">刪除好友</button>';
+                        CD += '</td>';
                         CD += '</tr>';
-
                         CD += '<div></div>'
                         $("#follower_list").prepend(CD);
                     }
@@ -411,13 +496,13 @@
                 dataType: "json",
                 data: { role_id: $("#active_role").val() },
                 success: function (response) {
-                    console.log(response);
+               //     console.log(response);
                     $("#follower_list").html("");
                     for (let i = 0; i < response.length; i++) {
-                        let CD = '<tr>';
+                        let CD = '<tr class="trtest2">';
                         CD += '<td>' + response[i].follow_Target_Name + '</td>';
                         CD += '<td>';
-                        CD += '<button class="btn btn-link" onclick="creatchatroom(this)" name="';
+                        CD += '<button class="btn btn-link btntest" onclick="creatchatroom(this)" name="';
                         //style="border-bottom:dashed;margin-bottom:5px;border-color:blue;"
                         CD += response[i].follow_Target_Name;
                         CD += '"';
@@ -425,6 +510,9 @@
                         CD += response[i].follow_Target_ID;
                         CD += '">';
                         CD += '聊天</button>';
+                        CD += '</td>';                       
+                        CD += '<td>';
+                        CD += '<button style="margin-top:2px" class="btn btn-danger deletefans">刪除粉絲</button>';
                         CD += '</td>';
                         CD += '</tr>';
 
@@ -437,6 +525,9 @@
         };
 
         ///////////////////////////////////////////////////
+      
+        
+
     </script>
     <script>
         //我的地點 顯示可新增按鈕
@@ -486,7 +577,7 @@
                 confirmButtonText: 'Yes'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    console.log("yes");
+              //      console.log("yes");
                     CreateEditmodal.style.display = "block";
                     document.getElementById("UploadLocationForm").reset();
                     $("#save").hide();
@@ -496,10 +587,10 @@
                     $("#CreateOrEdit").text("新增地點");
                     document.getElementById('info3').innerHTML = _lng + "," + _lat;
                     _LocationID = "noLocationID";
-                    console.log("新增時的id" + _LocationID + _lat + _lng);
+             //       console.log("新增時的id" + _LocationID + _lat + _lng);
 
                 } else {
-                    console.log("no");
+                 //   console.log("no");
                     _marker.remove();
                     $("#addNewLocationButton").one("click", enableAddLocation);
 
@@ -533,7 +624,7 @@
             $("#create").hide();
             $("#save").show();
             CreateEditmodal.style.display = "block";
-            console.log("編輯時的id" + _LocationID);///////////////////////////
+         //   console.log("編輯時的id" + _LocationID);///////////////////////////
             $("#CreateOrEdit").text("編輯地點");
             //顯示該地點詳細內容
             $.ajax({
@@ -559,7 +650,7 @@
                     $("#fDescript_Photo").val(item.fDescript_Photo);
                     $("#output").attr("src", item.fPath_Photo);//IMAGE
 
-                    console.log(item.fDelete_Location);
+                //    console.log(item.fDelete_Location);
                     if (item.fDelete_Location == 1) {
                         $('#checkbox').prop("checked", true)
                     } else {
@@ -578,7 +669,7 @@
 
                 });
             }).fail(function (xhr) {
-                console.log(xhr.status + xhr.responseText);
+             //   console.log(xhr.status + xhr.responseText);
             });//end ajax
 
         };
@@ -596,13 +687,13 @@
         //變更地點資料庫
         //新增資料至資料庫
         function UpLoadLoctionFormButton() {
-            console.log("現在的id是" + _LocationID);
+         //   console.log("現在的id是" + _LocationID);
             $("#UploadLocationForm").ajaxSubmit({
                 type: "POST",
                 url: "/Home/createAlocation",
                 //data: { EditLocationId: _LocationID },
                 success: function (response) {
-                    console.log(response);
+                   // console.log(response);
 
                     if (response == "photoIsnotUploaded") {//如果沒有照片
                         Swal.fire(
@@ -626,7 +717,7 @@
                 },
                 fail: function (failresponse) {
 
-                    console.log(failresponse);
+                  //  console.log(failresponse);
                 }
 
             });
@@ -635,7 +726,7 @@
         ///更新資料至資料庫
         function EditLoctionFormButton() {
 
-            console.log("現在的id是" + _LocationID);
+           // console.log("現在的id是" + _LocationID);
             $("#UploadLocationForm").ajaxSubmit({
                 type: "POST",
                 url: "/Home/EditLocationInfo",
@@ -667,7 +758,7 @@
                 },
                 fail: function (failresponse) {
 
-                    console.log(failresponse);
+                  //  console.log(failresponse);
                 }
             });
         };
@@ -707,7 +798,7 @@
 
         //重整
         function reload() {
-            console.log("reload");
+         //   console.log("reload");
             LocArray = []
 
             $.ajax({
@@ -783,7 +874,7 @@
                 dataType: "json",
                 //data: { }
             }).done(function (response) {
-                console.log(response);
+               // console.log(response);
                 for (var i = 0; i < response.length; i++) {
 
                     Id_Route = response[i].fId_Route;
@@ -903,6 +994,7 @@
 
         //顯示地點資訊k => 點列表、點地圖
 
+
         function getLocAjax(LocationID) {
             $.ajax({
                 url: "/Home/GetLocation",
@@ -910,13 +1002,15 @@
                 dataType: "json",
                 data: { LocationID: LocationID }
             }).done(function (response) {
-                //console.log(response);
+                console.log(response[0].fId_Location);
+                fId_Location = response[0].fId_Location;                
                 Coords_Location = [response[0].fX_Coordinate, response[0].fY_Coordinate];
                 NickName_Role = (response[0].fNickName_Role);
                 Name_Location = response[0].fName_Location;
                 Auth_ShareAuth = response[0].fAuth_ShareAuth;
                 Descript_Location = response[0].fDescript_Location;
                 Time_Location = response[0].fTime_Location;
+
                 //console.log("Coords_Location = " + Coords_Location);
                 //console.log("NickName_Role = " + NickName_Role);
                 //console.log("Name_Location = " + Name_Location);
@@ -924,6 +1018,7 @@
                 //console.log("Descript_Location = " + Descript_Location);
                 //console.log("Time_Location = " + Time_Location);
                 fly(Coords_Location);
+                $("#id_location").html(fId_Location);
                 $("#name_role").html(NickName_Role);
                 $("#name_lr").html(Name_Location);
                 $("#auth_lr").html(Auth_ShareAuth);
@@ -933,8 +1028,23 @@
                 _LocationID = LocationID;
                 //console.log(_LocationID);
             }).fail(function (xhr) {
-                console.log(xhr.status + xhr.responseText);
+               // console.log(xhr.status + xhr.responseText);
             });//end ajax
+
+            $.ajax({
+                url: "/Home/followOrNot",
+                type: "POST",
+                data: {
+                    LocationID: LocationID,
+                    myID:$("#active_role").val()
+                    },
+                success: function (response) {
+                    console.log(response);
+                    $("#addfollowbtn").html(response);
+
+                }
+
+            });
 
             $.ajax({
                 url: "/Home/GetLocationPhoto",
@@ -956,6 +1066,43 @@
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);
             });//end ajax
+
+            //////
+            document.getElementById("Comment").innerHTML = '';
+            $.ajax({
+                url: "/Home/HistoryLocationComment",
+                type: "POST",
+                dataType: "json",
+                data: { LocationID: LocationID },
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+                        let HCMT = '<div class="comment-box-wrapper">';
+                        HCMT += '<div class="comment-box">';
+                        HCMT += ' <img src="https://i.imgur.com/vyWwMlr.png" class="commenter-image" alt="commenter_image">';
+                        HCMT += '<div class="comment-content">';
+                        HCMT += ' <div class="commenter-head">';
+                        HCMT += '  <span class="commenter-name"><a href="">';
+                        HCMT += response[i].fComment_Name;
+                        HCMT += '</a ></span > ';
+                        HCMT += ' <span class="comment-date"><i class="far fa-clock"></i>';
+                        HCMT += response[i].fTime_Comment;
+                        HCMT+='</span > ';
+                        HCMT += '    </div>';
+                        HCMT += ' <div class="comment-body">';
+                        HCMT += '<span class="comment">' + response[i].fComment_Comment + '</span>';
+                        HCMT += '</div>';
+                        HCMT += '  <div class="comment-footer">';
+                        HCMT += '</div>';
+                        HCMT += ' </div>';
+                        HCMT += '</div>';
+                        HCMT += '  </div>';
+                        $("#Comment").append(HCMT);
+                    }
+                }
+            });
+            //////
+      
+            /////
         }
 
         //顯示路線&地點資訊k => 點列表@*!!!*@
@@ -970,6 +1117,7 @@
             }).done(function (response) {
                 //console.log(response);
                 Route = GetRoutePathArray(response.fPath_Route);
+                Id_Route = response.fId_Route;
                 NickName_Role = (response.fNickName_Role);
                 Name_Route = response.fName_Route;
                 Auth_ShareAuth = response.fAuth_ShareAuth;
@@ -983,6 +1131,7 @@
                 //console.log("Time_Route = " + Time_Route);
                 _routeID = RouteID;
                 fly(Route[0]);
+                $("#id_location").html(Id_Route);
                 $("#name_role").html(NickName_Role);
                 $("#name_lr").html(Name_Route);
                 $("#auth_lr").html(Auth_ShareAuth);
@@ -1016,6 +1165,41 @@
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);
             });//end ajax
+            //////
+            //////
+            document.getElementById("Comment").innerHTML = '';
+            $.ajax({
+                url: "/Home/HistoryRouteComment",
+                type: "POST",
+                dataType: "json",
+                data: { RouteID: RouteID },
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+                        let HCMT = '<div class="comment-box-wrapper">';
+                        HCMT += '<div class="comment-box">';
+                        HCMT += ' <img src="https://i.imgur.com/vyWwMlr.png" class="commenter-image" alt="commenter_image">';
+                        HCMT += '<div class="comment-content">';
+                        HCMT += ' <div class="commenter-head">';
+                        HCMT += '  <span class="commenter-name"><a href="">';
+                        HCMT += response[i].fComment_Name;
+                        HCMT += '</a ></span > ';
+                        HCMT += ' <span class="comment-date"><i class="far fa-clock"></i>';
+                        HCMT += response[i].fTime_Comment;
+                        HCMT += '</span > ';
+                        HCMT += '    </div>';
+                        HCMT += ' <div class="comment-body">';
+                        HCMT += '<span class="comment">' + response[i].fComment_Comment + '</span>';
+                        HCMT += '</div>';
+                        HCMT += '  <div class="comment-footer">';
+                        HCMT += '</div>';
+                        HCMT += ' </div>';
+                        HCMT += '</div>';
+                        HCMT += '  </div>';
+                        $("#Comment").append(HCMT);
+                    }
+                }
+            });
+            //////////
         }
     </script>
 
@@ -1084,7 +1268,7 @@
                     note_item += "</li>";
                     $("#note_list").append(note_item);
                     $("#noteNum").hide();
-                    console.log(response[i].fMessage_Note);
+                   // console.log(response[i].fMessage_Note);
                 };
             }).fail(function (xhr, ajaxOptions, thrownError) {
                 $("body").append(xhr.status);
@@ -1118,7 +1302,7 @@
                         role_item += "(營利會員)";
                     };
                     role_item += "</button></li>";
-                    console.log(response[i].fNickName_Role);
+               //     console.log(response[i].fNickName_Role);
                     $("#role_list").append(role_item)
 
                 };
@@ -1149,7 +1333,7 @@
                     alert("管理員 " + response.fNickName_Role + ", 您好!");
                 }
             }).fail(function (xhr, ajaxOptions, thrownError) {
-                console.log(role_id);
+          //      console.log(role_id);
                 $("body").append(xhr.status);
                 $("body").append(xhr.responseText);
                 alert(thrownError);
@@ -1165,7 +1349,7 @@
             }).done(function (response){
                 $("#info_panel").html('<ul id="points_list"></ul>');
                 for (let i = 0; i < response.length; i++) {
-                    console.log(response[i]);
+               //     console.log(response[i]);
                     let point_item = "<li>";
                     point_item += "[" + response[i].fPoint_Point + "] ";
                     point_item += "[" + response[i].fType_Point + "] ";
@@ -1174,7 +1358,7 @@
                     $("#points_list").append(point_item);
                 };
             }).fail(function (xhr, ajaxOptions, thrownError) {
-                console.log(role_id);
+              //  console.log(role_id);
                 $("body").append(xhr.status);
                 $("body").append(xhr.responseText);
                 alert(thrownError);

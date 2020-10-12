@@ -12,14 +12,13 @@ namespace homepage
     using System;
     using System.Collections.Generic;
     
-    public partial class tBlock
+    public partial class tLA_Relation
     {
-        public int fId_Block { get; set; }
-        public int fId_Self_Role { get; set; }
-        public int fId_Target_Role { get; set; }
-        public Nullable<int> C0_Follow1_Fans { get; set; }
+        public int fId_LARelation { get; set; }
+        public int fId_Album { get; set; }
+        public string fId_Location { get; set; }
     
-        public virtual tRole tRole { get; set; }
-        public virtual tRole tRole1 { get; set; }
+        public virtual tAlbum tAlbum { get; set; }
+        public virtual tLocation tLocation { get; set; }
     }
 }
