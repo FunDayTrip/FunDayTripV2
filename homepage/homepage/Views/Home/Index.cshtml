@@ -147,7 +147,7 @@
         <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
 
         @*新增廣告地點*@
-        <button id="addNewAdLocButton" type="button" class="btn btn-danger">放置廣告圖釘</button>
+        <button id="addNewAdLocButton" type="button" class="btn btn-danger" style="display:none">放置廣告圖釘</button>
 
         @*新增路線*@
         <button id="addNewRouteButton" type="button" class="btn btn-danger">放置新增路線</button>
@@ -186,7 +186,7 @@
     @Html.Partial("_ChatBoxPartialView")
     @*---------------------------------聊天室生成---------------------------------*@
 
-    @*10/09 郭松明廣告旋轉木馬*@
+    @*10/09 郭松明廣告旋轉木馬=========================*@
     <script>
         function ZoomAD(locationId) {
             listLocRoute.style.display = "block";
@@ -201,7 +201,7 @@
                     type:"POST",
                     success: function (response) {
                         console.log(response);
-                        for (var i = 0; i <= response.length; i += 1)
+                        for (var i = 0; i < response.length; i += 1)
                         {
                             if (i == 0) {
                                 movementClassName = "active";
@@ -235,6 +235,11 @@
                 });
             }
         });
+    </script>
+
+
+    @*地圖事件===============================*@
+    <script>
         //全域變數===============================
         //經緯度變數
         var _lng, _lat;
@@ -571,10 +576,10 @@
                 dataType: "json",
                 data: { role_id: $("#active_role").val() },
                 success: function (response) {
-           //         console.log(response);
+                    //         console.log(response);
                     $("#follower_list").html("");
                     for (let i = 0; i < response.length; i++) {
-                        
+
                         let CD = '<tr class="trtest">';
                         CD += '<td>' + response[i].follow_Self_Name + '</td>';
                         CD += '<td>';
@@ -605,7 +610,7 @@
                 dataType: "json",
                 data: { role_id: $("#active_role").val() },
                 success: function (response) {
-               //     console.log(response);
+                    //     console.log(response);
                     $("#follower_list").html("");
                     for (let i = 0; i < response.length; i++) {
                         let CD = '<tr class="trtest2">';
@@ -619,7 +624,7 @@
                         CD += response[i].follow_Target_ID;
                         CD += '">';
                         CD += '聊天</button>';
-                        CD += '</td>';                       
+                        CD += '</td>';
                         CD += '<td>';
                         CD += '<button style="margin-top:2px" class="btn btn-danger deletefans">刪除粉絲</button>';
                         CD += '</td>';
@@ -640,24 +645,32 @@
     </script>
 
     @* ===== 新增廣告 by kevin 10/08 ===== *@
-    <script>
+<script>
         function makeIdentity() {
 
             //TODO:新增廣告的地點
             //放置廣告圖釘
-            $("addNewAdLocButton").display = "block";
-           
+
+            document.getElementById("addNewAdLocButton").style.display = "block";
+
         }
 
-        $("addNewAdLocButton").click(function(){
-
+        $("#addNewAdLocButton").click(function () {
+            _marker = new mapboxgl.Marker();
+            console.log(_lng + "newbutton" + _lat);
+            map.on('click', positioningClickLocate);
             map.on('dblclick', alertIfCreateAdLoc);
+
         })
 
         function alertIfCreateAdLoc() {
-            
+
+            console.log(_lng + "alert" + _lat);
+
+
+
             Swal.fire({
-                title: '要新增此地點嗎?',
+                title: '要新增廣告於此地點嗎?',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -668,14 +681,29 @@
                 if (result.isConfirmed) {
                     console.log("yes");
 
-                    window.location.href = "@Url.Action("newCommercialData", "Advertisement")";
-                } 
+                    $.ajax({
+                        url: "../Advertisement/StashAdCoordinate",
+                        type: "POST",
+                        data: { lng: _lng, lat: _lat }
+                    }).done(function (response) {
+                        console.log(response);
+
+                        window.location.href = "@Url.Action("newCommercialData", "Advertisement")";
+                    }).fail(function (xhr) {
+                        console.log(xhr.status + xhr.responseText);
+                    });//end ajax
+
+
+
+
+
+                }
 
             });
         }
 
 
-    </script>
+</script>
 
     <script>
         //追蹤中地點
@@ -685,7 +713,7 @@
         }
 
         //按我的地點 顯示可新增按鈕
-            function showMyLoc() {
+        function showMyLoc() {
         $("#tab_loc").text("我的地點");
             $("#tab_rou").text("我的路線");
                 TabNow = "我的地點";
@@ -694,10 +722,6 @@
                 $("#map").addClass("context-menu-one btn btn-neutral");
 
         };
-        //click outside close modal windows_verna
-        //$(".modal").click(function () {
-        //    $(".modal").hide();
-        //});
 
         //取得新增/編輯資料 表單id
         var CreateEditmodal = document.getElementById("myModal");
@@ -756,7 +780,6 @@
                     _LocationID = "noLocationID";
                     console.log("新增時的id" + _LocationID + _lat + _lng);
                  }
-
                 else {
                     console.log("no");
                     _marker.remove();
@@ -771,6 +794,7 @@
         var X_Coordinate = [];
         var Y_Coordinate = [];
         var CoordinateCnt = 0;
+
         function positioningClickLocate(e) {
             var x = parseFloat(e.lngLat.lng);
             var y = parseFloat(e.lngLat.lat);
@@ -884,7 +908,7 @@
                 type: "POST",
                 url: "/Home/createAlocation",
                 success: function (response) {
-                   // console.log(response);
+                    // console.log(response);
 
                     if (response == "photoIsnotUploaded") {//如果沒有照片
                         Swal.fire(
@@ -908,7 +932,7 @@
                 },
                 fail: function (failresponse) {
 
-                  //  console.log(failresponse);
+                    //  console.log(failresponse);
                 }
 
             });
@@ -925,7 +949,7 @@
                 success: function (response) {
                     //console.log(response);
 
-                   
+
                     var obj = document.getElementsByName("checkbox");
 
                     if (response == "photoIsnotUploaded") {//如果沒有照片
@@ -1521,7 +1545,7 @@
 
         //重整
         function reload() {
-         //   console.log("reload");
+            //   console.log("reload");
             LocArray = []
 
             $.ajax({
@@ -1820,7 +1844,7 @@
                 }
             });
             //////
-      
+
             /////
         }
 
@@ -1933,7 +1957,7 @@
                 }
             });
             //////////
-       
+
             //////
             document.getElementById("Comment").innerHTML = '';
             $.ajax({
