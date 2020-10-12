@@ -520,8 +520,10 @@ namespace homepage.Controllers
         {
             CLoginViewModel logoutMember = new CLoginViewModel();
             logoutMember.loginMessage = "登出成功";
+            Session.Clear();
+            Session.Abandon();
+
             Session[CDictionary.SK_MemberId] = CDictionary.SK_anonymous;
-            Session[CDictionary.SK_MemberLogin] = logoutMember;
 
             return logoutMember.loginMessage;
         }
@@ -556,7 +558,12 @@ namespace homepage.Controllers
         {
             CRole rol = new CRolesFactory().getRole(role_id);
 
+            Session[CDictionary.SK_ActiveRoleId] = null;
+            Session.Remove(CDictionary.SK_ActiveRoleId);
             Session[CDictionary.SK_ActiveRoleId] = rol.fId_Role;
+
+            Session[CDictionary.SK_ActiveRoleName] = null;
+            Session.Remove(CDictionary.SK_ActiveRoleName);
             Session[CDictionary.SK_ActiveRoleName] = rol.fNickName_Role;
             return Json(rol, JsonRequestBehavior.AllowGet);
         }

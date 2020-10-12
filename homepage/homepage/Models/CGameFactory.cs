@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls.Expressions;
+using homepage.ViewModel;
 
 namespace homepage.Models
 {
@@ -80,11 +81,60 @@ namespace homepage.Models
                 game.fId_GameGroup = item.fId_GameGroup;
                 game.fName_Game = item.fName_Game;
                 game.fType_Game = item.fType_Game;
-                game.fOrder_Game = item.fOrder_Game;
+
+                switch (game.fType_Game) 
+                {
+                    case 1:
+                        game.cGamesteps = getSteps(game.fId_Game);
+                        break;
+                    case 2:
+                        game.cGameQA = getQA(game.fId_Game);
+                        break;                
+                }
+                game.fAR_Game = item.fAR_Game;
+                game.fSource_Game = item.fSource_Game;
+                game.fOrder_Game = item.fOrder_Game;                
+
                 game_list.Add(game);
             }
             return game_list;
         }
+        public CGame get1GameById(int game_id)
+        {
+            var item = (from g in db.tGames
+                        where g.fId_Game == game_id
+                        select g).FirstOrDefault();
+
+            CGame game = new CGame();
+            game.fId_Game = item.fId_Game;
+            game.fId_Coordinate = item.fId_Coordinate;
+
+            var co = from c in db.tCoordinates
+                     where c.fId_Coordinate == item.fId_Coordinate
+                     select c;
+
+            game.fX_Coordinate = co.FirstOrDefault().fX_Coordinate;
+            game.fY_Coordinate = co.FirstOrDefault().fY_Coordinate;
+            game.fId_GameGroup = item.fId_GameGroup;
+            game.fName_Game = item.fName_Game;
+            game.fType_Game = item.fType_Game;
+
+            switch (game.fType_Game)
+            {
+                case 1:
+                    game.cGamesteps = getSteps(game.fId_Game);
+                    break;
+                case 2:
+                    game.cGameQA = getQA(game.fId_Game);
+                    break;
+            }
+            game.fAR_Game = item.fAR_Game;
+            game.fSource_Game = item.fSource_Game;
+            game.fOrder_Game = item.fOrder_Game;
+
+            return game;
+        }
+
         public CGameRecord getGameRecord(int group_id, int role_id)
         {
             var q = from r in db.tGameRecords
@@ -143,30 +193,81 @@ namespace homepage.Models
             return recordforinfo;
         }
 
-        public void updateGameRecord(int role_id, int group_id, int game_record)
+        public bool updateGameRecord(int role_id, int group_id, int finish)
         {
             var q = from r in db.tGameRecords
                     where r.fId_Role == role_id & r.fId_GameGroup == group_id
                     select r;
 
-            var q_game = (from g in db.tGameGroups
-                          where g.fId_GameGroup == group_id
-                          select g.tGames).ToList();
-
+            var q_game = getGamesById(group_id);
+            
+            bool isFinish = false;
             if (q.Any())
             {
-                if(game_record == q_game.Count)
+                if(q_game.Count > finish)
+                {
+                    q.FirstOrDefault().fOrder_Game = finish;
+                }
+                else //完成遊戲
                 {
                     q.FirstOrDefault().fOrder_Game = 0;
-                    q.FirstOrDefault().fFinished_GameRecord = 1;
-                }
-                else
-                {
-                    q.FirstOrDefault().fOrder_Game = game_record;
+                    q.FirstOrDefault().fFinished_GameRecord += 1;
+                    isFinish = true;
                 }    
 
             }
             db.SaveChanges();
+            return isFinish;
         }
+
+        public CGameSteps getSteps(int game_id)
+        {
+            var q = (from g in db.tGameSteps
+                     where g.fId_Game == game_id
+                     select g).FirstOrDefault();
+            CGameSteps steps = new CGameSteps
+            {
+                fId_Game = q.fId_Game,
+                fId_GameStep = q.fId_GameStep,
+                fTitle_GameStep = q.fTitle_GameStep,
+                fContent_GameStep = q.fContent_GameStep,
+                fReward_GameStep = q.fReward_GameStep                
+            };
+            return steps;
+        }
+
+        public CGameQA getQA(int game_id)
+        {
+            var q = (from g in db.tGameQAs
+                     where g.fId_Game == game_id
+                     select g).FirstOrDefault();
+            CGameQA qa = new CGameQA
+            {
+                fId_Game = q.fId_Game,
+                fId_GameQA = q.fId_GameQA,
+                fQuestion_GameQA = q.fQuestion_GameQA,
+                fAnswer_GameQA = q.fAnswer_GameQA,
+                fOption_1_GameQA = q.fOption_1_GameQA,
+                fOption_2_GameQA = q.fOption_2_GameQA,
+                fOption_3_GameQA = q.fOption_3_GameQA,
+                fOption_4_GameQA = q.fOption_4_GameQA,
+                fReward_GameQA = q.fReward_GameQA
+            };
+            return qa;
+        }
+
+        public CGameNavigationViewModel getStatus(int group_id, int role_id)
+        {
+            CGameFactory factory = new CGameFactory();
+            CGameRecord record = factory.getGameRecord(group_id, role_id);
+            CGameNavigationViewModel status = factory.getNavById(group_id);
+
+            status.fPlaying_GameNav = (int)record.fId_GameGroup;
+            status.fStatus_GameNav = (int)record.fOrder_Game;
+            status.fItems_GameNav = new CGameFactory().getGamesById(group_id);
+
+            return status;
+        }
+
     }
 }
