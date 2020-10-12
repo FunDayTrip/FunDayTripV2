@@ -202,6 +202,7 @@
     <Content Include="css\BootSideMenu.css" />
     <Content Include="css\CustomerlizeCSSofLocationAndRoute.css" />
     <Content Include="css\FixedPosition.css" />
+    <Content Include="css\Login.css" />
     <Content Include="css\LeftSideMenu.css" />
     <Content Include="css\test.css" />
     <Content Include="css\theme\darkblue.css" />
@@ -556,6 +557,8 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Views\Payment\LvVIP.cshtml" />
+    <Content Include="Views\Home\_IfNotLogInProfile.cshtml" />
+    <Content Include="Views\Home\_AfterLoginProfilePartialView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

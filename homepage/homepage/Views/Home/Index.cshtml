@@ -75,6 +75,8 @@
     @* ===== 相簿CSS by kevin 10/06 ===== *@
     <link href="~/css/Album.css" rel="stylesheet" />
 
+    @*登入*@
+    <link href="~/css/Login.css" rel="stylesheet" />
     @* ===== 左側內容CSS by kevin 10/11 ===== *@
     <link href="~/css/LeftSideMenu.css" rel="stylesheet" />
 
@@ -136,7 +138,7 @@
     @*地圖 /綁定右鍵清單_verna_0930*@
     @*<div id='map' class="context-menu-one btn btn-neutral"></div>*@
     <div id='map'></div>
-  
+
     @*上列選項清單_verna_0930 *@
     @Html.Partial("_topMenuNavigation")
 
@@ -391,58 +393,21 @@
 
 
                 @*開啟個人資料對話方塊*@
-                <button id="toggle2" type="button" class="showHideButton">User</button>
+                @*<button id="toggle2" type="button" class="showHideButton">User</button>*@
                 @*輸入登入資訊 by 王詠平 0921*@
                 <div class="showHide" id="showHide">
                     <div>
                         @*如果沒有登入*@
                         @if (Session[CDictionary.SK_MemberId].ToString() == CDictionary.SK_anonymous)
                         {
-                            <input type="text" id="account" value="ming123@gmail.com">
-                            <input type="password" id="password" value="ming123">
-                            <button type="submit" id="loginBtn">登入</button>
-                            <br />
-                            @Html.ActionLink("註冊會員", "signUp", "Member")
-                            @*<button type="submit" id="signupBtn">註冊帳號</button>*@
-                            <button type="submit" id="forgetPwdBtn" onclick="window.open('../ForgetPassword.aspx', 'FP', 'width=500,height=50,top=300,left=500,fullscreen=no,resizable=0');">忘記密碼</button>
-                            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" id="googlelogin"></div>
+
+                            @Html.Partial("_IfNotLogInProfile")
+
                         }
                         @*如果已經登入，顯示登入資訊*@
                         @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
                         {
-                            CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
-                            <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="float:left" />
-                            <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
-                            <span>目前身分:</span>
-                            <span id="active_role_name">@memberLogin.fActiveRoleName_Member</span>
-                            <div id="login_email">@memberLogin.fEmail_Member</div>
-                            <button id="logoutBtn" style="float:right">登出</button>
-                            <br />
-                            <input type="text" id="active_role" style="display:none" value="@memberLogin.fActiveRoleId_Member">
-                            <div id="login_name">會員名稱:@memberLogin.fNickName_Member</div>
-                            <a id="login_point" href="javascript:showPoint()">點數: @memberLogin.fPointTotal_Member</a>
-                            <button id="change_role" style="float:left" onclick="showRoles()">切換身分</button>
-                            @Html.ActionLink("編輯個人檔案", "edit", "Member")
-                            @*<button id="edit_profile" style="float:right" >編輯個人檔案</button><br />*@
-                            <button style="background-color:red" onclick="location.href='@Url.Action("LvVIP","Payment")'">升級</button>
-                            <hr />
-
-                            //通知按鈕
-                            <div class="noteBtn">
-                                <input type="image" id="noteBtn" name="noteBtn" onclick="showNotes()" img src="https://i.imgur.com/ShdEgwx.png" width="32" height="32">
-                                @if (memberLogin.fNotesCount_Member > 0)
-                                {
-                                    <span id="noteNum" name="noteNum" class="noteNum">
-                                        @memberLogin.fNotesCount_Member
-                                    </span>
-                                }
-                            </div>
-                            <hr />
-                            <div id="info_panel" class="info_panel">
-                                <ul id="note_list"></ul>
-                                <ul id="role_list"></ul>
-                            </div>
-                            //通知按鈕
+                          @Html.Partial("_AfterLoginProfilePartialView")
                         }
                     </div>
 
@@ -1464,7 +1429,7 @@
         //左側滑動清單設定
         $('#LeftSideMenu').BootSideMenu({
             side: "left",
-            pushBody: true,
+            pushBody: false,
             autoClose: false,
             closeOnClick: false
         });

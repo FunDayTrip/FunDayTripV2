@@ -1,0 +1,52 @@
+﻿
+@using homepage.ViewModel
+@using homepage.Models
+@{
+    CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
+    <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="position:center" />
+    <br />
+    <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
+    <span>目前身分:</span>
+    <span id="active_role_name">@memberLogin.fActiveRoleName_Member</span>
+    <br />
+    <div id="login_email">@memberLogin.fEmail_Member</div>
+    <br />
+    <button id="logoutBtn" style="float:right">登出</button>
+    <br />
+    <input type="text" id="active_role" style="display:none" value="@memberLogin.fActiveRoleId_Member">
+    <span id="login_name">會員名稱:@memberLogin.fNickName_Member</span>
+
+    <br />
+    @Html.ActionLink("編輯個人檔案", "edit", "Member")
+    @*<button id="edit_profile" style="float:right" >編輯個人檔案</button><br />*@
+
+    <hr />
+
+    //通知按鈕
+    <div class="noteBtn">
+        <input type="image" id="noteBtn" name="noteBtn" onclick="showNotes()" img src="https://i.imgur.com/r3oeo6a.png" width="32" height="32">
+        @if (memberLogin.fNotesCount_Member > 0)
+        {
+            <span id="noteNum" name="noteNum" class="noteNum">
+                @memberLogin.fNotesCount_Member
+            </span>
+        }
+    </div>
+
+    //點數
+    <a id="login_point" href="javascript:showPoint()">點數: @memberLogin.fPointTotal_Member</a>
+    @*<input type="image" id="noteBtn" name="noteBtn" onclick="showNotes()" img src="https://i.imgur.com/ShdEgwx.png" width="32" height="32">*@
+    //升級
+    <input type="image" src="https://i.imgur.com/ZAP32e1.png" width="32" height="32" onclick="location.href='@Url.Action("LvVIP", "Payment")'" value="升級">
+    //切換身分
+
+    <input type="image" id="change_role" onclick="showRoles()" src="https://i.imgur.com/VbtKDJF.png" width="32" height="32">
+    @*<span>切換身分</span>*@
+
+    <hr />
+    <div id="info_panel" class="info_panel">
+        <ul id="note_list"></ul>
+        <ul id="role_list"></ul>
+    </div>
+    //通知按鈕
+}

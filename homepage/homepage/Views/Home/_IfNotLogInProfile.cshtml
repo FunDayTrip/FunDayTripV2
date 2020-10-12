@@ -1,0 +1,47 @@
+﻿
+<!-- login_wrapper -->
+<div class="login_wrapper">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-6">
+            @*google 登入*@
+            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" id="googlelogin" style="width:280px"></div>
+        </div>
+        @*<div class="col-lg-6 col-md-6 col-xs-12 col-sm-6">
+                <a href="#" class="btn btn-primary google-plus"> Login with Google <i class="fa fa-google-plus"></i> </a>
+            </div>*@
+    </div>
+    <h2>or</h2>
+    <div class="formsix-pos">
+        <div class="form-group i-email">
+            <input id="account" value="ming123@gmail.com" type="email" class="form-control" required="" placeholder="Email Address *">
+        </div>
+    </div>
+    <div class="formsix-e">
+        <div class="form-group i-password">
+            <input id="password" value="ming123" type="password" class="form-control" required="" placeholder="Password *">
+        </div>
+    </div>
+    @*忘記密碼*@
+    <div class="login_remember_box">
+        <label class="control control--checkbox">Remember me <input type="checkbox"> <span class="control__indicator"></span> </label>
+        <a href="#" class="forget_password" id="forgetPwdBtn" onclick="window.open('../ForgetPassword.aspx', 'FP', 'width=500,height=50,top=300,left=500,fullscreen=no,resizable=0');"> Forgot Password </a>
+    </div>
+    <div class="login_btn_wrapper">
+        <a href="#" class="btn btn-primary login_btn" id="loginBtn"> Login </a>
+    </div>
+    <div class="login_message">
+        <p class="signup">
+            Don’t have an account ?
+            <a href="@Url.Action("signUp", "Member")"> 註冊會員 </a>
+        </p>
+    </div>
+</div> <!-- /.login_wrapper-->
+                           
+@*<input type="text" id="account" value="ming123@gmail.com">
+    <input type="password" id="password" value="ming123">*@
+@*<button type="submit" id="loginBtn">登入</button>*@
+
+@*@Html.ActionLink("註冊會員", "signUp", "Member")*@
+@*<button type="submit" id="signupBtn">註冊帳號</button>*@
+@*<button type="submit" id="forgetPwdBtn" onclick="window.open('../ForgetPassword.aspx', 'FP', 'width=500,height=50,top=300,left=500,fullscreen=no,resizable=0');">忘記密碼</button>
+    <br />*@

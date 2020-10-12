@@ -66,6 +66,10 @@
                     <a href="#" onclick="hideAdBlock();">關於我們</a>
                 </li>
             }
+        <li style="position:absolute;right:10px">
+            @*開啟個人資料對話方塊*@
+            <a href="#"id="toggle2" >user</a>
+        </li>
         </ul>
         <form class="navbar-form navbar-left" action="/action_page.php" method="post" id="search">
             <div class="form-group">
@@ -73,6 +77,7 @@
             </div>
             <button type="button" class="btn btn-default" name="查詢" id="post" onclick="SearchLocation(); SearchRount(); locationshow(); Routeshow(); hideAdBlock();">查詢</button>
         </form>
+        
     </div>
 </nav>
 
