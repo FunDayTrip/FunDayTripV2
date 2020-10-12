@@ -1427,7 +1427,164 @@ namespace homepage.Controllers
             }
             return Json(albumlist, JsonRequestBehavior.AllowGet);
         }
+        public void CommentTextWrite(int role_id,string CString,string Loction_Id)
+        {
+            tComment CM = new tComment();
+            DB_FunDayTripEntities db = new DB_FunDayTripEntities();
+
+            CM.fId_Role = role_id;
+            CM.fComment_Comment = CString;
+            CM.fId_Location_Route = Loction_Id;
+            string type = Loction_Id;
+            string fId_Type=type.Substring(0, 1);
+            CM.fId_Type_Location_Route = fId_Type;
+            CM.fTime_Comment = DateTime.Now;
+            db.tComments.Add(CM);
+            db.SaveChanges();
+        }
+        public JsonResult HistoryLocationComment(string LocationID)
+        {
+            var q = from p in dbFundaytrip.tComments
+                    where p.fId_Location_Route==LocationID
+                    select p;
+            List<CHistoryComment> f = new List<CHistoryComment>();
+            foreach(var x in q.ToList())
+            {
+                CHistoryComment CH = new CHistoryComment();
+
+                CH.fComment_Name = x.tRole.tMember.fNickName_Member;
+                CH.fComment_Comment = x.fComment_Comment;
+                CH.fTime_Comment = Convert.ToString(x.fTime_Comment);
+                f.Add(CH);
+            }
+            return Json(f);
+        }
+        public JsonResult HistoryRouteComment(string RouteID)
+        {
+            var q = from p in dbFundaytrip.tComments
+                    where p.fId_Location_Route == RouteID
+                    select p;
+            List<CHistoryComment> f = new List<CHistoryComment>();
+            foreach (var x in q.ToList())
+            {
+                CHistoryComment CH = new CHistoryComment();
+
+                CH.fComment_Name = x.tRole.tMember.fNickName_Member;
+                CH.fComment_Comment = x.fComment_Comment;
+                CH.fTime_Comment = Convert.ToString(x.fTime_Comment);
+                f.Add(CH);
+            }
+            return Json(f);
+        }
+        public void deletefollower(int role_id,int target_id)
+        {
+            DB_FunDayTripEntities db = new DB_FunDayTripEntities();
+            tBlock TB = new tBlock();
+            TB.fId_Self_Role = role_id;
+            TB.fId_Target_Role = target_id;
+            TB.C0_Follow1_Fans = 0;
+
+
+            db.tBlocks.Add(TB);
+            db.SaveChanges();
+        }
+        public void deletefans(int role_id, int target_id)
+        {
+            DB_FunDayTripEntities db = new DB_FunDayTripEntities();
+            tBlock TB = new tBlock();
+            TB.fId_Self_Role = target_id;
+            TB.fId_Target_Role = role_id;
+            TB.C0_Follow1_Fans = 1;
+
+
+            db.tBlocks.Add(TB);
+            db.SaveChanges();
+        }
+        public JsonResult CreatChatroom2(int role_id,int to_role_id)
+        {
+            var q = from p in dbFundaytrip.tRoles
+                    where p.fId_Role == role_id
+                    select p;
+            List<Cchatroom2> L = new List<Cchatroom2>();
+            foreach(var x in q)
+            {
+                Cchatroom2 CC = new Cchatroom2();
+                CC.name = x.fNickName_Role;
+                CC.value = x.fId_Role;
+                L.Add(CC);
+            }
+            var q1 = from p in dbFundaytrip.tMessages
+                     where p.fId_From_Role == role_id && p.fId_To_Role == to_role_id
+                     select p;
+            foreach(var x in q1.ToList())
+            {
+                Cchatroom2 CH1 =new Cchatroom2();
+                CH1.fMessage_From = x.fMessage_Message;
+                CH1.fId = x.fId_Message;
+                L.Add(CH1);
+            }
+            var q2 = from p in dbFundaytrip.tMessages
+                     where p.fId_To_Role == role_id && p.fId_From_Role == to_role_id
+                     select p;
+            foreach (var y in q2.ToList())
+            {
+                Cchatroom2 CH2 = new Cchatroom2();
+                CH2.fMessage_To = y.fMessage_Message;
+                CH2.fId = y.fId_Message;
+                L.Add(CH2);
+            }
+
+            var res = L.OrderBy(x => x.fId);
+
+            return Json(res);
+        }
+        public string followOrNot(string LocationID,int myID)
+        {
+
+            var q = (from p in dbFundaytrip.tLocations
+                    where p.fId_Location == LocationID
+                    select p).FirstOrDefault();
+
+
+            var g = (from z in dbFundaytrip.tFollows
+                    where myID == q.fId_Role 
+                    select z).FirstOrDefault();
+            //自己
+            var q1 = (from p1 in dbFundaytrip.tFollows
+                      where p1.fId_Target_Role == q.fId_Role && p1.fId_Self_Role != q.fId_Role
+                      select p1).FirstOrDefault();
+
+         
+            if (g != null)
+                return "自己";
+            if (q1 != null)
+                return "追隨中";
+            else
+                return "追隨";
         
+        }
+        public string addfollower(string statestring,int myID,string Loction_Id)
+        {
+            if (statestring == "追隨")
+            {
+                var q = (from p in dbFundaytrip.tLocations
+                         where p.fId_Location == Loction_Id
+                         select p).FirstOrDefault();
+                tFollow tf = new tFollow();
+                tf.fId_Self_Role = myID;
+                tf.fId_Target_Role = q.fId_Role;
+                DB_FunDayTripEntities db = new DB_FunDayTripEntities();
+                db.tFollows.Add(tf);
+                db.SaveChanges();
+
+                return "追隨中";
+            }
+            else
+                return statestring;
+                
+
+        }
+
     }
 
 }

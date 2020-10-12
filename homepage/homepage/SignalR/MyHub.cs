@@ -8,9 +8,9 @@ namespace homepage.SignalR
 {
     public class MyHub : Hub
     {
-        public void Hello(string name,string content)
+        public void Hello(string name,string content,string fromname)
         {
-            Clients.All.hello(name,content);
+            Clients.All.hello(name,content,fromname);
         }
 
     }

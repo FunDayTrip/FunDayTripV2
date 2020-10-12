@@ -3,48 +3,10 @@
 <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
 <script src="~/signalr/hubs"></script>
 <div></div>
+
 <script>
+    function chatroom(obj) {
 
-    function creatchatroom(obj) {
-        var id = {
-            from_role_id: $("#active_role").val(),
-            to_role_id: obj.value
-        };
-        $.ajax({
-            url: "/Home/showHistoryMessage",
-            type: "POST",
-            dataType: "json",
-            data: id,
-            success: function (response) {
-                console.log(response);
-                for (let i = 0; i < response.length; i++) {
-
-                    if (response[i].fMessage_To == null) {
-                        let hsmessagetext = '<div class="messageHer">';
-                        hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-                        hsmessagetext += '<span>' + response[i].fMessage_From + '</span >';
-                        hsmessagetext += '<div class="clearFix" ></div >';
-                        hsmessagetext += '</div>';
-
-                        $('#MSG').append(hsmessagetext);
-                    }
-
-                    else if (response[i].fMessage_From == null) {
-                        let hsmessagetext = '<div class="messageMe">';
-                        hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-                        hsmessagetext += '<span>' + response[i].fMessage_To + '</span >';
-                        hsmessagetext += '<div class="clearFix" ></div >';
-                        hsmessagetext += '</div>';
-
-                        $('#MSG').append(hsmessagetext);
-                    }
-                }
-            }
-        }).then(() => {
-            document.getElementById('chatbody').scrollTop = document.getElementById('chatbody').scrollHeight;
-        });
-
-        document.getElementById("CHAT").innerHTML = '';
         let CHT = '<div class="container">';
         CHT += '<div class="row">';
         CHT += '<div class="panel panel-chat">';
@@ -71,8 +33,23 @@
         CHT += '</div>';
         CHT += '</div>';
 
-        $('#CHAT').append(CHT);
+        return CHT;
+    }
 
+    function messagetextold(content) {
+        let messagetextold = '<div class="messageMe">';
+        messagetextold += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+        messagetextold += '<span>' + content + '</span >';
+        messagetextold += '<div class="clearFix" ></div >';
+        messagetextold += '</div>';
+
+        $('#MSG').append(messagetextold); 
+    }
+    function chatroomscrolldown(){
+
+        document.getElementById('chatbody').scrollTop = document.getElementById('chatbody').scrollHeight;
+    }
+    function chatroomresizs() {
         $(".panel.panel-chat > .panel-heading > .chatMinimize").click(function () {
             if ($(this).parent().parent().hasClass('mini')) {
                 $(this).parent().parent().removeClass('mini').addClass('normal');
@@ -97,6 +74,53 @@
         $(".panel.panel-chat > .panel-heading > .chatClose").click(function () {
             $(this).parent().parent().remove();
         });
+    }
+    function creatchatroom(obj) {
+        var id = {
+            from_role_id: $("#active_role").val(),
+            to_role_id: obj.value
+        };
+
+        console.log("我是" + id.from_role_id);
+        console.log("你是" + id.to_role_id);
+        $.ajax({
+            url: "/Home/showHistoryMessage",
+            type: "POST",
+            dataType: "json",
+            data: id,
+            success: function (response) {
+                for (let i = 0; i < response.length; i++) {
+                    if (response[i].fMessage_To == null) {
+                        let hsmessagetext = '<div class="messageHer">';
+                        hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                        hsmessagetext += '<span>' + response[i].fMessage_From + '</span >';
+                        hsmessagetext += '<div class="clearFix" ></div >';
+                        hsmessagetext += '</div>';
+
+                        $('#MSG').append(hsmessagetext);
+                    }
+
+                    else if (response[i].fMessage_From == null) {
+
+                        let hsmessagetext = '<div class="messageMe">';
+                        hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                        hsmessagetext += '<span>' + response[i].fMessage_To + '</span >';
+                        hsmessagetext += '<div class="clearFix" ></div >';
+                        hsmessagetext += '</div>';
+
+                        $('#MSG').append(hsmessagetext);
+                    }
+                }
+            }
+        }).then(() => {
+            chatroomscrolldown();
+        });       
+
+        document.getElementById("CHAT").innerHTML = '';
+        let aaa = chatroom(obj);
+        $('#CHAT').append(aaa);
+        chatroomresizs();       
+       
     }
 
     //-------------------2020/09/24 textarea打字往上append by曾開誠--------------
@@ -130,28 +154,72 @@
         $('#MSG').append(messagetext);
         StringTextBox.value = "";
 
-        document.getElementById('chatbody').scrollTop = document.getElementById('chatbody').scrollHeight;
+        chatroomscrolldown();
 
-        hub.server.hello(document.getElementById("ss").innerHTML, NewStringValue);//fun啟動後再繫結name,content
+        hub.server.hello(document.getElementById("ss").innerHTML, NewStringValue, ($("#active_role").val()));//fun啟動後再繫結name,content
     };
     //----------------20200925 SignalR 送給Client端資料 by曾開誠-----------------
     var hub = $.connection.myHub;
 
     $.connection.hub.start().done();
 
-    hub.client.hello = function (name, content) {
+    hub.client.hello = function (name, content, fromname) {
         if ($("#active_role").val() === name) {
+            console.log(fromname);
+            $.ajax({
+                url: "/Home/CreatChatroom2",
+                type: "POST",
+                async: true,
+                dataType: "json",
+                data: {
+                    role_id: fromname,
+                    to_role_id:name
+                },
+                success: function (response) {                    
+                    let bbb = chatroom(response[0]);
+                    if ($('#CHAT').text().length == 0) {
+                      
 
-            console.log(name);
-            console.log(content);
-            var messagetextold = '<div class="messageMe">';
-            messagetextold += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
-            messagetextold += '<span>' + content + '</span >';
-            messagetextold += '<div class="clearFix" ></div >';
-            messagetextold += '</div>';
-            $('#MSG').append(messagetextold);
+                        $('#CHAT').append(bbb);//想不到變數名稱
 
-           document.getElementById('chatbody').scrollTop = document.getElementById('chatbody').scrollHeight;
+
+                        ////////////////
+                        for (let i = 0; i < response.length; i++) {
+                            console.log(response[i]);
+                            if (response[i].fMessage_To == null && response[i].name == null && response[i].value===0) {
+
+                                console.log(response[i].fMessage_From);
+
+                                let hsmessagetext = '<div class="messageMe">'; 
+                                hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                                hsmessagetext += '<span>' + response[i].fMessage_From + '</span >';
+                                hsmessagetext += '<div class="clearFix" ></div >';
+                                hsmessagetext += '</div>';
+
+                                $('#MSG').append(hsmessagetext);
+                            }
+                            else if (response[i].fMessage_From == null && response[i].name == null && response[i].value === 0) {
+
+                                console.log(response[i].fMessage_To);
+                                let hsmessagetext = '<div class="messageHer">'; 
+                                hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                                hsmessagetext += '<span>' + response[i].fMessage_To + '</span >';
+                                hsmessagetext += '<div class="clearFix" ></div >';
+                                hsmessagetext += '</div>';
+
+                                $('#MSG').append(hsmessagetext);
+                            }
+                        }
+                        //////////////////////////
+                        messagetextold(content);
+                        chatroomscrolldown();                        
+                    }
+                    chatroomresizs()
+                    chatroomscrolldown();
+                }
+            });
+            messagetextold(content);
+            chatroomscrolldown();
         }
     };
 </script>
