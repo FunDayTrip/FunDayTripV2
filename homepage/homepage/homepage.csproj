@@ -203,6 +203,7 @@
     <Content Include="css\CustomerlizeCSSofLocationAndRoute.css" />
     <Content Include="css\FixedPosition.css" />
     <Content Include="css\Login.css" />
+    <Content Include="css\LeftSideMenu.css" />
     <Content Include="css\test.css" />
     <Content Include="css\theme\darkblue.css" />
     <Content Include="css\theme\dracula.css" />

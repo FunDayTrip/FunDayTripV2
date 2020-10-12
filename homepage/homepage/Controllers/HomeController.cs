@@ -46,7 +46,7 @@ namespace homepage.Controllers
                 }
                 allcroutes = croutes;
             }
-            return Json(allcroutes);
+            return Json(allcroutes, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -75,7 +75,7 @@ namespace homepage.Controllers
                 }
                 allclocations = clocations;
             }
-            return Json(allclocations);
+            return Json(allclocations, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -198,6 +198,7 @@ namespace homepage.Controllers
             if (string.IsNullOrEmpty(data))
             {
                 List<tRoute> route = (from l in dbFundaytrip.tRoutes.AsEnumerable()
+                                      where l.fDelete_Route==0
                                       select l).ToList();
 
                 List<CRoute> croutes = new List<CRoute>();
@@ -421,6 +422,11 @@ namespace homepage.Controllers
             {
                 loginMember.loginMessage = "無此帳號";
             }
+            //10/11 郭松名新增停用帳號判斷
+            else if (q.FirstOrDefault().fId_FunctionAuth == 3)
+            {
+                loginMember.loginMessage = "此帳號已停用!";
+            }
             else if (q.FirstOrDefault().fPassword_Member == pwd)
             {
                 loginMember.loginMessage = "歡迎回來! " + q.FirstOrDefault().fNickName_Member;
@@ -446,7 +452,7 @@ namespace homepage.Controllers
                 //讀取點數
                 var member_point = new CPointFactory().getPoint(loginMember.fActiveRoleId_Member);
                 loginMember.fPointTotal_Member = Convert.ToInt32(member_point.Sum(s => s.fPoint_Point));
-                
+
                 //放入Session
                 Session[CDictionary.SK_MemberId] = loginMember.fId_Member;
                 Session[CDictionary.SK_MemberLogin] = loginMember;
@@ -459,7 +465,7 @@ namespace homepage.Controllers
             else if (q.FirstOrDefault().fPassword_Member != pwd)
             {
                 loginMember.loginMessage = "密碼錯誤";
-            }
+            }       
             else
             {
                 loginMember.loginMessage = "登入失敗";
@@ -894,7 +900,7 @@ namespace homepage.Controllers
                 {
                     createCoordinate.fX_Coordinate = Coordinate.fX_Coordinate[i];
                     createCoordinate.fY_Coordinate = Coordinate.fY_Coordinate[i];
-                    //createCoordinate.fName_Coordinate = Coordinate.fName_Coordinate[i];
+                    createCoordinate.fName_Coordinate = Coordinate.fName_Location[i];
                     dbFundaytrip.tCoordinates.Add(createCoordinate);
                     dbFundaytrip.SaveChanges();
                 }
@@ -1159,7 +1165,10 @@ namespace homepage.Controllers
                 bool AddAlbumEn = true;
                 tAlbum albums = (from a in dbFundaytrip.tAlbums
                                  where a.fId_Album == item.fId_Album
+                                    && a.fDelete_Album==0
                                  select a).FirstOrDefault();
+                if (albums == null)
+                    continue;
                 CAlbum cAlbum = new CAlbum(albums);
 
                 for (int i = 0; i < albumlist.Count; i++)
@@ -1342,6 +1351,83 @@ namespace homepage.Controllers
 
             return "編輯成功";
         }
+
+        // ===== 顯示好友相簿 by kevin 10/09 =====//
+        public JsonResult showMyFriendsAlbums(int roleID)
+        {
+            //找好友地點
+            List<tFollow> flist = new List<tFollow>();
+            var friend = from f in dbFundaytrip.tFollows
+                         where f.fId_Self_Role == roleID
+                         select f;
+            flist = friend.ToList();
+            List<CLocation> clocations = new List<CLocation>();
+            List<CLocation> allclocations = new List<CLocation>();
+            foreach (var f in flist)
+            {
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                                            where l.fDelete_Location == 0
+                                            join s2 in dbFundaytrip.tPhotoes on l.fId_Location equals s2.fId_Location
+                                            select l).ToList();
+
+
+                foreach (var item in location)
+                {
+                    CLocation clocation = new CLocation(item);
+                    clocations.Add(clocation);
+                }
+                allclocations = clocations;
+            }
+
+            //顯示好友的相簿
+            List<tLA_Relation> lalist = new List<tLA_Relation>();
+
+            foreach (var item in allclocations)
+            {
+                List<tLA_Relation> TemplasList = (from la in dbFundaytrip.tLA_Relation
+                                                  where la.fId_Location == item.fId_Location
+                                                  select la).ToList();
+
+                if (TemplasList.Count != 0)
+                    lalist.AddRange(TemplasList);
+
+            }
+
+            List<CAlbum> albumlist = new List<CAlbum>();
+            foreach (var item in lalist)
+            {
+                bool AddAlbumEn = true;
+                tAlbum albums = (from a in dbFundaytrip.tAlbums
+                                 where a.fId_Album == item.fId_Album
+                                    && a.fDelete_Album==0
+                                 select a).FirstOrDefault();
+                CAlbum cAlbum = new CAlbum(albums);
+
+                for (int i = 0; i < albumlist.Count; i++)
+                {
+                    if (albumlist[i].fId_Album == cAlbum.fId_Album)
+                    {
+                        AddAlbumEn = false;
+                        break;
+                    }
+                }
+                if (albumlist.Count == 0 || AddAlbumEn)
+                {
+                    cAlbum.fPath_Photo = (from l in dbFundaytrip.tLocations.AsEnumerable()
+                                          where l.fId_Location == item.fId_Location
+                                          join p in dbFundaytrip.tPhotoes
+                                          on l.fId_Location equals p.fId_Location
+                                          select p.fPath_Photo).FirstOrDefault().ToString();
+                    cAlbum.fId_Role = item.tLocation.fId_Role;
+                    cAlbum.fNickName_Role = (from r in dbFundaytrip.tRoles.AsEnumerable()
+                                             where r.fId_Role == item.tLocation.fId_Role
+                                             select r.fNickName_Role).FirstOrDefault();
+                    albumlist.Add(cAlbum);
+                }
+            }
+            return Json(albumlist, JsonRequestBehavior.AllowGet);
+        }
+        
     }
 
 }

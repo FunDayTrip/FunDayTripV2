@@ -21,6 +21,13 @@
     .trData td {
         text-align: center;
     }
+
+    #tableDiv {
+        margin-left: 60px;
+        width: 1400px;
+        border-radius: 15px;
+    }
+
 </style>
 <html>
 <head>
@@ -31,10 +38,10 @@
     <title>showApplyAD</title>
 </head>
 <body>
-    <div style="text-align:right;margin-top:10px;margin-right:10px;">
+    <div style="text-align:right;margin-top:10px;margin-right:77px;">
         @Html.ActionLink("回首頁", "Index", "Home", null, new { @class = "btn btn-info" })
     </div>
-    <div class="table-responsive" style="margin-bottom:30px">
+    <div id="tableDiv" class="table-responsive" style="margin-bottom:30px">
         <table id="myTable" class="tablesorter">
             <thead>
                 <tr>
@@ -71,29 +78,29 @@
             @foreach (var item in Model)
             {
                 <tr class="trData">
-                    <td style="width:80px;vertical-align: middle;">
+                    <td style="width:50px;vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fId_Ad)
                     </td>
-                    <td style="width:80px;vertical-align: middle;">
+                    <td style="width:50px;vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fId_Role)
                     </td>
-                    <td style="width:80px;vertical-align: middle;">
+                    <td style="width:50px;vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fId_Admin_Role)
                     </td>
-                    <td style="width:80px;vertical-align: middle;">
+                    <td style="width:50px;vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fId_Location)
                     </td>
-                    <td style="width: 80px; vertical-align: middle;">
+                    <td style="width: 220px; vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fContent_Ad)
                     </td>
                     <td style="width:170px;">
                         <img src="@item.fPhoto_Ad" style="width:180px;height:110px;" />
                         @*@Html.DisplayFor(modelItem => item.fPhoto_Ad)*@
                     </td>
-                    <td style="width:80px;vertical-align: middle;">
+                    <td style="width:50px;vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fSolution_Ad)
                     </td>
-                    <td style="width: 80px; vertical-align: middle;">
+                    <td style="width:50px; vertical-align: middle;">
                         @Html.DisplayFor(modelItem => item.fStatus_Ad)
                     </td>
                     <td style="width:100px;vertical-align: middle;">

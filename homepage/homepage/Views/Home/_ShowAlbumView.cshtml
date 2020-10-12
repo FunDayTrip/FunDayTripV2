@@ -2,14 +2,27 @@
 <div class="albums" id="albums">
     <div>
         <span class="albumsName">我的相簿</span>
-        <span class="albumSort">排序</span>
     </div>
-    <span class="albumsclose close" onclick="setDivDisplay('albums', 'none')">X</span>
+    <span class="albumsclose close" onclick="setDivDisplay('albums', 'none')">&times;</span>
     <div class="albumList" id="albumList"></div>
     <div class="albumDetail" id="albumDetail">
         <div>
             <button type="button" class="btn btn-info" onclick="backToAlbumList()">返回相簿列表</button>
         </div>
         <div class="Info_alist" id="Info_alist"></div>
+    </div>
+</div>
+
+<div class="albums" id="albumsfr">
+    <div>
+        <span class="albumsName">追蹤中的相簿</span>
+    </div>
+    <span class="albumsclose close" onclick="setDivDisplay('albumsfr', 'none')">&times;</span>
+    <div class="albumList" id="albumListfr"></div>
+    <div class="albumDetail" id="albumDetailfr">
+        <div>
+            <button type="button" class="btn btn-info" onclick="backTofrAlbumList()">返回相簿列表</button>
+        </div>
+        <div class="Info_alist" id="Info_alistfr"></div>
     </div>
 </div>

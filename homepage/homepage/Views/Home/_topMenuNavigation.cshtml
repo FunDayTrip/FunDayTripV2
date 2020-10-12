@@ -5,8 +5,8 @@
             <a class="navbar-brand" href="#">FunDayTrip</a>
         </div>
         <ul class="nav navbar-nav">
-            <li >
-                <a href="#">探索</a>
+            <li class="active">
+                <a href="#" onclick="showAdBlock()">探索</a>
             </li>
             @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
             {
@@ -14,8 +14,8 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">地點 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
-                        <li><a href="javascript:showMyLoc()" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow();">我的</a></li>
-                        <li><a href="#" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myflocation();">追蹤中</a></li>
+                        <li><a href="javascript:showMyLoc()" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow(); hideAdBlock();">我的</a></li>
+                        <li><a href="#" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myflocation(); hideAdBlock();">追蹤中</a></li>
                     </ul>
                 </li>
 
@@ -23,34 +23,34 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">路線 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
-                        <li><a href="javascript:showMyRou(@Session[CDictionary.SK_ActiveRoleId])" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow();">我的</a></li>
-                        <li><a href="#">追蹤中</a></li>
+                        <li><a href="javascript:showMyRou(@Session[CDictionary.SK_ActiveRoleId])" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow(); hideAdBlock();">我的</a></li>
+                        <li><a href="#" onclick="hideAdBlock();">追蹤中</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">相簿 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
-                        <li><a href="javascript:showMyAlbums(@Session[CDictionary.SK_ActiveRoleId])">我的</a></li>
-                        <li><a href="#">追蹤中</a></li>
+                        <li><a onclick="hideAdBlock();" href="javascript:showMyAlbums(@Session[CDictionary.SK_ActiveRoleId])">我的</a></li>
+                        <li><a onclick="hideAdBlock();" href="#">追蹤中</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="@Url.Action("Navigation", "Game")" target="_blank">遊戲</a>
                 </li>
                 <li>
-                    <a href="javascript:followcon()">追蹤/粉絲</a>
+                    <a href="javascript:followcon()" onclick="hideAdBlock();">追蹤/粉絲</a>
                     @*<a href="javascript:fansModal()">追蹤/粉絲</a>*@
                 </li>
 
                 <li>
-                    <a id="newAD" style="display:none;" @*href="javascript:showMyLoc()"*@ onclick="makeIdentity()">新增廣告</a>
+                    <a id="newAD" style="display:none;" @*href="javascript:showMyLoc()"*@ onclick="makeIdentity(); hideAdBlock()">新增廣告</a>
                 </li>
                 <li>
                     <a href="@Url.Action("ShowHeatMap", "Statistic")">統計與分析</a>
                 </li>
                 <li>
-                    <a href="#">聯絡管理員</a>
+                    <a href="#" onclick="hideAdBlock();">聯絡管理員</a>
                 </li>
                 <li class="dropdown">
                     <a id="backstage" style="display:none;" class="dropdown-toggle" data-toggle="dropdown" href="#">管理員後台<span class="caret"></span></a>
@@ -63,7 +63,7 @@
                 </li>
 
                 <li>
-                    <a href="#">關於我們</a>
+                    <a href="#" onclick="hideAdBlock();">關於我們</a>
                 </li>
             }
         <li style="position:absolute;right:10px">
@@ -75,16 +75,24 @@
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Search" name="txtkeyword" id="key">
             </div>
-            <button type="button" class="btn btn-default" name="查詢" id="post" onclick="SearchLocation(); SearchRount(); locationshow(); Routeshow();">查詢</button>
+            <button type="button" class="btn btn-default" name="查詢" id="post" onclick="SearchLocation(); SearchRount(); locationshow(); Routeshow(); hideAdBlock();">查詢</button>
         </form>
         
     </div>
 </nav>
 
 <script>
+    function showAdBlock() {
+        $("#foot-content").css('display','block')
+    };
+
+    function hideAdBlock() {
+        $("#foot-content").css('display', 'none')
+    };
+
     function myflocation() {
         var objData = {
-            data: 3,
+            data: @Session[CDictionary.SK_ActiveRoleId],
         }
         $.ajax({
             url: "/Home/myfriendLocationsshow",
@@ -132,7 +140,7 @@
     };
     function myfriendRoutesshow() {
         var objData = {
-            data: 3,
+            data: @Session[CDictionary.SK_ActiveRoleId],
         }
         $.ajax({
             url: "/Home/myfriendRoutesshow",
@@ -160,7 +168,7 @@
                 //console.log(RouArray);
 
             }//end for
-            console.log(RouArray);
+            //console.log(RouArray);
             if (map.getLayer("places")) {
                 map.removeLayer("places");
             }
@@ -184,7 +192,7 @@
 
     function myfriendRount() {
         var objData = {
-            data: 3,
+            data: @Session[CDictionary.SK_ActiveRoleId],
         }
         $.ajax({
             type: "POST",
@@ -194,7 +202,7 @@
                 var rount2 = [];
                 for (var i in data) {
                     var rounts = document.getElementById('rountshow');
-                    rount2 += '<div><input type="button" onclick="zoomToRoute';
+                    rount2 += '<div class="tab_div" ><input type="button" class="action-button shadow animate blue tab_roushow" onclick="zoomToRoute';
                     rount2 += "('" + data[i].fId_Route + "')" + '"';
                     rount2 += 'value =';
                     rount2 += '"' + data[i].fName_Route + '"';
@@ -210,7 +218,7 @@
 
     function myfriendLocation() {
         var objData = {
-            data: 3,
+            data: @Session[CDictionary.SK_ActiveRoleId],
         }
         $.ajax({
             type: "POST",
@@ -220,7 +228,7 @@
                 var loc2 = [];
                 for (var i in data) {
                     var locations = document.getElementById('locationshow');
-                    loc2 += '<div><input type="button" onclick="zoomToLocation';
+                    loc2 += '<div class="tab_div" ><input type="button" class="action-button shadow animate green tab_locshow" onclick="zoomToLocation';
                     loc2 += "('" + data[i].fId_Location + "')" + '"';
                     loc2 += 'value =';
                     loc2 += '"' + data[i].fName_Location + '"';
@@ -237,7 +245,7 @@
 
     function mylocationshow() {
         var objData = {
-            data: 3,
+            data: @Session[CDictionary.SK_ActiveRoleId],
         }
         $.ajax({
             url: "/Home/myLocationsshow",
@@ -285,7 +293,7 @@
     }
     function myRouteshow() {
         var objData = {
-            data: 3,
+            data: @Session[CDictionary.SK_ActiveRoleId],
         }
         $.ajax({
             url: "/Home/myRoutesshow",
@@ -313,7 +321,7 @@
                 //console.log(RouArray);
 
             }//end for
-            console.log(RouArray);
+            //console.log(RouArray);
             if (map.getLayer("places")) {
                 map.removeLayer("places");
             }
@@ -337,7 +345,7 @@
 
     function myRount() {
         var objData = {
-            data: 3,
+            data: @Session[CDictionary.SK_ActiveRoleId],
         }
         //JSON.stringify(objData)
         $.ajax({
@@ -348,11 +356,11 @@
                 var rount2 = [];
                 for (var i in data) {
                     var rounts = document.getElementById('rountshow');
-                    rount2 += '<div><input type="button" onclick="zoomToRoute';
+                    rount2 += '<div class="tab_div" ><input type="button" class="action-button shadow animate blue tab_roushow" onclick="zoomToRoute';
                     rount2 += "('" + data[i].fId_Route + "')" + '"';
                     rount2 += 'value =';
                     rount2 += '"' + data[i].fName_Route + '"';
-                    rount2 += ' /></div >'; 
+                    rount2 += ' /></div >';
 
                 }
                 rounts.innerHTML = rount2;
@@ -365,7 +373,7 @@
 
     function myLaction() {
         var objData = {
-            data: 3,
+            data: @Session[CDictionary.SK_ActiveRoleId],
         }
         $.ajax({
             type: "POST",
@@ -375,7 +383,7 @@
                 var loc2 = [];
                 for (var i in data) {
                     var locations = document.getElementById('locationshow');
-                    loc2 += '<div><input type="button" onclick="zoomToLocation';
+                    loc2 += '<div class="tab_div" ><input type="button" class="action-button shadow animate green tab_locshow" onclick="zoomToLocation';
                     loc2 += "('" + data[i].fId_Location + "')" + '"';
                     loc2 += 'value =';
                     loc2 += '"' + data[i].fName_Location + '"';
@@ -391,6 +399,9 @@
     }
 
     function SearchLocation() {
+        $("#tab_loc").text("查詢地點");
+        $("#tab_rou").text("查詢路線");
+
         var objData = {
             data: $("#key").val(),
         }
@@ -403,8 +414,8 @@
                 var loc2 = [];
                 var locations = document.getElementById('locationshow');
                 for (var i in data) {
-                    
-                    loc2 += '<div><input type="button" onclick="zoomToLocation';
+
+                    loc2 += '<div class="tab_div" ><input type="button" class="action-button shadow animate green tab_locshow" onclick="zoomToLocation';
                     loc2 += "('" + data[i].fId_Location + "')" + '"';
                     loc2 += 'value =';
                     loc2 += '"' + data[i].fName_Location + '"';
@@ -431,8 +442,8 @@
                 var rount2 = [];
                 var rounts = document.getElementById('rountshow');
                 for (var i in data) {
-                    
-                    rount2 += '<div><input type="button" onclick="zoomToRoute';
+
+                    rount2 += '<div class="tab_div" ><input type="button" class="action-button shadow animate blue tab_roushow" onclick="zoomToRoute';
                     rount2 += "('" + data[i].fId_Route + "')" + '"';
                     rount2 += 'value =';
                     rount2 += '"' + data[i].fName_Route + '"';
@@ -525,7 +536,7 @@
             RouArray = [];
 
             for (var i = 0; i < response.length; i++) {
-                console.log("xyz" + response[i].fId_Route);
+                //console.log("xyz" + response[i].fId_Route);
                 Id_Route = response[i].fId_Route;
                 //console.log(Id_Route);
                 Path_Route = GetRoutePathArray(response[i].fPath_Route);
@@ -544,7 +555,7 @@
                 //console.log(RouArray);
 
             }//end for
-            console.log(RouArray);
+            //console.log(RouArray);
             if (map.getLayer("places")) {
                 map.removeLayer("places");
             }
