@@ -448,43 +448,7 @@
             $("#amount").val($("#slider-range").slider("values", 0) +
                 " - " + $("#slider-range").slider("values", 1));
         });
-        //單純年齡分布
-        //function showAgeHeat() {
-        //    $("#loading").show();
-        //    _LocArray = [];
-        //    $.ajax({
-        //        url: "/Statistic/getAgeHeat",
-        //        type: "POST",
-        //        data: { upper: _upper, lower: _lower },
-        //    }).done(function (response) {
-        //        console.log(response);
-        //        $("#loading").hide();
-        //        for (var i = 0; i < response.length; i++) {
-        //            Coords_Location = [response[i].fX_Coordinate, response[i].fY_Coordinate];
-        //            Id_Location = response[i].fId_Location;
-
-        //            locJson =
-        //            {
-        //                'type': 'Feature',
-        //                'properties': {
-        //                    'dbh': 65,
-
-        //                },
-        //                'geometry': {
-        //                    'type': 'Point',
-        //                    'coordinates': Coords_Location
-        //                }
-        //            }
-        //            _LocArray.push(locJson);
-        //        };
-        //        remove();
-
-        //    }).fail(function (xhr) {
-        //        console.log(xhr.status + xhr.responseText);
-        //    });//end ajax
-
-        //};
-
+       
     </script>
     <script>
 
@@ -493,37 +457,7 @@
             _selectedGenderValue = $('input[name=inlineRadioOptions]:checked', '#myForm').val();
             _LocArray = [];
             filter();
-            //$("#loading").show();
-            // $.ajax({
-            //    url: "/Statistic/getgenderHeat",
-            //    type: "POST",
-            //     data: { gender: _selectedGenderValue, upper: _upper, lower: _lower},
-            //}).done(function (response) {
-            //    console.log(response);
-            //    $("#loading").hide();
-            //    for (var i = 0; i < response.length; i++) {
-            //        Coords_Location = [response[i].fX_Coordinate, response[i].fY_Coordinate];
-            //        Id_Location = response[i].fId_Location;
-
-            //        locJson =
-            //        {
-            //            'type': 'Feature',
-            //            'properties': {
-            //                'dbh': 65,
-
-            //            },
-            //            'geometry': {
-            //                'type': 'Point',
-            //                'coordinates': Coords_Location
-            //            }
-            //        }
-            //        _LocArray.push(locJson);
-            //    };
-            //    remove();
-
-            //}).fail(function (xhr) {
-            //    console.log(xhr.status + xhr.responseText);
-            //});//end ajax
+       
 
         });
 

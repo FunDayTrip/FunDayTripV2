@@ -128,11 +128,15 @@
 
 </head>
 <body>
+    <script>
+        //現在頁籤位置
+        var TabNow = "探索";
+    </script>
 
     @*地圖 /綁定右鍵清單_verna_0930*@
-    <div id='map' class="context-menu-one btn btn-neutral"></div>
-
-
+    @*<div id='map' class="context-menu-one btn btn-neutral"></div>*@
+    <div id='map'></div>
+  
     @*上列選項清單_verna_0930 *@
     @Html.Partial("_topMenuNavigation")
 
@@ -145,18 +149,21 @@
 
     </div>
 
-    <div id="infoi2">
+    <div id="infoi2" style="display:none">
         @*路線地點詳細資訊*@
         @Html.Partial("_DetailInfoView")
 
     </div>
 
     @*滑鼠右鍵清單*@
+
     @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
     {
         @Html.Partial("_ContextMenuPartialView")
 
-    }
+    };
+
+
     @*顯示相簿*@
     @Html.Partial("_ShowAlbumView")
 
@@ -248,8 +255,9 @@
         </div>
     </div>
 
+
     <script>
-        var LogIn
+        var LogIn;
         //文件載入鎖定部分按鈕事件/顯示_verna_0930
         $(document).ready(function () {
             //個人資料方塊
@@ -471,8 +479,7 @@
                 }
             });
         </script>*@
-
-    @*<div id="foot-content" class="footer">
+    <div id="foot-content" class="footer">
         <div id="current_position" value="">推薦地點(廣告)</div>
         <div id="inner_content" value="">
 
@@ -592,22 +599,27 @@
     </script>
 
     <script>
-        //我的地點 顯示可新增按鈕
-        function showMyLoc() {
-            $("#addNewLocationButton").show();
-            $("#tab_loc").text("我的地點");
-            $("#tab_rou").text("我的路線");
-        }
         //追蹤中地點
         function showFrLoc() {
             $("#tab_loc").text("追蹤地點");
             $("#tab_rou").text("追蹤路線");
         }
 
+        //按我的地點 顯示可新增按鈕
+            function showMyLoc() {
+        $("#tab_loc").text("我的地點");
+            $("#tab_rou").text("我的路線");
+                TabNow = "我的地點";
+                $("#addNewLocationButton").show();
+                console.log(TabNow + "1");
+                $("#map").addClass("context-menu-one btn btn-neutral");
+
+        };
         //click outside close modal windows_verna
         //$(".modal").click(function () {
         //    $(".modal").hide();
         //});
+
         //取得新增/編輯資料 表單id
         var CreateEditmodal = document.getElementById("myModal");
         //關閉新增/編輯資料 表單
@@ -632,8 +644,8 @@
             _marker = new mapboxgl.Marker()
             //地圖上點選地點,在此綁定map click 另一個handler
             map.on('click', positioningClickLocate);
-            ////地圖上雙擊決定添加的地點-------------改成按右鍵
-
+            ////地圖上雙擊決定添加的地點
+            map.on('dblclick', alertIfAddLocation);
         };
 
         //函式:alert尋問是否要新增此地點
@@ -786,6 +798,7 @@
         //變更地點資料庫
         //新增資料至資料庫
         function UpLoadLoctionFormButton() {
+            infoi2.style.display = "none";
             console.log("現在的id是" + _LocationID);
             $("#UploadLocationForm").ajaxSubmit({
                 type: "POST",
@@ -823,7 +836,7 @@
 
         ///更新資料至資料庫
         function EditLoctionFormButton() {
-
+            infoi2.style.display = "none";
             console.log("現在的id是" + _LocationID);
             $("#UploadLocationForm").ajaxSubmit({
                 type: "POST",
