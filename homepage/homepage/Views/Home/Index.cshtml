@@ -1291,6 +1291,43 @@
 
     @* ========= 編輯我的路線 by kevin 10/06 ========= *@
     <script>
+        function report() {
+            Swal.fire({
+                title: '確定要檢舉?',
+                text: "檢舉不當內容!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '確定',
+                cancelButtonText: '取消',
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    document.getElementById("report").innerHTML = "已檢舉";
+                    Swal.fire(
+                        '檢舉成功',
+                        '你已檢舉不當內容',
+                        '成功',
+                    )
+                    var report_data = {
+                        reportid: 3,
+                        location: _LocationID,
+                        route: _routeID,
+                    };
+                    $.ajax({
+                        url: "/Home/Report",
+                        type: "POST",
+                        data: report_data,
+                    }).done(function () {
+                        console.log(檢舉成功);
+                    }).fail(function () {
+                        console.log(檢舉失敗);
+                    });//end ajax
+                }
+            })
+        }
+
         //按編輯按鈕帶出該筆路線info by kevin 10/06 =======路線修改有問題，再更新==========//
         function CallBackThisRouteInfoWhenEditor() {
             document.getElementById("UploadRouteForm").reset();
@@ -1768,6 +1805,25 @@
                 $("#descript_lr").html(Descript_Location);
                 $("#time_lr").html(Time_Location);
                 $("#loc").empty();
+
+                //*****/////
+                var Name_Location = "";
+                var loc = [];
+
+                var locs = document.getElementById('descript_lr');
+                    loc += '<div>' + Name_Location +
+                        '<div style="font-size:small">' + Descript_Location +
+                        '</div></div>';
+                    locs.innerHTML = loc;
+                //end for
+
+                if(response[0].fId_Role != @Session[CDictionary.SK_ActiveRoleId]) {
+                    locs.innerHTML +=
+                        '<div id="repoort">' +
+                        '<button id="report" class="btn btn-info" onclick="report()">檢舉</button>' +
+                        '</div>';
+                }
+
                 _LocationID = LocationID;
                 //console.log(_LocationID);
             }).fail(function (xhr) {
@@ -1907,8 +1963,8 @@
                     tempIdLoc.push(Id_Location);
                     var locs = document.getElementById('loc');
                     loc += '<div>' + Name_Location +
-                        '<div style="font-size:small">' + Descript_Location +
-                        '</div></div>';
+                           '<div style="font-size:small">' + Descript_Location +
+                           '</div></div>';
                     locs.innerHTML = loc;
                 };//end for
 
@@ -1916,6 +1972,12 @@
                     locs.innerHTML +=
                         '<div id="editRoute">' +
                         '<button id="EditExistedRoute" class="btn btn-info" onclick="CallBackThisRouteInfoWhenEditor()">編輯路線</button>' +
+                        '</div>';
+                }
+                else if(response[0].fId_Role != @Session[CDictionary.SK_ActiveRoleId]) {
+                    locs.innerHTML +=
+                        '<div id="repoort">' +
+                        '<button id="report" class="btn btn-info" onclick="report()">檢舉</button>' +
                         '</div>';
                 }
 
@@ -2623,19 +2685,7 @@
     </script>
 
 
-    <script type="text/javascript">
-        let CLIENT_ID = "640701122888-kqkl96t9a7tjtkug7f2ve6pdovm9mrjs.apps.googleusercontent.com";
-        //let API_KEY = '';//Javascript SDK無須 API 金鑰
-        // Array of API discovery doc URLs for APIs
-        let DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/people/v1/rest"];
-    </script>
-    @*執行Google API必須的.js，callback function名稱請自訂
-        ↓https://apis.google.com/js/platform.js 或 https://apis.google.com/js/api.js 兩者網址都行得通 這裡採用跟官網寫法一樣*@
-    <script async defer src="https://apis.google.com/js/api.js"
-            onload="this.onload=function(){};GoogleClientInit()"
-            onreadystatechange="if (this.readyState === 'complete') this.onload()">
 
-    </script>
 
     <script type="text/javascript">
         //jQuery處理button click event 當畫面DOM都載入時....
@@ -2672,6 +2722,19 @@
                 console.log('User disconnect.');
             });
         }
+    </script>
+    <script type="text/javascript">
+        let CLIENT_ID = "640701122888-kqkl96t9a7tjtkug7f2ve6pdovm9mrjs.apps.googleusercontent.com";
+        //let API_KEY = '';//Javascript SDK無須 API 金鑰
+        // Array of API discovery doc URLs for APIs
+        let DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/people/v1/rest"];
+    </script>
+    @*執行Google API必須的.js，callback function名稱請自訂
+        ↓https://apis.google.com/js/platform.js 或 https://apis.google.com/js/api.js 兩者網址都行得通 這裡採用跟官網寫法一樣*@
+    <script async defer src="https://apis.google.com/js/api.js"
+            onload="this.onload=function(){};GoogleClientInit()"
+            onreadystatechange="if (this.readyState === 'complete') this.onload()">
+
     </script>
 </body>
 </html>
