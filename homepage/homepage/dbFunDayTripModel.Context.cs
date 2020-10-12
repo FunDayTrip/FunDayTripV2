@@ -38,6 +38,7 @@ namespace homepage
         public virtual DbSet<tGame> tGames { get; set; }
         public virtual DbSet<tGameGroup> tGameGroups { get; set; }
         public virtual DbSet<tGameQA> tGameQAs { get; set; }
+        public virtual DbSet<tGameRecord> tGameRecords { get; set; }
         public virtual DbSet<tGameStep> tGameSteps { get; set; }
         public virtual DbSet<tGameUnlock> tGameUnlocks { get; set; }
         public virtual DbSet<tIcon> tIcons { get; set; }
@@ -59,6 +60,5 @@ namespace homepage
         public virtual DbSet<tTag> tTags { get; set; }
         public virtual DbSet<tTagMsgRelation> tTagMsgRelations { get; set; }
         public virtual DbSet<tUnlock> tUnlocks { get; set; }
-        public virtual DbSet<tGameRecord> tGameRecords { get; set; }
     }
 }

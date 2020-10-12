@@ -18,8 +18,8 @@ namespace homepage
         public tGameGroup()
         {
             this.tGames = new HashSet<tGame>();
-            this.tGameUnlocks = new HashSet<tGameUnlock>();
             this.tGameRecords = new HashSet<tGameRecord>();
+            this.tGameUnlocks = new HashSet<tGameUnlock>();
         }
     
         public int fId_GameGroup { get; set; }
@@ -29,14 +29,15 @@ namespace homepage
         public int fId_Role { get; set; }
         public string fPhoto_GameGroup { get; set; }
         public string fId_Route { get; set; }
+        public Nullable<int> fCost_GameGroup { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tGame> tGames { get; set; }
         public virtual tRole tRole { get; set; }
         public virtual tRoute tRoute { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tGameUnlock> tGameUnlocks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tGameRecord> tGameRecords { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tGameUnlock> tGameUnlocks { get; set; }
     }
 }

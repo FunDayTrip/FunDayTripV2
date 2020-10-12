@@ -12,33 +12,34 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 }
 
-.bootsidemenu > .menu-wrapper {
-    padding: 0;
-    position: absolute;
-    bottom: 0;
-    top: 0;
-    overflow: auto;
-    width: 100%;
-}
+    .bootsidemenu > .menu-wrapper {
+        padding: 0;
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        overflow-y: scroll;
+        width: 100%;
+        background-color: #fffde9;
+    }
 
-.bootsidemenu > .row {
-    margin: 0;
-}
+    .bootsidemenu > .row {
+        margin: 0;
+    }
 
 .bootsidemenu {
     /*width: auto;*/
     min-width: unset;
 }
 
-.bootsidemenu.bootsidemenu-left {
-    left: 0;
-    right: auto; /*20px;*/
-}
+    .bootsidemenu.bootsidemenu-left {
+        left: 0;
+        right: auto; /*20px;*/
+    }
 
-.bootsidemenu.bootsidemenu-right {
-    right: 0;
-    left: auto; /*20px;*/
-}
+    .bootsidemenu.bootsidemenu-right {
+        right: 0;
+        left: auto; /*20px;*/
+    }
 
 .toggler {
     -webkit-background-clip: padding-box;
@@ -65,9 +66,9 @@
     right: -20px;
 }
 
-.bootsidemenu-left > .toggler > span {
-    margin: 15px 2px;
-}
+    .bootsidemenu-left > .toggler > span {
+        margin: 15px 2px;
+    }
 
 .bootsidemenu-right > .toggler {
     -webkit-border-top-left-radius: 4px;
@@ -82,18 +83,18 @@
     left: -20px;
 }
 
-.bootsidemenu-right > .toggler > span {
-    margin: 15px 2px;
-}
+    .bootsidemenu-right > .toggler > span {
+        margin: 15px 2px;
+    }
 
 /*Native BootStrap Hack*/
 .bootsidemenu .list-group, .bootsidemenu .list-group-item {
     background-color: transparent;
 }
 
-.bootsidemenu .list-group-item:last-child, .bootsidemenu .list-group-item:first-child {
-    border-radius: 0;
-}
+    .bootsidemenu .list-group-item:last-child, .bootsidemenu .list-group-item:first-child {
+        border-radius: 0;
+    }
 
 .bootsidemenu .list-group {
     margin-bottom: 0;
@@ -119,39 +120,32 @@
 
 /* Custom, iPhone Retina */
 @media only screen and (min-width: 320px) {
-
 }
 
 /* Extra Small Devices, Phones */
 @media only screen and (min-width: 480px) {
-
 }
 
 /* Small Devices, Tablets */
 @media only screen and (min-width: 768px) {
-
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (min-width: 992px) {
-
 }
 
 /* Large Devices, Wide Screens */
 @media only screen and (min-width: 1200px) {
-
 }
 
 /*==========  Non-Mobile First Method  ==========*/
 
 /* Large Devices, Wide Screens */
 @media only screen and (max-width: 1200px) {
-
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width: 992px) {
-
 }
 
 /* Small Devices, Tablets */
@@ -170,7 +164,6 @@
 
 /* Custom, iPhone Retina */
 @media only screen and (max-width: 320px) {
-
 }
 
 /*========== Theme Default ==========*/
@@ -179,52 +172,52 @@
     color: #555555;
 }
 
-.default .toggler {
-    background-color: #FFFFFF;
-}
+    .default .toggler {
+        background-color: #FFFFFF;
+    }
 
-.default a,
-.default a:hover,
-.default a:visited {
-    color: #337ab7;
-}
+    .default a,
+    .default a:hover,
+    .default a:visited {
+        color: #337ab7;
+    }
 
-.default.bootsidemenu-left,
-.default.bootsidemenu-right,
-.default.bootsidemenu-left > .toggler,
-.default.bootsidemenu-right > .toggler {
-    border-color: rgba(0, 0, 0, .15);
-}
+    .default.bootsidemenu-left,
+    .default.bootsidemenu-right,
+    .default.bootsidemenu-left > .toggler,
+    .default.bootsidemenu-right > .toggler {
+        border-color: rgba(0, 0, 0, .15);
+    }
 
-.default.bootsidemenu-right > .toggler {
-    border-right:0;
-}
+        .default.bootsidemenu-right > .toggler {
+            border-right: 0;
+        }
 
-.default.bootsidemenu-left > .toggler {
-    border-left:0;
-}
+        .default.bootsidemenu-left > .toggler {
+            border-left: 0;
+        }
 
-.default .list-group-item.active,
-.default .list-group-item.active:focus,
-.default .list-group-item.active:hover,
-.default .item.active:focus {
-    color: #FFFFFF;
-    background-color: #337ab7;
-    border-color: #337ab7;
-}
+    .default .list-group-item.active,
+    .default .list-group-item.active:focus,
+    .default .list-group-item.active:hover,
+    .default .item.active:focus {
+        color: #FFFFFF;
+        background-color: #337ab7;
+        border-color: #337ab7;
+    }
 
-.default a.list-group-item {
-    color: #555555;
-}
+    .default a.list-group-item {
+        color: #555555;
+    }
 
-.default a.list-group-item:focus,
-.default a.list-group-item:hover,
-.default button.list-group-item:focus,
-.default button.list-group-item:hover {
-    color: #ffffff;
-    text-decoration: none;
-    background-color: #337ab7;
-    border-color: #337ab7;
-}
+        .default a.list-group-item:focus,
+        .default a.list-group-item:hover,
+        .default button.list-group-item:focus,
+        .default button.list-group-item:hover {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: #337ab7;
+            border-color: #337ab7;
+        }
 
 /*========== Theme Default ==========*/

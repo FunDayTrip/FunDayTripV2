@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DB_FunDayTripModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DB_FunDayTripModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tAd">
           <Key>
             <PropertyRef Name="fId_Ad" />
@@ -76,7 +76,6 @@
           <Property Name="fId_Block" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="fId_Self_Role" Type="int" Nullable="false" />
           <Property Name="fId_Target_Role" Type="int" Nullable="false" />
-          <Property Name="0=Follow1=Fans" Type="int" />
         </EntityType>
         <EntityType Name="tComment">
           <Key>
@@ -125,8 +124,6 @@
           <Property Name="fName_Game" Type="nvarchar" MaxLength="50" />
           <Property Name="fOrder_Game" Type="int" Nullable="false" />
           <Property Name="fId_GameGroup" Type="int" Nullable="false" />
-          <Property Name="fAR_Game" Type="int" />
-          <Property Name="fSource_Game" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="tGameGroup">
           <Key>
@@ -139,7 +136,6 @@
           <Property Name="fId_Role" Type="int" Nullable="false" />
           <Property Name="fPhoto_GameGroup" Type="nvarchar(max)" />
           <Property Name="fId_Route" Type="nvarchar" MaxLength="11" />
-          <Property Name="fCost_GameGroup" Type="int" />
         </EntityType>
         <EntityType Name="tGameQA">
           <Key>
@@ -1253,11 +1249,251 @@
             <End Role="tUnlock" EntitySet="tUnlock" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_FunDayTripModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DB_FunDayTripEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tAds" EntityType="DB_FunDayTripModel.tAd" />
+          <EntitySet Name="tAdmins" EntityType="DB_FunDayTripModel.tAdmin" />
+          <EntitySet Name="tAlbums" EntityType="DB_FunDayTripModel.tAlbum" />
+          <EntitySet Name="tBalances" EntityType="DB_FunDayTripModel.tBalance" />
+          <EntitySet Name="tBanks" EntityType="DB_FunDayTripModel.tBank" />
+          <EntitySet Name="tBlocks" EntityType="DB_FunDayTripModel.tBlock" />
+          <EntitySet Name="tComments" EntityType="DB_FunDayTripModel.tComment" />
+          <EntitySet Name="tCoordinates" EntityType="DB_FunDayTripModel.tCoordinate" />
+          <EntitySet Name="tFollows" EntityType="DB_FunDayTripModel.tFollow" />
+          <EntitySet Name="tFuntionAuths" EntityType="DB_FunDayTripModel.tFuntionAuth" />
+          <EntitySet Name="tGames" EntityType="DB_FunDayTripModel.tGame" />
+          <EntitySet Name="tGameGroups" EntityType="DB_FunDayTripModel.tGameGroup" />
+          <EntitySet Name="tGameQAs" EntityType="DB_FunDayTripModel.tGameQA" />
+          <EntitySet Name="tGameSteps" EntityType="DB_FunDayTripModel.tGameStep" />
+          <EntitySet Name="tGameUnlocks" EntityType="DB_FunDayTripModel.tGameUnlock" />
+          <EntitySet Name="tIcons" EntityType="DB_FunDayTripModel.tIcon" />
+          <EntitySet Name="tLA_Relation" EntityType="DB_FunDayTripModel.tLA_Relation" />
+          <EntitySet Name="tLocations" EntityType="DB_FunDayTripModel.tLocation" />
+          <EntitySet Name="tLR_Relation" EntityType="DB_FunDayTripModel.tLR_Relation" />
+          <EntitySet Name="tMembers" EntityType="DB_FunDayTripModel.tMember" />
+          <EntitySet Name="tMessages" EntityType="DB_FunDayTripModel.tMessage" />
+          <EntitySet Name="tNotes" EntityType="DB_FunDayTripModel.tNote" />
+          <EntitySet Name="tPhotoes" EntityType="DB_FunDayTripModel.tPhoto" />
+          <EntitySet Name="tPoints" EntityType="DB_FunDayTripModel.tPoint" />
+          <EntitySet Name="tProfitMembers" EntityType="DB_FunDayTripModel.tProfitMember" />
+          <EntitySet Name="tProfitTypes" EntityType="DB_FunDayTripModel.tProfitType" />
+          <EntitySet Name="tReports" EntityType="DB_FunDayTripModel.tReport" />
+          <EntitySet Name="tRoles" EntityType="DB_FunDayTripModel.tRole" />
+          <EntitySet Name="tRoutes" EntityType="DB_FunDayTripModel.tRoute" />
+          <EntitySet Name="tShareAuths" EntityType="DB_FunDayTripModel.tShareAuth" />
+          <EntitySet Name="tStatistics" EntityType="DB_FunDayTripModel.tStatistic" />
+          <EntitySet Name="tTags" EntityType="DB_FunDayTripModel.tTag" />
+          <EntitySet Name="tTagMsgRelations" EntityType="DB_FunDayTripModel.tTagMsgRelation" />
+          <EntitySet Name="tUnlocks" EntityType="DB_FunDayTripModel.tUnlock" />
+          <AssociationSet Name="FK_tAd_tLocation" Association="DB_FunDayTripModel.FK_tAd_tLocation">
+            <End Role="tLocation" EntitySet="tLocations" />
+            <End Role="tAd" EntitySet="tAds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tAd_tRole" Association="DB_FunDayTripModel.FK_tAd_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tAd" EntitySet="tAds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tAd_tRole_Role_Admin" Association="DB_FunDayTripModel.FK_tAd_tRole_Role_Admin">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tAd" EntitySet="tAds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tAdmin_tFuntionAuth" Association="DB_FunDayTripModel.FK_tAdmin_tFuntionAuth">
+            <End Role="tFuntionAuth" EntitySet="tFuntionAuths" />
+            <End Role="tAdmin" EntitySet="tAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tAlbum_TotShareAuth" Association="DB_FunDayTripModel.FK_tAlbum_TotShareAuth">
+            <End Role="tShareAuth" EntitySet="tShareAuths" />
+            <End Role="tAlbum" EntitySet="tAlbums" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLA_Relation_tAlbum" Association="DB_FunDayTripModel.FK_tLA_Relation_tAlbum">
+            <End Role="tAlbum" EntitySet="tAlbums" />
+            <End Role="tLA_Relation" EntitySet="tLA_Relation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tBalance_tBank" Association="DB_FunDayTripModel.FK_tBalance_tBank">
+            <End Role="tBank" EntitySet="tBanks" />
+            <End Role="tBalance" EntitySet="tBalances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tBalance_tRole" Association="DB_FunDayTripModel.FK_tBalance_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tBalance" EntitySet="tBalances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tBank_tRole" Association="DB_FunDayTripModel.FK_tBank_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tBank" EntitySet="tBanks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tBlock_tRole_Self" Association="DB_FunDayTripModel.FK_tBlock_tRole_Self">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tBlock" EntitySet="tBlocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tBlock_tRole_Target" Association="DB_FunDayTripModel.FK_tBlock_tRole_Target">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tBlock" EntitySet="tBlocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tComment_tRole" Association="DB_FunDayTripModel.FK_tComment_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tComment" EntitySet="tComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tGame_tCoordinate" Association="DB_FunDayTripModel.FK_tGame_tCoordinate">
+            <End Role="tCoordinate" EntitySet="tCoordinates" />
+            <End Role="tGame" EntitySet="tGames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLocation_tCoordinate" Association="DB_FunDayTripModel.FK_tLocation_tCoordinate">
+            <End Role="tCoordinate" EntitySet="tCoordinates" />
+            <End Role="tLocation" EntitySet="tLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFollow_tRole_Self" Association="DB_FunDayTripModel.FK_tFollow_tRole_Self">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tFollow" EntitySet="tFollows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFollow_tRole_Target" Association="DB_FunDayTripModel.FK_tFollow_tRole_Target">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tFollow" EntitySet="tFollows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMember_tMember" Association="DB_FunDayTripModel.FK_tMember_tMember">
+            <End Role="tFuntionAuth" EntitySet="tFuntionAuths" />
+            <End Role="tMember" EntitySet="tMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tProfitMember_tFuntionAuth" Association="DB_FunDayTripModel.FK_tProfitMember_tFuntionAuth">
+            <End Role="tFuntionAuth" EntitySet="tFuntionAuths" />
+            <End Role="tProfitMember" EntitySet="tProfitMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tGame_tGameGroup" Association="DB_FunDayTripModel.FK_tGame_tGameGroup">
+            <End Role="tGameGroup" EntitySet="tGameGroups" />
+            <End Role="tGame" EntitySet="tGames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tGameQA_tGame" Association="DB_FunDayTripModel.FK_tGameQA_tGame">
+            <End Role="tGame" EntitySet="tGames" />
+            <End Role="tGameQA" EntitySet="tGameQAs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tGameStep_tGame" Association="DB_FunDayTripModel.FK_tGameStep_tGame">
+            <End Role="tGame" EntitySet="tGames" />
+            <End Role="tGameStep" EntitySet="tGameSteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tGameGroup_tRole" Association="DB_FunDayTripModel.FK_tGameGroup_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tGameGroup" EntitySet="tGameGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tGameGroup_tRoute" Association="DB_FunDayTripModel.FK_tGameGroup_tRoute">
+            <End Role="tRoute" EntitySet="tRoutes" />
+            <End Role="tGameGroup" EntitySet="tGameGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tGameUnlock_tGameGroup" Association="DB_FunDayTripModel.FK_tGameUnlock_tGameGroup">
+            <End Role="tGameGroup" EntitySet="tGameGroups" />
+            <End Role="tGameUnlock" EntitySet="tGameUnlocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tGameUnlock_tRole" Association="DB_FunDayTripModel.FK_tGameUnlock_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tGameUnlock" EntitySet="tGameUnlocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLocation_tIcon" Association="DB_FunDayTripModel.FK_tLocation_tIcon">
+            <End Role="tIcon" EntitySet="tIcons" />
+            <End Role="tLocation" EntitySet="tLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRoute_tIcon" Association="DB_FunDayTripModel.FK_tRoute_tIcon">
+            <End Role="tIcon" EntitySet="tIcons" />
+            <End Role="tRoute" EntitySet="tRoutes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLA_Relation_tLocation" Association="DB_FunDayTripModel.FK_tLA_Relation_tLocation">
+            <End Role="tLocation" EntitySet="tLocations" />
+            <End Role="tLA_Relation" EntitySet="tLA_Relation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLocation_tRole" Association="DB_FunDayTripModel.FK_tLocation_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tLocation" EntitySet="tLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLocation_tShareAuth" Association="DB_FunDayTripModel.FK_tLocation_tShareAuth">
+            <End Role="tShareAuth" EntitySet="tShareAuths" />
+            <End Role="tLocation" EntitySet="tLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLR_Relation_tLocation" Association="DB_FunDayTripModel.FK_tLR_Relation_tLocation">
+            <End Role="tLocation" EntitySet="tLocations" />
+            <End Role="tLR_Relation" EntitySet="tLR_Relation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPhoto_tLocation" Association="DB_FunDayTripModel.FK_tPhoto_tLocation">
+            <End Role="tLocation" EntitySet="tLocations" />
+            <End Role="tPhoto" EntitySet="tPhotoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLR_Relation_tRoute" Association="DB_FunDayTripModel.FK_tLR_Relation_tRoute">
+            <End Role="tRoute" EntitySet="tRoutes" />
+            <End Role="tLR_Relation" EntitySet="tLR_Relation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRole_tMember" Association="DB_FunDayTripModel.FK_tRole_tMember">
+            <End Role="tMember" EntitySet="tMembers" />
+            <End Role="tRole" EntitySet="tRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMessage_tRole_From" Association="DB_FunDayTripModel.FK_tMessage_tRole_From">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tMessage" EntitySet="tMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMessage_tRole_To" Association="DB_FunDayTripModel.FK_tMessage_tRole_To">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tMessage" EntitySet="tMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tNote_tRole" Association="DB_FunDayTripModel.FK_tNote_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tNote" EntitySet="tNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tNote_tRole_Admin" Association="DB_FunDayTripModel.FK_tNote_tRole_Admin">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tNote" EntitySet="tNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPhoto_tRole" Association="DB_FunDayTripModel.FK_tPhoto_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tPhoto" EntitySet="tPhotoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPoint_tRole" Association="DB_FunDayTripModel.FK_tPoint_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tPoint" EntitySet="tPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tProfitMember_tProfitType" Association="DB_FunDayTripModel.FK_tProfitMember_tProfitType">
+            <End Role="tProfitType" EntitySet="tProfitTypes" />
+            <End Role="tProfitMember" EntitySet="tProfitMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tReport_tRole_Admin" Association="DB_FunDayTripModel.FK_tReport_tRole_Admin">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tReport" EntitySet="tReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tReport_tRole_Reported" Association="DB_FunDayTripModel.FK_tReport_tRole_Reported">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tReport" EntitySet="tReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tReport_tRole_Reporter" Association="DB_FunDayTripModel.FK_tReport_tRole_Reporter">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tReport" EntitySet="tReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRoute_tRole" Association="DB_FunDayTripModel.FK_tRoute_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tRoute" EntitySet="tRoutes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tStatistic_tRole" Association="DB_FunDayTripModel.FK_tStatistic_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tStatistic" EntitySet="tStatistics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tUnlock_tRole" Association="DB_FunDayTripModel.FK_tUnlock_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tUnlock" EntitySet="tUnlocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tRoute_tShareAuth" Association="DB_FunDayTripModel.FK_tRoute_tShareAuth">
+            <End Role="tShareAuth" EntitySet="tShareAuths" />
+            <End Role="tRoute" EntitySet="tRoutes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tTagMsgRelations_tTag" Association="DB_FunDayTripModel.FK_tTagMsgRelations_tTag">
+            <End Role="tTag" EntitySet="tTags" />
+            <End Role="tTagMsgRelation" EntitySet="tTagMsgRelations" />
+          </AssociationSet>
+          <EntitySet Name="tGameRecords" EntityType="DB_FunDayTripModel.tGameRecord" />
+          <AssociationSet Name="FK_tGameRecord_tGameGroup" Association="DB_FunDayTripModel.FK_tGameRecord_tGameGroup">
+            <End Role="tGameGroup" EntitySet="tGameGroups" />
+            <End Role="tGameRecord" EntitySet="tGameRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tGameRecord_tRole" Association="DB_FunDayTripModel.FK_tGameRecord_tRole">
+            <End Role="tRole" EntitySet="tRoles" />
+            <End Role="tGameRecord" EntitySet="tGameRecords" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="tAd">
           <Key>
             <PropertyRef Name="fId_Ad" />
@@ -1265,30 +1501,30 @@
           <Property Name="fId_Ad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
           <Property Name="fId_Admin_Role" Type="Int32" Nullable="false" />
-          <Property Name="fId_Location" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
           <Property Name="fContent_Ad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fPhoto_Ad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fSolution_Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fStatus_Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tLocation" Relationship="Self.FK_tAd_tLocation" FromRole="tAd" ToRole="tLocation" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tAd_tRole" FromRole="tAd" ToRole="tRole" />
-          <NavigationProperty Name="tRole1" Relationship="Self.FK_tAd_tRole_Role_Admin" FromRole="tAd" ToRole="tRole" />
+          <NavigationProperty Name="tLocation" Relationship="DB_FunDayTripModel.FK_tAd_tLocation" FromRole="tAd" ToRole="tLocation" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tAd_tRole" FromRole="tAd" ToRole="tRole" />
+          <NavigationProperty Name="tRole1" Relationship="DB_FunDayTripModel.FK_tAd_tRole_Role_Admin" FromRole="tAd" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tAdmin">
           <Key>
             <PropertyRef Name="fId_Admin" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Admin" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_Admin" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
-          <Property Name="fName_Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fEmail_Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fPassword_Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fName_Admin" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fEmail_Admin" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fPassword_Admin" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fAdd_Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fGender_Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fBirthday_Admin" Type="DateTime" Precision="3" />
           <Property Name="fPhone_Admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tFuntionAuth" Relationship="Self.FK_tAdmin_tFuntionAuth" FromRole="tAdmin" ToRole="tFuntionAuth" />
+          <NavigationProperty Name="tFuntionAuth" Relationship="DB_FunDayTripModel.FK_tAdmin_tFuntionAuth" FromRole="tAdmin" ToRole="tFuntionAuth" />
         </EntityType>
         <EntityType Name="tAlbum">
           <Key>
@@ -1299,8 +1535,8 @@
           <Property Name="fName_Album" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fDescript_Album" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fDelete_Album" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tShareAuth" Relationship="Self.FK_tAlbum_TotShareAuth" FromRole="tAlbum" ToRole="tShareAuth" />
-          <NavigationProperty Name="tLA_Relation" Relationship="Self.FK_tLA_Relation_tAlbum" FromRole="tAlbum" ToRole="tLA_Relation" />
+          <NavigationProperty Name="tShareAuth" Relationship="DB_FunDayTripModel.FK_tAlbum_TotShareAuth" FromRole="tAlbum" ToRole="tShareAuth" />
+          <NavigationProperty Name="tLA_Relation" Relationship="DB_FunDayTripModel.FK_tLA_Relation_tAlbum" FromRole="tAlbum" ToRole="tLA_Relation" />
         </EntityType>
         <EntityType Name="tBalance">
           <Key>
@@ -1315,8 +1551,8 @@
           <Property Name="fPayTime_Balance" Type="DateTime" Precision="3" />
           <Property Name="fVerify_Balance" Type="DateTime" Precision="3" />
           <Property Name="fRemark_Balance" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tBank" Relationship="Self.FK_tBalance_tBank" FromRole="tBalance" ToRole="tBank" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tBalance_tRole" FromRole="tBalance" ToRole="tRole" />
+          <NavigationProperty Name="tBank" Relationship="DB_FunDayTripModel.FK_tBalance_tBank" FromRole="tBalance" ToRole="tBank" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tBalance_tRole" FromRole="tBalance" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tBank">
           <Key>
@@ -1329,8 +1565,8 @@
           <Property Name="fAccount_Bank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fNumber_Bank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fValidate_Bank" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tBalances" Relationship="Self.FK_tBalance_tBank" FromRole="tBank" ToRole="tBalance" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tBank_tRole" FromRole="tBank" ToRole="tRole" />
+          <NavigationProperty Name="tBalances" Relationship="DB_FunDayTripModel.FK_tBalance_tBank" FromRole="tBank" ToRole="tBalance" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tBank_tRole" FromRole="tBank" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tBlock">
           <Key>
@@ -1339,23 +1575,22 @@
           <Property Name="fId_Block" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_Self_Role" Type="Int32" Nullable="false" />
           <Property Name="fId_Target_Role" Type="Int32" Nullable="false" />
-          <Property Name="C0_Follow1_Fans" Type="Int32" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tBlock_tRole_Self" FromRole="tBlock" ToRole="tRole" />
-          <NavigationProperty Name="tRole1" Relationship="Self.FK_tBlock_tRole_Target" FromRole="tBlock" ToRole="tRole" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tBlock_tRole_Self" FromRole="tBlock" ToRole="tRole" />
+          <NavigationProperty Name="tRole1" Relationship="DB_FunDayTripModel.FK_tBlock_tRole_Target" FromRole="tBlock" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tComment">
           <Key>
             <PropertyRef Name="fId_Comment" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Comment" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="fId_Location_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fId_Type_Location_Route" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fId_Comment" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="fId_Location_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="fId_Type_Location_Route" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
           <Property Name="fComment_Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fRate_Comment" Type="Int32" />
           <Property Name="fTime_Comment" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tComment_tRole" FromRole="tComment" ToRole="tRole" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tComment_tRole" FromRole="tComment" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tCoordinate">
           <Key>
@@ -1365,8 +1600,8 @@
           <Property Name="fName_Coordinate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fX_Coordinate" Type="Decimal" Precision="18" Scale="10" />
           <Property Name="fY_Coordinate" Type="Decimal" Precision="18" Scale="10" />
-          <NavigationProperty Name="tGame" Relationship="Self.FK_tGame_tCoordinate" FromRole="tCoordinate" ToRole="tGame" />
-          <NavigationProperty Name="tLocations" Relationship="Self.FK_tLocation_tCoordinate" FromRole="tCoordinate" ToRole="tLocation" />
+          <NavigationProperty Name="tGame" Relationship="DB_FunDayTripModel.FK_tGame_tCoordinate" FromRole="tCoordinate" ToRole="tGame" />
+          <NavigationProperty Name="tLocations" Relationship="DB_FunDayTripModel.FK_tLocation_tCoordinate" FromRole="tCoordinate" ToRole="tLocation" />
         </EntityType>
         <EntityType Name="tFollow">
           <Key>
@@ -1375,8 +1610,8 @@
           <Property Name="fId_Follow" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_Self_Role" Type="Int32" Nullable="false" />
           <Property Name="fId_Target_Role" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tFollow_tRole_Self" FromRole="tFollow" ToRole="tRole" />
-          <NavigationProperty Name="tRole1" Relationship="Self.FK_tFollow_tRole_Target" FromRole="tFollow" ToRole="tRole" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tFollow_tRole_Self" FromRole="tFollow" ToRole="tRole" />
+          <NavigationProperty Name="tRole1" Relationship="DB_FunDayTripModel.FK_tFollow_tRole_Target" FromRole="tFollow" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tFuntionAuth">
           <Key>
@@ -1384,9 +1619,9 @@
           </Key>
           <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fAuth_FunctionAuth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tAdmins" Relationship="Self.FK_tAdmin_tFuntionAuth" FromRole="tFuntionAuth" ToRole="tAdmin" />
-          <NavigationProperty Name="tMembers" Relationship="Self.FK_tMember_tMember" FromRole="tFuntionAuth" ToRole="tMember" />
-          <NavigationProperty Name="tProfitMembers" Relationship="Self.FK_tProfitMember_tFuntionAuth" FromRole="tFuntionAuth" ToRole="tProfitMember" />
+          <NavigationProperty Name="tAdmins" Relationship="DB_FunDayTripModel.FK_tAdmin_tFuntionAuth" FromRole="tFuntionAuth" ToRole="tAdmin" />
+          <NavigationProperty Name="tMembers" Relationship="DB_FunDayTripModel.FK_tMember_tMember" FromRole="tFuntionAuth" ToRole="tMember" />
+          <NavigationProperty Name="tProfitMembers" Relationship="DB_FunDayTripModel.FK_tProfitMember_tFuntionAuth" FromRole="tFuntionAuth" ToRole="tProfitMember" />
         </EntityType>
         <EntityType Name="tGame">
           <Key>
@@ -1398,12 +1633,10 @@
           <Property Name="fName_Game" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fOrder_Game" Type="Int32" Nullable="false" />
           <Property Name="fId_GameGroup" Type="Int32" Nullable="false" />
-          <Property Name="fAR_Game" Type="Int32" />
-          <Property Name="fSource_Game" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tCoordinate" Relationship="Self.FK_tGame_tCoordinate" FromRole="tGame" ToRole="tCoordinate" />
-          <NavigationProperty Name="tGameGroup" Relationship="Self.FK_tGame_tGameGroup" FromRole="tGame" ToRole="tGameGroup" />
-          <NavigationProperty Name="tGameQAs" Relationship="Self.FK_tGameQA_tGame" FromRole="tGame" ToRole="tGameQA" />
-          <NavigationProperty Name="tGameSteps" Relationship="Self.FK_tGameStep_tGame" FromRole="tGame" ToRole="tGameStep" />
+          <NavigationProperty Name="tCoordinate" Relationship="DB_FunDayTripModel.FK_tGame_tCoordinate" FromRole="tGame" ToRole="tCoordinate" />
+          <NavigationProperty Name="tGameGroup" Relationship="DB_FunDayTripModel.FK_tGame_tGameGroup" FromRole="tGame" ToRole="tGameGroup" />
+          <NavigationProperty Name="tGameQAs" Relationship="DB_FunDayTripModel.FK_tGameQA_tGame" FromRole="tGame" ToRole="tGameQA" />
+          <NavigationProperty Name="tGameSteps" Relationship="DB_FunDayTripModel.FK_tGameStep_tGame" FromRole="tGame" ToRole="tGameStep" />
         </EntityType>
         <EntityType Name="tGameGroup">
           <Key>
@@ -1416,12 +1649,11 @@
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
           <Property Name="fPhoto_GameGroup" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fId_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
-          <Property Name="fCost_GameGroup" Type="Int32" />
-          <NavigationProperty Name="tGames" Relationship="Self.FK_tGame_tGameGroup" FromRole="tGameGroup" ToRole="tGame" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tGameGroup_tRole" FromRole="tGameGroup" ToRole="tRole" />
-          <NavigationProperty Name="tRoute" Relationship="Self.FK_tGameGroup_tRoute" FromRole="tGameGroup" ToRole="tRoute" />
-          <NavigationProperty Name="tGameRecords" Relationship="Self.FK_tGameRecord_tGameGroup" FromRole="tGameGroup" ToRole="tGameRecord" />
-          <NavigationProperty Name="tGameUnlocks" Relationship="Self.FK_tGameUnlock_tGameGroup" FromRole="tGameGroup" ToRole="tGameUnlock" />
+          <NavigationProperty Name="tGames" Relationship="DB_FunDayTripModel.FK_tGame_tGameGroup" FromRole="tGameGroup" ToRole="tGame" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tGameGroup_tRole" FromRole="tGameGroup" ToRole="tRole" />
+          <NavigationProperty Name="tRoute" Relationship="DB_FunDayTripModel.FK_tGameGroup_tRoute" FromRole="tGameGroup" ToRole="tRoute" />
+          <NavigationProperty Name="tGameUnlocks" Relationship="DB_FunDayTripModel.FK_tGameUnlock_tGameGroup" FromRole="tGameGroup" ToRole="tGameUnlock" />
+          <NavigationProperty Name="tGameRecords" Relationship="DB_FunDayTripModel.FK_tGameRecord_tGameGroup" FromRole="tGameGroup" ToRole="tGameRecord" />
         </EntityType>
         <EntityType Name="tGameQA">
           <Key>
@@ -1436,20 +1668,7 @@
           <Property Name="fOption_4_GameQA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fAnswer_GameQA" Type="Int32" />
           <Property Name="fReward_GameQA" Type="Int32" />
-          <NavigationProperty Name="tGame" Relationship="Self.FK_tGameQA_tGame" FromRole="tGameQA" ToRole="tGame" />
-        </EntityType>
-        <EntityType Name="tGameRecord">
-          <Key>
-            <PropertyRef Name="fId_GameRecord" />
-          </Key>
-          <Property Name="fId_GameRecord" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Role" Type="Int32" />
-          <Property Name="fId_GameGroup" Type="Int32" />
-          <Property Name="fOrder_Game" Type="Int32" Nullable="false" />
-          <Property Name="fTime_GameRecord" Type="DateTime" Precision="3" />
-          <Property Name="fFinished_GameRecord" Type="Int32" />
-          <NavigationProperty Name="tGameGroup" Relationship="Self.FK_tGameRecord_tGameGroup" FromRole="tGameRecord" ToRole="tGameGroup" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tGameRecord_tRole" FromRole="tGameRecord" ToRole="tRole" />
+          <NavigationProperty Name="tGame" Relationship="DB_FunDayTripModel.FK_tGameQA_tGame" FromRole="tGameQA" ToRole="tGame" />
         </EntityType>
         <EntityType Name="tGameStep">
           <Key>
@@ -1460,7 +1679,7 @@
           <Property Name="fTitle_GameStep" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fContent_GameStep" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fReward_GameStep" Type="Int32" />
-          <NavigationProperty Name="tGame" Relationship="Self.FK_tGameStep_tGame" FromRole="tGameStep" ToRole="tGame" />
+          <NavigationProperty Name="tGame" Relationship="DB_FunDayTripModel.FK_tGameStep_tGame" FromRole="tGameStep" ToRole="tGame" />
         </EntityType>
         <EntityType Name="tGameUnlock">
           <Key>
@@ -1470,8 +1689,8 @@
           <Property Name="fId_GameGroup" Type="Int32" Nullable="false" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
           <Property Name="fDate_GameUnlock" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tGameGroup" Relationship="Self.FK_tGameUnlock_tGameGroup" FromRole="tGameUnlock" ToRole="tGameGroup" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tGameUnlock_tRole" FromRole="tGameUnlock" ToRole="tRole" />
+          <NavigationProperty Name="tGameGroup" Relationship="DB_FunDayTripModel.FK_tGameUnlock_tGameGroup" FromRole="tGameUnlock" ToRole="tGameGroup" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tGameUnlock_tRole" FromRole="tGameUnlock" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tIcon">
           <Key>
@@ -1480,8 +1699,8 @@
           <Property Name="fId_Icon" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fStyle_Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fPath_Icon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tLocations" Relationship="Self.FK_tLocation_tIcon" FromRole="tIcon" ToRole="tLocation" />
-          <NavigationProperty Name="tRoutes" Relationship="Self.FK_tRoute_tIcon" FromRole="tIcon" ToRole="tRoute" />
+          <NavigationProperty Name="tLocations" Relationship="DB_FunDayTripModel.FK_tLocation_tIcon" FromRole="tIcon" ToRole="tLocation" />
+          <NavigationProperty Name="tRoutes" Relationship="DB_FunDayTripModel.FK_tRoute_tIcon" FromRole="tIcon" ToRole="tRoute" />
         </EntityType>
         <EntityType Name="tLA_Relation">
           <Key>
@@ -1489,16 +1708,16 @@
           </Key>
           <Property Name="fId_LARelation" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_Album" Type="Int32" Nullable="false" />
-          <Property Name="fId_Location" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="tAlbum" Relationship="Self.FK_tLA_Relation_tAlbum" FromRole="tLA_Relation" ToRole="tAlbum" />
-          <NavigationProperty Name="tLocation" Relationship="Self.FK_tLA_Relation_tLocation" FromRole="tLA_Relation" ToRole="tLocation" />
+          <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tAlbum" Relationship="DB_FunDayTripModel.FK_tLA_Relation_tAlbum" FromRole="tLA_Relation" ToRole="tAlbum" />
+          <NavigationProperty Name="tLocation" Relationship="DB_FunDayTripModel.FK_tLA_Relation_tLocation" FromRole="tLA_Relation" ToRole="tLocation" />
         </EntityType>
         <EntityType Name="tLocation">
           <Key>
             <PropertyRef Name="fId_Location" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Location" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
           <Property Name="fId_Coordinate" Type="Int32" Nullable="false" />
           <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" />
@@ -1509,36 +1728,36 @@
           <Property Name="fTime_Location" Type="DateTime" Precision="3" />
           <Property Name="fAdd_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fDelete_Location" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tAds" Relationship="Self.FK_tAd_tLocation" FromRole="tLocation" ToRole="tAd" />
-          <NavigationProperty Name="tCoordinate" Relationship="Self.FK_tLocation_tCoordinate" FromRole="tLocation" ToRole="tCoordinate" />
-          <NavigationProperty Name="tIcon" Relationship="Self.FK_tLocation_tIcon" FromRole="tLocation" ToRole="tIcon" />
-          <NavigationProperty Name="tLA_Relation" Relationship="Self.FK_tLA_Relation_tLocation" FromRole="tLocation" ToRole="tLA_Relation" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tLocation_tRole" FromRole="tLocation" ToRole="tRole" />
-          <NavigationProperty Name="tShareAuth" Relationship="Self.FK_tLocation_tShareAuth" FromRole="tLocation" ToRole="tShareAuth" />
-          <NavigationProperty Name="tLR_Relation" Relationship="Self.FK_tLR_Relation_tLocation" FromRole="tLocation" ToRole="tLR_Relation" />
-          <NavigationProperty Name="tPhotoes" Relationship="Self.FK_tPhoto_tLocation" FromRole="tLocation" ToRole="tPhoto" />
+          <NavigationProperty Name="tAds" Relationship="DB_FunDayTripModel.FK_tAd_tLocation" FromRole="tLocation" ToRole="tAd" />
+          <NavigationProperty Name="tCoordinate" Relationship="DB_FunDayTripModel.FK_tLocation_tCoordinate" FromRole="tLocation" ToRole="tCoordinate" />
+          <NavigationProperty Name="tIcon" Relationship="DB_FunDayTripModel.FK_tLocation_tIcon" FromRole="tLocation" ToRole="tIcon" />
+          <NavigationProperty Name="tLA_Relation" Relationship="DB_FunDayTripModel.FK_tLA_Relation_tLocation" FromRole="tLocation" ToRole="tLA_Relation" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tLocation_tRole" FromRole="tLocation" ToRole="tRole" />
+          <NavigationProperty Name="tShareAuth" Relationship="DB_FunDayTripModel.FK_tLocation_tShareAuth" FromRole="tLocation" ToRole="tShareAuth" />
+          <NavigationProperty Name="tLR_Relation" Relationship="DB_FunDayTripModel.FK_tLR_Relation_tLocation" FromRole="tLocation" ToRole="tLR_Relation" />
+          <NavigationProperty Name="tPhotoes" Relationship="DB_FunDayTripModel.FK_tPhoto_tLocation" FromRole="tLocation" ToRole="tPhoto" />
         </EntityType>
         <EntityType Name="tLR_Relation">
           <Key>
             <PropertyRef Name="fId_LRRelation" />
           </Key>
           <Property Name="fId_LRRelation" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fId_Location" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fId_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
           <Property Name="fOrder_LRRelation" Type="Int32" />
-          <NavigationProperty Name="tLocation" Relationship="Self.FK_tLR_Relation_tLocation" FromRole="tLR_Relation" ToRole="tLocation" />
-          <NavigationProperty Name="tRoute" Relationship="Self.FK_tLR_Relation_tRoute" FromRole="tLR_Relation" ToRole="tRoute" />
+          <NavigationProperty Name="tLocation" Relationship="DB_FunDayTripModel.FK_tLR_Relation_tLocation" FromRole="tLR_Relation" ToRole="tLocation" />
+          <NavigationProperty Name="tRoute" Relationship="DB_FunDayTripModel.FK_tLR_Relation_tRoute" FromRole="tLR_Relation" ToRole="tRoute" />
         </EntityType>
         <EntityType Name="tMember">
           <Key>
             <PropertyRef Name="fId_Member" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Member" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_Member" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
-          <Property Name="fNickName_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fEmail_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fPassword_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fNickName_Member" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fEmail_Member" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fPassword_Member" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fAdd_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fGender_Member" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fBirthday_Member" Type="DateTime" Precision="3" />
@@ -1550,8 +1769,8 @@
           <Property Name="fPhoto_Member" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fGpsX_Member" Type="Decimal" Precision="18" Scale="10" />
           <Property Name="fGpsY_Member" Type="Decimal" Precision="18" Scale="10" />
-          <NavigationProperty Name="tFuntionAuth" Relationship="Self.FK_tMember_tMember" FromRole="tMember" ToRole="tFuntionAuth" />
-          <NavigationProperty Name="tRoles" Relationship="Self.FK_tRole_tMember" FromRole="tMember" ToRole="tRole" />
+          <NavigationProperty Name="tFuntionAuth" Relationship="DB_FunDayTripModel.FK_tMember_tMember" FromRole="tMember" ToRole="tFuntionAuth" />
+          <NavigationProperty Name="tRoles" Relationship="DB_FunDayTripModel.FK_tRole_tMember" FromRole="tMember" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tMessage">
           <Key>
@@ -1564,8 +1783,8 @@
           <Property Name="fTime_Message" Type="DateTime" Precision="3" />
           <Property Name="fIp_Message" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="fStatus_Message" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tMessage_tRole_From" FromRole="tMessage" ToRole="tRole" />
-          <NavigationProperty Name="tRole1" Relationship="Self.FK_tMessage_tRole_To" FromRole="tMessage" ToRole="tRole" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tMessage_tRole_From" FromRole="tMessage" ToRole="tRole" />
+          <NavigationProperty Name="tRole1" Relationship="DB_FunDayTripModel.FK_tMessage_tRole_To" FromRole="tMessage" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tNote">
           <Key>
@@ -1577,23 +1796,23 @@
           <Property Name="fMessage_Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fTime_Note" Type="DateTime" Precision="3" />
           <Property Name="fIsRead_Note" Type="Int32" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tNote_tRole" FromRole="tNote" ToRole="tRole" />
-          <NavigationProperty Name="tRole1" Relationship="Self.FK_tNote_tRole_Admin" FromRole="tNote" ToRole="tRole" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tNote_tRole" FromRole="tNote" ToRole="tRole" />
+          <NavigationProperty Name="tRole1" Relationship="DB_FunDayTripModel.FK_tNote_tRole_Admin" FromRole="tNote" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tPhoto">
           <Key>
             <PropertyRef Name="fId_Photo" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Photo" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Location" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fId_Photo" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_Location" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
           <Property Name="fTitle_Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fDescript_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fPath_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fTime_Photo" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tLocation" Relationship="Self.FK_tPhoto_tLocation" FromRole="tPhoto" ToRole="tLocation" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tPhoto_tRole" FromRole="tPhoto" ToRole="tRole" />
+          <NavigationProperty Name="tLocation" Relationship="DB_FunDayTripModel.FK_tPhoto_tLocation" FromRole="tPhoto" ToRole="tLocation" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tPhoto_tRole" FromRole="tPhoto" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tPoint">
           <Key>
@@ -1604,23 +1823,23 @@
           <Property Name="fPoint_Point" Type="Int32" />
           <Property Name="fTime_Point" Type="DateTime" Precision="3" />
           <Property Name="fType_Point" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tPoint_tRole" FromRole="tPoint" ToRole="tRole" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tPoint_tRole" FromRole="tPoint" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tProfitMember">
           <Key>
             <PropertyRef Name="fId_ProfitMember" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_ProfitMember" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_ProfitMember" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_FunctionAuth" Type="Int32" Nullable="false" />
           <Property Name="fId_ProfitType" Type="Int32" Nullable="false" />
-          <Property Name="fName_ProfitMember" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fName_ProfitMember" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fEmail_ProfitMember" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fAdd_ProfitMember" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fPhone_ProfitMember" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fPhoto_ProfitMember" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tFuntionAuth" Relationship="Self.FK_tProfitMember_tFuntionAuth" FromRole="tProfitMember" ToRole="tFuntionAuth" />
-          <NavigationProperty Name="tProfitType" Relationship="Self.FK_tProfitMember_tProfitType" FromRole="tProfitMember" ToRole="tProfitType" />
+          <NavigationProperty Name="tFuntionAuth" Relationship="DB_FunDayTripModel.FK_tProfitMember_tFuntionAuth" FromRole="tProfitMember" ToRole="tFuntionAuth" />
+          <NavigationProperty Name="tProfitType" Relationship="DB_FunDayTripModel.FK_tProfitMember_tProfitType" FromRole="tProfitMember" ToRole="tProfitType" />
         </EntityType>
         <EntityType Name="tProfitType">
           <Key>
@@ -1628,7 +1847,7 @@
           </Key>
           <Property Name="fId_ProfitType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fName_ProfitType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tProfitMembers" Relationship="Self.FK_tProfitMember_tProfitType" FromRole="tProfitType" ToRole="tProfitMember" />
+          <NavigationProperty Name="tProfitMembers" Relationship="DB_FunDayTripModel.FK_tProfitMember_tProfitType" FromRole="tProfitType" ToRole="tProfitMember" />
         </EntityType>
         <EntityType Name="tReport">
           <Key>
@@ -1638,59 +1857,59 @@
           <Property Name="fId_Reporter_Role" Type="Int32" Nullable="false" />
           <Property Name="fId_Reported_Role" Type="Int32" Nullable="false" />
           <Property Name="fId_Admin_Role" Type="Int32" />
-          <Property Name="fId_Location_Route_Comment_Photo" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fId_Type_Location_Route_Comment_Photo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fId_Location_Route_Comment_Photo" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="fId_Type_Location_Route_Comment_Photo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="fReason_Report" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fTimeReport_Report" Type="DateTime" Precision="3" />
           <Property Name="fTimeModify_Report" Type="DateTime" Precision="3" />
           <Property Name="fStatus_Report" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tReport_tRole_Admin" FromRole="tReport" ToRole="tRole" />
-          <NavigationProperty Name="tRole1" Relationship="Self.FK_tReport_tRole_Reported" FromRole="tReport" ToRole="tRole" />
-          <NavigationProperty Name="tRole2" Relationship="Self.FK_tReport_tRole_Reporter" FromRole="tReport" ToRole="tRole" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tReport_tRole_Admin" FromRole="tReport" ToRole="tRole" />
+          <NavigationProperty Name="tRole1" Relationship="DB_FunDayTripModel.FK_tReport_tRole_Reported" FromRole="tReport" ToRole="tRole" />
+          <NavigationProperty Name="tRole2" Relationship="DB_FunDayTripModel.FK_tReport_tRole_Reporter" FromRole="tReport" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tRole">
           <Key>
             <PropertyRef Name="fId_Role" />
           </Key>
           <Property Name="fId_Role" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Master_Role" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fId_Slave_Role" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fId_Slave_Type_Role" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fId_Master_Role" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="fId_Slave_Role" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="fId_Slave_Type_Role" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="fNickName_Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fEntryDate_Role" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tAds" Relationship="Self.FK_tAd_tRole" FromRole="tRole" ToRole="tAd" />
-          <NavigationProperty Name="tAds1" Relationship="Self.FK_tAd_tRole_Role_Admin" FromRole="tRole" ToRole="tAd" />
-          <NavigationProperty Name="tBalances" Relationship="Self.FK_tBalance_tRole" FromRole="tRole" ToRole="tBalance" />
-          <NavigationProperty Name="tBanks" Relationship="Self.FK_tBank_tRole" FromRole="tRole" ToRole="tBank" />
-          <NavigationProperty Name="tBlocks" Relationship="Self.FK_tBlock_tRole_Self" FromRole="tRole" ToRole="tBlock" />
-          <NavigationProperty Name="tBlocks1" Relationship="Self.FK_tBlock_tRole_Target" FromRole="tRole" ToRole="tBlock" />
-          <NavigationProperty Name="tComments" Relationship="Self.FK_tComment_tRole" FromRole="tRole" ToRole="tComment" />
-          <NavigationProperty Name="tFollows" Relationship="Self.FK_tFollow_tRole_Self" FromRole="tRole" ToRole="tFollow" />
-          <NavigationProperty Name="tFollows1" Relationship="Self.FK_tFollow_tRole_Target" FromRole="tRole" ToRole="tFollow" />
-          <NavigationProperty Name="tGameGroups" Relationship="Self.FK_tGameGroup_tRole" FromRole="tRole" ToRole="tGameGroup" />
-          <NavigationProperty Name="tGameRecords" Relationship="Self.FK_tGameRecord_tRole" FromRole="tRole" ToRole="tGameRecord" />
-          <NavigationProperty Name="tGameUnlocks" Relationship="Self.FK_tGameUnlock_tRole" FromRole="tRole" ToRole="tGameUnlock" />
-          <NavigationProperty Name="tLocations" Relationship="Self.FK_tLocation_tRole" FromRole="tRole" ToRole="tLocation" />
-          <NavigationProperty Name="tMember" Relationship="Self.FK_tRole_tMember" FromRole="tRole" ToRole="tMember" />
-          <NavigationProperty Name="tMessages" Relationship="Self.FK_tMessage_tRole_From" FromRole="tRole" ToRole="tMessage" />
-          <NavigationProperty Name="tMessages1" Relationship="Self.FK_tMessage_tRole_To" FromRole="tRole" ToRole="tMessage" />
-          <NavigationProperty Name="tNotes" Relationship="Self.FK_tNote_tRole" FromRole="tRole" ToRole="tNote" />
-          <NavigationProperty Name="tNotes1" Relationship="Self.FK_tNote_tRole_Admin" FromRole="tRole" ToRole="tNote" />
-          <NavigationProperty Name="tPhotoes" Relationship="Self.FK_tPhoto_tRole" FromRole="tRole" ToRole="tPhoto" />
-          <NavigationProperty Name="tPoints" Relationship="Self.FK_tPoint_tRole" FromRole="tRole" ToRole="tPoint" />
-          <NavigationProperty Name="tReports" Relationship="Self.FK_tReport_tRole_Admin" FromRole="tRole" ToRole="tReport" />
-          <NavigationProperty Name="tReports1" Relationship="Self.FK_tReport_tRole_Reported" FromRole="tRole" ToRole="tReport" />
-          <NavigationProperty Name="tReports2" Relationship="Self.FK_tReport_tRole_Reporter" FromRole="tRole" ToRole="tReport" />
-          <NavigationProperty Name="tRoutes" Relationship="Self.FK_tRoute_tRole" FromRole="tRole" ToRole="tRoute" />
-          <NavigationProperty Name="tStatistics" Relationship="Self.FK_tStatistic_tRole" FromRole="tRole" ToRole="tStatistic" />
-          <NavigationProperty Name="tUnlocks" Relationship="Self.FK_tUnlock_tRole" FromRole="tRole" ToRole="tUnlock" />
+          <NavigationProperty Name="tAds" Relationship="DB_FunDayTripModel.FK_tAd_tRole" FromRole="tRole" ToRole="tAd" />
+          <NavigationProperty Name="tAds1" Relationship="DB_FunDayTripModel.FK_tAd_tRole_Role_Admin" FromRole="tRole" ToRole="tAd" />
+          <NavigationProperty Name="tBalances" Relationship="DB_FunDayTripModel.FK_tBalance_tRole" FromRole="tRole" ToRole="tBalance" />
+          <NavigationProperty Name="tBanks" Relationship="DB_FunDayTripModel.FK_tBank_tRole" FromRole="tRole" ToRole="tBank" />
+          <NavigationProperty Name="tBlocks" Relationship="DB_FunDayTripModel.FK_tBlock_tRole_Self" FromRole="tRole" ToRole="tBlock" />
+          <NavigationProperty Name="tBlocks1" Relationship="DB_FunDayTripModel.FK_tBlock_tRole_Target" FromRole="tRole" ToRole="tBlock" />
+          <NavigationProperty Name="tComments" Relationship="DB_FunDayTripModel.FK_tComment_tRole" FromRole="tRole" ToRole="tComment" />
+          <NavigationProperty Name="tFollows" Relationship="DB_FunDayTripModel.FK_tFollow_tRole_Self" FromRole="tRole" ToRole="tFollow" />
+          <NavigationProperty Name="tFollows1" Relationship="DB_FunDayTripModel.FK_tFollow_tRole_Target" FromRole="tRole" ToRole="tFollow" />
+          <NavigationProperty Name="tGameGroups" Relationship="DB_FunDayTripModel.FK_tGameGroup_tRole" FromRole="tRole" ToRole="tGameGroup" />
+          <NavigationProperty Name="tGameUnlocks" Relationship="DB_FunDayTripModel.FK_tGameUnlock_tRole" FromRole="tRole" ToRole="tGameUnlock" />
+          <NavigationProperty Name="tLocations" Relationship="DB_FunDayTripModel.FK_tLocation_tRole" FromRole="tRole" ToRole="tLocation" />
+          <NavigationProperty Name="tMember" Relationship="DB_FunDayTripModel.FK_tRole_tMember" FromRole="tRole" ToRole="tMember" />
+          <NavigationProperty Name="tMessages" Relationship="DB_FunDayTripModel.FK_tMessage_tRole_From" FromRole="tRole" ToRole="tMessage" />
+          <NavigationProperty Name="tMessages1" Relationship="DB_FunDayTripModel.FK_tMessage_tRole_To" FromRole="tRole" ToRole="tMessage" />
+          <NavigationProperty Name="tNotes" Relationship="DB_FunDayTripModel.FK_tNote_tRole" FromRole="tRole" ToRole="tNote" />
+          <NavigationProperty Name="tNotes1" Relationship="DB_FunDayTripModel.FK_tNote_tRole_Admin" FromRole="tRole" ToRole="tNote" />
+          <NavigationProperty Name="tPhotoes" Relationship="DB_FunDayTripModel.FK_tPhoto_tRole" FromRole="tRole" ToRole="tPhoto" />
+          <NavigationProperty Name="tPoints" Relationship="DB_FunDayTripModel.FK_tPoint_tRole" FromRole="tRole" ToRole="tPoint" />
+          <NavigationProperty Name="tReports" Relationship="DB_FunDayTripModel.FK_tReport_tRole_Admin" FromRole="tRole" ToRole="tReport" />
+          <NavigationProperty Name="tReports1" Relationship="DB_FunDayTripModel.FK_tReport_tRole_Reported" FromRole="tRole" ToRole="tReport" />
+          <NavigationProperty Name="tReports2" Relationship="DB_FunDayTripModel.FK_tReport_tRole_Reporter" FromRole="tRole" ToRole="tReport" />
+          <NavigationProperty Name="tRoutes" Relationship="DB_FunDayTripModel.FK_tRoute_tRole" FromRole="tRole" ToRole="tRoute" />
+          <NavigationProperty Name="tStatistics" Relationship="DB_FunDayTripModel.FK_tStatistic_tRole" FromRole="tRole" ToRole="tStatistic" />
+          <NavigationProperty Name="tUnlocks" Relationship="DB_FunDayTripModel.FK_tUnlock_tRole" FromRole="tRole" ToRole="tUnlock" />
+          <NavigationProperty Name="tGameRecords" Relationship="DB_FunDayTripModel.FK_tGameRecord_tRole" FromRole="tRole" ToRole="tGameRecord" />
         </EntityType>
         <EntityType Name="tRoute">
           <Key>
             <PropertyRef Name="fId_Route" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fId_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
           <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" />
           <Property Name="fId_Icon" Type="Int32" Nullable="false" />
@@ -1700,11 +1919,11 @@
           <Property Name="fPath_Route" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fTime_Route" Type="DateTime" Precision="3" />
           <Property Name="fDelete_Route" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tGameGroups" Relationship="Self.FK_tGameGroup_tRoute" FromRole="tRoute" ToRole="tGameGroup" />
-          <NavigationProperty Name="tIcon" Relationship="Self.FK_tRoute_tIcon" FromRole="tRoute" ToRole="tIcon" />
-          <NavigationProperty Name="tLR_Relation" Relationship="Self.FK_tLR_Relation_tRoute" FromRole="tRoute" ToRole="tLR_Relation" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tRoute_tRole" FromRole="tRoute" ToRole="tRole" />
-          <NavigationProperty Name="tShareAuth" Relationship="Self.FK_tRoute_tShareAuth" FromRole="tRoute" ToRole="tShareAuth" />
+          <NavigationProperty Name="tGameGroups" Relationship="DB_FunDayTripModel.FK_tGameGroup_tRoute" FromRole="tRoute" ToRole="tGameGroup" />
+          <NavigationProperty Name="tIcon" Relationship="DB_FunDayTripModel.FK_tRoute_tIcon" FromRole="tRoute" ToRole="tIcon" />
+          <NavigationProperty Name="tLR_Relation" Relationship="DB_FunDayTripModel.FK_tLR_Relation_tRoute" FromRole="tRoute" ToRole="tLR_Relation" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tRoute_tRole" FromRole="tRoute" ToRole="tRole" />
+          <NavigationProperty Name="tShareAuth" Relationship="DB_FunDayTripModel.FK_tRoute_tShareAuth" FromRole="tRoute" ToRole="tShareAuth" />
         </EntityType>
         <EntityType Name="tShareAuth">
           <Key>
@@ -1712,9 +1931,9 @@
           </Key>
           <Property Name="fId_ShareAuth" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fAuth_ShareAuth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tAlbums" Relationship="Self.FK_tAlbum_TotShareAuth" FromRole="tShareAuth" ToRole="tAlbum" />
-          <NavigationProperty Name="tLocations" Relationship="Self.FK_tLocation_tShareAuth" FromRole="tShareAuth" ToRole="tLocation" />
-          <NavigationProperty Name="tRoutes" Relationship="Self.FK_tRoute_tShareAuth" FromRole="tShareAuth" ToRole="tRoute" />
+          <NavigationProperty Name="tAlbums" Relationship="DB_FunDayTripModel.FK_tAlbum_TotShareAuth" FromRole="tShareAuth" ToRole="tAlbum" />
+          <NavigationProperty Name="tLocations" Relationship="DB_FunDayTripModel.FK_tLocation_tShareAuth" FromRole="tShareAuth" ToRole="tLocation" />
+          <NavigationProperty Name="tRoutes" Relationship="DB_FunDayTripModel.FK_tRoute_tShareAuth" FromRole="tShareAuth" ToRole="tRoute" />
         </EntityType>
         <EntityType Name="tStatistic">
           <Key>
@@ -1722,9 +1941,9 @@
           </Key>
           <Property Name="fId_Statistic" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
-          <Property Name="fId_Location_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fId_Type_Location_Route" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tStatistic_tRole" FromRole="tStatistic" ToRole="tRole" />
+          <Property Name="fId_Location_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="fId_Type_Location_Route" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tStatistic_tRole" FromRole="tStatistic" ToRole="tRole" />
         </EntityType>
         <EntityType Name="tTag">
           <Key>
@@ -1732,17 +1951,17 @@
           </Key>
           <Property Name="fId_Tag" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fName_Tag" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tTagMsgRelations" Relationship="Self.FK_tTagMsgRelations_tTag" FromRole="tTag" ToRole="tTagMsgRelations" />
+          <NavigationProperty Name="tTagMsgRelations" Relationship="DB_FunDayTripModel.FK_tTagMsgRelations_tTag" FromRole="tTag" ToRole="tTagMsgRelation" />
         </EntityType>
         <EntityType Name="tTagMsgRelation">
           <Key>
             <PropertyRef Name="fId_TagMsgRelations" />
           </Key>
           <Property Name="fId_TagMsgRelations" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fId_Location_Route_Photo" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fId_Type_Location_Route_Photo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fId_Location_Route_Photo" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="fId_Type_Location_Route_Photo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="fId_Tag" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tTag" Relationship="Self.FK_tTagMsgRelations_tTag" FromRole="tTagMsgRelations" ToRole="tTag" />
+          <NavigationProperty Name="tTag" Relationship="DB_FunDayTripModel.FK_tTagMsgRelations_tTag" FromRole="tTagMsgRelation" ToRole="tTag" />
         </EntityType>
         <EntityType Name="tUnlock">
           <Key>
@@ -1750,14 +1969,14 @@
           </Key>
           <Property Name="fId_Unlock" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId_Role" Type="Int32" Nullable="false" />
-          <Property Name="fId_Location_Route" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fId_Type_Location_Route" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fId_Location_Route" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="fId_Type_Location_Route" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="fTime_Unlock" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tRole" Relationship="Self.FK_tUnlock_tRole" FromRole="tUnlock" ToRole="tRole" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tUnlock_tRole" FromRole="tUnlock" ToRole="tRole" />
         </EntityType>
         <Association Name="FK_tAd_tLocation">
-          <End Role="tLocation" Type="Self.tLocation" Multiplicity="1" />
-          <End Role="tAd" Type="Self.tAd" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tLocation" Role="tLocation" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tAd" Role="tAd" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tLocation">
               <PropertyRef Name="fId_Location" />
@@ -1768,8 +1987,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tAd_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tAd" Type="Self.tAd" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tAd" Role="tAd" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -1780,8 +1999,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tAd_tRole_Role_Admin">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tAd" Type="Self.tAd" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tAd" Role="tAd" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -1792,8 +2011,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tAdmin_tFuntionAuth">
-          <End Role="tFuntionAuth" Type="Self.tFuntionAuth" Multiplicity="1" />
-          <End Role="tAdmin" Type="Self.tAdmin" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tFuntionAuth" Role="tFuntionAuth" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tAdmin" Role="tAdmin" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tFuntionAuth">
               <PropertyRef Name="fId_FunctionAuth" />
@@ -1804,8 +2023,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tAlbum_TotShareAuth">
-          <End Role="tShareAuth" Type="Self.tShareAuth" Multiplicity="1" />
-          <End Role="tAlbum" Type="Self.tAlbum" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tShareAuth" Role="tShareAuth" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tAlbum" Role="tAlbum" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tShareAuth">
               <PropertyRef Name="fId_ShareAuth" />
@@ -1816,8 +2035,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tLA_Relation_tAlbum">
-          <End Role="tAlbum" Type="Self.tAlbum" Multiplicity="1" />
-          <End Role="tLA_Relation" Type="Self.tLA_Relation" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tAlbum" Role="tAlbum" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tLA_Relation" Role="tLA_Relation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tAlbum">
               <PropertyRef Name="fId_Album" />
@@ -1828,8 +2047,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tBalance_tBank">
-          <End Role="tBank" Type="Self.tBank" Multiplicity="1" />
-          <End Role="tBalance" Type="Self.tBalance" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tBank" Role="tBank" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tBalance" Role="tBalance" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tBank">
               <PropertyRef Name="fId_Bank" />
@@ -1840,8 +2059,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tBalance_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tBalance" Type="Self.tBalance" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tBalance" Role="tBalance" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -1852,8 +2071,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tBank_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tBank" Type="Self.tBank" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tBank" Role="tBank" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -1864,8 +2083,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tBlock_tRole_Self">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tBlock" Type="Self.tBlock" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tBlock" Role="tBlock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -1876,8 +2095,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tBlock_tRole_Target">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tBlock" Type="Self.tBlock" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tBlock" Role="tBlock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -1888,8 +2107,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tComment_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tComment" Type="Self.tComment" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tComment" Role="tComment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -1900,8 +2119,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tGame_tCoordinate">
-          <End Role="tCoordinate" Type="Self.tCoordinate" Multiplicity="1" />
-          <End Role="tGame" Type="Self.tGame" Multiplicity="0..1" />
+          <End Type="DB_FunDayTripModel.tCoordinate" Role="tCoordinate" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tGame" Role="tGame" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="tCoordinate">
               <PropertyRef Name="fId_Coordinate" />
@@ -1912,8 +2131,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tLocation_tCoordinate">
-          <End Role="tCoordinate" Type="Self.tCoordinate" Multiplicity="1" />
-          <End Role="tLocation" Type="Self.tLocation" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tCoordinate" Role="tCoordinate" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tLocation" Role="tLocation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tCoordinate">
               <PropertyRef Name="fId_Coordinate" />
@@ -1924,8 +2143,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tFollow_tRole_Self">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tFollow" Type="Self.tFollow" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tFollow" Role="tFollow" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -1936,8 +2155,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tFollow_tRole_Target">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tFollow" Type="Self.tFollow" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tFollow" Role="tFollow" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -1948,8 +2167,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tMember_tMember">
-          <End Role="tFuntionAuth" Type="Self.tFuntionAuth" Multiplicity="1" />
-          <End Role="tMember" Type="Self.tMember" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tFuntionAuth" Role="tFuntionAuth" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tMember" Role="tMember" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tFuntionAuth">
               <PropertyRef Name="fId_FunctionAuth" />
@@ -1960,8 +2179,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tProfitMember_tFuntionAuth">
-          <End Role="tFuntionAuth" Type="Self.tFuntionAuth" Multiplicity="1" />
-          <End Role="tProfitMember" Type="Self.tProfitMember" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tFuntionAuth" Role="tFuntionAuth" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tProfitMember" Role="tProfitMember" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tFuntionAuth">
               <PropertyRef Name="fId_FunctionAuth" />
@@ -1972,8 +2191,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tGame_tGameGroup">
-          <End Role="tGameGroup" Type="Self.tGameGroup" Multiplicity="1" />
-          <End Role="tGame" Type="Self.tGame" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tGameGroup" Role="tGameGroup" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tGame" Role="tGame" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tGameGroup">
               <PropertyRef Name="fId_GameGroup" />
@@ -1984,8 +2203,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tGameQA_tGame">
-          <End Role="tGame" Type="Self.tGame" Multiplicity="1" />
-          <End Role="tGameQA" Type="Self.tGameQA" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tGame" Role="tGame" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tGameQA" Role="tGameQA" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tGame">
               <PropertyRef Name="fId_Game" />
@@ -1996,8 +2215,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tGameStep_tGame">
-          <End Role="tGame" Type="Self.tGame" Multiplicity="1" />
-          <End Role="tGameStep" Type="Self.tGameStep" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tGame" Role="tGame" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tGameStep" Role="tGameStep" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tGame">
               <PropertyRef Name="fId_Game" />
@@ -2008,8 +2227,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tGameGroup_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tGameGroup" Type="Self.tGameGroup" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tGameGroup" Role="tGameGroup" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2020,8 +2239,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tGameGroup_tRoute">
-          <End Role="tRoute" Type="Self.tRoute" Multiplicity="0..1" />
-          <End Role="tGameGroup" Type="Self.tGameGroup" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRoute" Role="tRoute" Multiplicity="0..1" />
+          <End Type="DB_FunDayTripModel.tGameGroup" Role="tGameGroup" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRoute">
               <PropertyRef Name="fId_Route" />
@@ -2031,21 +2250,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tGameRecord_tGameGroup">
-          <End Role="tGameGroup" Type="Self.tGameGroup" Multiplicity="0..1" />
-          <End Role="tGameRecord" Type="Self.tGameRecord" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tGameGroup">
-              <PropertyRef Name="fId_GameGroup" />
-            </Principal>
-            <Dependent Role="tGameRecord">
-              <PropertyRef Name="fId_GameGroup" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tGameUnlock_tGameGroup">
-          <End Role="tGameGroup" Type="Self.tGameGroup" Multiplicity="1" />
-          <End Role="tGameUnlock" Type="Self.tGameUnlock" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tGameGroup" Role="tGameGroup" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tGameUnlock" Role="tGameUnlock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tGameGroup">
               <PropertyRef Name="fId_GameGroup" />
@@ -2055,21 +2262,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tGameRecord_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="0..1" />
-          <End Role="tGameRecord" Type="Self.tGameRecord" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tRole">
-              <PropertyRef Name="fId_Role" />
-            </Principal>
-            <Dependent Role="tGameRecord">
-              <PropertyRef Name="fId_Role" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tGameUnlock_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tGameUnlock" Type="Self.tGameUnlock" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tGameUnlock" Role="tGameUnlock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2080,8 +2275,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tLocation_tIcon">
-          <End Role="tIcon" Type="Self.tIcon" Multiplicity="1" />
-          <End Role="tLocation" Type="Self.tLocation" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tIcon" Role="tIcon" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tLocation" Role="tLocation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tIcon">
               <PropertyRef Name="fId_Icon" />
@@ -2092,8 +2287,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tRoute_tIcon">
-          <End Role="tIcon" Type="Self.tIcon" Multiplicity="1" />
-          <End Role="tRoute" Type="Self.tRoute" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tIcon" Role="tIcon" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tRoute" Role="tRoute" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tIcon">
               <PropertyRef Name="fId_Icon" />
@@ -2104,8 +2299,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tLA_Relation_tLocation">
-          <End Role="tLocation" Type="Self.tLocation" Multiplicity="1" />
-          <End Role="tLA_Relation" Type="Self.tLA_Relation" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tLocation" Role="tLocation" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tLA_Relation" Role="tLA_Relation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tLocation">
               <PropertyRef Name="fId_Location" />
@@ -2116,8 +2311,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tLocation_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tLocation" Type="Self.tLocation" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tLocation" Role="tLocation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2128,8 +2323,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tLocation_tShareAuth">
-          <End Role="tShareAuth" Type="Self.tShareAuth" Multiplicity="1" />
-          <End Role="tLocation" Type="Self.tLocation" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tShareAuth" Role="tShareAuth" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tLocation" Role="tLocation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tShareAuth">
               <PropertyRef Name="fId_ShareAuth" />
@@ -2140,8 +2335,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tLR_Relation_tLocation">
-          <End Role="tLocation" Type="Self.tLocation" Multiplicity="1" />
-          <End Role="tLR_Relation" Type="Self.tLR_Relation" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tLocation" Role="tLocation" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tLR_Relation" Role="tLR_Relation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tLocation">
               <PropertyRef Name="fId_Location" />
@@ -2152,8 +2347,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tPhoto_tLocation">
-          <End Role="tLocation" Type="Self.tLocation" Multiplicity="1" />
-          <End Role="tPhoto" Type="Self.tPhoto" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tLocation" Role="tLocation" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tPhoto" Role="tPhoto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tLocation">
               <PropertyRef Name="fId_Location" />
@@ -2164,8 +2359,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tLR_Relation_tRoute">
-          <End Role="tRoute" Type="Self.tRoute" Multiplicity="1" />
-          <End Role="tLR_Relation" Type="Self.tLR_Relation" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRoute" Role="tRoute" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tLR_Relation" Role="tLR_Relation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRoute">
               <PropertyRef Name="fId_Route" />
@@ -2176,8 +2371,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tRole_tMember">
-          <End Role="tMember" Type="Self.tMember" Multiplicity="1" />
-          <End Role="tRole" Type="Self.tRole" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tMember" Role="tMember" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tMember">
               <PropertyRef Name="fId_Member" />
@@ -2188,8 +2383,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tMessage_tRole_From">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tMessage" Type="Self.tMessage" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tMessage" Role="tMessage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2200,8 +2395,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tMessage_tRole_To">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tMessage" Type="Self.tMessage" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tMessage" Role="tMessage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2212,8 +2407,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tNote_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tNote" Type="Self.tNote" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tNote" Role="tNote" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2224,8 +2419,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tNote_tRole_Admin">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tNote" Type="Self.tNote" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tNote" Role="tNote" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2236,8 +2431,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tPhoto_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tPhoto" Type="Self.tPhoto" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tPhoto" Role="tPhoto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2248,8 +2443,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tPoint_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tPoint" Type="Self.tPoint" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tPoint" Role="tPoint" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2260,8 +2455,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tProfitMember_tProfitType">
-          <End Role="tProfitType" Type="Self.tProfitType" Multiplicity="1" />
-          <End Role="tProfitMember" Type="Self.tProfitMember" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tProfitType" Role="tProfitType" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tProfitMember" Role="tProfitMember" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tProfitType">
               <PropertyRef Name="fId_ProfitType" />
@@ -2272,8 +2467,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tReport_tRole_Admin">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="0..1" />
-          <End Role="tReport" Type="Self.tReport" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="0..1" />
+          <End Type="DB_FunDayTripModel.tReport" Role="tReport" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2284,8 +2479,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tReport_tRole_Reported">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tReport" Type="Self.tReport" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tReport" Role="tReport" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2296,8 +2491,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tReport_tRole_Reporter">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tReport" Type="Self.tReport" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tReport" Role="tReport" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2308,8 +2503,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tRoute_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tRoute" Type="Self.tRoute" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tRoute" Role="tRoute" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2320,8 +2515,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tStatistic_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tStatistic" Type="Self.tStatistic" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tStatistic" Role="tStatistic" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2332,8 +2527,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tUnlock_tRole">
-          <End Role="tRole" Type="Self.tRole" Multiplicity="1" />
-          <End Role="tUnlock" Type="Self.tUnlock" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tUnlock" Role="tUnlock" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tRole">
               <PropertyRef Name="fId_Role" />
@@ -2344,8 +2539,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tRoute_tShareAuth">
-          <End Role="tShareAuth" Type="Self.tShareAuth" Multiplicity="1" />
-          <End Role="tRoute" Type="Self.tRoute" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tShareAuth" Role="tShareAuth" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tRoute" Role="tRoute" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tShareAuth">
               <PropertyRef Name="fId_ShareAuth" />
@@ -2356,691 +2551,483 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tTagMsgRelations_tTag">
-          <End Role="tTag" Type="Self.tTag" Multiplicity="1" />
-          <End Role="tTagMsgRelations" Type="Self.tTagMsgRelation" Multiplicity="*" />
+          <End Type="DB_FunDayTripModel.tTag" Role="tTag" Multiplicity="1" />
+          <End Type="DB_FunDayTripModel.tTagMsgRelation" Role="tTagMsgRelation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tTag">
               <PropertyRef Name="fId_Tag" />
             </Principal>
-            <Dependent Role="tTagMsgRelations">
+            <Dependent Role="tTagMsgRelation">
               <PropertyRef Name="fId_Tag" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DB_FunDayTripEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="tAds" EntityType="Self.tAd" />
-          <EntitySet Name="tAdmins" EntityType="Self.tAdmin" />
-          <EntitySet Name="tAlbums" EntityType="Self.tAlbum" />
-          <EntitySet Name="tBalances" EntityType="Self.tBalance" />
-          <EntitySet Name="tBanks" EntityType="Self.tBank" />
-          <EntitySet Name="tBlocks" EntityType="Self.tBlock" />
-          <EntitySet Name="tComments" EntityType="Self.tComment" />
-          <EntitySet Name="tCoordinates" EntityType="Self.tCoordinate" />
-          <EntitySet Name="tFollows" EntityType="Self.tFollow" />
-          <EntitySet Name="tFuntionAuths" EntityType="Self.tFuntionAuth" />
-          <EntitySet Name="tGames" EntityType="Self.tGame" />
-          <EntitySet Name="tGameGroups" EntityType="Self.tGameGroup" />
-          <EntitySet Name="tGameQAs" EntityType="Self.tGameQA" />
-          <EntitySet Name="tGameRecords" EntityType="Self.tGameRecord" />
-          <EntitySet Name="tGameSteps" EntityType="Self.tGameStep" />
-          <EntitySet Name="tGameUnlocks" EntityType="Self.tGameUnlock" />
-          <EntitySet Name="tIcons" EntityType="Self.tIcon" />
-          <EntitySet Name="tLA_Relation" EntityType="Self.tLA_Relation" />
-          <EntitySet Name="tLocations" EntityType="Self.tLocation" />
-          <EntitySet Name="tLR_Relation" EntityType="Self.tLR_Relation" />
-          <EntitySet Name="tMembers" EntityType="Self.tMember" />
-          <EntitySet Name="tMessages" EntityType="Self.tMessage" />
-          <EntitySet Name="tNotes" EntityType="Self.tNote" />
-          <EntitySet Name="tPhotoes" EntityType="Self.tPhoto" />
-          <EntitySet Name="tPoints" EntityType="Self.tPoint" />
-          <EntitySet Name="tProfitMembers" EntityType="Self.tProfitMember" />
-          <EntitySet Name="tProfitTypes" EntityType="Self.tProfitType" />
-          <EntitySet Name="tReports" EntityType="Self.tReport" />
-          <EntitySet Name="tRoles" EntityType="Self.tRole" />
-          <EntitySet Name="tRoutes" EntityType="Self.tRoute" />
-          <EntitySet Name="tShareAuths" EntityType="Self.tShareAuth" />
-          <EntitySet Name="tStatistics" EntityType="Self.tStatistic" />
-          <EntitySet Name="tTags" EntityType="Self.tTag" />
-          <EntitySet Name="tTagMsgRelations" EntityType="Self.tTagMsgRelation" />
-          <EntitySet Name="tUnlocks" EntityType="Self.tUnlock" />
-          <AssociationSet Name="FK_tAd_tLocation" Association="Self.FK_tAd_tLocation">
-            <End Role="tLocation" EntitySet="tLocations" />
-            <End Role="tAd" EntitySet="tAds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tAd_tRole" Association="Self.FK_tAd_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tAd" EntitySet="tAds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tAd_tRole_Role_Admin" Association="Self.FK_tAd_tRole_Role_Admin">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tAd" EntitySet="tAds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tAdmin_tFuntionAuth" Association="Self.FK_tAdmin_tFuntionAuth">
-            <End Role="tFuntionAuth" EntitySet="tFuntionAuths" />
-            <End Role="tAdmin" EntitySet="tAdmins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tAlbum_TotShareAuth" Association="Self.FK_tAlbum_TotShareAuth">
-            <End Role="tShareAuth" EntitySet="tShareAuths" />
-            <End Role="tAlbum" EntitySet="tAlbums" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tLA_Relation_tAlbum" Association="Self.FK_tLA_Relation_tAlbum">
-            <End Role="tAlbum" EntitySet="tAlbums" />
-            <End Role="tLA_Relation" EntitySet="tLA_Relation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tBalance_tBank" Association="Self.FK_tBalance_tBank">
-            <End Role="tBank" EntitySet="tBanks" />
-            <End Role="tBalance" EntitySet="tBalances" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tBalance_tRole" Association="Self.FK_tBalance_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tBalance" EntitySet="tBalances" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tBank_tRole" Association="Self.FK_tBank_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tBank" EntitySet="tBanks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tBlock_tRole_Self" Association="Self.FK_tBlock_tRole_Self">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tBlock" EntitySet="tBlocks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tBlock_tRole_Target" Association="Self.FK_tBlock_tRole_Target">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tBlock" EntitySet="tBlocks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tComment_tRole" Association="Self.FK_tComment_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tComment" EntitySet="tComments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tGame_tCoordinate" Association="Self.FK_tGame_tCoordinate">
-            <End Role="tCoordinate" EntitySet="tCoordinates" />
-            <End Role="tGame" EntitySet="tGames" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tLocation_tCoordinate" Association="Self.FK_tLocation_tCoordinate">
-            <End Role="tCoordinate" EntitySet="tCoordinates" />
-            <End Role="tLocation" EntitySet="tLocations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tFollow_tRole_Self" Association="Self.FK_tFollow_tRole_Self">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tFollow" EntitySet="tFollows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tFollow_tRole_Target" Association="Self.FK_tFollow_tRole_Target">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tFollow" EntitySet="tFollows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tMember_tMember" Association="Self.FK_tMember_tMember">
-            <End Role="tFuntionAuth" EntitySet="tFuntionAuths" />
-            <End Role="tMember" EntitySet="tMembers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tProfitMember_tFuntionAuth" Association="Self.FK_tProfitMember_tFuntionAuth">
-            <End Role="tFuntionAuth" EntitySet="tFuntionAuths" />
-            <End Role="tProfitMember" EntitySet="tProfitMembers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tGame_tGameGroup" Association="Self.FK_tGame_tGameGroup">
-            <End Role="tGameGroup" EntitySet="tGameGroups" />
-            <End Role="tGame" EntitySet="tGames" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tGameQA_tGame" Association="Self.FK_tGameQA_tGame">
-            <End Role="tGame" EntitySet="tGames" />
-            <End Role="tGameQA" EntitySet="tGameQAs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tGameStep_tGame" Association="Self.FK_tGameStep_tGame">
-            <End Role="tGame" EntitySet="tGames" />
-            <End Role="tGameStep" EntitySet="tGameSteps" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tGameGroup_tRole" Association="Self.FK_tGameGroup_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tGameGroup" EntitySet="tGameGroups" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tGameGroup_tRoute" Association="Self.FK_tGameGroup_tRoute">
-            <End Role="tRoute" EntitySet="tRoutes" />
-            <End Role="tGameGroup" EntitySet="tGameGroups" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tGameRecord_tGameGroup" Association="Self.FK_tGameRecord_tGameGroup">
-            <End Role="tGameGroup" EntitySet="tGameGroups" />
-            <End Role="tGameRecord" EntitySet="tGameRecords" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tGameUnlock_tGameGroup" Association="Self.FK_tGameUnlock_tGameGroup">
-            <End Role="tGameGroup" EntitySet="tGameGroups" />
-            <End Role="tGameUnlock" EntitySet="tGameUnlocks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tGameRecord_tRole" Association="Self.FK_tGameRecord_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tGameRecord" EntitySet="tGameRecords" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tGameUnlock_tRole" Association="Self.FK_tGameUnlock_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tGameUnlock" EntitySet="tGameUnlocks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tLocation_tIcon" Association="Self.FK_tLocation_tIcon">
-            <End Role="tIcon" EntitySet="tIcons" />
-            <End Role="tLocation" EntitySet="tLocations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tRoute_tIcon" Association="Self.FK_tRoute_tIcon">
-            <End Role="tIcon" EntitySet="tIcons" />
-            <End Role="tRoute" EntitySet="tRoutes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tLA_Relation_tLocation" Association="Self.FK_tLA_Relation_tLocation">
-            <End Role="tLocation" EntitySet="tLocations" />
-            <End Role="tLA_Relation" EntitySet="tLA_Relation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tLocation_tRole" Association="Self.FK_tLocation_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tLocation" EntitySet="tLocations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tLocation_tShareAuth" Association="Self.FK_tLocation_tShareAuth">
-            <End Role="tShareAuth" EntitySet="tShareAuths" />
-            <End Role="tLocation" EntitySet="tLocations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tLR_Relation_tLocation" Association="Self.FK_tLR_Relation_tLocation">
-            <End Role="tLocation" EntitySet="tLocations" />
-            <End Role="tLR_Relation" EntitySet="tLR_Relation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tPhoto_tLocation" Association="Self.FK_tPhoto_tLocation">
-            <End Role="tLocation" EntitySet="tLocations" />
-            <End Role="tPhoto" EntitySet="tPhotoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tLR_Relation_tRoute" Association="Self.FK_tLR_Relation_tRoute">
-            <End Role="tRoute" EntitySet="tRoutes" />
-            <End Role="tLR_Relation" EntitySet="tLR_Relation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tRole_tMember" Association="Self.FK_tRole_tMember">
-            <End Role="tMember" EntitySet="tMembers" />
-            <End Role="tRole" EntitySet="tRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tMessage_tRole_From" Association="Self.FK_tMessage_tRole_From">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tMessage" EntitySet="tMessages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tMessage_tRole_To" Association="Self.FK_tMessage_tRole_To">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tMessage" EntitySet="tMessages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tNote_tRole" Association="Self.FK_tNote_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tNote" EntitySet="tNotes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tNote_tRole_Admin" Association="Self.FK_tNote_tRole_Admin">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tNote" EntitySet="tNotes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tPhoto_tRole" Association="Self.FK_tPhoto_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tPhoto" EntitySet="tPhotoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tPoint_tRole" Association="Self.FK_tPoint_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tPoint" EntitySet="tPoints" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tProfitMember_tProfitType" Association="Self.FK_tProfitMember_tProfitType">
-            <End Role="tProfitType" EntitySet="tProfitTypes" />
-            <End Role="tProfitMember" EntitySet="tProfitMembers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tReport_tRole_Admin" Association="Self.FK_tReport_tRole_Admin">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tReport" EntitySet="tReports" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tReport_tRole_Reported" Association="Self.FK_tReport_tRole_Reported">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tReport" EntitySet="tReports" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tReport_tRole_Reporter" Association="Self.FK_tReport_tRole_Reporter">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tReport" EntitySet="tReports" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tRoute_tRole" Association="Self.FK_tRoute_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tRoute" EntitySet="tRoutes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tStatistic_tRole" Association="Self.FK_tStatistic_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tStatistic" EntitySet="tStatistics" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tUnlock_tRole" Association="Self.FK_tUnlock_tRole">
-            <End Role="tRole" EntitySet="tRoles" />
-            <End Role="tUnlock" EntitySet="tUnlocks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tRoute_tShareAuth" Association="Self.FK_tRoute_tShareAuth">
-            <End Role="tShareAuth" EntitySet="tShareAuths" />
-            <End Role="tRoute" EntitySet="tRoutes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tTagMsgRelations_tTag" Association="Self.FK_tTagMsgRelations_tTag">
-            <End Role="tTag" EntitySet="tTags" />
-            <End Role="tTagMsgRelations" EntitySet="tTagMsgRelations" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        <EntityType Name="tGameRecord">
+          <Key>
+            <PropertyRef Name="fId_GameRecord" />
+          </Key>
+          <Property Name="fId_GameRecord" Type="Int32" Nullable="false" />
+          <Property Name="fId_Role" Type="Int32" />
+          <Property Name="fId_GameGroup" Type="Int32" />
+          <Property Name="fOrder_Game" Type="Int32" Nullable="false" />
+          <Property Name="fTime_GameRecord" Type="DateTime" Precision="3" />
+          <Property Name="fFinished_GameRecord" Type="Int32" />
+          <NavigationProperty Name="tGameGroup" Relationship="DB_FunDayTripModel.FK_tGameRecord_tGameGroup" FromRole="tGameRecord" ToRole="tGameGroup" />
+          <NavigationProperty Name="tRole" Relationship="DB_FunDayTripModel.FK_tGameRecord_tRole" FromRole="tGameRecord" ToRole="tRole" />
+        </EntityType>
+        <Association Name="FK_tGameRecord_tGameGroup">
+          <End Type="DB_FunDayTripModel.tGameGroup" Role="tGameGroup" Multiplicity="0..1" />
+          <End Type="DB_FunDayTripModel.tGameRecord" Role="tGameRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tGameGroup">
+              <PropertyRef Name="fId_GameGroup" />
+            </Principal>
+            <Dependent Role="tGameRecord">
+              <PropertyRef Name="fId_GameGroup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tGameRecord_tRole">
+          <End Type="DB_FunDayTripModel.tRole" Role="tRole" Multiplicity="0..1" />
+          <End Type="DB_FunDayTripModel.tGameRecord" Role="tGameRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRole">
+              <PropertyRef Name="fId_Role" />
+            </Principal>
+            <Dependent Role="tGameRecord">
+              <PropertyRef Name="fId_Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DB_FunDayTripModelStoreContainer" CdmEntityContainer="DB_FunDayTripEntities1">
+        <EntityContainerMapping StorageEntityContainer="DB_FunDayTripModelStoreContainer" CdmEntityContainer="DB_FunDayTripEntities">
           <EntitySetMapping Name="tAds">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tAd">
               <MappingFragment StoreEntitySet="tAd">
-                <ScalarProperty Name="fId_Ad" ColumnName="fId_Ad" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fId_Admin_Role" ColumnName="fId_Admin_Role" />
-                <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
-                <ScalarProperty Name="fContent_Ad" ColumnName="fContent_Ad" />
-                <ScalarProperty Name="fPhoto_Ad" ColumnName="fPhoto_Ad" />
-                <ScalarProperty Name="fSolution_Ad" ColumnName="fSolution_Ad" />
                 <ScalarProperty Name="fStatus_Ad" ColumnName="fStatus_Ad" />
+                <ScalarProperty Name="fSolution_Ad" ColumnName="fSolution_Ad" />
+                <ScalarProperty Name="fPhoto_Ad" ColumnName="fPhoto_Ad" />
+                <ScalarProperty Name="fContent_Ad" ColumnName="fContent_Ad" />
+                <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+                <ScalarProperty Name="fId_Admin_Role" ColumnName="fId_Admin_Role" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_Ad" ColumnName="fId_Ad" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tAdmins">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tAdmin">
               <MappingFragment StoreEntitySet="tAdmin">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="fId_Admin" ColumnName="fId_Admin" />
-                <ScalarProperty Name="fId_FunctionAuth" ColumnName="fId_FunctionAuth" />
-                <ScalarProperty Name="fName_Admin" ColumnName="fName_Admin" />
-                <ScalarProperty Name="fEmail_Admin" ColumnName="fEmail_Admin" />
-                <ScalarProperty Name="fPassword_Admin" ColumnName="fPassword_Admin" />
-                <ScalarProperty Name="fAdd_Admin" ColumnName="fAdd_Admin" />
-                <ScalarProperty Name="fGender_Admin" ColumnName="fGender_Admin" />
-                <ScalarProperty Name="fBirthday_Admin" ColumnName="fBirthday_Admin" />
                 <ScalarProperty Name="fPhone_Admin" ColumnName="fPhone_Admin" />
+                <ScalarProperty Name="fBirthday_Admin" ColumnName="fBirthday_Admin" />
+                <ScalarProperty Name="fGender_Admin" ColumnName="fGender_Admin" />
+                <ScalarProperty Name="fAdd_Admin" ColumnName="fAdd_Admin" />
+                <ScalarProperty Name="fPassword_Admin" ColumnName="fPassword_Admin" />
+                <ScalarProperty Name="fEmail_Admin" ColumnName="fEmail_Admin" />
+                <ScalarProperty Name="fName_Admin" ColumnName="fName_Admin" />
+                <ScalarProperty Name="fId_FunctionAuth" ColumnName="fId_FunctionAuth" />
+                <ScalarProperty Name="fId_Admin" ColumnName="fId_Admin" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tAlbums">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tAlbum">
               <MappingFragment StoreEntitySet="tAlbum">
-                <ScalarProperty Name="fId_Album" ColumnName="fId_Album" />
-                <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
-                <ScalarProperty Name="fName_Album" ColumnName="fName_Album" />
-                <ScalarProperty Name="fDescript_Album" ColumnName="fDescript_Album" />
                 <ScalarProperty Name="fDelete_Album" ColumnName="fDelete_Album" />
+                <ScalarProperty Name="fDescript_Album" ColumnName="fDescript_Album" />
+                <ScalarProperty Name="fName_Album" ColumnName="fName_Album" />
+                <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
+                <ScalarProperty Name="fId_Album" ColumnName="fId_Album" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tBalances">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tBalance">
               <MappingFragment StoreEntitySet="tBalance">
-                <ScalarProperty Name="fId_Balance" ColumnName="fId_Balance" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fId_Bank" ColumnName="fId_Bank" />
-                <ScalarProperty Name="fCreditCard_Balance" ColumnName="fCreditCard_Balance" />
-                <ScalarProperty Name="fStatus_Balance" ColumnName="fStatus_Balance" />
-                <ScalarProperty Name="fToken_Balance" ColumnName="fToken_Balance" />
-                <ScalarProperty Name="fPayTime_Balance" ColumnName="fPayTime_Balance" />
-                <ScalarProperty Name="fVerify_Balance" ColumnName="fVerify_Balance" />
                 <ScalarProperty Name="fRemark_Balance" ColumnName="fRemark_Balance" />
+                <ScalarProperty Name="fVerify_Balance" ColumnName="fVerify_Balance" />
+                <ScalarProperty Name="fPayTime_Balance" ColumnName="fPayTime_Balance" />
+                <ScalarProperty Name="fToken_Balance" ColumnName="fToken_Balance" />
+                <ScalarProperty Name="fStatus_Balance" ColumnName="fStatus_Balance" />
+                <ScalarProperty Name="fCreditCard_Balance" ColumnName="fCreditCard_Balance" />
+                <ScalarProperty Name="fId_Bank" ColumnName="fId_Bank" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_Balance" ColumnName="fId_Balance" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tBanks">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tBank">
               <MappingFragment StoreEntitySet="tBank">
-                <ScalarProperty Name="fId_Bank" ColumnName="fId_Bank" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fBank_Bank" ColumnName="fBank_Bank" />
-                <ScalarProperty Name="fName_Bank" ColumnName="fName_Bank" />
-                <ScalarProperty Name="fAccount_Bank" ColumnName="fAccount_Bank" />
-                <ScalarProperty Name="fNumber_Bank" ColumnName="fNumber_Bank" />
                 <ScalarProperty Name="fValidate_Bank" ColumnName="fValidate_Bank" />
+                <ScalarProperty Name="fNumber_Bank" ColumnName="fNumber_Bank" />
+                <ScalarProperty Name="fAccount_Bank" ColumnName="fAccount_Bank" />
+                <ScalarProperty Name="fName_Bank" ColumnName="fName_Bank" />
+                <ScalarProperty Name="fBank_Bank" ColumnName="fBank_Bank" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_Bank" ColumnName="fId_Bank" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tBlocks">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tBlock">
               <MappingFragment StoreEntitySet="tBlock">
-                <ScalarProperty Name="fId_Block" ColumnName="fId_Block" />
-                <ScalarProperty Name="fId_Self_Role" ColumnName="fId_Self_Role" />
                 <ScalarProperty Name="fId_Target_Role" ColumnName="fId_Target_Role" />
-                <ScalarProperty Name="C0_Follow1_Fans" ColumnName="0=Follow1=Fans" />
+                <ScalarProperty Name="fId_Self_Role" ColumnName="fId_Self_Role" />
+                <ScalarProperty Name="fId_Block" ColumnName="fId_Block" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tComments">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tComment">
               <MappingFragment StoreEntitySet="tComment">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="fId_Comment" ColumnName="fId_Comment" />
-                <ScalarProperty Name="fId_Location_Route" ColumnName="fId_Location_Route" />
-                <ScalarProperty Name="fId_Type_Location_Route" ColumnName="fId_Type_Location_Route" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fComment_Comment" ColumnName="fComment_Comment" />
-                <ScalarProperty Name="fRate_Comment" ColumnName="fRate_Comment" />
                 <ScalarProperty Name="fTime_Comment" ColumnName="fTime_Comment" />
+                <ScalarProperty Name="fRate_Comment" ColumnName="fRate_Comment" />
+                <ScalarProperty Name="fComment_Comment" ColumnName="fComment_Comment" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_Type_Location_Route" ColumnName="fId_Type_Location_Route" />
+                <ScalarProperty Name="fId_Location_Route" ColumnName="fId_Location_Route" />
+                <ScalarProperty Name="fId_Comment" ColumnName="fId_Comment" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tCoordinates">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tCoordinate">
               <MappingFragment StoreEntitySet="tCoordinate">
-                <ScalarProperty Name="fId_Coordinate" ColumnName="fId_Coordinate" />
-                <ScalarProperty Name="fName_Coordinate" ColumnName="fName_Coordinate" />
-                <ScalarProperty Name="fX_Coordinate" ColumnName="fX_Coordinate" />
                 <ScalarProperty Name="fY_Coordinate" ColumnName="fY_Coordinate" />
+                <ScalarProperty Name="fX_Coordinate" ColumnName="fX_Coordinate" />
+                <ScalarProperty Name="fName_Coordinate" ColumnName="fName_Coordinate" />
+                <ScalarProperty Name="fId_Coordinate" ColumnName="fId_Coordinate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tFollows">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tFollow">
               <MappingFragment StoreEntitySet="tFollow">
-                <ScalarProperty Name="fId_Follow" ColumnName="fId_Follow" />
-                <ScalarProperty Name="fId_Self_Role" ColumnName="fId_Self_Role" />
                 <ScalarProperty Name="fId_Target_Role" ColumnName="fId_Target_Role" />
+                <ScalarProperty Name="fId_Self_Role" ColumnName="fId_Self_Role" />
+                <ScalarProperty Name="fId_Follow" ColumnName="fId_Follow" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tFuntionAuths">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tFuntionAuth">
               <MappingFragment StoreEntitySet="tFuntionAuth">
-                <ScalarProperty Name="fId_FunctionAuth" ColumnName="fId_FunctionAuth" />
                 <ScalarProperty Name="fAuth_FunctionAuth" ColumnName="fAuth_FunctionAuth" />
+                <ScalarProperty Name="fId_FunctionAuth" ColumnName="fId_FunctionAuth" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tGames">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tGame">
               <MappingFragment StoreEntitySet="tGame">
-                <ScalarProperty Name="fId_Game" ColumnName="fId_Game" />
-                <ScalarProperty Name="fId_Coordinate" ColumnName="fId_Coordinate" />
-                <ScalarProperty Name="fType_Game" ColumnName="fType_Game" />
-                <ScalarProperty Name="fName_Game" ColumnName="fName_Game" />
-                <ScalarProperty Name="fOrder_Game" ColumnName="fOrder_Game" />
                 <ScalarProperty Name="fId_GameGroup" ColumnName="fId_GameGroup" />
-                <ScalarProperty Name="fAR_Game" ColumnName="fAR_Game" />
-                <ScalarProperty Name="fSource_Game" ColumnName="fSource_Game" />
+                <ScalarProperty Name="fOrder_Game" ColumnName="fOrder_Game" />
+                <ScalarProperty Name="fName_Game" ColumnName="fName_Game" />
+                <ScalarProperty Name="fType_Game" ColumnName="fType_Game" />
+                <ScalarProperty Name="fId_Coordinate" ColumnName="fId_Coordinate" />
+                <ScalarProperty Name="fId_Game" ColumnName="fId_Game" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tGameGroups">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameGroup">
               <MappingFragment StoreEntitySet="tGameGroup">
-                <ScalarProperty Name="fId_GameGroup" ColumnName="fId_GameGroup" />
-                <ScalarProperty Name="fName_GameGroup" ColumnName="fName_GameGroup" />
-                <ScalarProperty Name="fGameLV_GameGroup" ColumnName="fGameLV_GameGroup" />
-                <ScalarProperty Name="fDescript_GameGroup" ColumnName="fDescript_GameGroup" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fPhoto_GameGroup" ColumnName="fPhoto_GameGroup" />
                 <ScalarProperty Name="fId_Route" ColumnName="fId_Route" />
-                <ScalarProperty Name="fCost_GameGroup" ColumnName="fCost_GameGroup" />
+                <ScalarProperty Name="fPhoto_GameGroup" ColumnName="fPhoto_GameGroup" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fDescript_GameGroup" ColumnName="fDescript_GameGroup" />
+                <ScalarProperty Name="fGameLV_GameGroup" ColumnName="fGameLV_GameGroup" />
+                <ScalarProperty Name="fName_GameGroup" ColumnName="fName_GameGroup" />
+                <ScalarProperty Name="fId_GameGroup" ColumnName="fId_GameGroup" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tGameQAs">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameQA">
               <MappingFragment StoreEntitySet="tGameQA">
-                <ScalarProperty Name="fId_GameQA" ColumnName="fId_GameQA" />
-                <ScalarProperty Name="fId_Game" ColumnName="fId_Game" />
-                <ScalarProperty Name="fQuestion_GameQA" ColumnName="fQuestion_GameQA" />
-                <ScalarProperty Name="fOption_1_GameQA" ColumnName="fOption_1_GameQA" />
-                <ScalarProperty Name="fOption_2_GameQA" ColumnName="fOption_2_GameQA" />
-                <ScalarProperty Name="fOption_3_GameQA" ColumnName="fOption_3_GameQA" />
-                <ScalarProperty Name="fOption_4_GameQA" ColumnName="fOption_4_GameQA" />
-                <ScalarProperty Name="fAnswer_GameQA" ColumnName="fAnswer_GameQA" />
                 <ScalarProperty Name="fReward_GameQA" ColumnName="fReward_GameQA" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tGameRecords">
-            <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameRecord">
-              <MappingFragment StoreEntitySet="tGameRecord">
-                <ScalarProperty Name="fId_GameRecord" ColumnName="fId_GameRecord" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fId_GameGroup" ColumnName="fId_GameGroup" />
-                <ScalarProperty Name="fOrder_Game" ColumnName="fOrder_Game" />
-                <ScalarProperty Name="fTime_GameRecord" ColumnName="fTime_GameRecord" />
-                <ScalarProperty Name="fFinished_GameRecord" ColumnName="fFinished_GameRecord" />
+                <ScalarProperty Name="fAnswer_GameQA" ColumnName="fAnswer_GameQA" />
+                <ScalarProperty Name="fOption_4_GameQA" ColumnName="fOption_4_GameQA" />
+                <ScalarProperty Name="fOption_3_GameQA" ColumnName="fOption_3_GameQA" />
+                <ScalarProperty Name="fOption_2_GameQA" ColumnName="fOption_2_GameQA" />
+                <ScalarProperty Name="fOption_1_GameQA" ColumnName="fOption_1_GameQA" />
+                <ScalarProperty Name="fQuestion_GameQA" ColumnName="fQuestion_GameQA" />
+                <ScalarProperty Name="fId_Game" ColumnName="fId_Game" />
+                <ScalarProperty Name="fId_GameQA" ColumnName="fId_GameQA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tGameSteps">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameStep">
               <MappingFragment StoreEntitySet="tGameStep">
-                <ScalarProperty Name="fId_GameStep" ColumnName="fId_GameStep" />
-                <ScalarProperty Name="fId_Game" ColumnName="fId_Game" />
-                <ScalarProperty Name="fTitle_GameStep" ColumnName="fTitle_GameStep" />
-                <ScalarProperty Name="fContent_GameStep" ColumnName="fContent_GameStep" />
                 <ScalarProperty Name="fReward_GameStep" ColumnName="fReward_GameStep" />
+                <ScalarProperty Name="fContent_GameStep" ColumnName="fContent_GameStep" />
+                <ScalarProperty Name="fTitle_GameStep" ColumnName="fTitle_GameStep" />
+                <ScalarProperty Name="fId_Game" ColumnName="fId_Game" />
+                <ScalarProperty Name="fId_GameStep" ColumnName="fId_GameStep" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tGameUnlocks">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameUnlock">
               <MappingFragment StoreEntitySet="tGameUnlock">
-                <ScalarProperty Name="fId_GameUnlock" ColumnName="fId_GameUnlock" />
-                <ScalarProperty Name="fId_GameGroup" ColumnName="fId_GameGroup" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
                 <ScalarProperty Name="fDate_GameUnlock" ColumnName="fDate_GameUnlock" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_GameGroup" ColumnName="fId_GameGroup" />
+                <ScalarProperty Name="fId_GameUnlock" ColumnName="fId_GameUnlock" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tIcons">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tIcon">
               <MappingFragment StoreEntitySet="tIcon">
-                <ScalarProperty Name="fId_Icon" ColumnName="fId_Icon" />
-                <ScalarProperty Name="fStyle_Icon" ColumnName="fStyle_Icon" />
                 <ScalarProperty Name="fPath_Icon" ColumnName="fPath_Icon" />
+                <ScalarProperty Name="fStyle_Icon" ColumnName="fStyle_Icon" />
+                <ScalarProperty Name="fId_Icon" ColumnName="fId_Icon" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tLA_Relation">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tLA_Relation">
               <MappingFragment StoreEntitySet="tLA_Relation">
-                <ScalarProperty Name="fId_LARelation" ColumnName="fId_LARelation" />
-                <ScalarProperty Name="fId_Album" ColumnName="fId_Album" />
                 <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+                <ScalarProperty Name="fId_Album" ColumnName="fId_Album" />
+                <ScalarProperty Name="fId_LARelation" ColumnName="fId_LARelation" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tLocations">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tLocation">
               <MappingFragment StoreEntitySet="tLocation">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fId_Coordinate" ColumnName="fId_Coordinate" />
-                <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
-                <ScalarProperty Name="fId_Icon" ColumnName="fId_Icon" />
-                <ScalarProperty Name="fType_Location" ColumnName="fType_Location" />
-                <ScalarProperty Name="fName_Location" ColumnName="fName_Location" />
-                <ScalarProperty Name="fDescript_Location" ColumnName="fDescript_Location" />
-                <ScalarProperty Name="fTime_Location" ColumnName="fTime_Location" />
-                <ScalarProperty Name="fAdd_Location" ColumnName="fAdd_Location" />
                 <ScalarProperty Name="fDelete_Location" ColumnName="fDelete_Location" />
+                <ScalarProperty Name="fAdd_Location" ColumnName="fAdd_Location" />
+                <ScalarProperty Name="fTime_Location" ColumnName="fTime_Location" />
+                <ScalarProperty Name="fDescript_Location" ColumnName="fDescript_Location" />
+                <ScalarProperty Name="fName_Location" ColumnName="fName_Location" />
+                <ScalarProperty Name="fType_Location" ColumnName="fType_Location" />
+                <ScalarProperty Name="fId_Icon" ColumnName="fId_Icon" />
+                <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
+                <ScalarProperty Name="fId_Coordinate" ColumnName="fId_Coordinate" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tLR_Relation">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tLR_Relation">
               <MappingFragment StoreEntitySet="tLR_Relation">
-                <ScalarProperty Name="fId_LRRelation" ColumnName="fId_LRRelation" />
-                <ScalarProperty Name="fId_Route" ColumnName="fId_Route" />
-                <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
                 <ScalarProperty Name="fOrder_LRRelation" ColumnName="fOrder_LRRelation" />
+                <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+                <ScalarProperty Name="fId_Route" ColumnName="fId_Route" />
+                <ScalarProperty Name="fId_LRRelation" ColumnName="fId_LRRelation" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tMembers">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tMember">
               <MappingFragment StoreEntitySet="tMember">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="fId_Member" ColumnName="fId_Member" />
-                <ScalarProperty Name="fId_FunctionAuth" ColumnName="fId_FunctionAuth" />
-                <ScalarProperty Name="fNickName_Member" ColumnName="fNickName_Member" />
-                <ScalarProperty Name="fEmail_Member" ColumnName="fEmail_Member" />
-                <ScalarProperty Name="fPassword_Member" ColumnName="fPassword_Member" />
-                <ScalarProperty Name="fAdd_Member" ColumnName="fAdd_Member" />
-                <ScalarProperty Name="fGender_Member" ColumnName="fGender_Member" />
-                <ScalarProperty Name="fBirthday_Member" ColumnName="fBirthday_Member" />
-                <ScalarProperty Name="fPhone_Member" ColumnName="fPhone_Member" />
-                <ScalarProperty Name="fCountry_Member" ColumnName="fCountry_Member" />
-                <ScalarProperty Name="fFirstName_Member" ColumnName="fFirstName_Member" />
-                <ScalarProperty Name="fLastName_Member" ColumnName="fLastName_Member" />
-                <ScalarProperty Name="fGameLV_Member" ColumnName="fGameLV_Member" />
-                <ScalarProperty Name="fPhoto_Member" ColumnName="fPhoto_Member" />
-                <ScalarProperty Name="fGpsX_Member" ColumnName="fGpsX_Member" />
                 <ScalarProperty Name="fGpsY_Member" ColumnName="fGpsY_Member" />
+                <ScalarProperty Name="fGpsX_Member" ColumnName="fGpsX_Member" />
+                <ScalarProperty Name="fPhoto_Member" ColumnName="fPhoto_Member" />
+                <ScalarProperty Name="fGameLV_Member" ColumnName="fGameLV_Member" />
+                <ScalarProperty Name="fLastName_Member" ColumnName="fLastName_Member" />
+                <ScalarProperty Name="fFirstName_Member" ColumnName="fFirstName_Member" />
+                <ScalarProperty Name="fCountry_Member" ColumnName="fCountry_Member" />
+                <ScalarProperty Name="fPhone_Member" ColumnName="fPhone_Member" />
+                <ScalarProperty Name="fBirthday_Member" ColumnName="fBirthday_Member" />
+                <ScalarProperty Name="fGender_Member" ColumnName="fGender_Member" />
+                <ScalarProperty Name="fAdd_Member" ColumnName="fAdd_Member" />
+                <ScalarProperty Name="fPassword_Member" ColumnName="fPassword_Member" />
+                <ScalarProperty Name="fEmail_Member" ColumnName="fEmail_Member" />
+                <ScalarProperty Name="fNickName_Member" ColumnName="fNickName_Member" />
+                <ScalarProperty Name="fId_FunctionAuth" ColumnName="fId_FunctionAuth" />
+                <ScalarProperty Name="fId_Member" ColumnName="fId_Member" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tMessages">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tMessage">
               <MappingFragment StoreEntitySet="tMessage">
-                <ScalarProperty Name="fId_Message" ColumnName="fId_Message" />
-                <ScalarProperty Name="fId_From_Role" ColumnName="fId_From_Role" />
-                <ScalarProperty Name="fId_To_Role" ColumnName="fId_To_Role" />
-                <ScalarProperty Name="fMessage_Message" ColumnName="fMessage_Message" />
-                <ScalarProperty Name="fTime_Message" ColumnName="fTime_Message" />
-                <ScalarProperty Name="fIp_Message" ColumnName="fIp_Message" />
                 <ScalarProperty Name="fStatus_Message" ColumnName="fStatus_Message" />
+                <ScalarProperty Name="fIp_Message" ColumnName="fIp_Message" />
+                <ScalarProperty Name="fTime_Message" ColumnName="fTime_Message" />
+                <ScalarProperty Name="fMessage_Message" ColumnName="fMessage_Message" />
+                <ScalarProperty Name="fId_To_Role" ColumnName="fId_To_Role" />
+                <ScalarProperty Name="fId_From_Role" ColumnName="fId_From_Role" />
+                <ScalarProperty Name="fId_Message" ColumnName="fId_Message" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tNotes">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tNote">
               <MappingFragment StoreEntitySet="tNote">
-                <ScalarProperty Name="fId_Note" ColumnName="fId_Note" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fId_Admin_Role" ColumnName="fId_Admin_Role" />
-                <ScalarProperty Name="fMessage_Note" ColumnName="fMessage_Note" />
-                <ScalarProperty Name="fTime_Note" ColumnName="fTime_Note" />
                 <ScalarProperty Name="fIsRead_Note" ColumnName="fIsRead_Note" />
+                <ScalarProperty Name="fTime_Note" ColumnName="fTime_Note" />
+                <ScalarProperty Name="fMessage_Note" ColumnName="fMessage_Note" />
+                <ScalarProperty Name="fId_Admin_Role" ColumnName="fId_Admin_Role" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_Note" ColumnName="fId_Note" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tPhotoes">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tPhoto">
               <MappingFragment StoreEntitySet="tPhoto">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="fId_Photo" ColumnName="fId_Photo" />
-                <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fTitle_Photo" ColumnName="fTitle_Photo" />
-                <ScalarProperty Name="fDescript_Photo" ColumnName="fDescript_Photo" />
-                <ScalarProperty Name="fPath_Photo" ColumnName="fPath_Photo" />
                 <ScalarProperty Name="fTime_Photo" ColumnName="fTime_Photo" />
+                <ScalarProperty Name="fPath_Photo" ColumnName="fPath_Photo" />
+                <ScalarProperty Name="fDescript_Photo" ColumnName="fDescript_Photo" />
+                <ScalarProperty Name="fTitle_Photo" ColumnName="fTitle_Photo" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_Location" ColumnName="fId_Location" />
+                <ScalarProperty Name="fId_Photo" ColumnName="fId_Photo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tPoints">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tPoint">
               <MappingFragment StoreEntitySet="tPoint">
-                <ScalarProperty Name="fId_Point" ColumnName="fId_Point" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fPoint_Point" ColumnName="fPoint_Point" />
-                <ScalarProperty Name="fTime_Point" ColumnName="fTime_Point" />
                 <ScalarProperty Name="fType_Point" ColumnName="fType_Point" />
+                <ScalarProperty Name="fTime_Point" ColumnName="fTime_Point" />
+                <ScalarProperty Name="fPoint_Point" ColumnName="fPoint_Point" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_Point" ColumnName="fId_Point" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tProfitMembers">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tProfitMember">
               <MappingFragment StoreEntitySet="tProfitMember">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="fId_ProfitMember" ColumnName="fId_ProfitMember" />
-                <ScalarProperty Name="fId_FunctionAuth" ColumnName="fId_FunctionAuth" />
-                <ScalarProperty Name="fId_ProfitType" ColumnName="fId_ProfitType" />
-                <ScalarProperty Name="fName_ProfitMember" ColumnName="fName_ProfitMember" />
-                <ScalarProperty Name="fEmail_ProfitMember" ColumnName="fEmail_ProfitMember" />
-                <ScalarProperty Name="fAdd_ProfitMember" ColumnName="fAdd_ProfitMember" />
-                <ScalarProperty Name="fPhone_ProfitMember" ColumnName="fPhone_ProfitMember" />
                 <ScalarProperty Name="fPhoto_ProfitMember" ColumnName="fPhoto_ProfitMember" />
+                <ScalarProperty Name="fPhone_ProfitMember" ColumnName="fPhone_ProfitMember" />
+                <ScalarProperty Name="fAdd_ProfitMember" ColumnName="fAdd_ProfitMember" />
+                <ScalarProperty Name="fEmail_ProfitMember" ColumnName="fEmail_ProfitMember" />
+                <ScalarProperty Name="fName_ProfitMember" ColumnName="fName_ProfitMember" />
+                <ScalarProperty Name="fId_ProfitType" ColumnName="fId_ProfitType" />
+                <ScalarProperty Name="fId_FunctionAuth" ColumnName="fId_FunctionAuth" />
+                <ScalarProperty Name="fId_ProfitMember" ColumnName="fId_ProfitMember" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tProfitTypes">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tProfitType">
               <MappingFragment StoreEntitySet="tProfitType">
-                <ScalarProperty Name="fId_ProfitType" ColumnName="fId_ProfitType" />
                 <ScalarProperty Name="fName_ProfitType" ColumnName="fName_ProfitType" />
+                <ScalarProperty Name="fId_ProfitType" ColumnName="fId_ProfitType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tReports">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tReport">
               <MappingFragment StoreEntitySet="tReport">
-                <ScalarProperty Name="fId_Report" ColumnName="fId_Report" />
-                <ScalarProperty Name="fId_Reporter_Role" ColumnName="fId_Reporter_Role" />
-                <ScalarProperty Name="fId_Reported_Role" ColumnName="fId_Reported_Role" />
-                <ScalarProperty Name="fId_Admin_Role" ColumnName="fId_Admin_Role" />
-                <ScalarProperty Name="fId_Location_Route_Comment_Photo" ColumnName="fId_Location_Route_Comment_Photo" />
-                <ScalarProperty Name="fId_Type_Location_Route_Comment_Photo" ColumnName="fId_Type_Location_Route_Comment_Photo" />
-                <ScalarProperty Name="fReason_Report" ColumnName="fReason_Report" />
-                <ScalarProperty Name="fTimeReport_Report" ColumnName="fTimeReport_Report" />
-                <ScalarProperty Name="fTimeModify_Report" ColumnName="fTimeModify_Report" />
                 <ScalarProperty Name="fStatus_Report" ColumnName="fStatus_Report" />
+                <ScalarProperty Name="fTimeModify_Report" ColumnName="fTimeModify_Report" />
+                <ScalarProperty Name="fTimeReport_Report" ColumnName="fTimeReport_Report" />
+                <ScalarProperty Name="fReason_Report" ColumnName="fReason_Report" />
+                <ScalarProperty Name="fId_Type_Location_Route_Comment_Photo" ColumnName="fId_Type_Location_Route_Comment_Photo" />
+                <ScalarProperty Name="fId_Location_Route_Comment_Photo" ColumnName="fId_Location_Route_Comment_Photo" />
+                <ScalarProperty Name="fId_Admin_Role" ColumnName="fId_Admin_Role" />
+                <ScalarProperty Name="fId_Reported_Role" ColumnName="fId_Reported_Role" />
+                <ScalarProperty Name="fId_Reporter_Role" ColumnName="fId_Reporter_Role" />
+                <ScalarProperty Name="fId_Report" ColumnName="fId_Report" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tRoles">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tRole">
               <MappingFragment StoreEntitySet="tRole">
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fId_Master_Role" ColumnName="fId_Master_Role" />
-                <ScalarProperty Name="fId_Slave_Role" ColumnName="fId_Slave_Role" />
-                <ScalarProperty Name="fId_Slave_Type_Role" ColumnName="fId_Slave_Type_Role" />
-                <ScalarProperty Name="fNickName_Role" ColumnName="fNickName_Role" />
                 <ScalarProperty Name="fEntryDate_Role" ColumnName="fEntryDate_Role" />
+                <ScalarProperty Name="fNickName_Role" ColumnName="fNickName_Role" />
+                <ScalarProperty Name="fId_Slave_Type_Role" ColumnName="fId_Slave_Type_Role" />
+                <ScalarProperty Name="fId_Slave_Role" ColumnName="fId_Slave_Role" />
+                <ScalarProperty Name="fId_Master_Role" ColumnName="fId_Master_Role" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tRoutes">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tRoute">
               <MappingFragment StoreEntitySet="tRoute">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="fId_Route" ColumnName="fId_Route" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
-                <ScalarProperty Name="fId_Icon" ColumnName="fId_Icon" />
-                <ScalarProperty Name="fType_Route" ColumnName="fType_Route" />
-                <ScalarProperty Name="fName_Route" ColumnName="fName_Route" />
-                <ScalarProperty Name="fDescript_Route" ColumnName="fDescript_Route" />
-                <ScalarProperty Name="fPath_Route" ColumnName="fPath_Route" />
-                <ScalarProperty Name="fTime_Route" ColumnName="fTime_Route" />
                 <ScalarProperty Name="fDelete_Route" ColumnName="fDelete_Route" />
+                <ScalarProperty Name="fTime_Route" ColumnName="fTime_Route" />
+                <ScalarProperty Name="fPath_Route" ColumnName="fPath_Route" />
+                <ScalarProperty Name="fDescript_Route" ColumnName="fDescript_Route" />
+                <ScalarProperty Name="fName_Route" ColumnName="fName_Route" />
+                <ScalarProperty Name="fType_Route" ColumnName="fType_Route" />
+                <ScalarProperty Name="fId_Icon" ColumnName="fId_Icon" />
+                <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_Route" ColumnName="fId_Route" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tShareAuths">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tShareAuth">
               <MappingFragment StoreEntitySet="tShareAuth">
-                <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
                 <ScalarProperty Name="fAuth_ShareAuth" ColumnName="fAuth_ShareAuth" />
+                <ScalarProperty Name="fId_ShareAuth" ColumnName="fId_ShareAuth" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tStatistics">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tStatistic">
               <MappingFragment StoreEntitySet="tStatistic">
-                <ScalarProperty Name="fId_Statistic" ColumnName="fId_Statistic" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fId_Location_Route" ColumnName="fId_Location_Route" />
                 <ScalarProperty Name="fId_Type_Location_Route" ColumnName="fId_Type_Location_Route" />
+                <ScalarProperty Name="fId_Location_Route" ColumnName="fId_Location_Route" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_Statistic" ColumnName="fId_Statistic" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tTags">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tTag">
               <MappingFragment StoreEntitySet="tTag">
-                <ScalarProperty Name="fId_Tag" ColumnName="fId_Tag" />
                 <ScalarProperty Name="fName_Tag" ColumnName="fName_Tag" />
+                <ScalarProperty Name="fId_Tag" ColumnName="fId_Tag" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tTagMsgRelations">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tTagMsgRelation">
               <MappingFragment StoreEntitySet="tTagMsgRelations">
-                <ScalarProperty Name="fId_TagMsgRelations" ColumnName="fId_TagMsgRelations" />
-                <ScalarProperty Name="fId_Location_Route_Photo" ColumnName="fId_Location_Route_Photo" />
-                <ScalarProperty Name="fId_Type_Location_Route_Photo" ColumnName="fId_Type_Location_Route_Photo" />
                 <ScalarProperty Name="fId_Tag" ColumnName="fId_Tag" />
+                <ScalarProperty Name="fId_Type_Location_Route_Photo" ColumnName="fId_Type_Location_Route_Photo" />
+                <ScalarProperty Name="fId_Location_Route_Photo" ColumnName="fId_Location_Route_Photo" />
+                <ScalarProperty Name="fId_TagMsgRelations" ColumnName="fId_TagMsgRelations" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tUnlocks">
             <EntityTypeMapping TypeName="DB_FunDayTripModel.tUnlock">
               <MappingFragment StoreEntitySet="tUnlock">
-                <ScalarProperty Name="fId_Unlock" ColumnName="fId_Unlock" />
-                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
-                <ScalarProperty Name="fId_Location_Route" ColumnName="fId_Location_Route" />
-                <ScalarProperty Name="fId_Type_Location_Route" ColumnName="fId_Type_Location_Route" />
                 <ScalarProperty Name="fTime_Unlock" ColumnName="fTime_Unlock" />
+                <ScalarProperty Name="fId_Type_Location_Route" ColumnName="fId_Type_Location_Route" />
+                <ScalarProperty Name="fId_Location_Route" ColumnName="fId_Location_Route" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_Unlock" ColumnName="fId_Unlock" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tGameRecords">
+            <EntityTypeMapping TypeName="DB_FunDayTripModel.tGameRecord">
+              <MappingFragment StoreEntitySet="tGameRecord">
+                <ScalarProperty Name="fFinished_GameRecord" ColumnName="fFinished_GameRecord" />
+                <ScalarProperty Name="fTime_GameRecord" ColumnName="fTime_GameRecord" />
+                <ScalarProperty Name="fOrder_Game" ColumnName="fOrder_Game" />
+                <ScalarProperty Name="fId_GameGroup" ColumnName="fId_GameGroup" />
+                <ScalarProperty Name="fId_Role" ColumnName="fId_Role" />
+                <ScalarProperty Name="fId_GameRecord" ColumnName="fId_GameRecord" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

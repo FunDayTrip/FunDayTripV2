@@ -17,6 +17,7 @@ namespace homepage
         public int fId_Block { get; set; }
         public int fId_Self_Role { get; set; }
         public int fId_Target_Role { get; set; }
+        public Nullable<int> C0_Follow1_Fans { get; set; }
     
         public virtual tRole tRole { get; set; }
         public virtual tRole tRole1 { get; set; }

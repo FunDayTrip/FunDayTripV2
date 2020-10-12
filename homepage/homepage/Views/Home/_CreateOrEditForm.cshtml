@@ -1,35 +1,30 @@
 ﻿@using homepage.Models
-<div class="row">
+
     <h3 id="CreateOrEdit">新增地點</h3>
-    <div class="column" style="background-color:wheat; display:none">        
+    <div class="column1" style="background-color:wheat; display:none">        
         <br />          
         人<input name="fId_Role" id="fId_Role" readonly/>@Session[CDictionary.SK_ActiveRoleId]
-        <p>地點id: </p>
+        <span>地點id: </span>
         <input id="fId_Location" class="fId_LocationClass" style="color: green" name="fId_Location" readonly />        
-        <p>座標</p>        
+        <span>座標</span>        
         <span id="info3" style="background-color:bisque"></span>
         x :<input name="fX_Coordinate" id="fx_Coordinate" readonly />
         y :<input name="fY_Coordinate" id="fy_Coordinate" readonly />
     </div>
-        <div class="column" style="background-color:wheat">
+        <div class="column1" style="background-color:wheat">
             <div>
                 <span class="close" id="closeAddLocationForm">&times;</span>
             </div>
-            <p>地點</p>
+            <span>地點</span>
             <br />
-            <p>地名：</p>
+            <span>地名：</span>
             <input name="fName_Location" id="LocationName" />
             <br />
-            <p>地點描述：</p>
+            <span>地點描述：</span>
             <input name="fDescript_Location" id="fDescript_Location" />
         </div>
-    </div>
-<div class="row" style="height:75%">
-
-    <div class="column2" style="background-color:wheat;">
-        <p>照片</p>
-    </div>
-
+ 
+  
     <div class="column2" style="background-color:wheat;">
 
         <p>上傳照片</p>
@@ -42,7 +37,7 @@
     </div>
 
     <div class="column2" style="background-color:wheat">
-        <p>與誰分享</p>
+        <span>與誰分享</span>
         <select id="selector" name="fId_ShareAuth">
             <option id="Public" value=3 selected="selected">公開</option>
             <option id="Follower" value=2>粉絲</option>

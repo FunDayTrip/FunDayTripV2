@@ -1,15 +1,18 @@
 ﻿
-<div>相簿id</div>
-<input name="fId_Album" id="fId_Album" />
+<div style="display:none">
+    <div>相簿id</div>
+    <input name="fId_Album" id="fId_Album" />
+</div>
+
 <div>相簿名稱</div>
 <input name="fName_Album" id="fName_Album" />
 <div>相簿敘述</div>
 <input name="fDescript_Album" id="fDescript_Album" />
-<div>分享權限</div>
-<select id="selector" name="fId_ShareAuth">
-    <option id="Public" value=3 selected="selected">Public</option>
-    <option id="Follower" value=2>Follower</option>
-    <option id="Private" value=1>Private</option>
+<div>與誰分享</div>
+<select id="selectorA" name="fId_ShareAuth">
+    <option id="Public" value=3 selected="selected">公開</option>
+    <option id="Follower" value=2>粉絲</option>
+    <option id="Private" value=1>私人</option>
 </select>
 <div>是否刪除</div>
 <input type="checkbox" name="fDelete_Album" id="checkboxa" onclick="IfDeleteAlbum()">刪除(請打勾)

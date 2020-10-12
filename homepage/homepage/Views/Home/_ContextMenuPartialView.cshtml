@@ -1,28 +1,28 @@
-﻿
-@*<span class="context-menu-one btn btn-neutral">right click me</span>*@
+﻿@*<span class="context-menu-one btn btn-neutral">right click me</span>*@
 <script>
     $(function () {
+
         $.contextMenu({
             selector: '.context-menu-one',
             callback: function (key, options) {
-                var m = "clicked: " + key;
+                //var m = "clicked: " + key;
                 //window.console && console.log(m) || alert(m);
                 switch (key) {
-                    case "create":
-                        createLocRou();
-                        break;
+                    //case "create":
+                    //    createLocRou();
+                    //    break;
                     case "edit":
                         editLocRou();
                         break;
                     case "delete":
                         deleteLoc();
-                        
+
 
                 }
             },
-            items: {       
-                "create": { name: "Create", icon: "paste" },
-                "edit": { name: "Edit", icon: "edit" },                                                
+            items: {
+                //"create": { name: "Create", icon: "paste" },
+                "edit": { name: "Edit", icon: "edit" },
                 "delete": { name: "Delete", icon: "delete" },
                 "sep1": "---------",
                 "quit": {
@@ -32,17 +32,13 @@
                 }
             }
         });
+
+
         $('.context-menu-one').on('click', function (e) {
             console.log('clicked', this);
         })
     });
 
-   
-   
-    function createLocRou() {
-        console.log("i want to create");
-        alertIfAddLocation();
-    };
 
     function editLocRou() {
         console.log("i want to edit");
@@ -53,8 +49,7 @@
         console.log("delete:" + _LocationID);
 
         Swal.fire({
-            title: '要刪除此' + _LocationID +'地點嗎?',
-            //text: "You won't be able to revert this!",
+            title: '要刪除此' + _LocationID + '地點嗎?',           
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

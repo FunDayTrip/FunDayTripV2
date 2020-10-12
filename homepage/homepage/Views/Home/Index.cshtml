@@ -75,6 +75,8 @@
     @* ===== 相簿CSS by kevin 10/06 ===== *@
     <link href="~/css/Album.css" rel="stylesheet" />
 
+    @* ===== 左側內容CSS by kevin 10/11 ===== *@
+    <link href="~/css/LeftSideMenu.css" rel="stylesheet" />
 
     @*contextmenu _verna_0930*@
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
@@ -126,13 +128,15 @@
 
 </head>
 <body>
-
-
+    <script>
+        //現在頁籤位置
+        var TabNow = "探索";
+    </script>
 
     @*地圖 /綁定右鍵清單_verna_0930*@
-    <div id='map' class="context-menu-one btn btn-neutral"></div>
-
-
+    @*<div id='map' class="context-menu-one btn btn-neutral"></div>*@
+    <div id='map'></div>
+  
     @*上列選項清單_verna_0930 *@
     @Html.Partial("_topMenuNavigation")
 
@@ -143,28 +147,29 @@
         @*新增路線*@
         <button id="addNewRouteButton" type="button" class="btn btn-danger">放置新增路線</button>
 
-
-
     </div>
 
-    <div id="infoi2">
+    <div id="infoi2" style="display:none">
         @*路線地點詳細資訊*@
         @Html.Partial("_DetailInfoView")
 
     </div>
 
     @*滑鼠右鍵清單*@
+
     @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
     {
         @Html.Partial("_ContextMenuPartialView")
 
-    }
+    };
+
+
     @*顯示相簿*@
     @Html.Partial("_ShowAlbumView")
 
     @*新增/編輯相簿*@
     <div class="addAlbum" id="addAlbum">
-        <span class="albumsclose close" onclick="setDivDisplay('addAlbum', 'none')">X</span>
+        <span class="albumsclose close" onclick="setDivDisplay('addAlbum', 'none')">&times;</span>
         <form form method="post" enctype="multipart/form-data" id="addAlbumForm">
             @Html.Partial("_CreateOrEditAlbumForm")
         </form>
@@ -224,13 +229,12 @@
         var _lng, _lat;
         var Addedmarker;
         var _LocationID;
-        //要求顯示地圖===========================
-        //顯示中文地圖
-        mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGlua3VvIiwiYSI6ImNrZndleHo0NjAxbXgzMHFmOWFwaWVuangifQ.5awvTJbiG4MyIV8B6ugFYQ';
+        //要求顯示中文地圖===========================
+        mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2aW43MDM5MiIsImEiOiJja2VtbGJuYmUwM3ZpMnVwZWoxMW04dDRnIn0.2js7hrb5XFX4qiERw78YiA';
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v10',
-            center: [120.757769, 23.535394],
+            center: [121.5168963000, 25.0475371000],
             zoom: 8
         });
         var language = new MapboxLanguage({ defaultLanguage: 'zh' });
@@ -261,29 +265,115 @@
 
     @*  左側內容 _verna_0930  ===========================*@
     <div id="LeftSideMenu">
-        <div id="Result_List2" style="width: 200px;">
+        <h7 class="title"><span>FunDayTrip</span></h7>
+
+        <div id="Result_List2" style="width: 100%;">
             @*地點路線資訊*@
             @Html.Partial("_firstLoadAllListPartialView");
         </div>
     </div>
 
+
     <script>
-        var LogIn
+        var LogIn;
         //文件載入鎖定部分按鈕事件/顯示_verna_0930
         $(document).ready(function () {
             //個人資料方塊
-            //$("#locationInfo").hide();
+            $("#locationInfo").hide();
+
+            deletefollower();
+            deletefans();
+
+        });
+        //顯示關閉左邊表單
+        function closethisdiv() {
 
              @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
              {
                  CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
-                 @:console.log("@memberLogin.fNickName_Member"+"@memberLogin.fId_Member");
+                 @:console.log("@memberLogin.fNickName_Member" + "@memberLogin.fId_Member");
 
              };
 
+        }
+
+        function deletefollower() {
+            $(document).on('click', '.deletefollower', function () {
+                var obj = $(this).parents('.trtest');
 
 
-             });
+                console.log(obj);
+                /////sweetalert
+                Swal.fire({
+                    title: '確定要刪除嗎',
+                    text: "我們將會刪除這筆資料",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '是的,刪除',
+                    cancelButtonText:'取消'
+
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(obj).remove();
+                        $.ajax({
+                            url: "/Home/deletefollower",
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                role_id: $("#active_role").val(),
+                                target_id: $(obj).find('.btntest').val()
+                            }
+
+                        });
+                        Swal.fire(
+                            '刪除成功!'
+                        )
+
+
+                    }
+                })
+                //////ajax
+
+            });
+        }
+        function deletefans() {
+            $(document).on('click', '.deletefans', function () {
+                var obj = $(this).parents('.trtest2');
+
+                console.log(obj);
+                ////ajax
+                Swal.fire({
+                    title: '確定要刪除嗎?',
+                    text: "我們將會刪除這筆資料",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '是的,刪除',
+                    cancelButtonText: '取消'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(obj).remove();
+                        $.ajax({
+                            url: "/Home/deletefans",
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                role_id: $("#active_role").val(),
+                                target_id: $(obj).find('.btntest').val()
+                            }
+
+                        });
+                        Swal.fire(
+                            '刪除成功!'
+                        )
+                    }
+                })
+
+            });
+        }
     </script>
 
 
@@ -317,7 +407,8 @@
                             CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
                             <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="float:left" />
                             <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
-                            <div id="active_role_name" value="@memberLogin.fActiveRoleName_Member">目前身分:@memberLogin.fActiveRoleName_Member</div>
+                            <span>目前身分:</span>
+                            <span id="active_role_name">@memberLogin.fActiveRoleName_Member</span>
                             <div id="login_email">@memberLogin.fEmail_Member</div>
                             <button id="logoutBtn" style="float:right">登出</button>
                             <br />
@@ -382,8 +473,7 @@
 
         @*跳出"路線"新增/編輯視窗 by kevin 10/05*@
         <div id="instructions2">
-            新增路線
-            <span class="routeclose close" onclick="setDivDisplay('instructions2', 'none')">X</span>
+            <span class="routeclose close" onclick="closeInstructions2()">&times;</span>
             <form form method="post" enctype="multipart/form-data" id="UploadRouteForm">
                 @Html.Partial("_CreateOrEditRouteForm")
             </form>
@@ -470,10 +560,10 @@
                     $("#follower_list").html("");
                     for (let i = 0; i < response.length; i++) {
 
-                        let CD = '<tr>';
+                        let CD = '<tr class="trtest">';
                         CD += '<td>' + response[i].follow_Self_Name + '</td>';
                         CD += '<td>';
-                        CD += '<button class="btn btn-link" onclick="creatchatroom(this)" name="';
+                        CD += '<button class="btn btn-link btntest" onclick="creatchatroom(this)" name="';
                         //style="border-bottom:dashed;margin-bottom:5px;border-color:blue;"
                         CD += response[i].follow_Self_Name;
                         CD += '"';
@@ -482,8 +572,10 @@
                         CD += '">';
                         CD += '聊天</button>';
                         CD += '</td>';
+                        CD += '<td>';
+                        CD += '<button style="margin-top:2px" class="btn btn-danger deletefollower">刪除好友</button>';
+                        CD += '</td>';
                         CD += '</tr>';
-
                         CD += '<div></div>'
                         $("#follower_list").prepend(CD);
                     }
@@ -501,10 +593,10 @@
                     console.log(response);
                     $("#follower_list").html("");
                     for (let i = 0; i < response.length; i++) {
-                        let CD = '<tr>';
+                        let CD = '<tr class="trtest2">';
                         CD += '<td>' + response[i].follow_Target_Name + '</td>';
                         CD += '<td>';
-                        CD += '<button class="btn btn-link" onclick="creatchatroom(this)" name="';
+                        CD += '<button class="btn btn-link btntest" onclick="creatchatroom(this)" name="';
                         //style="border-bottom:dashed;margin-bottom:5px;border-color:blue;"
                         CD += response[i].follow_Target_Name;
                         CD += '"';
@@ -512,6 +604,9 @@
                         CD += response[i].follow_Target_ID;
                         CD += '">';
                         CD += '聊天</button>';
+                        CD += '</td>';
+                        CD += '<td>';
+                        CD += '<button style="margin-top:2px" class="btn btn-danger deletefans">刪除粉絲</button>';
                         CD += '</td>';
                         CD += '</tr>';
 
@@ -524,6 +619,9 @@
         };
 
         ///////////////////////////////////////////////////
+
+
+
     </script>
 
     @* ===== 新增廣告 by kevin 10/08 ===== *@
@@ -537,14 +635,27 @@
     </script>
 
     <script>
-        //我的地點 顯示可新增按鈕
-        function showMyLoc() {
-            $("#addNewLocationButton").show();
+        //追蹤中地點
+        function showFrLoc() {
+            $("#tab_loc").text("追蹤地點");
+            $("#tab_rou").text("追蹤路線");
+        }
+
+        //按我的地點 顯示可新增按鈕
+            function showMyLoc() {
+        $("#tab_loc").text("我的地點");
+            $("#tab_rou").text("我的路線");
+                TabNow = "我的地點";
+                $("#addNewLocationButton").show();
+                console.log(TabNow + "1");
+                $("#map").addClass("context-menu-one btn btn-neutral");
+
         };
         //click outside close modal windows_verna
         //$(".modal").click(function () {
         //    $(".modal").hide();
         //});
+
         //取得新增/編輯資料 表單id
         var CreateEditmodal = document.getElementById("myModal");
         //關閉新增/編輯資料 表單
@@ -560,7 +671,6 @@
         });
 
 
-
         //點選新增地點,才可添加marker
         var _marker;//地圖上marker變數
         $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
@@ -570,8 +680,8 @@
             _marker = new mapboxgl.Marker()
             //地圖上點選地點,在此綁定map click 另一個handler
             map.on('click', positioningClickLocate);
-            ////地圖上雙擊決定添加的地點-------------改成按右鍵
-
+            ////地圖上雙擊決定添加的地點
+            map.on('dblclick', alertIfAddLocation);
         };
 
         //函式:alert尋問是否要新增此地點
@@ -608,11 +718,8 @@
                     console.log("no");
                     _marker.remove();
                     $("#addNewLocationButton").one("click", enableAddLocation);
-
                  }
             })
-
-
         }
 
         //新增時,在地圖上要新增的點
@@ -626,11 +733,6 @@
             var y = parseFloat(e.lngLat.lat);
             _marker.setLngLat([x, y]).addTo(map);
 
-            //_lng = parseFloat(e.lngLat.lng);
-            //_lat = parseFloat(e.lngLat.lat);
-
-            //_marker.setLngLat([_lng, _lat]);
-
             //判斷是否填入已知坐標
             $.ajax({
                 url: "/Home/SearchXY",
@@ -642,7 +744,7 @@
                 console.log(response);
                 if (response.fId_Coordinate == 0) {
                     Id_Coordinate.push("0");
-                    Name_Coordinate.push("Null");
+                    Name_Coordinate.push("地點");
                     X_Coordinate.push(x);
                     Y_Coordinate.push(y);
                     _lng = x;
@@ -732,6 +834,7 @@
         //變更地點資料庫
         //新增資料至資料庫
         function UpLoadLoctionFormButton() {
+            infoi2.style.display = "none";
             console.log("現在的id是" + _LocationID);
             $("#UploadLocationForm").ajaxSubmit({
                 type: "POST",
@@ -769,7 +872,7 @@
 
         ///更新資料至資料庫
         function EditLoctionFormButton() {
-
+            infoi2.style.display = "none";
             console.log("現在的id是" + _LocationID);
             $("#UploadLocationForm").ajaxSubmit({
                 type: "POST",
@@ -813,11 +916,18 @@
     <script>
         //我的路線 顯示可新增按鈕
         function showMyRou(roleID) {
-
+            document.getElementById("UploadRouteForm").reset();
+            $("#columns").empty();
             $("#addNewRouteButton").show();
+            $("#tab_loc").text("我的地點");
+            $("#tab_rou").text("我的路線");
+        }
 
-            //TODO:路線列表顯示自己的路線
-        };
+        //追蹤路線
+        function showFrRou() {
+            $("#tab_loc").text("追蹤地點");
+            $("#tab_rou").text("追蹤路線");
+        }
 
         //設定div狀態
         function setDivDisplay(DivID, Type) {
@@ -825,6 +935,22 @@
             if (x.style.display != Type)
                 x.style.display = Type
         }
+
+        //關閉新增編輯路線
+        function closeInstructions2() {
+            setDivDisplay("instructions2", "none");
+            isAddRoute = false;
+            $("#addNewRouteButton").hide();
+            _marker.remove();
+
+            if (map.getLayer(temprouteId)) {
+                map.removeLayer(temprouteId);
+            }
+
+            document.getElementById("UploadRouteForm").reset();
+            $("#columns").empty();
+        }
+
 
         //是否刪除路線
         function IfDeleteRoute() {
@@ -839,28 +965,34 @@
 
         //預覽路線照片
         var RoateloadFile = function (event) {
-            console.log(event);
-            console.log(event.target.nextSibling.id);
+            //console.log(event);
+            //console.log(event.target.nextSibling.id);
             var output = document.getElementById(event.target.nextSibling.id);
-            console.log(output);
+            //console.log(output);
             output.src = URL.createObjectURL(event.target.files[0]);
             output.onload = function () {
                 URL.revokeObjectURL(output.src) // free memory
             }
         }
         //註冊新增路線
-        $("#addNewRouteButton").one("click", enableAddRoute);
+        $("#addNewRouteButton").on("click", enableAddRoute);
+        var isAddRoute = false;
 
         // 可新增路線
         function enableAddRoute() {
+            isAddRoute = true;
             _marker = new mapboxgl.Marker();
             map.on("dblclick", alertIfAddRoute);
-        };
+            CoordinateCnt = 0;
+        }
 
         //函式:alert尋問是否要新增此路線
         var tripInstructions = [];
 
         function alertIfAddRoute(e) {
+            if (isAddRoute == false)
+                return;
+            
             positioningClickLocate(e);
             Swal.fire({
                 title: '要新增此地點至路線嗎?',
@@ -873,22 +1005,21 @@
                 if (result.isConfirmed) {
                     console.log("yes");
                     setDivDisplay("instructions2", "block");
-                    //document.getElementById("UploadLocationForm").reset();
                     $("#CreateOrEditRoute").text("新增路線");
-
                     $("#save2").hide();
                     $("#create2").show();
-
                     $("#fId_Roles").val(@Session[CDictionary.SK_ActiveRoleId]);
-
+                    tripInstructions = "";
+                    
                     for (var i = 0; i < CoordinateCnt + 1; i++) {
                         console.log(CoordinateCnt);
                         $("#fx_Coordinate" + i).val(X_Coordinate[i]);
                         $("#fy_Coordinate" + i).val(Y_Coordinate[i]);
-                        $("#header" + i).html(Name_Coordinate[i]);
+                        $("#header" + i).text("地點"+(i+1));
 
                         if (Id_Coordinate != 0) {
                             $("#fId_Coordinate" + i).val(Id_Coordinate[i]);
+                            $("#header" + i).text("地點" + (i + 1));
                             //$("#fName_Coordinate" + i).val(Name_Coordinate[i]);
                         }
                     }
@@ -908,7 +1039,6 @@
                 '<div class="portlet">' +
                 '<div class="portlet-header" id="header' + CoordinateCnt + '" name="header">' + '</div>' +
                 '<div class="portlet-content" id="content" name="content" >' + '<div>' +
-                '<h5 id="CreateOrEdit">新增地點</h5>' +
                 '<div style="display:none">坐標' +
                 '<div>坐標id</div>' +
                 '<input name="fId_Coordinate[]" id="fId_Coordinate' + CoordinateCnt + '" />' +
@@ -917,8 +1047,8 @@
                 '<div>y</div>' +
                 '<input name="fY_Coordinate[]" id="fy_Coordinate' + CoordinateCnt + '" />' +
                 '</div>' +
-                '<div>地點' +
-                '<div>地名</div>' +
+                '<div>' +
+                '<div>地點名稱</div>' +
                 '<input name="fName_Location[]" id="fName_Location' + CoordinateCnt + '" />' +
                 '<div>地點描述</div>' +
                 '<input name="fDescript_Location[]" id="fDescript_Location' + CoordinateCnt + '" />' +
@@ -979,11 +1109,16 @@
                         showConfirmButton: false,
                         timer: 1000
                     })
-                    //setDivDisplay("", "none");
-                    //$("#addNewRouteButton").show();
+
+                    isAddRoute = false;
                     $("#addNewRouteButton").hide();
                     setDivDisplay("instructions2", "none");
                     _marker.remove();
+
+                    if (map.getLayer(temprouteId)) {
+                        map.removeLayer(temprouteId);
+                    }
+
                     reload();
                 },
                 fail: function (failresponse) {
@@ -996,9 +1131,10 @@
         var url = 'https://api.mapbox.com/directions/v5/mapbox/walking/';
         var pointAddtoList = '';
         var points = [];
-        var CreateLineEnable = false;
         var PointArryList = [];
+        var temprouteId;
         function CreateLine() {
+            points = [];
 
             for (var i = 0; i < X_Coordinate.length; i++) {
                 xypoints = X_Coordinate[i] + "," + Y_Coordinate[i];
@@ -1007,10 +1143,15 @@
             }
             //console.log(points);
 
-            //if (points.length < 2 || CreateLineEnable == false) {
-            //    // 兩點才可成線 或 是否為新增模式
-            //    return;
-            //}
+            if (points.length < 2 || isAddRoute == false) {
+                // 兩點才可成線 或 是否為新增模式
+                Swal.fire(
+                    '什麼?!只有一個地點?',
+                    '多給幾個地點吧',
+                    'warning',
+                )
+                return;
+            }
 
             //生成 directions API 的 URL
             for (var i = 0; i < points.length; i++) {
@@ -1030,12 +1171,12 @@
             points = [];
             pointAddtoList = "";
             //url = 'https://api.mapbox.com/directions/v5/mapbox/walking/';
-            //CreateLineEnable = false;
             getRoute();
         }//End：AddLine function
 
         //呼叫Directions API生成路線
         var routecoords;
+        
         function getRoute() {
 
             var xhr = new XMLHttpRequest();
@@ -1050,9 +1191,9 @@
                 //console.log(routecoords);
 
                 //生成的路線加入地圖
-                var routeId = routecoords + "";
+                temprouteId = routecoords + "";
                 map.addLayer({
-                    id: routeId,
+                    id: temprouteId,
                     type: "line",
                     source: {
                         type: "geojson",
@@ -1117,6 +1258,22 @@
                 $("#fPath_Route").val(Route);
                 $("#fDescript_Route").val(Descript_Route);
                 $("#fId_Route").val(Id_Route);
+
+                if (response.fDelete_Route == 1) {
+                    $('#checkboxR').prop("checked", true)
+                } else {
+                    $('#checkboxR').prop("checked", false)
+                }
+
+
+                $('#selectorR option').removeAttr('selected');
+                if (response.fId_ShareAuth == 3) {
+                    $('#selectorR option[value=3]').attr('selected', 'selected');
+                } else if (response.fId_ShareAuth == 2) {
+                    $('#selectorR option[value=2]').attr('selected', 'selected');
+                } else {
+                    $('#selectorR option[value=1]').attr('selected', 'selected');
+                };
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);
             });//end ajax
@@ -1127,9 +1284,11 @@
             var Time_Location = [];
             var Add_Location = [];
             var Id_Coordinate = [];
-            var X_Coordinate = [];
-            var Y_Coordinate = [];
+            //var X_Coordinate = [];
+            //var Y_Coordinate = [];
             var Id_Location = [];
+            X_Coordinate = [];
+            Y_Coordinate = [];
 
             $.ajax({
                 url: "/Home/RouteGetPoint",
@@ -1138,6 +1297,8 @@
                 data: { RouteID: _routeID }
             }).done(function (response) {
                 //console.log(response);
+                tripInstructions = "";
+
                 for (var i = 0; i < response.length; i++) {
                     Name_Location.push(response[i].fName_Location);
                     Descript_Location.push(response[i].fDescript_Location);
@@ -1152,12 +1313,12 @@
                     //console.log("Time_Location =" + Time_Location[i]);
 
                     var columns = document.getElementById('columns');
+                    
 
                     tripInstructions +=
                         '<div class="portlet">' +
                         '<div class="portlet-header" id="header' + i + '" name="header">' + '</div>' +
                         '<div class="portlet-content" id="content" name="content" >' + '<div>' +
-                        '<h5 id="CreateOrEdit">新增地點</h5>' +
                         '<div style="display:none">坐標' +
                         '<div>坐標id</div>' +
                         '<input name="fId_Coordinate[]" id="fId_Coordinate' + i + '" />' +
@@ -1166,8 +1327,8 @@
                         '<div>y</div>' +
                         '<input name="fY_Coordinate[]" id="fy_Coordinate' + i + '" />' +
                         '</div>' +
-                        '<div>地點' +
-                        '<div>地名</div>' +
+                        '<div>' +
+                        '<div>地點名稱</div>' +
                         '<input name="fName_Location[]" id="fName_Location' + i + '" />' +
                         '<div>地點描述</div>' +
                         '<input name="fDescript_Location[]" id="fDescript_Location' + i + '" />' +
@@ -1180,46 +1341,6 @@
                         '</div>' +
                         '</div>' +
                         '</div>';
-
-
-                    //'<div class="portlet">' +
-                    //'<div class="portlet-header" id="header' + i + '" name="header">' + '</div>' +
-                    //'<div class="portlet-content" id="content" name="content" >' + '<div>' +
-                    //'<h5 id="CreateOrEdit">新增地點</h5>' +
-                    //'<div>坐標' +
-                    //'<div>坐標id</div>' +
-                    //'<input name="fId_Coordinate[]" id="fId_Coordinate' + i + '" />' +
-                    //'<div>x</div>' +
-                    //'<input name="fX_Coordinate[]" id="fx_Coordinate' + i + '" />' +
-                    //'<div>y</div>' +
-                    //'<input name="fY_Coordinate[]" id="fy_Coordinate' + i + '" />' +
-                    //'<div>坐標名</div>' +
-                    //'<input name="fName_Coordinate[]" id="fName_Coordinate' + i + '" />' +
-                    //'</div>' +
-                    //'<div>地點' +
-                    //'<div>地名</div>' +
-                    //'<input name="fName_Location[]" id="fName_Location' + i + '" />' +
-                    //'<div>地址</div>' +
-                    //'<input name="fAdd_Location[]" id="fAdd_Location' + i + '" />' +
-                    //'<div>地點描述</div>' +
-                    //'<input name="fDescript_Location[]" id="fDescript_Location' + i + '" />' +
-                    //'</div>' +
-                    //'<div>' +
-                    //'<div>照片' +
-                    //'<div>照片標題</div>' +
-                    //'<input name="fTitle_Photo[]" id="fTitle_Photo' + i + '" />' +
-                    //'<div>照片敘述</div>' +
-                    //'<input name="fDescript_Photo[]" id="fDescript_Photo' + i + '" />' +
-                    //'</div>' +
-                    //'<div>' +
-                    //'<div>上傳照片</div>' +
-                    //'<input type="file" accept="image/*" onchange="RoateloadFile(event)" name="PostImages">' +
-                    //'<img id="output' + i + '" src="" style="width:300px;height:200px" />' +
-                    //'</div>' +
-                    //'</div>' +
-                    //'</div>' +
-                    //'</div>' +
-                    //'</div>';
 
                     columns.innerHTML = tripInstructions;
 
@@ -1248,11 +1369,10 @@
                     $("#fId_Coordinate" + i).val(Id_Coordinate[i]);
                     $("#fx_Coordinate" + i).val(X_Coordinate[i]);
                     $("#fy_Coordinate" + i).val(Y_Coordinate[i]);
-                    $("#fName_Coordinate" + i).val(Name_Location[i]);
+                    //$("#fName_Coordinate" + i).val(Name_Location[i]);
                     $("#fName_Location" + i).val(Name_Location[i]);
                     $("#fDescript_Location" + i).val(Descript_Location[i]);
-                    $("#fAdd_Location" + i).val(Add_Location[i]);
-                    $("#header" + i).html(Name_Coordinate[i]);
+                    $("#header" + i).text(Name_Location[i]);
                 }//end for
 
                 //顯示路線中的照片資訊
@@ -1310,7 +1430,8 @@
                         showConfirmButton: false,
                         timer: 1000
                     })
-
+                    isAddRoute = false;
+                    $("#addNewRouteButton").hide();
                     setDivDisplay("instructions2", "none");
                     reload();
                 },
@@ -1383,21 +1504,19 @@
                     };
                     LocArray.push(locJson);
                 }//end for
+
                 if (map.getLayer("places")) {
                     map.removeLayer("places");
                 }
-
                 if (map.getLayer("routes")) {
                     map.removeLayer("routes");
                 }
                 if (map.getSource("places")) {
                     map.removeSource("places");
                 }
-
                 if (map.getSource("routes")) {
                     map.removeSource("routes");
                 }
-
 
                 reloadRoute();
 
@@ -1557,13 +1676,15 @@
                 dataType: "json",
                 data: { LocationID: LocationID }
             }).done(function (response) {
-                //console.log(response[0]);
+                //console.log(response[0].fId_Location);
+                fId_Location = response[0].fId_Location;
                 Coords_Location = [response[0].fX_Coordinate, response[0].fY_Coordinate];
                 NickName_Role = (response[0].fNickName_Role);
                 Name_Location = response[0].fName_Location;
                 Auth_ShareAuth = response[0].fAuth_ShareAuth;
                 Descript_Location = response[0].fDescript_Location;
                 Time_Location = response[0].fTime_Location;
+
                 //console.log("Coords_Location = " + Coords_Location);
                 //console.log("NickName_Role = " + NickName_Role);
                 //console.log("Name_Location = " + Name_Location);
@@ -1571,6 +1692,7 @@
                 //console.log("Descript_Location = " + Descript_Location);
                 //console.log("Time_Location = " + Time_Location);
                 fly(Coords_Location);
+                $("#id_location").html(fId_Location);
                 $("#name_role").html(NickName_Role);
                 $("#name_lr").html(Name_Location);
                 $("#auth_lr").html(Auth_ShareAuth);
@@ -1603,9 +1725,44 @@
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);
             });//end ajax
+            //////
+            document.getElementById("Comment").innerHTML = '';
+            $.ajax({
+                url: "/Home/HistoryLocationComment",
+                type: "POST",
+                dataType: "json",
+                data: { LocationID: LocationID },
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+                        let HCMT = '<div class="comment-box-wrapper">';
+                        HCMT += '<div class="comment-box">';
+                        HCMT += ' <img src="https://i.imgur.com/vyWwMlr.png" class="commenter-image" alt="commenter_image">';
+                        HCMT += '<div class="comment-content">';
+                        HCMT += ' <div class="commenter-head">';
+                        HCMT += '  <span class="commenter-name"><a href="">';
+                        HCMT += response[i].fComment_Name
+                        HCMT += '</a ></span > ';
+                        HCMT += ' <span class="comment-date"><i class="far fa-clock"></i>';
+                        HCMT += response[i].fTime_Comment;
+                        HCMT+='</span > ';
+                        HCMT += '    </div>';
+                        HCMT += ' <div class="comment-body">';
+                        HCMT += '<span class="comment">' + response[i].fComment_Comment + '</span>';
+                        HCMT += '</div>';
+                        HCMT += '  <div class="comment-footer">';
+                        HCMT += '</div>';
+                        HCMT += ' </div>';
+                        HCMT += '</div>';
+                        HCMT += '  </div>';
+                        $("#Comment").append(HCMT);
+                    }
+                }
+            });
+            //////
+
         }
 
-        //顯示路線&地點資訊k => 點列表@*!!!*@
+        //顯示路線&地點資訊k => 點列表
         var _routeID;
         function getRouAjax(RouteID) {
             //顯示路線資訊
@@ -1617,6 +1774,7 @@
             }).done(function (response) {
                 //console.log(response);
                 Route = GetRoutePathArray(response.fPath_Route);
+                Id_Route = response.fId_Route;
                 NickName_Role = (response.fNickName_Role);
                 Name_Route = response.fName_Route;
                 Auth_ShareAuth = response.fAuth_ShareAuth;
@@ -1630,6 +1788,7 @@
                 //console.log("Time_Route = " + Time_Route);
                 _routeID = RouteID;
                 fly(Route[0]);
+                $("#id_location").html(Id_Route);
                 $("#name_role").html(NickName_Role);
                 $("#name_lr").html(Name_Route);
                 $("#auth_lr").html(Auth_ShareAuth);
@@ -1640,33 +1799,103 @@
             });//end ajax
 
             //顯示路線中的地點資訊k
+            var tempIdLoc = [];
             $.ajax({
                 url: "/Home/RouteGetPoint",
                 type: "POST",
                 dataType: "json",
+                async:false,
                 data: { RouteID: RouteID }
             }).done(function (response) {
-                //console.log(response);
+                //console.log(response[1]);
                 var Name_Location = "";
                 var loc = [];
                 for (var i = 0; i < response.length; i++) {
+                    Id_Location = response[i].fId_Location;
                     Name_Location = response[i].fName_Location;
                     Descript_Location = response[i].fDescript_Location;
                     Time_Location = response[i].fTime_Location;
                     //console.log("Name_Location =" + Name_Location);
                     //console.log("Descript_Location =" + Descript_Location);
                     //console.log("Time_Location =" + Time_Location);
+                    tempIdLoc.push(Id_Location);
                     var locs = document.getElementById('loc');
-                    loc += '<div>' + Name_Location + '<div style="font-size:small">' + Descript_Location + '<div style="font-size:small">' + Time_Location + '</div></div>';
+                    loc += '<div>' + Name_Location +
+                        '<div style="font-size:small">' + Descript_Location +
+                        '</div></div>';
                     locs.innerHTML = loc;
                 };//end for
-                locs.innerHTML +=
-                    '<div id="editRoute">' +
-                    '<button id="EditExistedRoute" class="btn btn-info" onclick="CallBackThisRouteInfoWhenEditor()">編輯路線</button>' +
-                    '</div>';
+
+                if (response[0].fId_Role == @Session[CDictionary.SK_ActiveRoleId]) {
+                    locs.innerHTML +=
+                        '<div id="editRoute">' +
+                        '<button id="EditExistedRoute" class="btn btn-info" onclick="CallBackThisRouteInfoWhenEditor()">編輯路線</button>' +
+                        '</div>';
+                }
+                
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);
             });//end ajax
+
+            //for (var i = 0; i < tempIdLoc.length; i++) {
+                var locId = tempIdLoc[0];
+                $.ajax({
+                    url: "/Home/GetLocationPhoto",
+                    type: "POST",
+                    dataType: "json",
+                    data: { LocationID: locId }
+                }).done(function (response) {
+                    //console.log(response);
+
+                    $("#photo_lr").attr("src", "");
+                    if (response.length) {
+                        Path_Photo = response[0].fPath_Photo
+                        //console.log("Path_Photo = " + Path_Photo);
+                        $("#photo_lr").attr("src", Path_Photo);
+                    }
+                    else {
+                        alert("沒照片");
+                    }
+
+                }).fail(function (xhr) {
+                    console.log(xhr.status + xhr.responseText);
+                });//end ajax
+            //}//end for
+
+            //////
+            document.getElementById("Comment").innerHTML = '';
+            $.ajax({
+                url: "/Home/HistoryRouteComment",
+                type: "POST",
+                dataType: "json",
+                data: { RouteID: RouteID },
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+                        let HCMT = '<div class="comment-box-wrapper">';
+                        HCMT += '<div class="comment-box">';
+                        HCMT += ' <img src="https://i.imgur.com/vyWwMlr.png" class="commenter-image" alt="commenter_image">';
+                        HCMT += '<div class="comment-content">';
+                        HCMT += ' <div class="commenter-head">';
+                        HCMT += '  <span class="commenter-name"><a href="">';
+                        HCMT += response[i].fComment_Name
+                        HCMT += '</a ></span > ';
+                        HCMT += ' <span class="comment-date"><i class="far fa-clock"></i>';
+                        HCMT += response[i].fTime_Comment;
+                        HCMT += '</span > ';
+                        HCMT += '    </div>';
+                        HCMT += ' <div class="comment-body">';
+                        HCMT += '<span class="comment">' + response[i].fComment_Comment + '</span>';
+                        HCMT += '</div>';
+                        HCMT += '  <div class="comment-footer">';
+                        HCMT += '</div>';
+                        HCMT += ' </div>';
+                        HCMT += '</div>';
+                        HCMT += '  </div>';
+                        $("#Comment").append(HCMT);
+                    }
+                }
+            });
+            //////////
         }
     </script>
 
@@ -1936,9 +2165,10 @@
     <script>
         //顯示相簿列表
         function showMyAlbums(roleID) {
+            $("#albumList").empty();
 
             setDivDisplay("albums", "block");
-
+            
             $.ajax({
                 url: "/Home/showMyAlbums",
                 type: "POST",
@@ -1967,7 +2197,7 @@
                             '<div class="albumDescript" id="fDescript_Album' + i + '" ><h7>' + response[i].fDescript_Album + '</h7></div>' +
                             '</div>' +
                             '<div>' +
-                        '<button type="button" class="btn btn-info" onclick="editAlbum(' + @Session[CDictionary.SK_ActiveRoleId] +',' + response[i].fId_Album+')">修改相簿</button>' +
+                            '<button type="button" class="btn btn-info" onclick="editAlbum(' + @Session[CDictionary.SK_ActiveRoleId] +',' + response[i].fId_Album+')">修改相簿</button>' +
                             '</div>' +
                             '</div>';
                         album.innerHTML += albumInstructions;
@@ -2027,6 +2257,7 @@
         var loccnt = 0;
         var locid = "";
         function addAlbum(roleID) {
+            document.getElementById("addAlbumForm").reset();
             setDivDisplay("addAlbum", "block");
             $("#createa").show();
             $("#savea").hide();
@@ -2061,9 +2292,9 @@
             var ifIsChecked = $('#checkboxa').is(":checked");
 
             if (ifIsChecked == true) {
-                $('#checkboxea').val(1);
+                $('#checkboxa').val(1);
             } else {
-                $('#checkboxea').val(0);
+                $('#checkboxa').val(0);
             }
         }
 
@@ -2094,13 +2325,14 @@
                         timer: 1000
                     })
                     setDivDisplay("addAlbum", "none");
+                    reloadAlbum();
                 },
                 fail: function (failresponse) {
                     console.log(failresponse);
                 }
             });
         }
-    </script>
+</script>
 
     @* ========= 編輯我的相簿 by kevin 10/08 ========= *@
     <script>
@@ -2127,18 +2359,20 @@
                 $("#fId_Role").val(roleID);
 
                 if (response.fDelete_Album == 1) {
-                    $('#checkboxa').prop("checked", true)
+                    $('#checkboxa').prop("checked", true);
+                    $('#checkboxa').val(1);
                 } else {
-                    $('#checkboxa').prop("checked", false)
+                    $('#checkboxa').prop("checked", false);
+                    $('#checkboxa').val(0);
                 }
 
-                $('#selector option').removeAttr('selected');
+                $('#selectorA option').removeAttr('selected');
                 if (response.fId_ShareAuth == 3) {
-                    $('#selector option[value=3]').attr('selected', 'selected');
+                    $('#selectorA option[value=3]').attr('selected', 'selected');
                 } else if (response.fId_ShareAuth == 2) {
-                    $('#selector option[value=2]').attr('selected', 'selected');
+                    $('#selectorA option[value=2]').attr('selected', 'selected');
                 } else {
-                    $('#selector option[value=1]').attr('selected', 'selected');
+                    $('#selectorA option[value=1]').attr('selected', 'selected');
                 };
 
             }).fail(function (xhr) {
@@ -2152,18 +2386,20 @@
                 dataType: "json",
                 data: { roleID: roleID, albumID: albumID }
             }).done(function (response) {
-
                 //console.log(response[0].fName_Location);
                 //只撈有打勾的 fName_Location[]
                 var Relocid = 0;
-                var divLen = document.getElementById("aloc").childElementCount / 2; // 我不知道為什麼這邊都找到兩倍數量,可能是含名字
+                var divLen = document.getElementById("aloc").childElementCount;
                 var childID = 0;
                 for (var i = 0; i < response.length; i++) {
                     Relocid = response[i].fId_Location;
+                    console.log(Relocid);
                     for (j = 0; j < divLen; j++) {
                         childID = document.getElementById("aloc").children[j].id;
                         if (childID == Relocid) {
                             $('#' + Relocid).prop("checked", true);
+                            $('#' + Relocid).val(Relocid);
+                            break;
                         }
                     }
                 }
@@ -2174,6 +2410,7 @@
 
         //更新相簿資料至資料庫
         function editAlbumFormButton() {
+            console.log(document.getElementById("checkboxa").val);
             $("#addAlbumForm").ajaxSubmit({
                 type: "POST",
                 url: "/Home/EditAlbumInfo",
@@ -2190,7 +2427,7 @@
                     })
 
                     setDivDisplay("addAlbum", "none");
-                    //reload();
+                    reloadAlbum();
                 },
                 fail: function (failresponse) {
                     console.log(failresponse);
@@ -2198,7 +2435,97 @@
             });
         };
 
+        //重新載入相簿
+        function reloadAlbum() {
+            document.getElementById("addAlbumForm").reset();
+            showMyAlbums(@Session[CDictionary.SK_ActiveRoleId]);
+        }
+</script>
+
+    @* ========= 顯示好友的相簿 by kevin 10/07 ========= *@
+    <script>
+        //顯示好友相簿列表
+        function showMyFriendsAlbums(roleID) {
+            $("#albumListfr").empty();
+
+            setDivDisplay("albumsfr", "block");
+
+            $.ajax({
+                url: "/Home/showMyFriendsAlbums",
+                type: "POST",
+                data: { roleID: roleID },
+            }).done(function (response) {
+                //console.log(response);
+
+                var album = document.getElementById('albumListfr');
+                if (response.length == 0) {
+                    albumInstructions =
+                        '<div class="album">' +
+                        '好友尚無分享相簿' +
+                        '</div>';
+                    album.innerHTML += albumInstructions;
+                }
+                else {
+                    for (var i = 0; i < response.length; i++) {
+                        albumInstructions =
+                            '<div class="album" >' +
+                            '<div onclick="showMyFriendsAlbumDetail(' + response[i].fId_Album + ')">' +
+                            '<div class="albumUserName" id="fNickName_Role' + i + '"><h5>' + response[i].fNickName_Role + '</h5></div>' +
+                            '<div class="showAlbumPhoto" id="showAlbumPhoto">' +
+                            '<img class="albumPhoto" src="' + response[i].fPath_Photo + '"/>' +
+                            '</div>' +
+                            '<div class="albumName" id="fName_Album' + i + '"><h6>' + response[i].fName_Album + '</h6></div>' +
+                            '<div class="albumDescript" id="fDescript_Album' + i + '" ><h7>' + response[i].fDescript_Album + '</h7></div>' +
+                            '</div>' +
+                            '</div>';
+                        album.innerHTML += albumInstructions;
+                    }
+                }
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+        } //end showMyAlbums()
+
+        //顯示相簿內的地點列表
+        function showMyFriendsAlbumDetail(fId_Album) {
+            setDivDisplay("albumDetailfr", "block");
+            setDivDisplay("albumListfr", "none");
+
+            $.ajax({
+                url: "/Home/showAlbumDetail",
+                type: "POST",
+                data: { albumId: fId_Album },
+            }).done(function (response) {
+                //console.log(response);
+                var info = document.getElementById("Info_alistfr");
+                info.innerHTML = "";
+
+                for (var i = 0; i < response.length; i++) {
+
+                    infoinstructions =
+                        '<div class="info_a">' +
+                        '<div id="name_role' + i + '" class="name_role">' + response[i].fNickName_Role + '</div>' +
+                        '<div id="auth_lr' + i + '" class="auth_lr">' + response[i].fAuth_ShareAuth + '</div>' +
+                        '<img id="photo_lr' + i + '" class="photo_lr" src="' + response[i].fPath_Photo + '" />' +
+                        '<div id="name_lr' + i + '" class="name_lr">' + response[i].fName_Location + '</div>' +
+                        '<div id="descript_lr' + i + '" class="descript_lr">' + response[i].fDescript_Location + '</div>' +
+                        '</div>';
+                    info.innerHTML += infoinstructions;
+                }
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText)
+            });//end ajax
+        }//end showMyFriendsAlbumDetail()
+
+        //返回相簿列表
+        function backTofrAlbumList() {
+            setDivDisplay("albumListfr", "block");
+            setDivDisplay("albumDetailfr", "none");
+        }
     </script>
+
 
     <script type="text/javascript">
         let CLIENT_ID = "640701122888-kqkl96t9a7tjtkug7f2ve6pdovm9mrjs.apps.googleusercontent.com";

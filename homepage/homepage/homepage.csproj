@@ -202,6 +202,7 @@
     <Content Include="css\BootSideMenu.css" />
     <Content Include="css\CustomerlizeCSSofLocationAndRoute.css" />
     <Content Include="css\FixedPosition.css" />
+    <Content Include="css\LeftSideMenu.css" />
     <Content Include="css\test.css" />
     <Content Include="css\theme\darkblue.css" />
     <Content Include="css\theme\dracula.css" />
@@ -210,8 +211,8 @@
     <Content Include="css\theme\zenburn.css" />
     <Content Include="dbFunDayTripModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
       <LastGenOutput>dbFunDayTripModel.Context.cs</LastGenOutput>
+      <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
     </Content>
     <Content Include="dbFunDayTripModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -242,6 +243,13 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <EntityDeploy Include="dbFunDayTripModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>dbFunDayTripModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="dbFunDayTripModel.edmx.diagram">
+      <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FunDayTrip - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
@@ -494,22 +502,17 @@
       <DependentUpon>dbFunDayTripModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\CAdDetailVM.cs" />
+    <Compile Include="ViewModel\CBlocksViewModel.cs" />
     <Compile Include="ViewModel\CFanslistViewModel.cs" />
     <Compile Include="ViewModel\CFollowlistViewModel.cs" />
     <Compile Include="ViewModel\CGameNavigationViewModel.cs" />
+    <Compile Include="ViewModel\CHistoryComment.cs" />
     <Compile Include="ViewModel\CHistoryMessage.cs" />
     <Compile Include="ViewModel\CLoginViewModel.cs" />
     <Compile Include="ViewModel\CShowLocations.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
-    <EntityDeploy Include="dbFunDayTripModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>dbFunDayTripModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="dbFunDayTripModel.edmx.diagram">
-      <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />

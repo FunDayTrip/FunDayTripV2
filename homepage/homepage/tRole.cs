@@ -27,6 +27,7 @@ namespace homepage
             this.tFollows = new HashSet<tFollow>();
             this.tFollows1 = new HashSet<tFollow>();
             this.tGameGroups = new HashSet<tGameGroup>();
+            this.tGameRecords = new HashSet<tGameRecord>();
             this.tGameUnlocks = new HashSet<tGameUnlock>();
             this.tLocations = new HashSet<tLocation>();
             this.tMessages = new HashSet<tMessage>();
@@ -41,7 +42,6 @@ namespace homepage
             this.tRoutes = new HashSet<tRoute>();
             this.tStatistics = new HashSet<tStatistic>();
             this.tUnlocks = new HashSet<tUnlock>();
-            this.tGameRecords = new HashSet<tGameRecord>();
         }
     
         public int fId_Role { get; set; }
@@ -72,6 +72,8 @@ namespace homepage
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tGameGroup> tGameGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tGameRecord> tGameRecords { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tGameUnlock> tGameUnlocks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tLocation> tLocations { get; set; }
@@ -100,7 +102,5 @@ namespace homepage
         public virtual ICollection<tStatistic> tStatistics { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tUnlock> tUnlocks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tGameRecord> tGameRecords { get; set; }
     }
 }

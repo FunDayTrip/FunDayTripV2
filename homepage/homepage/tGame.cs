@@ -27,6 +27,8 @@ namespace homepage
         public string fName_Game { get; set; }
         public int fOrder_Game { get; set; }
         public int fId_GameGroup { get; set; }
+        public Nullable<int> fAR_Game { get; set; }
+        public string fSource_Game { get; set; }
     
         public virtual tCoordinate tCoordinate { get; set; }
         public virtual tGameGroup tGameGroup { get; set; }
