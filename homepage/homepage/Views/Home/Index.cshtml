@@ -711,12 +711,14 @@
     <script>
         //追蹤中地點
         function showFrLoc() {
+            $('#LeftSideMenu').BootSideMenu.open();
             $("#tab_loc").text("追蹤地點");
             $("#tab_rou").text("追蹤路線");
         }
 
         //按我的地點 顯示可新增按鈕
         function showMyLoc() {
+            $('#LeftSideMenu').BootSideMenu.open();
         $("#tab_loc").text("我的地點");
             $("#tab_rou").text("我的路線");
                 TabNow = "我的地點";
@@ -990,6 +992,7 @@
     <script>
         //我的路線 顯示可新增按鈕
         function showMyRou(roleID) {
+            $('#LeftSideMenu').BootSideMenu.open();
             document.getElementById("UploadRouteForm").reset();
             $("#columns").empty();
             $("#addNewRouteButton").show();
