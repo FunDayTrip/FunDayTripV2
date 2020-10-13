@@ -44,6 +44,7 @@
         messagetextold += '</div>';
 
         $('#MSG').append(messagetextold); 
+        console.log("幾次");
     }
     function chatroomscrolldown(){
 
@@ -185,7 +186,7 @@
                 success: function (response) {                    
                     let bbb = chatroom(response[0]);
                     if ($('#CHAT').text().length == 0) {
-                      
+
 
                         $('#CHAT').append(bbb);//想不到變數名稱
 
@@ -193,11 +194,11 @@
                         ////////////////
                         for (let i = 0; i < response.length; i++) {
                             console.log(response[i]);
-                            if (response[i].fMessage_To == null && response[i].name == null && response[i].value===0) {
+                            if (response[i].fMessage_To == null && response[i].name == null && response[i].value === 0) {
 
                                 console.log(response[i].fMessage_From);
 
-                                let hsmessagetext = '<div class="messageMe">'; 
+                                let hsmessagetext = '<div class="messageMe">';
                                 hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
                                 hsmessagetext += '<span>' + response[i].fMessage_From + '</span >';
                                 hsmessagetext += '<div class="clearFix" ></div >';
@@ -208,7 +209,7 @@
                             else if (response[i].fMessage_From == null && response[i].name == null && response[i].value === 0) {
 
                                 console.log(response[i].fMessage_To);
-                                let hsmessagetext = '<div class="messageHer">'; 
+                                let hsmessagetext = '<div class="messageHer">';
                                 hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
                                 hsmessagetext += '<span>' + response[i].fMessage_To + '</span >';
                                 hsmessagetext += '<div class="clearFix" ></div >';
@@ -219,14 +220,16 @@
                         }
                         //////////////////////////
                         messagetextold(content);
-                        chatroomscrolldown();                        
+
+                        chatroomscrolldown();
                     }
-                    chatroomresizs()
+                    else {
+                        messagetextold(content);
+                    }
+                    chatroomresizs();
                     chatroomscrolldown();
                 }
             });
-            messagetextold(content);
-            chatroomscrolldown();
         }
     };
 </script>

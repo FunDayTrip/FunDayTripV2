@@ -300,9 +300,17 @@
 
             deletefollower();
             deletefans();
+            chatroompressEnter();
 
         })
-
+        function chatroompressEnter() {
+            $(document).on('keyup', '#StringTextBox', function (event) {              
+                if (event.keyCode === 13) {
+                    //event.preventDefault;
+                        $(".c").click();
+                }             
+            });
+        };
         //顯示關閉左邊表單
         function closethisdiv() {
 
