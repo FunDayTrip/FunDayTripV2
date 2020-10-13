@@ -210,7 +210,7 @@
                         console.log(response);
                         console.log(response.length);
                         for (var i = 0; i < response.length; i += 1)
-                        {                            
+                        {
                             console.log(i);
                             parameter = response[i].fId_Location;
 
@@ -221,7 +221,7 @@
                             {
                                 movementClassName = "";
                             }
-                            
+
                             var DIV = $("<div>").attr({
                                 'id': "DIV" + [i] + "",
                                 //'value': response[i].fId_Location,
@@ -495,7 +495,7 @@
         <div id="myModal" class="modal">
             @*<div class="modal-dialog">*@
             <div class="modal-content ">
-                <form method="post" enctype="multipart/form-data" id="UploadLocationForm" style="height:500px;width:918px" >
+                <form method="post" enctype="multipart/form-data" id="UploadLocationForm" style="height:500px;width:918px">
                     @Html.Partial("_CreateOrEditForm")
                 </form>
             </div>@*model-contain*@
@@ -762,7 +762,7 @@
             map.on('click', positioningClickLocate);
             ////地圖上雙擊決定添加的地點
             map.on('dblclick', alertIfAddLocation);
-            
+
         };
 
         //函式:alert尋問是否要新增此地點
@@ -781,7 +781,7 @@
                 //if (result.isConfirmed && Session[SK_AunctionAuth] == 4) {
                 //    window.alert("營利會員成功");
                 //}
-                
+
                  if (result.isConfirmed) {
                     console.log("yes");
                     CreateEditmodal.style.display = "block";
@@ -1138,15 +1138,21 @@
                 '<input name="fY_Coordinate[]" id="fy_Coordinate' + CoordinateCnt + '" />' +
                 '</div>' +
                 '<div>' +
+                '<div class="form-group">'+
                 '<div>地點名稱</div>' +
-                '<input name="fName_Location[]" id="fName_Location' + CoordinateCnt + '" />' +
+                '<input name="fName_Location[]" id="fName_Location' + CoordinateCnt + '" class="form-control" placeholder="Your Location Name *" />' +
+                '</div>' +
+                '<div class="form-group">' +
                 '<div>地點描述</div>' +
-                '<input name="fDescript_Location[]" id="fDescript_Location' + CoordinateCnt + '" />' +
+                '<input name="fDescript_Location[]" id="fDescript_Location' + CoordinateCnt + '" class="form-control" placeholder="Your Location Descript *" />' +
+                '</div>' +
                 '</div>' +
                 '<div>' +
+                '<div class="form-group">' +
                 '<div>上傳照片</div>' +
                 '<input type="file" accept="image/*" onchange="RoateloadFile(event)" name="PostImages">' +
-                '<img id="output' + CoordinateCnt + '" style="width:300px;height:200px" />' +
+                '<img id="output' + CoordinateCnt + '" style="width:94%;height:200px" src="https://i.imgur.com/7HtrXL4.png" />' +
+                '</div>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
@@ -1440,7 +1446,6 @@
 
                     var columns = document.getElementById('columns');
 
-
                     tripInstructions +=
                         '<div class="portlet">' +
                         '<div class="portlet-header" id="header' + i + '" name="header">' + '</div>' +
@@ -1453,17 +1458,23 @@
                         '<div>y</div>' +
                         '<input name="fY_Coordinate[]" id="fy_Coordinate' + i + '" />' +
                         '</div>' +
-                        '<div>' +
+                    '<div>' +
+                    '<div class="form-group">' +
                         '<div>地點名稱</div>' +
-                        '<input name="fName_Location[]" id="fName_Location' + i + '" />' +
+                    '<input name="fName_Location[]" id="fName_Location' + i + '" class="form-control" placeholder="Your Location Name *" />' +
+                    '</div>' +
+                    '<div class="form-group">' +
                         '<div>地點描述</div>' +
-                        '<input name="fDescript_Location[]" id="fDescript_Location' + i + '" />' +
-                        '</div>' +
-                        '<div>' +
+                    '<input name="fDescript_Location[]" id="fDescript_Location' + i + '" class="form-control" placeholder="Your Location Descript *" />' +
+                    '</div>' +
+                    '</div>' +
+                    '<div>' +
+                    '<div class="form-group">' +
                         '<div>上傳照片</div>' +
                         '<input type="file" accept="image/*" onchange="RoateloadFile(event)" name="PostImages">' +
-                        '<img id="output' + i + '" style="width:300px;height:200px" />' +
-                        '</div>' +
+                        '<img id="output' + i + '" style="width:100%;height:200px" />' +
+                    '</div>' +
+                    '</div>' +
                         '</div>' +
                         '</div>' +
                         '</div>';
