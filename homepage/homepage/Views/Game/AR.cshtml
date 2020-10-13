@@ -1,24 +1,27 @@
-﻿<!doctype html>
+﻿@using homepage.ViewModel
+@using homepage.Models
+@model homepage.ViewModel.CGameNavigationViewModel
+@if (Session[CDictionary.SK_ActiveRoleId] == null)
+{
+    Session[CDictionary.SK_ActiveRoleId] = 3;
+}
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    @*a-frame and ar.js*@
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
+    @*sweet alert cdn _verna_0930*@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
 
     <script>
-        window.onload = function () {
-            document
-                .querySelector(".say-hi-button")
-                .addEventListener("click", function () {
-                    // here you can change also a-scene or a-entity properties, like
-                    // changing your 3D model source, size, position and so on
-                    // or you can just open links, trigger actions...
-                    alert("別想偷吃香蕉");
-                });
-        };
     </script>
     <style>
         .buttons {
@@ -33,44 +36,205 @@
             z-index: 10;
         }
 
-        .say-hi-button {
+        .active-button {
             padding: 0.25em;
-            border-radius: 4px;
-            border: none;
+            border-radius: 50%;
+            border: 5px black;
             background: white;
             color: black;
-            width: 4em;
-            height: 2em;
+            width: 6em;
+            height: 6em;
         }
     </style>
+
 </head>
 
 <body style="margin: 0; overflow: hidden;">
     <a-scene renderer="logarithmicDepthBuffer: true;"
              embedded
+             vr-mode-ui="enabled: false"
+             gesture-detector
              loading-screen="enabled: false;"
              arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-assets>
             <a-asset-item id="animated-asset"
-                          src=""></a-asset-item>
+                          src="@Model.fItems_GameNav[Model.fStatus_GameNav].fSource_Game"></a-asset-item>
         </a-assets>
         <a-entity look-at="[gps-camera]"
                   animation-mixer="loop: repeat"
                   gltf-model="#animated-asset"
-                  scale="1.6554199381760506 1.6554199381760506 1.6554199381760506"
-                  gps-entity-place="latitude: 25.033552; longitude: 121.5427783;"></a-entity>
-
-        <a-entity look-at="[gps-camera]"
-                  animation-mixer="loop: repeat"
-                  gltf-model="#animated-asset"
-                  scale="1.6554199381760506 1.6554199381760506 1.6554199381760506"
-                  gps-entity-place="latitude: 25.033552; longitude: 121.5427783;"></a-entity>
+                  scale="2 2 2"
+                  gps-entity-place="latitude: 25.033552; longitude: 121.5427783;"
+                  gesture-handler></a-entity>
 
         <a-camera gps-camera="simulateLatitude: 25.033550; simulateLongitude:121.542778" rotation-reader></a-camera>
     </a-scene>
+
     <div class="buttons">
-        <button class="say-hi-button">吃</button>
+        <button id="active-button" class="active-button" onclick="goGame()">Go</button>
     </div>
+
+    <script>
+        const order = @Model.fStatus_GameNav;
+        const ARitem = @Html.Raw(Json.Encode(Model));
+        const group_id = @Model.fGroup_GameNav.fId_GameGroup;
+        const now_play = ARitem.fItems_GameNav[order].fOrder_Game;
+
+        function goGame() {
+            if (ARitem.fItems_GameNav[order].fType_Game == 1) { //
+                fireSteps(ARitem);
+            } else if (ARitem.fItems_GameNav[order].fType_Game == 2) {
+                fireQA(ARitem);
+            }
+        };
+
+        function fireSteps(ARitem) {
+
+            var title = ARitem.fItems_GameNav[order].cGamesteps.fTitle_GameStep;
+            var content = ARitem.fItems_GameNav[order].cGamesteps.fContent_GameStep;
+            var game_id = ARitem.fItems_GameNav[order].fId_Game;
+            var end = [ARitem.fItems_GameNav[order].fX_Coordinate, ARitem.fItems_GameNav[order].fY_Coordinate];
+
+            Swal.fire({
+                title: title,
+                text: content,
+                imageAlt: '踩點遊戲',
+                showCancelButton: true,
+                confirmButtonText: '確定',
+                cancelButtonText: '取消',
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '完成!',
+                        didDestroy: () => {
+                            finishItem(now_play);
+                        }
+                    })
+                }
+            });
+
+        };
+
+        async function fireQA(ARitem) {
+            var game_id = ARitem.fItems_GameNav[order].fId_Game;
+            var end = [ARitem.fItems_GameNav[order].fX_Coordinate, ARitem.fItems_GameNav[order].fY_Coordinate];
+
+                        var question = ARitem.fItems_GameNav[order].cGameQA.fQuestion_GameQA;
+                        var op1 = ARitem.fItems_GameNav[order].cGameQA.fOption_1_GameQA;
+                        var op2 = ARitem.fItems_GameNav[order].cGameQA.fOption_2_GameQA;
+                        var op3 = ARitem.fItems_GameNav[order].cGameQA.fOption_3_GameQA;
+                        var op4 = ARitem.fItems_GameNav[order].cGameQA.fOption_4_GameQA;
+
+                        let inputOptions = new Promise((resolve) => {
+                        setTimeout(() => {
+                        resolve({
+                            '1': op1,
+                            '2': op2,
+                            '3': op3,
+                            '4': op4
+                        })
+                    }, 1000)
+                });
+
+        let { value: answer } = await Swal.fire({
+        title: question,
+                    text: '請選擇答案',
+                    input: 'radio',
+                    confirmButtonText: '確定',
+                    inputOptions: inputOptions,
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return '請選擇一個答案!'
+                        }
+                    },
+                });
+
+        if (answer) {
+            var toQA = {
+                role_id: @Session[CDictionary.SK_ActiveRoleId],
+                group_id: group_id,
+                game_id: game_id,
+                answer: answer,
+                finish: now_play,
+                    };
+
+        checkQA(toQA);
+                };
+
+
+        };
+
+        function checkQA(toQA) {
+
+            $.ajax({
+                url: "@Url.Action("checkQA", "Game")",
+                type: "GET",
+                dataType: "json",
+                data: {
+                    role_id: toQA.role_id,
+                    group_id: toQA.group_id,
+                    game_id: toQA.game_id,
+                    answer: toQA.answer
+                }
+            }).done(function (response) {
+                console.log(response);
+                if (response.fResult_CheckQA == 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: response.fMessage_CheckQA,
+                        didDestroy: () => {
+                            finishItem(now_play)
+                        },
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: response.fMessage_CheckQA
+                    })
+                }
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });
+        };
+
+
+
+        function finishItem(now_play) {
+            //let timerInterval;
+            //Swal.fire({
+            //    title: '完成!',
+            //    html: '此視窗將於 <b></b> 秒後關閉.',
+            //    timer: 3,
+            //    timerProgressBar: true,
+            //    willOpen: () => {
+            //        Swal.showLoading()
+            //        timerInterval = setInterval(() => {
+            //            const content = Swal.getContent()
+            //            if (content) {
+            //                const b = content.querySelector('b')
+            //                if (b) {
+            //                    b.textContent = Swal.getTimerLeft()
+            //                }
+            //            }
+            //        }, 1000)
+            //    },
+            //    willClose: () => {
+            //        clearInterval(timerInterval)
+            //    }
+            //}).then((result) => {
+            //    /* Read more about handling dismissals below */
+            //    if (result.dismiss === Swal.DismissReason.timer) {
+            //        console.log('I was closed by the timer')
+            //    }
+            //})
+            window.opener.finishItem(now_play);
+            window.close();
+        }
+
+
+    </script>
 
 </body>
 </html>

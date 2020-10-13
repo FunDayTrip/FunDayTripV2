@@ -14,8 +14,12 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">地點 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
-                        <li><a href="javascript:showMyLoc()" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow(); hideAdBlock();">我的</a></li>
-                        <li><a href="#" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myflocation(); hideAdBlock();">追蹤中</a></li>
+                        <li>
+                            <a href="javascript:showMyLoc()" onclick="myLaction(); myRount(); myLocationsshow(); myRoutesshow(); hideAdBlock();">我的</a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myfriendLocationsshow(); hideAdBlock();">追蹤中</a>
+                        </li>
                     </ul>
                 </li>
 
@@ -23,16 +27,24 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">路線 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
-                        <li><a href="javascript:showMyRou(@Session[CDictionary.SK_ActiveRoleId])" onclick="myLaction(); myRount(); mylocationshow(); myRouteshow(); hideAdBlock();">我的</a></li>
-                        <li><a href="#" onclick="hideAdBlock();">追蹤中</a></li>
+                        <li>
+                            <a href="javascript:showMyRou(@Session[CDictionary.SK_ActiveRoleId])" onclick="myLaction(); myRount(); myLocationsshow(); myRoutesshow(); hideAdBlock();">我的</a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myfriendLocationsshow();hideAdBlock();">追蹤中</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">相簿 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
-                        <li><a onclick="hideAdBlock();" href="javascript:showMyAlbums(@Session[CDictionary.SK_ActiveRoleId])">我的</a></li>
-                        <li><a onclick="hideAdBlock();" href="#">追蹤中</a></li>
+                        <li>
+                            <a onclick="hideAdBlock();" href="javascript:showMyAlbums(@Session[CDictionary.SK_ActiveRoleId])">我的</a>
+                        </li>
+                        <li>
+                            <a onclick="hideAdBlock();" href="#">追蹤中</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -50,15 +62,21 @@
                     <a href="@Url.Action("ShowHeatMap", "Statistic")">統計與分析</a>
                 </li>
                 <li>
-                    <a href="#" onclick="hideAdBlock();">聯絡管理員</a>
+                    <a href="javascript:callAdmin()" value="9" name="Fundaytrip管理員" onclick="hideAdBlock();">聯絡管理員</a>
                 </li>
                 <li class="dropdown">
                     <a id="backstage" style="display:none;" class="dropdown-toggle" data-toggle="dropdown" href="#">管理員後台<span class="caret"></span></a>
                     @*<a id="backstage" style="display:none;" href="@Url.Action("indexBack", "backStage")">管理員後台</a>*@
                     <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("showAllMembers", "backStage")">會員查詢</a></li>
-                        <li><a href="@Url.Action("showApplyAD", "backStage")">審核廣告</a></li>
-                        <li><a href="@Url.Action("reportedList", "backStage")">檢舉名單</a></li>
+                        <li>
+                            <a href="@Url.Action("showAllMembers", "backStage")">會員查詢</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("showApplyAD", "backStage")">審核廣告</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("reportedList", "backStage")">檢舉名單</a>
+                        </li>
                     </ul>
                 </li>
 
@@ -66,10 +84,10 @@
                     <a href="#" onclick="hideAdBlock();">關於我們</a>
                 </li>
             }
-        <li style="position:absolute;right:10px">
-            @*開啟個人資料對話方塊*@
-            <a href="#"id="toggle2" >user</a>
-        </li>
+            <li style="position:absolute;right:10px">
+                @*開啟個人資料對話方塊*@
+                <a href="#" id="toggle2">user</a>
+            </li>
         </ul>
         <form class="navbar-form navbar-left" action="/action_page.php" method="post" id="search">
             <div class="form-group">
@@ -77,7 +95,7 @@
             </div>
             <button type="button" class="btn btn-default" name="查詢" id="post" onclick="SearchLocation(); SearchRount(); locationshow(); Routeshow(); hideAdBlock();">查詢</button>
         </form>
-        
+
     </div>
 </nav>
 
@@ -90,7 +108,7 @@
         $("#foot-content").css('display', 'none')
     };
 
-    function myflocation() {
+    function myfriendLocationsshow() {
         var objData = {
             data: @Session[CDictionary.SK_ActiveRoleId],
         }
@@ -138,7 +156,8 @@
             console.log(xhr.status + xhr.responseText);
         });//end ajax
     };
-    function myfriendRoutesshow() {
+
+        function myfriendRoutesshow() {
         var objData = {
             data: @Session[CDictionary.SK_ActiveRoleId],
         }
@@ -184,6 +203,7 @@
                 map.removeSource("routes");
             }
             // reloadRoute();
+            //Routeshow();
             reloadlocation();
         }).fail(function (xhr) {
             console.log(xhr.status + xhr.responseText);
@@ -200,8 +220,9 @@
             data: objData,
             success: function (data) {
                 var rount2 = [];
+                var rounts = document.getElementById('rountshow');
                 for (var i in data) {
-                    var rounts = document.getElementById('rountshow');
+                    
                     rount2 += '<div class="tab_div" ><input type="button" class="action-button shadow animate blue tab_roushow" onclick="zoomToRoute';
                     rount2 += "('" + data[i].fId_Route + "')" + '"';
                     rount2 += 'value =';
@@ -226,8 +247,9 @@
             data: objData,
             success: function (data) {
                 var loc2 = [];
+                var locations = document.getElementById('locationshow');
                 for (var i in data) {
-                    var locations = document.getElementById('locationshow');
+
                     loc2 += '<div class="tab_div" ><input type="button" class="action-button shadow animate green tab_locshow" onclick="zoomToLocation';
                     loc2 += "('" + data[i].fId_Location + "')" + '"';
                     loc2 += 'value =';
@@ -243,7 +265,7 @@
         })
     }
 
-    function mylocationshow() {
+    function myLocationsshow() {
         var objData = {
             data: @Session[CDictionary.SK_ActiveRoleId],
         }
@@ -255,6 +277,7 @@
         }).done(function (response) {
             //console.log(response);
             LocArray = [];
+
             for (var i = 0; i < response.length; i++) {
                 Coords_Location = [response[i].fX_Coordinate, response[i].fY_Coordinate];
                 Id_Location = response[i].fId_Location;
@@ -285,13 +308,13 @@
             if (map.getSource("routes")) {
                 map.removeSource("routes");
             }
-            Routeshow();
-
+            //Routeshow();
+            reloadlocation();
         }).fail(function (xhr) {
             console.log(xhr.status + xhr.responseText);
         });//end ajax
     }
-    function myRouteshow() {
+    function myRoutesshow() {
         var objData = {
             data: @Session[CDictionary.SK_ActiveRoleId],
         }
@@ -337,6 +360,7 @@
                 map.removeSource("routes");
             }
             // reloadRoute();
+            //Routeshow();
             reloadlocation();
         }).fail(function (xhr) {
             console.log(xhr.status + xhr.responseText);
@@ -354,8 +378,9 @@
             data: objData,
             success: function (data) {
                 var rount2 = [];
+                var rounts = document.getElementById('rountshow');
                 for (var i in data) {
-                    var rounts = document.getElementById('rountshow');
+
                     rount2 += '<div class="tab_div" ><input type="button" class="action-button shadow animate blue tab_roushow" onclick="zoomToRoute';
                     rount2 += "('" + data[i].fId_Route + "')" + '"';
                     rount2 += 'value =';
@@ -381,8 +406,9 @@
             data: objData,
             success: function (data) {
                 var loc2 = [];
+                var locations = document.getElementById('locationshow');
                 for (var i in data) {
-                    var locations = document.getElementById('locationshow');
+
                     loc2 += '<div class="tab_div" ><input type="button" class="action-button shadow animate green tab_locshow" onclick="zoomToLocation';
                     loc2 += "('" + data[i].fId_Location + "')" + '"';
                     loc2 += 'value =';

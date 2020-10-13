@@ -25,8 +25,6 @@ namespace homepage.Controllers
 
             string a = Session[CDictionary.SK_ActiveRoleId].ToString();
 
-
-
             //創造一組亂數字串不重複的訂單編號
             var str = "123456789ABCDEFGHIJKLMNPQRSTUVWXYZabcdefhijklmnorstuvwxz";
             var next = new Random();
@@ -40,7 +38,7 @@ namespace homepage.Controllers
             int MerchantID = 2000132;
             var MerchantTradeNo = builder;
             string MerchantTradeDate = DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
-            string ReturnUrl = "http://localhost:53676/Home/Index/"+ MerchantTradeNo;
+            string ReturnUrl = "http://localhost:53676/Home/Index/?id="+ MerchantTradeNo;
             string ProductName = "升級營利會員";
             int Amount = 99;
             //把需要的資料作串接

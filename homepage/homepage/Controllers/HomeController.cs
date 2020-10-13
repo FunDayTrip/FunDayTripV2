@@ -22,21 +22,53 @@ namespace homepage.Controllers
     {
         DB_FunDayTripEntities dbFundaytrip = new DB_FunDayTripEntities();
         CLoginViewModel loginMember = new CLoginViewModel();
+        CMapItem mapItem = new CMapItem();
         string key = "**********";
+
+        public void Report(int reportid, string location, string route)
+        {
+            
+            tReport report = new tReport();
+
+            if (route == null)
+            {
+                var ted = (from r in dbFundaytrip.tLocations.Where(n => n.fId_Location == location)
+                           select r).FirstOrDefault();
+                report.fId_Reported_Role = Convert.ToInt32(ted.fId_Role);
+                report.fId_Type_Location_Route_Comment_Photo = "L";
+                report.fId_Location_Route_Comment_Photo = location;
+            }
+            else
+            {
+                var ted = (from r in dbFundaytrip.tRoutes.Where(n => n.fId_Route == route)
+                           select r).FirstOrDefault();
+                report.fId_Reported_Role = Convert.ToInt32(ted.fId_Role);
+                report.fId_Type_Location_Route_Comment_Photo = "R";
+                report.fId_Location_Route_Comment_Photo = route;
+            }
+            report.fId_Admin_Role = 9;
+            report.fId_Reporter_Role = reportid;
+            report.fReason_Report = "不當內容";
+            report.fTimeReport_Report = DateTime.Now;
+            report.fStatus_Report = "未審核";
+            dbFundaytrip.tReports.Add(report);
+            dbFundaytrip.SaveChanges();
+        }
 
         [HttpPost]
         public JsonResult myfriendRoutesshow(int data)
         {
+           
             List<tFollow> flist = new List<tFollow>();
             var friend = from f in dbFundaytrip.tFollows
-                         where f.fId_Self_Role == data
+                         where f.fId_Self_Role == data 
                          select f;
             flist = friend.ToList();
             List<CRoute> croutes = new List<CRoute>();
             List<CRoute> allcroutes = new List<CRoute>();
             foreach (var f in flist)
             {
-                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == f.fId_Target_Role && entity.fDelete_Route==0).AsEnumerable()
                                       select l).ToList();
 
                 foreach (var item in route)
@@ -53,6 +85,7 @@ namespace homepage.Controllers
         [HttpPost]
         public JsonResult myfriendLocationsshow(int data)
         {
+            
             List<tFollow> flist = new List<tFollow>();
             var friend = from f in dbFundaytrip.tFollows
                          where f.fId_Self_Role == data
@@ -62,7 +95,7 @@ namespace homepage.Controllers
             List<CLocation> allclocations = new List<CLocation>();
             foreach (var f in flist)
             {
-                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == f.fId_Target_Role && entity.fDelete_Location == 0).AsEnumerable()
                                             where l.fDelete_Location == 0
                                             join s2 in dbFundaytrip.tPhotoes on l.fId_Location equals s2.fId_Location
                                             select l).ToList();
@@ -81,6 +114,7 @@ namespace homepage.Controllers
         [HttpPost]
         public JsonResult myfriendRount(int data)
         {
+           
             List<tFollow> flist = new List<tFollow>();
             var friend = from f in dbFundaytrip.tFollows
                          where f.fId_Self_Role == data
@@ -90,7 +124,7 @@ namespace homepage.Controllers
             List<CRoute> allcroutes = new List<CRoute>();
             foreach (var f in flist)
             {
-                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == f.fId_Target_Role && entity.fDelete_Route == 0).AsEnumerable()
                                       select l).ToList();
                 foreach (var item in route)
                 {
@@ -105,6 +139,7 @@ namespace homepage.Controllers
         [HttpPost]
         public JsonResult myfriendLocation(int data)
         {
+           
             List<tFollow> flist = new List<tFollow>();
             var friend = from f in dbFundaytrip.tFollows
                          where f.fId_Self_Role == data
@@ -115,8 +150,9 @@ namespace homepage.Controllers
                
             foreach (var f in flist)
             {
-                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == f.fId_Target_Role).AsEnumerable()
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == f.fId_Target_Role && entity.fDelete_Location == 0).AsEnumerable()
                                             select l).ToList();
+
                 foreach (var item in location)
                 {
                     CLocation clocation = new CLocation(item);
@@ -131,7 +167,8 @@ namespace homepage.Controllers
         [HttpPost]
         public JsonResult myRoutesshow(int data)
         {
-            List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == data).AsEnumerable()
+            
+            List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == data && entity.fDelete_Route == 0).AsEnumerable()
                                   select l).ToList();
 
             List<CRoute> croutes = new List<CRoute>();
@@ -141,17 +178,18 @@ namespace homepage.Controllers
                 CRoute croute = new CRoute(item);
                 croutes.Add(croute);
             }
-            return Json(croutes);
-
+            return Json(croutes, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public JsonResult myLocationsshow(int data)
         {
+
             List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == data).AsEnumerable()
                                         where l.fDelete_Location == 0
                                         join s2 in dbFundaytrip.tPhotoes on l.fId_Location equals s2.fId_Location
                                         select l).ToList();
+
             List<CLocation> clocations = new List<CLocation>();
 
             foreach (var item in location)
@@ -159,16 +197,19 @@ namespace homepage.Controllers
                 CLocation clocation = new CLocation(item);
                 clocations.Add(clocation);
             }
-            return Json(clocations);
+            return Json(clocations, JsonRequestBehavior.AllowGet);
 
         }
 
         [HttpPost]
         public JsonResult myRount(int data)
         {
-            List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == data).AsEnumerable()
+           
+            List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fId_Role == data && entity.fDelete_Route == 0).AsEnumerable()
                                   select l).ToList();
+
             List<CRoute> croutes = new List<CRoute>();
+
             foreach (var item in route)
             {
                 CRoute croute = new CRoute(item);
@@ -180,7 +221,8 @@ namespace homepage.Controllers
         [HttpPost]
         public JsonResult myLocation(int data)
         {
-            List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == data).AsEnumerable()
+           
+            List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fId_Role == data && entity.fDelete_Location == 0).AsEnumerable()
                                         select l).ToList();
             List<CLocation> clocations = new List<CLocation>();
 
@@ -195,9 +237,10 @@ namespace homepage.Controllers
         [HttpPost]
         public JsonResult getAllRoutesshow(string data)
         {
+
             if (string.IsNullOrEmpty(data))
             {
-                List<tRoute> route = (from l in dbFundaytrip.tRoutes.AsEnumerable()
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity=> entity.fDelete_Route == 0).AsEnumerable()
                                       where l.fDelete_Route==0
                                       select l).ToList();
 
@@ -208,11 +251,11 @@ namespace homepage.Controllers
                     CRoute croute = new CRoute(item);
                     croutes.Add(croute);
                 }
-                return Json(croutes);
+                return Json(croutes,JsonRequestBehavior.AllowGet);
             }
             else
             {
-                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fName_Route.Contains(data)).AsEnumerable()
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fName_Route.Contains(data) && entity.fDelete_Route == 0).AsEnumerable()
                                       select l).ToList();
 
                 List<CRoute> croutes = new List<CRoute>();
@@ -222,7 +265,7 @@ namespace homepage.Controllers
                     CRoute croute = new CRoute(item);
                     croutes.Add(croute);
                 }
-                return Json(croutes);
+                return Json(croutes ,JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -231,7 +274,7 @@ namespace homepage.Controllers
         {
             if (string.IsNullOrEmpty(data))
             {
-                List<tLocation> location = (from l in dbFundaytrip.tLocations.AsEnumerable()
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fDelete_Location == 0).AsEnumerable()
                                             where l.fDelete_Location == 0
                                             join s2 in dbFundaytrip.tPhotoes on l.fId_Location equals s2.fId_Location
                                             select l).ToList();
@@ -246,7 +289,7 @@ namespace homepage.Controllers
             }
             else
             {
-                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fName_Location.Contains(data)).AsEnumerable()
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fName_Location.Contains(data) && entity.fDelete_Location == 0).AsEnumerable()
                                             where l.fDelete_Location == 0
                                             join s2 in dbFundaytrip.tPhotoes on l.fId_Location equals s2.fId_Location
                                             select l).ToList();
@@ -265,7 +308,7 @@ namespace homepage.Controllers
         {
             if (string.IsNullOrEmpty(data))
             {
-                List<tLocation> location = (from l in dbFundaytrip.tLocations.AsEnumerable()
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fDelete_Location == 0).AsEnumerable()
                                             select l).ToList();
                 List<CLocation> clocations = new List<CLocation>();
 
@@ -278,7 +321,7 @@ namespace homepage.Controllers
             }
             else
             {
-                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fName_Location.Contains(data)).AsEnumerable()
+                List<tLocation> location = (from l in dbFundaytrip.tLocations.Where(entity => entity.fName_Location.Contains(data) && entity.fDelete_Location == 0).AsEnumerable()
                                             select l).ToList();
                 List<CLocation> clocations = new List<CLocation>();
                 foreach (var item in location)
@@ -297,7 +340,7 @@ namespace homepage.Controllers
         {
             if (string.IsNullOrEmpty(data))
             {
-                List<tRoute> route = (from l in dbFundaytrip.tRoutes.AsEnumerable()
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fDelete_Route == 0).AsEnumerable()
                                       select l).ToList();
                 List<CRoute> croutes = new List<CRoute>();
                 foreach (var item in route)
@@ -309,7 +352,7 @@ namespace homepage.Controllers
             }
             else
             {
-                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fName_Route.Contains(data)).AsEnumerable()
+                List<tRoute> route = (from l in dbFundaytrip.tRoutes.Where(entity => entity.fName_Route.Contains(data) && entity.fDelete_Route == 0).AsEnumerable()
                                       select l).ToList();
                 List<CRoute> croutes = new List<CRoute>();
                 foreach (var item in route)
@@ -322,11 +365,11 @@ namespace homepage.Controllers
 
         }
 
-        CMapItem mapItem = new CMapItem();
+        
         // GET: Home _verna_0930
-        public ActionResult Index(string MerchantTradeNo)
+        public ActionResult Index(string id)
         {
-            string a = MerchantTradeNo;
+            string a = id;
 
             List<tLocation> location = (from s in dbFundaytrip.tLocations.Where(entity => entity.fName_Location.Contains(key)).AsEnumerable()
                                         where s.fId_Coordinate == s.tCoordinate.fId_Coordinate && s.fDelete_Location == 0
@@ -408,7 +451,7 @@ namespace homepage.Controllers
             return Json(loginMember);
         }
 
-
+        //登入
         [HttpPost]
         public ActionResult login(string email, string pwd)
         {
@@ -477,8 +520,10 @@ namespace homepage.Controllers
         {
             CLoginViewModel logoutMember = new CLoginViewModel();
             logoutMember.loginMessage = "登出成功";
+            Session.Clear();
+            Session.Abandon();
+
             Session[CDictionary.SK_MemberId] = CDictionary.SK_anonymous;
-            Session[CDictionary.SK_MemberLogin] = logoutMember;
 
             return logoutMember.loginMessage;
         }
@@ -513,7 +558,12 @@ namespace homepage.Controllers
         {
             CRole rol = new CRolesFactory().getRole(role_id);
 
+            Session[CDictionary.SK_ActiveRoleId] = null;
+            Session.Remove(CDictionary.SK_ActiveRoleId);
             Session[CDictionary.SK_ActiveRoleId] = rol.fId_Role;
+
+            Session[CDictionary.SK_ActiveRoleName] = null;
+            Session.Remove(CDictionary.SK_ActiveRoleName);
             Session[CDictionary.SK_ActiveRoleName] = rol.fNickName_Role;
             return Json(rol, JsonRequestBehavior.AllowGet);
         }
@@ -705,9 +755,9 @@ namespace homepage.Controllers
                                         select i.fId_Coordinate).FirstOrDefault();
 
 
-            int sa = createlocation.fId_ShareAuth;
+           
             //tLocation location = new tLocation();
-            //createlocation.fId_Role 
+            //int s = createlocation.fId_Role;
             createlocation.fId_Coordinate = lastestCoordinateFid;
             createlocation.fId_ShareAuth = createlocation.fId_ShareAuth;
             createlocation.fId_Icon = createlocation.fId_ShareAuth;
@@ -743,11 +793,7 @@ namespace homepage.Controllers
         public string EditLocationInfo(tCoordinate createCoordinate, CCreateLocation loadPostPhoto, tLocation createlocation, tPhoto createphoto)
         {
             string locId = createlocation.fId_Location;
-
-
             string alert = null;
-
-
             tLocation ALocation = (from l in dbFundaytrip.tLocations
                                    where l.fId_Location == locId
                                    select l).FirstOrDefault();

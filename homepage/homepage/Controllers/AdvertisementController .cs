@@ -11,10 +11,11 @@ namespace homepage.Controllers
 {
     public class AdvertisementController : Controller
     {
+        DB_FunDayTripEntities db = new DB_FunDayTripEntities();
         public JsonResult ShowAD()
         {
             List<CAdJson> adLsit = new List<CAdJson>();
-            DB_FunDayTripEntities db = new DB_FunDayTripEntities();
+            
             var q = from photo in db.tAds
                     where photo.fStatus_Ad == "通過"
                     select photo;
@@ -39,6 +40,8 @@ namespace homepage.Controllers
             return Json(adLsit,JsonRequestBehavior.AllowGet);
         }
 
+        
+       
         public ActionResult newCommercialData()
         {
             return View();
@@ -47,7 +50,21 @@ namespace homepage.Controllers
         [HttpPost]
         public ActionResult newCommercialData(CAd data)
         {
-            DB_FunDayTripEntities db = new DB_FunDayTripEntities();
+           
+
+            decimal Lng = Convert.ToDecimal( Session["sessionLng"]);
+            decimal Lat = Convert.ToDecimal(Session["sessionLat"]);
+
+            tCoordinate coordinateAd = new tCoordinate();
+            coordinateAd.fX_Coordinate = Lng;
+            coordinateAd.fY_Coordinate = Lat;
+            db.tCoordinates.Add(coordinateAd);
+            db.SaveChanges();
+
+            int lastestCoordinateFid = (from i in db.tCoordinates
+                                        orderby i.fId_Coordinate descending
+                                        select i.fId_Coordinate).FirstOrDefault();
+
 
             if (data.image == null)
             {
@@ -68,6 +85,19 @@ namespace homepage.Controllers
                     return RedirectToAction("index");
                 }
 
+                tLocation locationAD = new tLocation();
+                locationAD.fId_Role = Convert.ToInt32(Session[CDictionary.SK_ActiveRoleId]);
+                locationAD.fId_Icon = 3;
+                locationAD.fId_ShareAuth = 3;
+                locationAD.fId_Coordinate = lastestCoordinateFid;
+                db.tLocations.Add(locationAD);
+                db.SaveChanges();
+
+
+                string lastestLocationFid = (from l in db.tLocations
+                                             orderby l.ID descending
+                                             select l.fId_Location).FirstOrDefault();
+
                 string photoName = Guid.NewGuid().ToString();
                 photoName += Path.GetExtension(data.image.FileName);
                 data.image.SaveAs(Server.MapPath("~/Content/" + photoName));
@@ -77,7 +107,7 @@ namespace homepage.Controllers
                 tad.fId_Role = Convert.ToInt32(Session[CDictionary.SK_ActiveRoleId]);
                 tad.fId_Admin_Role = 7;
                 tad.fPhoto_Ad = data.fPhoto_Ad;
-                tad.fId_Location = "l1";
+                tad.fId_Location = lastestLocationFid;
                 tad.fContent_Ad = data.fContent_Ad;
                 tad.fSolution_Ad = data.fSolution_Ad;
                 tad.fStatus_Ad = "審核中";
@@ -90,5 +120,16 @@ namespace homepage.Controllers
                 return View();
             }
         }
+
+
+        public string StashAdCoordinate(double lng , double lat) {
+
+            Session["sessionLng"] = lng;
+            Session["sessionLat"] = lat;
+            return "stash done"+lat+lng;
+
+        }
+
+        
     }
 }
