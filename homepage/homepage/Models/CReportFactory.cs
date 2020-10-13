@@ -10,6 +10,27 @@ namespace homepage.Models
 
         DB_FunDayTripEntities db = new DB_FunDayTripEntities();
 
+        internal void getRouteDelete(string fId)
+        {
+            var q = from data in db.tRoutes
+                    where data.fId_Route == fId
+                    select data;
+
+            q.FirstOrDefault().fDelete_Route = 1;
+            db.SaveChanges();
+        }
+
+        public void getLocationDelete(string fId) 
+        {
+            var q = from data in db.tLocations
+                    where data.fId_Location == fId
+                    select data;
+
+            q.FirstOrDefault().fDelete_Location = 1;
+            db.SaveChanges();
+
+        }
+
         internal string getDisappear(string id)
         {
 
@@ -17,6 +38,7 @@ namespace homepage.Models
                     where data.fId_Report.ToString() == id
                     select data;
             var reportedData = q.FirstOrDefault();
+            reportedData.fTimeModify_Report = DateTime.Now;
             reportedData.fStatus_Report = "已審核";
             //foreach (var x in q) 
             //{
@@ -45,5 +67,6 @@ namespace homepage.Models
             var QList = q.ToList();
             return QList;
         }
+
     }
 }
