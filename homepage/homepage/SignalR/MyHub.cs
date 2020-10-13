@@ -12,6 +12,10 @@ namespace homepage.SignalR
         {
             Clients.All.hello(name,content,fromname);
         }
+        public void notes(int role, string message)
+        {
+            Clients.All.notes(role,message);
+        }
 
     }
 }

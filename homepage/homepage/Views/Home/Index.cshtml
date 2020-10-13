@@ -2263,7 +2263,7 @@
                 }).done(function (response) {
                 /*alert("已切換身分為: " + response.fNickName_Role)*/;
                     $('#active_role').attr('value', response.fId_Role);
-                    document.getElementById("active_role_name").innerHTML = "目前身分:" + response.fNickName_Role;
+                    document.getElementById("active_role_name").innerHTML = response.fNickName_Role;
                     if (response.fId_Slave_Type_Role == "a") {
                         Swal.fire({
                             title: '管理員 ' + response.fNickName_Role + ', 您好!',

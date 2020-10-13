@@ -75,6 +75,13 @@
             $(this).parent().parent().remove();
         });
     }
+    function callAdmin() {
+        var obj = { name: "管理員", value: 9 };
+        hideAdBlock();
+        creatchatroom(obj);
+    }
+
+
     function creatchatroom(obj) {
         var id = {
             from_role_id: $("#active_role").val(),
