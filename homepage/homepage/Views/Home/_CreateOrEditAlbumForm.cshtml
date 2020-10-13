@@ -1,25 +1,52 @@
 ﻿
+<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+
+
 <div style="display:none">
     <div>相簿id</div>
     <input name="fId_Album" id="fId_Album" />
 </div>
 
-<div>相簿名稱</div>
-<input name="fName_Album" id="fName_Album" />
-<div>相簿敘述</div>
-<input name="fDescript_Album" id="fDescript_Album" />
-<div>與誰分享</div>
-<select id="selectorA" name="fId_ShareAuth">
-    <option id="Public" value=3 selected="selected">公開</option>
-    <option id="Follower" value=2>粉絲</option>
-    <option id="Private" value=1>私人</option>
-</select>
-<div>是否刪除</div>
-<input type="checkbox" name="fDelete_Album" id="checkboxa" onclick="IfDeleteAlbum()">刪除(請打勾)
-<div>將地點加入相簿</div>
-<div id="aloc"></div>
 
-<div>
-    <button type="button" onclick="addAlbumFormButton()" id="createa" style="position:relative; bottom: 10px; right: 10px">確定</button>
-    <button type="button" onclick="editAlbumFormButton()" id="savea" style="position:relative; bottom: 10px; right: 10px">編輯儲存</button>
+<div class="wrap-input2">
+    <div>
+        <h4 style="font-weight:bold">相簿名稱</h4>
+    </div>
+    <input class="input2" type="text" name="fName_Album" id="fName_Album">
+    <span class="focus-input2"></span>
+</div>
+
+<div class="wrap-input2">
+    <div>
+        <h4 style="font-weight:bold">相簿敘述</h4>
+    </div>
+    <textarea class="input2" name="fDescript_Album" id="fDescript_Album"></textarea>
+    <span class="focus-input2"></span>
+</div>
+<div class="wrap-input2">
+    <div>
+        <h4 style="font-weight:bold">與誰分享</h4>
+    </div>
+    <select id="selectorA" name="fId_ShareAuth">
+        <option id="Public" value=3 selected="selected">公開</option>
+        <option id="Follower" value=2>粉絲</option>
+        <option id="Private" value=1>私人</option>
+    </select>
+</div>
+<div class="wrap-input2">
+    <div>
+        <h4 style="font-weight:bold">是否刪除</h4>
+    </div>
+    <input type="checkbox" name="fDelete_Album" id="checkboxa" onclick="IfDeleteAlbum()"><span style="font-size:18px;">刪除(請打勾)</span>
+</div>
+<div class="wrap-input2">
+    <div>
+        <h4 style="font-weight:bold">將地點加入相簿</h4>
+    </div>
+    <div id="aloc" style="font-size:18px;"></div>
+</div>
+
+<div class="sureOrEdit">
+    <button type="button" onclick="addAlbumFormButton()" id="createa" class="btn btnsureedit">確定</button>
+    <button type="button" onclick="editAlbumFormButton()" id="savea" class="btn btnsureedit">編輯儲存</button>
 </div>

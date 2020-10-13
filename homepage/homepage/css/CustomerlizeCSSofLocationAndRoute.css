@@ -124,49 +124,6 @@ body {
     clear: both;
 }
 
-
-/*地點&路線的清單&資訊*******************************************************/
-.show_LR_List {
-    /*position: absolute;*/
-    cursor: pointer;
-    margin: 30px;
-    top: 120px;
-    width: 280px;
-    bottom: 5%;
-    background-color: rgba(255, 255, 255, 0.9);
-    overflow-x: hidden;
-    overflow-y: scroll;
-    padding: 10px;
-    line-height: 2em;
-}
-    /*/*左右滑動*/
-    .show_LR_List > ul {
-        margin: 0;
-        padding: 0;
-        position: absolute;
-    }
-
-    .show_LR_List > li {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    .show_LR_List > ul.slides {
-        width: 800px;
-        left: 0px;
-        transition: all .5s;
-    }
-
-        .show_LR_List > ul.slides li {
-            width: 280px;
-            overflow: hidden;
-            float: left;
-        }
-/*查詢清單*/
-.list-group {
-    width: 280px;
-}
 /*地點&路線資訊*/
 .Info_lr {
     margin-right: 30px;
@@ -174,6 +131,8 @@ body {
     border: solid 2px #b0c4de;
     padding: 5px;
     background-color: #003853;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .name_role {
@@ -249,11 +208,12 @@ body {
 #instructions2 {
     position: absolute;
     margin: 20px;
-    width: 25%;
-    top: 180px;
-    bottom: 5%;
+    width: 20%;
+    top: 30%;
+    left: 15%;
+    bottom: 0px;
     padding: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #E9C46A;
     overflow-y: scroll;
     font-family: sans-serif;
     font-size: 0.8em;
@@ -264,7 +224,7 @@ body {
 .columns {
     width: 100%;
     float: left;
-            padding-bottom: 100px;
+    padding-bottom: 10px;
 }
 
 .portlet {

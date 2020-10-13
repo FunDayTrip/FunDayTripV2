@@ -117,5 +117,26 @@ namespace homepage.Controllers
             }
 
         }
+        public ActionResult postByAdmin(int type, string message)
+        {
+            CNotesFactory factory = new CNotesFactory();
+            var q = from n in dbFundaytrip.tRoles
+                    select n;
+            CNotes note = new CNotes();
+            switch (type)
+            {
+                case -1:
+                    note = factory.createNotesToAll(message);
+                    break;
+                case 1:
+                    note = factory.createNotesToNormal(message);
+                    break;
+                case 2:
+                    note = factory.createNotesToProfit(message);
+                    break;
+            }
+
+            return Json(note,JsonRequestBehavior.AllowGet);
+        }
     }
 }

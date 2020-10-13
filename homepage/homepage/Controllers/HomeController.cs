@@ -428,6 +428,7 @@ namespace homepage.Controllers
                 loginMember.fNickName_Member = q.FirstOrDefault().fNickName_Member;
                 loginMember.fEmail_Member = q.FirstOrDefault().fEmail_Member;
                 loginMember.fPassword_Member = q.FirstOrDefault().fPassword_Member;
+                loginMember.fPhoto_Member = q.FirstOrDefault().fPhoto_Member;
                 //讀取角色
                 loginMember.fId_FuntionAuth_Member = 1;
 
@@ -477,6 +478,7 @@ namespace homepage.Controllers
                 loginMember.fNickName_Member = q.FirstOrDefault().fNickName_Member;
                 loginMember.fEmail_Member = q.FirstOrDefault().fEmail_Member;
                 loginMember.fPassword_Member = q.FirstOrDefault().fPassword_Member;
+                loginMember.fPhoto_Member = q.FirstOrDefault().fPhoto_Member;
                 //讀取會員權限 by 郭松明
                 loginMember.fId_FuntionAuth_Member = 1;
 
@@ -774,7 +776,7 @@ namespace homepage.Controllers
 
 
             createphoto.fId_Location = lastestLocationFid;
-            createphoto.fId_Role = 3;
+            createphoto.fId_Role = createlocation.fId_Role;
             //照片路徑
             photoname += Path.GetExtension(loadPostPhoto.PostImage.FileName);//取得副檔名
             loadPostPhoto.PostImage.SaveAs(Server.MapPath("../Content/" + photoname)); //根目錄:~(不行),要用..回上一層
