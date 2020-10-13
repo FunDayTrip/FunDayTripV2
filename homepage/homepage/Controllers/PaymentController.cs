@@ -70,11 +70,11 @@ namespace homepage.Controllers
             ViewBag.Amount = Amount;
             //
 
-            tBank bank = new tBank();
-            bank.fId_Role = Convert.ToInt32( a);
-            bank.fAccount_Bank = MerchantTradeNo.ToString(); ;
-            DB_FunDayTrip.tBanks.Add(bank);
-            DB_FunDayTrip.SaveChanges();
+            //tBank bank = new tBank();
+            //bank.fId_Role = Convert.ToInt32( a);
+            //bank.fAccount_Bank = MerchantTradeNo.ToString(); ;
+            //DB_FunDayTrip.tBanks.Add(bank);
+            //DB_FunDayTrip.SaveChanges();
 
             return View();
         }
@@ -94,6 +94,28 @@ namespace homepage.Controllers
             }
 
             return Sb.ToString();
+        }
+        public void RegisterProfit(tProfitMember profitMember,tRole role) {
+
+            profitMember.fId_FunctionAuth = 4;
+            profitMember.fId_ProfitType = 5;
+            DB_FunDayTrip.tProfitMembers.Add(profitMember);
+            DB_FunDayTrip.SaveChanges();
+
+            string pid = (from p in DB_FunDayTrip.tProfitMembers
+                       orderby p.ID descending
+                       select p.fId_ProfitMember).FirstOrDefault();
+
+            role.fId_Master_Role = Session[CDictionary.SK_MemberId].ToString();
+            role.fId_Slave_Role = pid;
+            role.fId_Slave_Type_Role = "b";
+            role.fNickName_Role = profitMember.fName_ProfitMember;
+            role.fEntryDate_Role = DateTime.Now;
+            DB_FunDayTrip.tRoles.Add(role);
+            DB_FunDayTrip.SaveChanges();
+
+
+
         }
     }
 }
