@@ -1,11 +1,11 @@
 ﻿@using homepage.Models
 <nav class="navbar navbar-inverse" style="background-color:#1D3557;">
-    <div class="container-fluid menu_self" style="background-color:#5F0F40;">
+    <div class="container-fluid menu_self" style="background-color:#1C558E;">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#" onclick="showAdBlock()" style="font-family: Impact; font-size: 22px;">Fun Day Trip</a>
+            <a class="navbar-brand" href="#" onclick="showAdBlock()" style="font-family: Impact; font-size: 24px; color:#fdca40;">Fun Day Trip</a>
         </div>
         <ul class="nav navbar-nav nav_self">
-            <li class="active">
+            <li >
                 <a href="#" onclick="showAdBlock();reload();hideAddNewLocationButtonk()" style="font-size:16px; font-weight:bold;">探索</a>
             </li>
             @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
@@ -13,7 +13,6 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-size: 16px; font-weight: bold;">地點 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-
                         <li>
                             <a href="javascript:showMyLoc()" onclick="myLaction(); myRount(); myLocationsshow(); myRoutesshow(); hideAdBlock(); hideAddRouteButton();">我的</a>
                         </li>
