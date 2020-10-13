@@ -125,6 +125,14 @@
 
         .info_panel {
             overflow: auto;
+            max-height: 120px;
+        }
+        .role_button {
+            border: none;
+            padding: 0;
+            background: none;
+            width: 200px;
+            text-align:center;
         }
     </style>
 
@@ -2175,8 +2183,8 @@
             }).done(function (response) {
                 $("#info_panel").html('<ul id="note_list"></ul>');
                 for (let i = 0; i < response.length; i++) {
-                    let note_item = "<li id=note_li" + i+">";
-                    note_item += "[" + response[i].fMessage_Note + "]";
+                    let note_item = "<li id='note_li" + i +"' style='list-style-type:none'>";
+                    note_item += "" + response[i].fMessage_Note + "<br>";
                     note_item += "[" + response[i].fTimeReadable_Note + "]";
                     note_item += "</li>";
                     $("#note_list").append(note_item);
@@ -2199,13 +2207,13 @@
                 dataType: "json",
                 data: member_id
             }).done(function (response) {
-                $("#info_panel").html('<ul id="role_list"></ul>');
+                $("#info_panel").html('<ul id="role_list" style="list-style-type:none"></ul>');
                 for (let i = 0; i < response.length; i++) {
                     let role_item = "";
                     role_item += "<li>";
                     role_item += "<button value='" + response[i].fId_Role + "'";
                     role_item += "name = '" + response[i].fNickName_Role + "'";
-                    role_item += "onclick='changeRole(this)'>";
+                    role_item += "onclick='changeRole(this)' class='role_button'>";
                     role_item += response[i].fNickName_Role;
                     if (response[i].fId_Slave_Type_Role == "a")
                     {

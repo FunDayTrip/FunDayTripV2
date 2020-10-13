@@ -5,7 +5,7 @@
     bottom: 0;
     height: 10%;
     width: 100%;
-    background-color: rgba(192, 192, 192, 0.85);
+    background-color: rgba(192, 192, 192, 0);
     color: black;
     text-align: center;
 }
@@ -15,15 +15,17 @@
     z-index: 1;
     left: 0;
     bottom: 0;
-    height: 50%;
+    height: 55%;
     width: 100%;
-    background-color: rgba(192, 192, 192, 0.85);
+    background-color: rgba(192, 192, 192, 0);
     color: black;
     text-align: center;
 }
 
 .toggleUp {
+    padding:0px;
     margin-top: 0.5em;
+    margin-bottom:5px;
 }
 
 .imageblock {
@@ -45,39 +47,9 @@ body {
     z-index: -1;
 }
 
-.AR {
-    position: absolute;
-    top: 50px;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    z-index: -1;
-}
-
-.aframeblock {
-    height: 50%;
-    width: 50%;
-
-}
-
-#arjs-video {
-    position: absolute;
-    top: 50px;
-    left: 0;
-    bottom: 0;
-    width: 100%;    
-}
-video {
-    position: absolute;
-    top: 50px;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-}
-
 #inner_content {
-    border-radius: 15px;
-    width: 90%;
+    border-radius: 10px;
+    width: 95%;
     height: 80%;
     margin: 0px auto;
     background-color: rgba(255, 255, 255, 0.90);
@@ -88,18 +60,14 @@ video {
         align-items: start;
     }
 
-
-#game_photo {
-    height: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.button {
+    padding: 0px;
+    margin:0px;
+    background:rgba(255, 255, 255, 0);
+    width: 25%;
+    display: block;
 }
 
-    #game_photo img {
-        width: 100%;
-        height: auto;
-    }
 
 .row {
     display: -webkit-box;
@@ -113,3 +81,24 @@ video {
         display: flex;
         flex-direction: column;
     }
+
+.enter_button{
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+#other_content{
+}
+
+.main_content {
+    text-align: center;
+    height: 50%;
+    max-height: 50%;
+    
+}
+#game_photo {
+    max-height: inherit;
+    max-width: 40%;
+    min-width: 180px;
+    object-fit: contain;
+}
