@@ -7,7 +7,7 @@
         </div>
         <ul class="nav navbar-nav nav_self">
             <li class="active">
-                <a href="#" onclick="showAdBlock()" style="font-size:16px; font-weight:bold;">探索</a>
+                <a href="#" onclick="showAdBlock();reload();hideAddNewLocationButtonk()" style="font-size:16px; font-weight:bold;">探索</a>
             </li>
             @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
             {
@@ -18,8 +18,8 @@
                         <li>
                             <a href="javascript:showMyLoc()" onclick="myLaction(); myRount(); myLocationsshow(); myRoutesshow(); hideAdBlock(); hideAddRouteButton();">我的</a>
                         </li>
-                        <li>
-                            <a href="javascript:showFrLoc()" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myfriendLocationsshow(); hideAdBlock(); hideAddRouteButton();">追蹤中</a>
+                        <li>                            
+                            <a href="javascript:showFrLoc()" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myfriendLocationsshow(); hideAdBlock(); hideAddRouteButton();hideAddNewLocationButtonk();">追蹤中</a>
                         </li>
                     </ul>
                 </li>
@@ -29,10 +29,10 @@
                     <ul class="dropdown-menu">
 
                         <li>
-                            <a href="javascript:showMyRou(@Session[CDictionary.SK_ActiveRoleId])" onclick="myLaction(); myRount(); myLocationsshow(); myRoutesshow(); hideAdBlock();">我的</a>
+                            <a href="javascript:showMyRou(@Session[CDictionary.SK_ActiveRoleId])" onclick="myLaction(); myRount(); myLocationsshow(); myRoutesshow(); hideAdBlock();hideAddNewLocationButtonk()">我的</a>
                         </li>
                         <li>
-                            <a href="javascript:showFrLoc()" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myfriendLocationsshow();hideAdBlock(); hideAddRouteButton();">追蹤中</a>
+                            <a href="javascript:showFrLoc()" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myfriendLocationsshow();hideAdBlock(); hideAddRouteButton();hideAddNewLocationButtonk();">追蹤中</a>                            
                         </li>
                     </ul>
                 </li>
@@ -41,10 +41,10 @@
                     <ul class="dropdown-menu">
 
                         <li>
-                            <a onclick="hideAdBlock(); hideAddRouteButton();" href="javascript:showMyAlbums(@Session[CDictionary.SK_ActiveRoleId])">我的</a>
+                            <a onclick="hideAdBlock(); hideAddRouteButton();hideAddNewLocationButtonk()" href="javascript:showMyAlbums(@Session[CDictionary.SK_ActiveRoleId])">我的</a>                            
                         </li>
-                        <li>
-                            <a onclick="hideAdBlock(); hideAddRouteButton();" href="javascript:showMyFriendsAlbums(@Session[CDictionary.SK_ActiveRoleId])">追蹤中</a>
+                        <li>                            
+                            <a onclick="hideAdBlock(); hideAddRouteButton();hideAddNewLocationButtonk()" href="javascript:showMyFriendsAlbums(@Session[CDictionary.SK_ActiveRoleId])">追蹤中</a>
                         </li>
                     </ul>
                 </li>
@@ -52,7 +52,7 @@
                     <a href="@Url.Action("Navigation", "Game")" target="_blank" style="font-size: 16px; font-weight: bold;">遊戲</a>
                 </li>
                 <li>
-                    <a href="javascript:followcon()" onclick="hideAdBlock(); hideAddRouteButton();" style="font-size: 16px; font-weight: bold;">追蹤/粉絲</a>
+                    <a href="javascript:followcon()" onclick="hideAdBlock(); hideAddNewLocationButtonk(); hideAddRouteButton();" style="font-size: 16px; font-weight: bold;">追蹤/粉絲</a>
                     @*<a href="javascript:fansModal()">追蹤/粉絲</a>*@
                 </li>
 
@@ -63,7 +63,7 @@
                     <a href="@Url.Action("ShowHeatMap", "Statistic")" style="font-size: 16px; font-weight: bold;">統計與分析</a>
                 </li>
                 <li>
-                    <a href="javascript:callAdmin()" value="9" name="Fundaytrip管理員" onclick="hideAdBlock(); hideAddRouteButton(); "style="font-size: 16px; font-weight: bold;">聯絡管理員</a>
+                    <a href="javascript:callAdmin()" value="9" name="Fundaytrip管理員" onclick="hideAdBlock(); hideAddNewLocationButtonk(); hideAddRouteButton(); "style="font-size: 16px; font-weight: bold;">聯絡管理員</a>
                 </li>
                 <li class="dropdown">
                     <a id="backstage" style="display:none; font-size:16px; font-weight:bold;" class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="hideAddRouteButton();">管理員後台<span class="caret"></span></a>
@@ -78,11 +78,14 @@
                         <li>
                             <a href="@Url.Action("reportedList", "backStage")">檢舉名單</a>
                         </li>
+                        <li>
+                            <a href="javascript:createNote()">發佈通知</a>
+                        </li>
                     </ul>
                 </li>
 
                 <li>
-                    <a href="https://drive.google.com/file/d/1tTdzQncMUZPdl19F3CdujaGIWnMhMWNm/view?usp=sharing" onclick="hideAdBlock(); hideAddRouteButton();" style="font-size: 16px; font-weight: bold;">關於我們</a>
+                    <a href="https://drive.google.com/file/d/1tTdzQncMUZPdl19F3CdujaGIWnMhMWNm/view?usp=sharing" onclick="hideAdBlock(); hideAddRouteButton(); hideAddNewLocationButtonk();" style="font-size: 16px; font-weight: bold;">關於我們</a>
                 </li>
             }
             <li style="position:absolute;right:10px">
@@ -101,6 +104,7 @@
 </nav>
 
 <script>
+
     function showAdBlock() {
         $("#foot-content").css('display','block')
     };
@@ -109,6 +113,15 @@
         $("#foot-content").css('display', 'none')
     };
 
+
+    function showAddNewLocationButton() {
+        $("#addNewLocationButton").css('display', 'none')
+    };
+
+    function hideAddNewLocationButtonk() {
+        $("#addNewLocationButton").css('display', 'none')
+    };
+  
     function myfriendLocationsshow() {
         var objData = {
             data: @Session[CDictionary.SK_ActiveRoleId],
@@ -223,7 +236,7 @@
                 var rount2 = [];
                 var rounts = document.getElementById('rountshow');
                 for (var i in data) {
-                    
+
                     rount2 += '<div class="tab_div" ><input type="button" class="action-button shadow animate blue tab_roushow" onclick="zoomToRoute';
                     rount2 += "('" + data[i].fId_Route + "')" + '"';
                     rount2 += 'value =';
@@ -606,7 +619,99 @@
 
     };
 
+    //通知功能 10/13 王詠平
+    async function createNote() {
+        const { value: formValues } = await Swal.fire({
+            title: '寄送通知',
+            html:
+                '<select id="SendtoType" class="swal2-input">' +
+                '<option value="-1">給所有人</option>' +
+                '<option value="1">給一般會員</option>' +
+                '<option value="2">給營利會員</option>' +
+                '</select>' +
+                '<input id="noteMessage" class="swal2-input">',
+            showCancelButton: true,
+            confirmButtonText: '寄送',
+            cancelButtonText: '取消',
+            focusConfirm: false,
+            preConfirm: () => {
+                return [
+                    document.getElementById('SendtoType').value,
+                    document.getElementById('noteMessage').value
+                ]
+            }
+        })
 
-</script>
+        if (formValues) {
+            //Swal.fire(JSON.stringify(formValues));
+            noteToUser(formValues[0], formValues[1]);
+
+        }
+
+    }
+    </script>
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+<script src="~/signalr/hubs"></script>
+<script>
+    var hub = $.connection.myHub;
+    $.connection.hub.start().done();
+
+
+    function noteToUser(type, message) {
+        hub.server.notes(type, message);
+    }
+
+    hub.client.notes = function (type, message) {
+        let role_type = $("#role_type").attr("value");
+        if (type === -1) {
+
+                console.log(message);
+
+                var response = $.ajax({
+                    url: "@Url.Action("postByAdmin", "Note")",
+                    type: "POST",
+                    async: false,
+                    data: { type: type, message: message },
+                    dataType: "text"
+                    }).done(function (response) {
+                    }).responseText;
+
+            console.log(response);
+
+                    Swal.fire({
+                    position: 'center-end',
+                    title: '通知!',
+                    width: '10%',
+                    text: response.fMessage_Note,
+                    backdrop: 'rgba(0, 0, 0, 0)',
+                    showConfirmButton: false,
+                    timer: 1500
+                    });
+        } else if (type === role_type) {
+
+                    var response = $.ajax({
+                    url: "@Url.Action("postByAdmin", "Note")",
+                    type: "POST",
+                    async: false,
+                    data: { type: type, message: message },
+                    dataType: "text"
+                    }).done(function (response) {
+                    }).responseText;
+
+                    console.log(response);
+
+                    Swal.fire({
+                    position: 'center-end',
+                    title: '通知!',
+                    width: '10%',
+                    text: response.fMessage_Note,
+                    backdrop: 'rgba(0, 0, 0, 0)',
+                    showConfirmButton: false,
+                    timer: 3000
+                    });
+                    };
+                    };
+
+                    </script>
 
 

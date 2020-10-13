@@ -80,14 +80,36 @@ video {
     width: 90%;
     height: 80%;
     margin: 0px auto;
-    background-color: rgba(255, 255, 255, 0.90)
+    background-color: rgba(255, 255, 255, 0.90);
 }
 
-    #inner_content img {
-        width: 20%;
-        float: left;
-        margin: 1em;
-        display: flex;
-        align-items: center;
+    #inner_content #_contents {
+        margin:0 auto;
+        align-items: start;
     }
 
+
+#game_photo {
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    #game_photo img {
+        width: 100%;
+        height: auto;
+    }
+
+.row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .row [class="col-"] {
+        display: flex;
+        flex-direction: column;
+    }

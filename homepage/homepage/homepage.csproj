@@ -176,8 +176,6 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\d8b0de09-fd3e-40e1-9476-c99c09c04484.png" />
-    <Content Include="Content\images\chngstar.gif" />
-    <Content Include="Content\images\star.gif" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\jquery-ui.structure.css" />
@@ -200,6 +198,7 @@
     <Content Include="Content\鐵道旅行.jpg" />
     <Content Include="css\Album.css" />
     <Content Include="css\BootSideMenu.css" />
+    <Content Include="css\CreateOrEditLocForm.css" />
     <Content Include="css\CustomerlizeCSSofLocationAndRoute.css" />
     <Content Include="css\FixedPosition.css" />
     <Content Include="css\Game.css" />
@@ -577,6 +576,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\images\" />
     <Folder Include="Views\Common\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Location\" />
