@@ -3,11 +3,12 @@
 @using homepage.Models
 @{
     CLoginViewModel memberLogin = (CLoginViewModel)Session[CDictionary.SK_MemberLogin];
-    <img id="profile_photo" class="profile_photo" src="https://i.imgur.com/vyWwMlr.png" width="64" style="position:center" />
+    <img id="profile_photo" class="profile_photo" src="@memberLogin.fPhoto_Member" width="64" style="position:center" />
     <br />
     <input id="login_id" style="display:none" value="@memberLogin.fId_Member">
     <span>目前身分:</span>
     <span id="active_role_name">@memberLogin.fActiveRoleName_Member</span>
+    <span id="role_type" value="1" style="display:none"></span>
     <br />
     <div id="login_email">@memberLogin.fEmail_Member</div>
     <br />

@@ -2260,6 +2260,7 @@
                 }).done(function (response) {
                 /*alert("已切換身分為: " + response.fNickName_Role)*/;
                     $('#active_role').attr('value', response.fId_Role);
+                    $("#role_type").attr("value", "1");
                     document.getElementById("active_role_name").innerHTML = response.fNickName_Role;
                     if (response.fId_Slave_Type_Role == "a") {
                         Swal.fire({
@@ -2272,6 +2273,7 @@
                             }
                         });
                         document.getElementById("backstage").style.display = "block";
+                        $("#role_type").attr("value", "3");
                     };
                     if (response.fId_Slave_Type_Role == "b") {
                         Swal.fire({
@@ -2284,6 +2286,7 @@
                             }
                         });
                         document.getElementById("newAD").style.display = "block";
+                        $("#role_type").attr("value", "2");
                     };
                 }).fail(function (xhr, ajaxOptions, thrownError) {
                     console.log(role_id);
