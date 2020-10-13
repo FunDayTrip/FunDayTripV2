@@ -367,9 +367,9 @@ namespace homepage.Controllers
 
         
         // GET: Home _verna_0930
-        public ActionResult Index(string MerchantTradeNo)
+        public ActionResult Index(string id)
         {
-            string a = MerchantTradeNo;
+            string a = id;
 
             List<tLocation> location = (from s in dbFundaytrip.tLocations.Where(entity => entity.fName_Location.Contains(key)).AsEnumerable()
                                         where s.fId_Coordinate == s.tCoordinate.fId_Coordinate && s.fDelete_Location == 0
@@ -451,7 +451,7 @@ namespace homepage.Controllers
             return Json(loginMember);
         }
 
-
+        //登入
         [HttpPost]
         public ActionResult login(string email, string pwd)
         {
@@ -755,9 +755,9 @@ namespace homepage.Controllers
                                         select i.fId_Coordinate).FirstOrDefault();
 
 
-            int sa = createlocation.fId_ShareAuth;
+           
             //tLocation location = new tLocation();
-            //createlocation.fId_Role 
+            //int s = createlocation.fId_Role;
             createlocation.fId_Coordinate = lastestCoordinateFid;
             createlocation.fId_ShareAuth = createlocation.fId_ShareAuth;
             createlocation.fId_Icon = createlocation.fId_ShareAuth;
@@ -793,11 +793,7 @@ namespace homepage.Controllers
         public string EditLocationInfo(tCoordinate createCoordinate, CCreateLocation loadPostPhoto, tLocation createlocation, tPhoto createphoto)
         {
             string locId = createlocation.fId_Location;
-
-
             string alert = null;
-
-
             tLocation ALocation = (from l in dbFundaytrip.tLocations
                                    where l.fId_Location == locId
                                    select l).FirstOrDefault();

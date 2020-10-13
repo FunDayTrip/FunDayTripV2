@@ -3,7 +3,7 @@
     <h3 id="CreateOrEdit">新增地點</h3>
     <div class="column1" style="background-color:wheat; display:none">        
         <br />          
-        人<input name="fId_Role" id="fId_Role" readonly/>@Session[CDictionary.SK_ActiveRoleId]
+        <input name="fId_Role" id="fId_Role" value="@Session[CDictionary.SK_ActiveRoleId]" readonly/>
         <span>地點id: </span>
         <input id="fId_Location" class="fId_LocationClass" style="color: green" name="fId_Location" readonly />        
         <span>座標</span>        
@@ -43,10 +43,7 @@
             <option id="Follower" value=2>粉絲</option>
             <option id="Private" value=1>私人</option>
         </select>
-        <br />
-        <input type="checkbox" name="fDelete_Location" id="checkbox" onclick="IfDelete()">是否刪除(請打勾)
-        <br />
-        <br />
+       
         <br />
         <button type="button" onclick="UpLoadLoctionFormButton()" id="create" style="position:relative; bottom: 10px; right: 10px">確定</button>
         <button type="button" onclick="EditLoctionFormButton()" id="save" style="position:relative; bottom: 10px; right: 10px">編輯存檔</button>
