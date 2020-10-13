@@ -115,7 +115,7 @@
         <span class="col-xs-3"></span>
         <span id="content-icon" class="glyphicon glyphicon-chevron-up col-xs-6">
             <br />
-            <span id="current_position" value=""></span>
+            <span id="current_position" value="" style="display:none"></span>
         </span>
         <span class="col-xs-3"></span>
 
@@ -168,17 +168,16 @@
         const role_id = @Session[CDictionary.SK_ActiveRoleId];
             var now_x = 0;
             var now_y = 0;
-        //目前位置
-        //function position_now() {
-        //    navigator.geolocation.getCurrentPosition(function (position) {
-        //        let x = position.coords.longitude;
-        //        let y = position.coords.latitude;
-        //        $("#current_position").html("目前位置: " + x.toFixed(6) + ", " + y.toFixed(6));
-        //        now_x = x;
-        //        now_y = y;
-        //    });
-        //    };
-        //    position_now();
+        var position_now = setInterval(function () {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                let x = position.coords.longitude;
+                let y = position.coords.latitude;
+                $("#current_position").attr("value", [x.toFixed(6), y.toFixed(6)]);
+                now_x = x;
+                now_y = y;
+                console.log("目前座標:"+[now_x, now_y]);
+            });
+        }, 3000);
 
         //地圖初始化==========================
         mapboxgl.accessToken = 'pk.eyJ1IjoicGVhY2V3YW5nIiwiYSI6ImNrZmx6YWl6cTB6YWcyd21xMzFqNTZ5YzYifQ.WxjLSvp5k6yCWELcbMWeMw';
@@ -772,6 +771,9 @@
             map.setLayoutProperty('route', 'visibility', 'none');
             $("#play_group").attr("value", "-1");
             $("#play_group").attr("name", "group_name");
+            $("#group_title").html("");
+            $("#game_photo").attr("src", "");
+            $("#enter_game").attr("href", "");
             $(".detail").html("");
                 };
 
@@ -859,6 +861,7 @@
                     imageWidth: 400,
                     text: '請選擇答案',
                     input: 'radio',
+                    icon:'question',
                     confirmButtonText: '確定',
                     inputOptions: inputOptions,
                     inputValidator: (value) => {
