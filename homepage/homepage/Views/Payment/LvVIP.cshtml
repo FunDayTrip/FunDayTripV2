@@ -17,68 +17,82 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+    
+    
+    
+    <link rel="icon" type="image/x-icon" href="~/assets/img/favicon.ico" />
+    <link href="~/css/styles.css" rel="stylesheet" />
+
 
 </head>
-<body>
+<body id="page-top">
 
-    <form id="formWebATM" method="post" accept-charset="UTF-8"
-          action="https://payment-stage.opay.tw/Cashier/AioCheckOut/V5" >
-        <div>
+    <header class="masthead">
+        <div class="container d-flex h-100 align-items-center">
+            <div class="mx-auto text-center">
 
-            MerchantID 商店代號:
-            <input type="text" name="MerchantID" value="2000132" /><br />
-            MerchantTradeNo 商店交易編號:
-            <input type="text" name="MerchantTradeNo" value="@ViewBag.MerchantTradeNo" /><br />
-            MerchantTradeDate 商店交易時間:
-            <input type="text" name="MerchantTradeDate" value="@ViewBag.MerchantTradeDate" /><br />
-            PaymentType 交易類型:
-            <input type="text" name="PaymentType" value="aio" /><br />
-            TotalAmount 交易金額:
-            <input type="text" name="TotalAmount" value="@ViewBag.Amount" /><br />
-            TradeDesc 交易描述:
-            <input type="text" name="TradeDesc" value="建立全金流測試訂單" /><br />
-            ItemName 商品名稱:
-            <input type="text" name="ItemName" value="@ViewBag.ProductName" /><br />
-            ReturnURL 付款完成通知回傳網址:
-            <input type="text" name="ReturnURL" value="@ViewBag.Url" /><br />
-            ChoosePayment 預設付款方式:
-            <input type="text" name="ChoosePayment" value="ALL" /><br />
-            會員商店代碼:
-            <input type="text" name="StoreID" value="" /><br />
-            ChooseSubPayment 預設子付款方式:
-            <input type="text" name="ChooseSubPayment" value="" /><br />
-            ClientBackURL Client端返回廠商網址:
-            <input type="text" name="ClientBackURL" value="@ViewBag.Url" /><br />
-            CheckMacValue 簽章類型:
-            <input type="text" name="EncryptType" value="1" /><br />
-            CheckMacValue 檢查碼:
-            <input type="text" name="CheckMacValue" value="@ViewBag.SHA256" /><br />
+                <h1 class="mx-auto my-0 text-uppercase">Grayscale</h1>
+                <h2 class="text-white-50 mx-auto mt-2 mb-5">A free, responsive, one page Bootstrap theme created by Start Bootstrap.</h2>
+                <form id="addToProfitMember">
+                    fName_ProfitMember:
+                    <input type="text" name="fName_ProfitMember" /><br />
+                    fEmail_ProfitMember:
+                    <input type="text" name="fEmail_ProfitMember" /><br />
+                    fPhone_ProfitMember:
+                    <input type="text" name="fPhone_ProfitMember" /><br />
+
+                </form>
+                <form id="formWebATM" method="post" accept-charset="UTF-8"
+                      action="https://payment-stage.opay.tw/Cashier/AioCheckOut/V5">
+                    <div style="display:none">
+
+                        MerchantID 商店代號:
+                        <input type="text" name="MerchantID" value="2000132" /><br />
+                        MerchantTradeNo 商店交易編號:
+                        <input type="text" name="MerchantTradeNo" value="@ViewBag.MerchantTradeNo" /><br />
+                        MerchantTradeDate 商店交易時間:
+                        <input type="text" name="MerchantTradeDate" value="@ViewBag.MerchantTradeDate" /><br />
+                        PaymentType 交易類型:
+                        <input type="text" name="PaymentType" value="aio" /><br />
+                        TotalAmount 交易金額:
+                        <input type="text" name="TotalAmount" value="@ViewBag.Amount" /><br />
+                        TradeDesc 交易描述:
+                        <input type="text" name="TradeDesc" value="建立全金流測試訂單" /><br />
+                        ItemName 商品名稱:
+                        <input type="text" name="ItemName" value="@ViewBag.ProductName" /><br />
+                        ReturnURL 付款完成通知回傳網址:
+                        <input type="text" name="ReturnURL" value="@ViewBag.Url" /><br />
+                        ChoosePayment 預設付款方式:
+                        <input type="text" name="ChoosePayment" value="ALL" /><br />
+                        會員商店代碼:
+                        <input type="text" name="StoreID" value="" /><br />
+                        ChooseSubPayment 預設子付款方式:
+                        <input type="text" name="ChooseSubPayment" value="" /><br />
+                        ClientBackURL Client端返回廠商網址:
+                        <input type="text" name="ClientBackURL" value="@ViewBag.Url" /><br />
+                        CheckMacValue 簽章類型:
+                        <input type="text" name="EncryptType" value="1" /><br />
+                        CheckMacValue 檢查碼:
+                        <input type="text" name="CheckMacValue" value="@ViewBag.SHA256" /><br />
+                    </div>
+
+                    <input type="submit" value="送出訂單" id="savetodb" />
+
+                </form>
+
+            </div>
         </div>
+    </header>
 
-        <input type="submit" value="送出訂單" id="savetodb"/>
-
-    </form>
-   
-    <form id="addToProfitMember">
-        fName_ProfitMember:
-        <input type="text" name="fName_ProfitMember" /><br />
-        fEmail_ProfitMember:
-        <input type="text" name="fEmail_ProfitMember" /><br />
-        fPhone_ProfitMember:
-        <input type="text" name="fPhone_ProfitMember" /><br />
-        @*fName_ProfitMember:
-        <input type="text" name="fName_ProfitMember" /><br />*@
-
-    </form>
     <script>
-     
+
         $('#formWebATM').submit(function (event) {
-           
+
             //$.ajax({
             //    url: "/Payment/takeOver",
             //    type: "POST",
             //    data: { profitMember: "ss1" },
-            //})   
+            //})
 
             $("#addToProfitMember").ajaxSubmit({
                 type: "POST",
@@ -91,9 +105,9 @@
                 }
 
             });
-            
-           
-           
+
+
+
         });
 
     </script>
