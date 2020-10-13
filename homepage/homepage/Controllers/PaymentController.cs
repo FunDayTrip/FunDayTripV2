@@ -22,7 +22,9 @@ namespace homepage.Controllers
 
         public ActionResult LvVIP()
         {
-
+            if (Session[CDictionary.SK_ActiveRoleId] == null) {
+                return RedirectToAction("index","Home");
+            }
             string a = Session[CDictionary.SK_ActiveRoleId].ToString();
 
             //創造一組亂數字串不重複的訂單編號
