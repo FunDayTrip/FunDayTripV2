@@ -200,6 +200,7 @@
     <Content Include="Content\鐵道旅行.jpg" />
     <Content Include="css\Album.css" />
     <Content Include="css\BootSideMenu.css" />
+    <Content Include="css\CreateOrEditLocForm.css" />
     <Content Include="css\CustomerlizeCSSofLocationAndRoute.css" />
     <Content Include="css\FixedPosition.css" />
     <Content Include="css\Game.css" />

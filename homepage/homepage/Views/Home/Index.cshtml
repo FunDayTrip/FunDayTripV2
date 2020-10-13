@@ -484,7 +484,7 @@
         <div id="myModal" class="modal">
             @*<div class="modal-dialog">*@
             <div class="modal-content ">
-                <form form method="post" enctype="multipart/form-data" id="UploadLocationForm">
+                <form method="post" enctype="multipart/form-data" id="UploadLocationForm" style="height:500px;width:918px" >
                     @Html.Partial("_CreateOrEditForm")
                 </form>
             </div>@*model-contain*@
@@ -749,10 +749,13 @@
             map.on('click', positioningClickLocate);
             ////地圖上雙擊決定添加的地點
             map.on('dblclick', alertIfAddLocation);
+            
         };
 
         //函式:alert尋問是否要新增此地點
         function alertIfAddLocation() {
+            map.off('dblclick', alertIfAddLocation);
+            map.off('click', positioningClickLocate);
             Swal.fire({
                 title: '要新增此地點嗎?',
                 //text: "You won't be able to revert this!",
@@ -765,7 +768,7 @@
                 //if (result.isConfirmed && Session[SK_AunctionAuth] == 4) {
                 //    window.alert("營利會員成功");
                 //}
-
+                
                  if (result.isConfirmed) {
                     console.log("yes");
                     CreateEditmodal.style.display = "block";
@@ -1573,9 +1576,7 @@
             autoClose: false,
             closeOnClick: false
         });
-        //function closeLeft() {
-        //    $('#LeftSideMenu').css("closeOnClick", "true");
-        //}
+   
 
         //飛躍至該地k
         function fly(Point) {
