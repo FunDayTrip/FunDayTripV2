@@ -78,7 +78,7 @@
       <PropertyRef Name="fId_Comment" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="fId_Comment" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="fId_Comment" Type="nvarchar" MaxLength="11" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="fId_Location_Route" Type="nvarchar" MaxLength="11" Nullable="false" />
     <Property Name="fId_Type_Location_Route" Type="nvarchar" MaxLength="10" Nullable="false" />
     <Property Name="fId_Role" Type="int" Nullable="false" />

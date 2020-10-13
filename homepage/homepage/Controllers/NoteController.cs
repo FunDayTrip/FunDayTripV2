@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using homepage.SignalR;
+using Microsoft.AspNet.SignalR;
 
 namespace homepage.Controllers
 {
@@ -46,7 +47,7 @@ namespace homepage.Controllers
 
             return Json(note,JsonRequestBehavior.AllowGet);
         }
-        public void post(int role_id, string message, int admin_id)
+        public ActionResult post(int role_id, string message, int admin_id)
         {
             //寄通知給所有人，輸入-1 ~1007 王詠平
             if (role_id == -1)
@@ -54,6 +55,7 @@ namespace homepage.Controllers
                 var q = from n in dbFundaytrip.tRoles
                         select n;
                 List<tNote> notes = new List<tNote>();
+                List<CNotes> frontNotes = new List<CNotes>(); 
                 foreach (var role in q.ToList())
                 {
                     tNote _note = new tNote
@@ -65,10 +67,21 @@ namespace homepage.Controllers
                         fIsRead_Note = 0,
                     };
                     notes.Add(_note);
+
+                    CNotes c_note = new CNotes
+                    {
+                        fId_Admin_Role = admin_id,
+                        fId_Role = role.fId_Role,
+                        fMessage_Note = message,
+                        fTime_Note = DateTime.Now,
+                        fIsRead_Note = 0,
+                    };
+                    frontNotes.Add(c_note);
                 }
 
                 dbFundaytrip.tNotes.AddRange(notes);
                 dbFundaytrip.SaveChanges();
+                return Json(frontNotes, JsonRequestBehavior.AllowGet);                
             }
             //寄通知給指定角色
             else
@@ -77,21 +90,53 @@ namespace homepage.Controllers
                         where n.fId_Role == role_id
                         select n;
 
-                if (q.Any())
+
+                tNote _note = new tNote
                 {
-                    tNote _note = new tNote
-                    {
-                        fId_Admin_Role = admin_id,
-                        fId_Role = role_id,
-                        fMessage_Note = message,
-                        fTime_Note = DateTime.Now,
-                        fIsRead_Note = 0,
-                    };
-                    dbFundaytrip.tNotes.Add(_note);
-                    dbFundaytrip.SaveChanges();
-                }
+                    fId_Admin_Role = admin_id,
+                    fId_Role = role_id,
+                    fMessage_Note = message,
+                    fTime_Note = DateTime.Now,
+                    fIsRead_Note = 0,
+                };
+
+                CNotes c_note = new CNotes
+                {
+                    fId_Admin_Role = admin_id,
+                    fId_Role = role_id,
+                    fMessage_Note = message,
+                    fTime_Note = DateTime.Now,
+                    fIsRead_Note = 0,
+                };
+
+                dbFundaytrip.tNotes.Add(_note);
+                dbFundaytrip.SaveChanges();
+
+
+                return Json(c_note, JsonRequestBehavior.AllowGet);
             }
 
+        }
+        public ActionResult postByAdmin(int type, string message)
+        {
+            CNotesFactory factory = new CNotesFactory();
+            var q = from n in dbFundaytrip.tRoles
+                    select n;
+            CNotes note = new CNotes();
+            switch (type)
+            {
+                case -1:
+                    note = factory.createNotesToAll(message);
+                    break;
+                case 1:
+                    note = factory.createNotesToNormal(message);
+                    break;
+                case 2:
+                    note = factory.createNotesToProfit(message);
+                    break;
+            }
+
+            return Json(note,JsonRequestBehavior.AllowGet);
         }
     }
 }

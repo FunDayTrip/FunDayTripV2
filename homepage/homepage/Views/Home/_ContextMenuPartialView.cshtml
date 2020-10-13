@@ -65,10 +65,11 @@
                     data: { locationID: _LocationID },
                 }).done(function (response) {
                     console.log(response);
+                    reload();
                 }).fail(function (xhr) {
                     console.log(xhr.status + xhr.responseText);
                 });//end ajax
-                reload();
+                
 
             } else {
                 console.log("no");

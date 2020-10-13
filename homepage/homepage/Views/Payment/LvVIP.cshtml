@@ -9,11 +9,20 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>LvVIP</title>
+
+
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+
 </head>
 <body>
 
     <form id="formWebATM" method="post" accept-charset="UTF-8"
-          action="https://payment-stage.opay.tw/Cashier/AioCheckOut/V5">
+          action="https://payment-stage.opay.tw/Cashier/AioCheckOut/V5" >
         <div>
 
             MerchantID 商店代號:
@@ -46,9 +55,47 @@
             <input type="text" name="CheckMacValue" value="@ViewBag.SHA256" /><br />
         </div>
 
-        <input type="submit" value="送出訂單" />
+        <input type="submit" value="送出訂單" id="savetodb"/>
 
     </form>
+   
+    <form id="addToProfitMember">
+        fName_ProfitMember:
+        <input type="text" name="fName_ProfitMember" /><br />
+        fEmail_ProfitMember:
+        <input type="text" name="fEmail_ProfitMember" /><br />
+        fPhone_ProfitMember:
+        <input type="text" name="fPhone_ProfitMember" /><br />
+        @*fName_ProfitMember:
+        <input type="text" name="fName_ProfitMember" /><br />*@
 
+    </form>
+    <script>
+     
+        $('#formWebATM').submit(function (event) {
+           
+            //$.ajax({
+            //    url: "/Payment/takeOver",
+            //    type: "POST",
+            //    data: { profitMember: "ss1" },
+            //})   
+
+            $("#addToProfitMember").ajaxSubmit({
+                type: "POST",
+                url: "/Payment/RegisterProfit",
+                success: function (re) {
+
+                }, fail: function (failresponse) {
+
+                    console.log(failresponse);
+                }
+
+            });
+            
+           
+           
+        });
+
+    </script>
 </body>
 </html>

@@ -1,55 +1,112 @@
 ﻿@using homepage.Models
 
-    <h3 id="CreateOrEdit">新增地點</h3>
-    <div class="column1" style="background-color:wheat; display:none">        
-        <br />          
-        人<input name="fId_Role" id="fId_Role" readonly/>@Session[CDictionary.SK_ActiveRoleId]
-        <span>地點id: </span>
-        <input id="fId_Location" class="fId_LocationClass" style="color: green" name="fId_Location" readonly />        
-        <span>座標</span>        
-        <span id="info3" style="background-color:bisque"></span>
-        x :<input name="fX_Coordinate" id="fx_Coordinate" readonly />
-        y :<input name="fY_Coordinate" id="fy_Coordinate" readonly />
+
+@*<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
+<!------ Include the above in your HEAD tag ---------->
+
+@*<h3 id="CreateOrEdit">新增地點</h3>
+<div class="column1" style="background-color:wheat; display:none">
+    <br />
+    <input name="fId_Role" id="fId_Role" value="@Session[CDictionary.SK_ActiveRoleId]" readonly />
+    <span>地點id: </span>
+    <input id="fId_Location" class="fId_LocationClass" style="color: green" name="fId_Location" readonly />
+    <span>座標</span>
+    <span id="info3" style="background-color:bisque"></span>
+    x :<input name="fX_Coordinate" id="fx_Coordinate" readonly />
+    y :<input name="fY_Coordinate" id="fy_Coordinate" readonly />
+</div>
+<div class="column1" style="background-color:wheat">
+    <div>
+        <span class="close" id="closeAddLocationForm">&times;</span>
     </div>
-        <div class="column1" style="background-color:wheat">
-            <div>
-                <span class="close" id="closeAddLocationForm">&times;</span>
+    <span>地點</span>
+    <br />
+    <span>地名：</span>
+    <input name="fName_Location" id="LocationName" />
+    <br />
+    <span>地點描述：</span>
+    <input name="fDescript_Location" id="fDescript_Location" />
+</div>
+
+
+<div class="column2" style="background-color:wheat;">
+
+    <p>上傳照片</p>
+    <br />
+    <input type="file" accept="image/*" onchange="loadFile(event)" name="PostImage" id="uploadPhoto">
+    <img id="output" src="../Content/userPhoto.png" style="width:300px;height:200px;border:dotted" />
+    <br>
+    <br />
+
+</div>
+
+<div class="column2" style="background-color:wheat">
+    <span>與誰分享</span>
+    <select id="selector" name="fId_ShareAuth">
+        <option id="Public" value=3 selected="selected">公開</option>
+        <option id="Follower" value=2>粉絲</option>
+        <option id="Private" value=1>私人</option>
+    </select>
+
+    <br />
+    <button type="button" onclick="UpLoadLoctionFormButton()" id="create" style="position:relative; bottom: 10px; right: 10px">確定</button>
+    <button type="button" onclick="EditLoctionFormButton()" id="save" style="position:relative; bottom: 10px; right: 10px">編輯存檔</button>
+</div>*@
+<link href="~/css/CreateOrEditLocForm.css" rel="stylesheet" />
+
+<div class="container contact-form" style="margin:0px 0px 20px 0px;width:920px;height:500px">
+    <div class="contact-image">
+        <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact" />
+        <span class="close" id="closeAddLocationForm" style="float:right">&times;</span>
+    </div>
+    <form method="post">
+        <h3 style="margin:0px 0px 50px 0px" id="CreateOrEdit">新增我的地點</h3>
+        <div class="row" style="padding-top:40px;">
+            <div class="col-md-6" style="padding-left:80px">
+                @*///*@
+                <div class="column1" style="background-color:wheat; display:none">
+                    <br />
+                    <input name="fId_Role" id="fId_Role" value="@Session[CDictionary.SK_ActiveRoleId]" readonly />
+                    <span>地點id: </span>
+                    <input id="fId_Location" class="fId_LocationClass" style="color: green" name="fId_Location" readonly />
+                    <span>座標</span>
+                    <span id="info3" style="background-color:bisque"></span>
+                    x :<input name="fX_Coordinate" id="fx_Coordinate" readonly />
+                    y :<input name="fY_Coordinate" id="fy_Coordinate" readonly />
+                </div>
+                @*///*@
+                <div class="form-group">
+                    <input type="text" name="fName_Location" class="form-control" placeholder="Your LocName *" id="LocationName" />
+                </div>
+                <div class="form-group">
+                    <textarea type="text" name="fDescript_Location" class="form-control" placeholder="Descript_Location *" id="fDescript_Location" style="width: 100%; height: 150px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <select id="selector" name="fId_ShareAuth">
+                        <option id="Public" value=3 selected="selected">公開</option>
+                        <option id="Follower" value=2>粉絲</option>
+                        <option id="Private" value=1>私人</option>
+                    </select>
+
+                    @*<input type="text" name="txtPhone" class="form-control" placeholder="Your Phone Number *" value="" />*@
+                </div>
+                <br />
+               
+                <div class="form-group">
+                    @*<input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />*@
+                    <button type="button" onclick="UpLoadLoctionFormButton()" id="create" style="position:relative; bottom: 10px; right: 10px" class="btnContact">確定</button>
+                    <button type="button" onclick="EditLoctionFormButton()" id="save" style="position:relative; bottom: 10px; right: 10px" class="btnContact">編輯存檔</button>
+                </div>
             </div>
-            <span>地點</span>
-            <br />
-            <span>地名：</span>
-            <input name="fName_Location" id="LocationName" />
-            <br />
-            <span>地點描述：</span>
-            <input name="fDescript_Location" id="fDescript_Location" />
+            <div class="col-md-6" style="padding-right:80px;padding-right:80px;height:100px">
+                <div class="form-group">
+                    <input type="file" accept="image/*" onchange="loadFile(event)" name="PostImage" id="uploadPhoto" >
+                    <img id="output" src="https://i.imgur.com/7HtrXL4.png" style="width:300px;height:200px;border:dotted;object-fit:contain;" />
+                    @*<textarea name="txtMsg" class="form-control" placeholder="Your Message *" style="width: 100%; height: 150px;"></textarea>*@
+                </div>
+            </div>
         </div>
- 
-  
-    <div class="column2" style="background-color:wheat;">
-
-        <p>上傳照片</p>
-        <br />
-        <input type="file" accept="image/*" onchange="loadFile(event)" name="PostImage" id="uploadPhoto">
-        <img id="output" src="../Content/userPhoto.png" style="width:300px;height:200px;border:dotted" />
-        <br>
-        <br />
-
-    </div>
-
-    <div class="column2" style="background-color:wheat">
-        <span>與誰分享</span>
-        <select id="selector" name="fId_ShareAuth">
-            <option id="Public" value=3 selected="selected">公開</option>
-            <option id="Follower" value=2>粉絲</option>
-            <option id="Private" value=1>私人</option>
-        </select>
-        <br />
-        <input type="checkbox" name="fDelete_Location" id="checkbox" onclick="IfDelete()">是否刪除(請打勾)
-        <br />
-        <br />
-        <br />
-        <button type="button" onclick="UpLoadLoctionFormButton()" id="create" style="position:relative; bottom: 10px; right: 10px">確定</button>
-        <button type="button" onclick="EditLoctionFormButton()" id="save" style="position:relative; bottom: 10px; right: 10px">編輯存檔</button>
-    </div>
-
-</div>@*row*@
+    </form>
+</div>

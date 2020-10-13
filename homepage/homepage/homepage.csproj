@@ -176,8 +176,6 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\d8b0de09-fd3e-40e1-9476-c99c09c04484.png" />
-    <Content Include="Content\images\chngstar.gif" />
-    <Content Include="Content\images\star.gif" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\jquery-ui.structure.css" />
@@ -200,8 +198,10 @@
     <Content Include="Content\鐵道旅行.jpg" />
     <Content Include="css\Album.css" />
     <Content Include="css\BootSideMenu.css" />
+    <Content Include="css\CreateOrEditLocForm.css" />
     <Content Include="css\CustomerlizeCSSofLocationAndRoute.css" />
     <Content Include="css\FixedPosition.css" />
+    <Content Include="css\Game.css" />
     <Content Include="css\Login.css" />
     <Content Include="css\LeftSideMenu.css" />
     <Content Include="css\test.css" />
@@ -212,8 +212,8 @@
     <Content Include="css\theme\zenburn.css" />
     <Content Include="dbFunDayTripModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>dbFunDayTripModel.Context.cs</LastGenOutput>
       <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
+      <LastGenOutput>dbFunDayTripModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="dbFunDayTripModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -251,6 +251,10 @@
     <Content Include="dbFunDayTripModel.edmx.diagram">
       <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\ARmodels\asset.glb" />
+    <Content Include="Content\ARmodels\banana.glb" />
+    <Content Include="Content\ARmodels\spaghetti.glb" />
+    <Content Include="Content\ARmodels\duck.glb" />
     <None Include="Properties\PublishProfiles\FunDayTrip - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
@@ -383,7 +387,9 @@
     <Compile Include="Models\CGame.cs" />
     <Compile Include="Models\CGameFactory.cs" />
     <Compile Include="Models\CGameGroup.cs" />
+    <Compile Include="Models\CGameQA.cs" />
     <Compile Include="Models\CGameRecord.cs" />
+    <Compile Include="Models\CGameSteps.cs" />
     <Compile Include="Models\CMember.cs" />
     <Compile Include="Models\CMemberFactory.cs" />
     <Compile Include="Models\CMessage.cs" />
@@ -504,6 +510,8 @@
     </Compile>
     <Compile Include="ViewModel\CAdDetailVM.cs" />
     <Compile Include="ViewModel\CBlocksViewModel.cs" />
+    <Compile Include="ViewModel\Cchatroom2.cs" />
+    <Compile Include="ViewModel\CCheckQAGameViewModel.cs" />
     <Compile Include="ViewModel\CFanslistViewModel.cs" />
     <Compile Include="ViewModel\CFollowlistViewModel.cs" />
     <Compile Include="ViewModel\CGameNavigationViewModel.cs" />
@@ -568,6 +576,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\images\" />
     <Folder Include="Views\Common\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Location\" />
