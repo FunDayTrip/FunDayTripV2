@@ -102,6 +102,7 @@
                 height: 50px;
                 width: 280px;
                 word-break: break-all;
+                text-align:right;
             }
 
     .panel.panel-chat .panel-footer {
