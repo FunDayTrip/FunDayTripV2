@@ -1,5 +1,5 @@
 ﻿@using homepage.Models
-<nav class="navbar navbar-inverse" >
+<nav class="navbar navbar-inverse" style="background-color:#294C60">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">FunDayTrip</a>
@@ -15,10 +15,10 @@
                     <ul class="dropdown-menu">
 
                         <li>
-                            <a href="javascript:showMyLoc()" onclick="myLaction(); myRount(); myLocationsshow(); myRoutesshow(); hideAdBlock();">我的</a>
+                            <a href="javascript:showMyLoc()" onclick="myLaction(); myRount(); myLocationsshow(); myRoutesshow(); hideAdBlock(); hideAddRouteButton();">我的</a>
                         </li>
-                        <li>
-                            <a href="#" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myfriendLocationsshow(); hideAdBlock();hideAddNewLocationButtonk()">追蹤中</a>
+                        <li>                            
+                            <a href="javascript:showFrLoc()" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myfriendLocationsshow(); hideAdBlock(); hideAddRouteButton();hideAddNewLocationButtonk();">追蹤中</a>
                         </li>
                     </ul>
                 </li>
@@ -31,7 +31,7 @@
                             <a href="javascript:showMyRou(@Session[CDictionary.SK_ActiveRoleId])" onclick="myLaction(); myRount(); myLocationsshow(); myRoutesshow(); hideAdBlock();hideAddNewLocationButtonk()">我的</a>
                         </li>
                         <li>
-                            <a href="#" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myfriendLocationsshow();hideAdBlock();hideAddNewLocationButtonk()">追蹤中</a>
+                            <a href="javascript:showFrLoc()" onclick="myfriendLocation(); myfriendRount(); myfriendRoutesshow(); myfriendLocationsshow();hideAdBlock(); hideAddRouteButton();hideAddNewLocationButtonk();">追蹤中</a>                            
                         </li>
                     </ul>
                 </li>
@@ -40,10 +40,10 @@
                     <ul class="dropdown-menu">
 
                         <li>
-                            <a onclick="hideAdBlock();hideAddNewLocationButtonk()" href="javascript:showMyAlbums(@Session[CDictionary.SK_ActiveRoleId])">我的</a>
+                            <a onclick="hideAdBlock(); hideAddRouteButton();hideAddNewLocationButtonk()" href="javascript:showMyAlbums(@Session[CDictionary.SK_ActiveRoleId])">我的</a>                            
                         </li>
-                        <li>
-                            <a onclick="hideAdBlock();hideAddNewLocationButtonk()" href="#">追蹤中</a>
+                        <li>                            
+                            <a onclick="hideAdBlock(); hideAddRouteButton();hideAddNewLocationButtonk()" href="javascript:showMyFriendsAlbums(@Session[CDictionary.SK_ActiveRoleId])">追蹤中</a>
                         </li>
                     </ul>
                 </li>
@@ -51,21 +51,21 @@
                     <a href="@Url.Action("Navigation", "Game")" target="_blank">遊戲</a>
                 </li>
                 <li>
-                    <a href="javascript:followcon()" onclick="hideAdBlock();hideAddNewLocationButtonk()">追蹤/粉絲</a>
+                    <a href="javascript:followcon()" onclick="hideAdBlock();hideAddNewLocationButtonk();hideAddRouteButton();">追蹤/粉絲</a>
                     @*<a href="javascript:fansModal()">追蹤/粉絲</a>*@
                 </li>
 
                 <li>
-                    <a id="newAD" style="display:none;" @*href="javascript:showMyLoc()"*@ onclick="makeIdentity(); hideAdBlock()">新增廣告</a>
+                    <a id="newAD" style="display:none;" @*href="javascript:showMyLoc()"*@ onclick="makeIdentity(); hideAdBlock(); hideAddRouteButton();">新增廣告</a>
                 </li>
                 <li>
                     <a href="@Url.Action("ShowHeatMap", "Statistic")">統計與分析</a>
                 </li>
                 <li>
-                    <a href="javascript:callAdmin()" value="9" name="Fundaytrip管理員" onclick="hideAdBlock(); hideAddNewLocationButtonk();">聯絡管理員</a>
+                    <a href="javascript:callAdmin()" value="9" name="Fundaytrip管理員" onclick="hideAdBlock(); hideAddNewLocationButtonk();hideAddRouteButton();">聯絡管理員</a>
                 </li>
                 <li class="dropdown">
-                    <a id="backstage" style="display:none;" class="dropdown-toggle" data-toggle="dropdown" href="#">管理員後台<span class="caret"></span></a>
+                    <a id="backstage" style="display:none;" class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="hideAddRouteButton();">管理員後台<span class="caret"></span></a>
                     @*<a id="backstage" style="display:none;" href="@Url.Action("indexBack", "backStage")">管理員後台</a>*@
                     <ul class="dropdown-menu">
                         <li>
@@ -81,7 +81,7 @@
                 </li>
 
                 <li>
-                    <a href="#" onclick="hideAdBlock(); hideAddNewLocationButtonk();">關於我們</a>
+                    <a href="#" onclick="hideAdBlock(); hideAddRouteButton(); hideAddNewLocationButtonk();">關於我們</a>
                 </li>
             }
             <li style="position:absolute;right:10px">
