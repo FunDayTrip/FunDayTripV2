@@ -191,6 +191,10 @@
 
     @*10/09 郭松明廣告旋轉木馬=========================*@
     <script>
+
+        var parameter = "";
+        var movementClassName = "";
+
         function ZoomAD(locationId) {
             listLocRoute.style.display = "block";
             getLocAjax(locationId);
@@ -203,9 +207,13 @@
                     dataType: "json",
                     type:"POST",
                     success: function (response) {
-                        //console.log(response);
+                        console.log(response);
+                        console.log(response.length);
                         for (var i = 0; i < response.length; i += 1)
-                        {
+                        {                            
+                            console.log(i);
+                            parameter = response[i].fId_Location;
+
                             if (i == 0) {
                                 movementClassName = "active";
                             }
@@ -213,19 +221,19 @@
                             {
                                 movementClassName = "";
                             }
+                            
                             var DIV = $("<div>").attr({
                                 'id': "DIV" + [i] + "",
                                 //'value': response[i].fId_Location,
                                 'class': "item " + movementClassName + "",
-                                'onclick': "ZoomAD('" +response[i].fId_Location +"')"
+                                'onclick': "ZoomAD('" + parameter +"')"
                             }).css({height:'140px',width:'379px'})
                             var img = $("<img>").attr({
                                 'id': "AD" + [i] + "",
                                 'src': response[i].fPhoto_Ad,
-                                'alt': response[i].fId_Location,
                                 'align' :'left'
                             }).css({ width: '230px', height: '140px',opacity:'0.9'})
-                            var content = $("<span>" + response[i].fContent_Ad + "</span>")
+                            var content = $("<span style='font-size:18px;'>" + response[i].fContent_Ad + "</span>")
 
                             $(DIV).append(img);
                             $(DIV).append(content);
@@ -521,8 +529,8 @@
             });
         </script>*@
     <div id="foot-content" class="footer">
-        <div id="current_position" value="" style="font-size:16px;color:black;background-color:silver;border-top-left-radius:20px;border-top-right-radius:20px;opacity:0.7">
-            <b>推薦地點</b>
+        <div id="current_position" value="" style="color:black;background-color:silver;border-top-left-radius:20px;border-top-right-radius:20px;opacity:0.6">
+            <b style="font-size:17px;">推薦地點</b>
         </div>
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
             <div id="inner_content" class="carousel-inner" value="">
@@ -1408,7 +1416,6 @@
             var Id_Location = [];
             X_Coordinate = [];
             Y_Coordinate = [];
-
             $.ajax({
                 url: "/Home/RouteGetPoint",
                 type: "POST",

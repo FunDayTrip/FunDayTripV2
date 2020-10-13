@@ -116,15 +116,12 @@
 
             /*說明:主表單*/
             form {
-                margin-left: 400px;
-                /*margin-right: 420px;*/
+                margin-left: 28%;
                 justify-content: center;
-                /*border: 1px solid black;
-                border-radius:25px;*/
             }
 
             #formDiv {
-                margin-left: 120px;
+                margin-left: 11%;
             }
 
             /*說明:變更會員資料標題*/
@@ -177,20 +174,21 @@
                 border-style: none;
                 /*color:crimson;*/
                 font-size: large;
-                margin-left: 702px;
+                margin-left: 46%;
                 /* background-color: transparent;*/
             }
 
             /*說明:密碼最外層div*/
             #pwChange {
                 margin-top: 10px;
-                margin-left: 225px;
-                width: 650px;
+                margin-left: 17%;
+             /*   width: 650px;*/
+                width:40%;
             }
 
             /*說明:各密碼欄位div*/
             .inierDiv {
-                margin-left: 350px;
+                margin-left: 54%;
             }
 
             /*說明:新密碼input*/
@@ -207,162 +205,161 @@
 
             /*說明:停用帳號按鈕*/
             .suspensionDiv {
-                margin-left: 700px;
+                margin-left: 46%;
                 margin-bottom: 20px;
             }
         </style>
 
     </head>
 <body>
-    @* E 回首頁連結*@
-    <div class="TopDiv">
-        <label style="font-size:18px;color:whitesmoke;">@Html.ActionLink("回首頁", "Index", "Home",null,new { style= "color:whitesmoke;" })</label>
-    </div>
-
-    @*說明:主表單，只包括基本資料修改*@
-    <form method="post" action="edit" enctype="multipart/form-data">
-        @Html.AntiForgeryToken()
-
-        <div id="formDiv" class="form-horizontal">
-            <h2>變更會員資料</h2>
-
-            @*說明:輸出原先的使用者照片*@
-            <div class="memberPhoto2">
-                <img id="output" class="IMG" src="@Model.fPhoto_Member" />
-            </div>
-
-            @*說明:上傳新的照片*@
-            <div class="memberInput">
-                <input id="memberPhotoFile2" type="file" accept="image/*" onchange="loadFile(event)" class="form-control btn btn-info" name="image" value="上傳大頭貼">
-            </div>
-
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-            @*說明:隱藏傳入的fId*@
-            <div class="form-group" style="display:none">
-                @Html.LabelFor(model => model.fId_Member, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.fId_Member, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.fId_Member, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @*說明:暱稱修改欄位*@
-            <div class="form-group" style="margin-left:15px;">
-                <label class="control-label" style="display:inline-block;color:whitesmoke;font-weight:bold;">
-                會員暱稱
-                </label>
-                <div class="col-md-6" style="width:320px;display:inline-block;">
-                    @Html.EditorFor(model => model.fNickName_Member, new { htmlAttributes = new { @class = "form-control" }, style= "color:whitesmoke;" })
-                    @Html.ValidationMessageFor(model => model.fNickName_Member, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @*說明:姓氏修改欄位*@
-            <div class="form-group" style="margin-left:45px;">
-                <label class="control-label" style="display:inline-block;color:whitesmoke;font-weight:bold;">
-                姓氏
-                </label>
-                <div class="col-md-6" style="width:320px;display:inline-block;">
-                    @Html.EditorFor(model => model.fLastName_Member, new { htmlAttributes = new { @class = "form-control" }, style = "color:whitesmoke;" })
-                    @Html.ValidationMessageFor(model => model.fLastName_Member, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @*說明:名字修改欄位*@
-            <div class="form-group" style="margin-left:45px;">
-                <label class="control-label" style="display:inline-block;color:whitesmoke;font-weight:bold;">
-                名字
-                </label>
-                <div class="col-md-6" style="width:320px;display:inline-block;">
-                    @Html.EditorFor(model => model.fFirstName_Member, new { htmlAttributes = new { @class = "form-control" }, style = "color:whitesmoke;" })
-                    @Html.ValidationMessageFor(model => model.fFirstName_Member, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @*說明:地址修改欄位*@
-            <div class="form-group" style="margin-left:45px;">
-                <label class="control-label" style="display:inline-block;color:whitesmoke;font-weight:bold;">
-                地址
-                </label>
-                <div class="col-md-6" style="width:320px;display:inline-block;">
-                    @Html.EditorFor(model => model.fAdd_Member, new { htmlAttributes = new { @class = "form-control" }, style = "color:whitesmoke;" })
-                    @Html.ValidationMessageFor(model => model.fAdd_Member, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @*說明:電話修改欄位*@
-            <div class="form-group" style="margin-left:45px;">
-                <label class="control-label" style="display:inline-block;color:whitesmoke;font-weight:bold;">
-                電話
-                </label>
-                <div class="col-md-6" style="width:320px;display:inline-block;">
-                    @Html.EditorFor(model => model.fPhone_Member, new { htmlAttributes = new { @class = "form-control" }, style = "color:whitesmoke;" })
-                    @Html.ValidationMessageFor(model => model.fPhone_Member, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @*說明:國家修改欄位*@
-            <div class="form-group" style="margin-left:45px;">
-                <label class="control-labelz" style="display:inline-block;color:whitesmoke;font-weight:bold;">
-                國家
-                </label>
-                <div class="col-md-6" style="width:320px;display:inline-block;">
-                    @Html.EditorFor(model => model.fCountry_Member, new { htmlAttributes = new { @class = "form-control" }, style = "color:whitesmoke;" })
-                    @Html.ValidationMessageFor(model => model.fCountry_Member, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @*說明:隱藏起來設置圖片路徑的修改欄位*@
-            <div class="form-group" style="display:none;">
-                @Html.LabelFor(model => model.fPhoto_Member, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.fPhoto_Member, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.fPhoto_Member, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @*說明:送出修改按鈕傳送form*@
-            <div class="form-group" style="margin-left:170px;">
-                <div class="col-md-offset-2 col-md-10" style="width:350px;">
-                    <input id="confirmChange" type="submit" value="確定修改" class="btn btn-warning"/>
-                </div>
-            </div>
+        @* E 回首頁連結*@
+        <div class="TopDiv">
+            <label style="font-size:18px;color:whitesmoke;">@Html.ActionLink("回首頁", "Index", "Home", null, new { style = "color:whitesmoke;" })</label>
         </div>
-    </form>
-    @*說明:分隔線*@
-    <hr text-align="center" style="background-color:whitesmoke; width:450px; border-style:solid;">
 
-    @*說明:顯示變更密碼區域*@
-    <button id="pwButton" class="btn btn-danger">變更密碼</button>
-    <div id="pwChange" style="display:none;">
-        <div class="inierDiv">
-            <label style="display:inline-block;color:whitesmoke;">輸入新密碼</label>
-            <input id="pwInput1" type="password" name="fPassword_Member" class="form-control" />
+        @*說明:主表單，只包括基本資料修改*@
+        <form method="post" action="edit" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div id="formDiv" class="form-horizontal">
+                <h2>變更會員資料</h2>
+
+                @*說明:輸出原先的使用者照片*@
+                <div class="memberPhoto2">
+                    <img id="output" class="IMG" src="@Model.fPhoto_Member" />
+                </div>
+
+                @*說明:上傳新的照片*@
+                <div class="memberInput">
+                    <input id="memberPhotoFile2" type="file" accept="image/*" onchange="loadFile(event)" class="form-control btn btn-info" name="image" value="上傳大頭貼">
+                </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @*說明:隱藏傳入的fId*@
+                <div class="form-group" style="display:none">
+                    @Html.LabelFor(model => model.fId_Member, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.fId_Member, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.fId_Member, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*說明:暱稱修改欄位*@
+                <div class="form-group" style="margin-left:15px;">
+                    <label class="control-label" style="display:inline-block;color:whitesmoke;font-weight:bold;">
+                        會員暱稱
+                    </label>
+                    <div class="col-md-6" style="width:320px;display:inline-block;">
+                        @Html.EditorFor(model => model.fNickName_Member, new { htmlAttributes = new { @class = "form-control" }, style = "color:whitesmoke;" })
+                        @Html.ValidationMessageFor(model => model.fNickName_Member, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*說明:姓氏修改欄位*@
+                <div class="form-group" style="margin-left:45px;">
+                    <label class="control-label" style="display:inline-block;color:whitesmoke;font-weight:bold;">
+                        姓氏
+                    </label>
+                    <div class="col-md-6" style="width:320px;display:inline-block;">
+                        @Html.EditorFor(model => model.fLastName_Member, new { htmlAttributes = new { @class = "form-control" }, style = "color:whitesmoke;" })
+                        @Html.ValidationMessageFor(model => model.fLastName_Member, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*說明:名字修改欄位*@
+                <div class="form-group" style="margin-left:45px;">
+                    <label class="control-label" style="display:inline-block;color:whitesmoke;font-weight:bold;">
+                        名字
+                    </label>
+                    <div class="col-md-6" style="width:320px;display:inline-block;">
+                        @Html.EditorFor(model => model.fFirstName_Member, new { htmlAttributes = new { @class = "form-control" }, style = "color:whitesmoke;" })
+                        @Html.ValidationMessageFor(model => model.fFirstName_Member, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*說明:地址修改欄位*@
+                <div class="form-group" style="margin-left:45px;">
+                    <label class="control-label" style="display:inline-block;color:whitesmoke;font-weight:bold;">
+                        地址
+                    </label>
+                    <div class="col-md-6" style="width:320px;display:inline-block;">
+                        @Html.EditorFor(model => model.fAdd_Member, new { htmlAttributes = new { @class = "form-control" }, style = "color:whitesmoke;" })
+                        @Html.ValidationMessageFor(model => model.fAdd_Member, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*說明:電話修改欄位*@
+                <div class="form-group" style="margin-left:45px;">
+                    <label class="control-label" style="display:inline-block;color:whitesmoke;font-weight:bold;">
+                        電話
+                    </label>
+                    <div class="col-md-6" style="width:320px;display:inline-block;">
+                        @Html.EditorFor(model => model.fPhone_Member, new { htmlAttributes = new { @class = "form-control" }, style = "color:whitesmoke;" })
+                        @Html.ValidationMessageFor(model => model.fPhone_Member, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*說明:國家修改欄位*@
+                <div class="form-group" style="margin-left:45px;">
+                    <label class="control-labelz" style="display:inline-block;color:whitesmoke;font-weight:bold;">
+                        國家
+                    </label>
+                    <div class="col-md-6" style="width:320px;display:inline-block;">
+                        @Html.EditorFor(model => model.fCountry_Member, new { htmlAttributes = new { @class = "form-control" }, style = "color:whitesmoke;" })
+                        @Html.ValidationMessageFor(model => model.fCountry_Member, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*說明:隱藏起來設置圖片路徑的修改欄位*@
+                <div class="form-group" style="display:none;">
+                    @Html.LabelFor(model => model.fPhoto_Member, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.fPhoto_Member, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.fPhoto_Member, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*說明:送出修改按鈕傳送form*@
+                <div class="form-group" style="margin-left:15%;">
+                    <div class="col-md-offset-2 col-md-10" style="width:350px;">
+                        <input id="confirmChange" type="submit" value="確定修改" class="btn btn-warning" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        @*說明:分隔線*@
+        <hr text-align="center" style="background-color:whitesmoke; width:450px; border-style:solid;">
+
+        @*說明:顯示變更密碼區域*@
+        <button id="pwButton" class="btn btn-danger">變更密碼</button>
+        <div id="pwChange" style="display:none;">
+            <div class="inierDiv">
+                <label style="display:inline-block;color:whitesmoke;">輸入新密碼</label>
+                <input id="pwInput1" type="password" name="fPassword_Member" class="form-control" />
+            </div>
+            <div class="inierDiv" style="margin-top:10px;">
+                <label style="display:inline-block;color:whitesmoke;">確認新密碼</label>
+                <input id="pwInput2" type="password" name="confirmPW" class="form-control" />
+            </div>
+            <button id="confirmPw" class="btn btn-warning" style="margin-left:73%;margin-top:13px;border:solid 1px gray">確定變更</button>
         </div>
-        <div class="inierDiv" style="margin-top:10px;">
-            <label style="display:inline-block;color:whitesmoke;">確認新密碼</label>
-            <input id="pwInput2" type="password" name="confirmPW" class="form-control" />
-        </div>
-        <button id="confirmPw" class="btn btn-warning" style="margin-left:480px;margin-top:13px;border:solid 1px gray">確定變更</button>
-    </div>
 
-    @*說明:用抓id的方式傳入AJAX再傳到控制器的變更密碼方法中*@
-    <input type="hidden" id="confirmPwId" value="@Model.fId_Member">
+        @*說明:用抓id的方式傳入AJAX再傳到控制器的變更密碼方法中*@
+        <input type="hidden" id="confirmPwId" value="@Model.fId_Member">
 
-    @*說明:分隔線*@
-    <hr align="center" style="background-color:whitesmoke; width:450px; border-style:solid;">
+        @*說明:分隔線*@
+        <hr align="center" style="background-color:whitesmoke; width:450px; border-style:solid;">
 
-    @*說明:停用帳戶超連結*@
-    <div class="suspensionDiv">
-        <button id="suspensionBtn" class="btn btn-danger" style="font-size:large;">停用帳戶</button>
-        <input id="suspensionId"  style="display:none;" value="@Model.fId_Member"/>
-          @*@Html.ActionLink("停用帳戶", "suspension", "Member",
+        @*說明:停用帳戶超連結*@
+        <div class="suspensionDiv">
+            <button id="suspensionBtn" class="btn btn-danger" style="font-size:large;">停用帳戶</button>
+            <input id="suspensionId" style="display:none;" value="@Model.fId_Member" />
+            @*@Html.ActionLink("停用帳戶", "suspension", "Member",
             //說明:傳入參數
             new { id = Model.fId_Member },
             //說明: 彈出視窗，詢問是否真的停用，JS寫法
             new { onclick = "return confirm('確定停用帳戶嗎?')",
             style = "font-size:large;", @class= "btn btn-danger" })*@
-    </div>
-
+        </div>
 </body>
