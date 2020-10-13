@@ -1,4 +1,4 @@
-﻿@model homepage.ViewModel.CAdDetailVM
+﻿margin-right: 25%;@model homepage.ViewModel.CAdDetailVM
 @{
     Layout = null;
 }
@@ -21,8 +21,8 @@
         background-size: cover;
     }
 
-    #detailData input{
-         background-color: lightsteelblue;        
+    #detailData input {
+        background-color: lightsteelblue;
     }
 
     #detailData label {
@@ -34,12 +34,12 @@
         background-image: url("../../Content/black1.jpeg");
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
-        height:35px;
+        height: 35px;
     }
 
     form {
-        margin-left: 420px;
-        margin-top:60px;
+        margin-left: 32%;
+        margin-top: 60px;
         height: 715px;
         width: 720px;
         background-color: dimgrey;
@@ -63,21 +63,20 @@
     }
 
     .BmemberData {
-        margin-top:10px;
-        margin-left:10px;
-        color:whitesmoke;
-        font-weight:bold;
-        font-size:18px;
+        margin-top: 10px;
+        margin-left: 10px;
+        color: whitesmoke;
+        font-weight: bold;
+        font-size: 18px;
     }
 
     .bottomDiv {
         background-image: url("../../Content/black1.jpeg");
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
-        height:35px;
-        z-index:1;
+        height: 35px;
+        z-index: 1;
     }
-
 </style>
 <!DOCTYPE html>
 <html>
@@ -87,7 +86,7 @@
 </head>
 <body>
     <form>
-        <div class="TopDiv">           
+        <div class="TopDiv">
             <label style="font-size:18px;color:whitesmoke;margin-right:15px;margin-top:5px;">@Html.ActionLink("回上一頁", "showApplyAD", "backStage", null, new { style = "color:whitesmoke;" })</label>
         </div>
         <p class="AdData">廣告申請資料</p>

@@ -92,7 +92,7 @@
         .footer {
             position: fixed;
             z-index: 1;
-            left: 600px;
+            left: 37.5%;
             bottom: 0;
             height: 20%;
             width: 25%;
@@ -142,17 +142,20 @@
     @*上列選項清單_verna_0930 *@
     @Html.Partial("_topMenuNavigation")
 
-    <div style="position:absolute;top:70px">
+
+    <div style="position:absolute; top:65px; left:45%;">
         @*新增地點*@
-        <button id="addNewLocationButton" type="button" class="btn btn-danger" style="display:none">放置新增圖釘</button>
+        <button id="addNewLocationButton" type="button" class="btn btn-danger" style="display:none; width:125px;">放置新增圖釘</button>
 
         @*新增廣告地點*@
-        <button id="addNewAdLocButton" type="button" class="btn btn-danger" style="display:none">放置廣告圖釘</button>
+        <button id="addNewAdLocButton" type="button" class="btn btn-danger" style="display:none; width:125px;">放置廣告圖釘</button>
 
         @*新增路線*@
-        <button id="addNewRouteButton" type="button" class="btn btn-danger" style="display:none">放置新增路線</button>
+        <button id="addNewRouteButton" type="button" class="btn btn-danger" style="width: 125px; display:none;">放置新增路線</button>
 
     </div>
+
+
 
     <div id="infoi2" style="display:none">
         @*路線地點詳細資訊*@
@@ -188,6 +191,10 @@
 
     @*10/09 郭松明廣告旋轉木馬=========================*@
     <script>
+
+        var parameter = "";
+        var movementClassName = "";
+
         function ZoomAD(locationId) {
             listLocRoute.style.display = "block";
             getLocAjax(locationId);
@@ -200,9 +207,13 @@
                     dataType: "json",
                     type:"POST",
                     success: function (response) {
-                        //console.log(response);
+                        console.log(response);
+                        console.log(response.length);
                         for (var i = 0; i < response.length; i += 1)
-                        {
+                        {                            
+                            console.log(i);
+                            parameter = response[i].fId_Location;
+
                             if (i == 0) {
                                 movementClassName = "active";
                             }
@@ -210,19 +221,19 @@
                             {
                                 movementClassName = "";
                             }
+                            
                             var DIV = $("<div>").attr({
                                 'id': "DIV" + [i] + "",
                                 //'value': response[i].fId_Location,
                                 'class': "item " + movementClassName + "",
-                                'onclick': "ZoomAD('" +response[i].fId_Location +"')"
+                                'onclick': "ZoomAD('" + parameter +"')"
                             }).css({height:'140px',width:'379px'})
                             var img = $("<img>").attr({
                                 'id': "AD" + [i] + "",
                                 'src': response[i].fPhoto_Ad,
-                                'alt': response[i].fId_Location,
                                 'align' :'left'
                             }).css({ width: '230px', height: '140px',opacity:'0.9'})
-                            var content = $("<span>" + response[i].fContent_Ad + "</span>")
+                            var content = $("<span style='font-size:18px;'>" + response[i].fContent_Ad + "</span>")
 
                             $(DIV).append(img);
                             $(DIV).append(content);
@@ -282,7 +293,7 @@
 
     @*  左側內容 _verna_0930  ===========================*@
     <div id="LeftSideMenu">
-        <h7 class="title"><span>FunDayTrip</span></h7>
+        <h7 class="title"><span>Fun Day Trip</span></h7>
 
         <div id="Result_List2" style="width: 100%;">
             @*地點路線資訊*@
@@ -300,9 +311,17 @@
 
             deletefollower();
             deletefans();
+            chatroompressEnter();
 
         })
-
+        function chatroompressEnter() {
+            $(document).on('keyup', '#StringTextBox', function (event) {              
+                if (event.keyCode === 13) {
+                    //event.preventDefault;
+                        $(".c").click();
+                }             
+            });
+        };
         //顯示關閉左邊表單
         function closethisdiv() {
 
@@ -518,8 +537,8 @@
             });
         </script>*@
     <div id="foot-content" class="footer">
-        <div id="current_position" value="" style="font-size:16px;color:black;background-color:silver;border-top-left-radius:20px;border-top-right-radius:20px;opacity:0.7">
-            <b>推薦地點</b>
+        <div id="current_position" value="" style="color:black;background-color:silver;border-top-left-radius:20px;border-top-right-radius:20px;opacity:0.6">
+            <b style="font-size:17px;">推薦地點</b>
         </div>
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
             <div id="inner_content" class="carousel-inner" value="">
@@ -645,7 +664,7 @@
     </script>
 
     @* ===== 新增廣告 by kevin 10/08 ===== *@
-<script>
+    <script>
         function makeIdentity() {
 
             //TODO:新增廣告的地點
@@ -703,17 +722,19 @@
         }
 
 
-</script>
+    </script>
 
     <script>
         //追蹤中地點
         function showFrLoc() {
+            $('#LeftSideMenu').BootSideMenu.open();
             $("#tab_loc").text("追蹤地點");
             $("#tab_rou").text("追蹤路線");
         }
 
         //按我的地點 顯示可新增按鈕
         function showMyLoc() {
+            $('#LeftSideMenu').BootSideMenu.open();
         $("#tab_loc").text("我的地點");
             $("#tab_rou").text("我的路線");
                 TabNow = "我的地點";
@@ -987,6 +1008,7 @@
     <script>
         //我的路線 顯示可新增按鈕
         function showMyRou(roleID) {
+            $('#LeftSideMenu').BootSideMenu.open();
             document.getElementById("UploadRouteForm").reset();
             $("#columns").empty();
             $("#addNewRouteButton").show();
@@ -1025,7 +1047,7 @@
         //隱藏新增路線的按鈕
         function hideAddRouteButton() {
             setDivDisplay("addNewRouteButton", "none");
-            
+
         }
 
         //是否刪除路線
@@ -1402,7 +1424,6 @@
             var Id_Location = [];
             X_Coordinate = [];
             Y_Coordinate = [];
-
             $.ajax({
                 url: "/Home/RouteGetPoint",
                 type: "POST",
@@ -1563,10 +1584,11 @@
             reload();
             $("#toggle2").click(function () {
                 $("#showHide").toggle();
-              
+
             });
             $("#addNewLocationButton").hide();
             $("#addNewRouteButton").hide();
+            $('#LeftSideMenu').BootSideMenu.close();
 
         });
         //左側滑動清單設定
@@ -1576,7 +1598,6 @@
             autoClose: false,
             closeOnClick: false
         });
-   
 
         //飛躍至該地k
         function fly(Point) {
@@ -1769,14 +1790,14 @@
         //顯示地點資訊，點列表k
         var listLocRoute = document.getElementById("infoi2");
         function zoomToLocation(LocationID) {
-
+            $('#LeftSideMenu').BootSideMenu.close();
             listLocRoute.style.display = "block";
             getLocAjax(LocationID);
         };
 
         //顯示路線&地點資訊，點列表k
         function zoomToRoute(RouteID) {
-
+            $('#LeftSideMenu').BootSideMenu.close();
             listLocRoute.style.display = "block";
             getRouAjax(RouteID);
         }//end zoomToRoute

@@ -19,9 +19,9 @@
     }
 
     #tableDiv {
-        margin-left: 50px;
-        width: 1400px;
-        border-radius: 15px;
+        margin-left: 5%;
+        width: 90%;
+        border-radius: 20px;
     }
 </style>
 <!DOCTYPE html>
@@ -112,7 +112,7 @@
                     <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
                      @if (item.fStatus_Report == "未審核")
                       {
-                        @Html.ActionLink("隱蔽發文", "disappearData", "backStage", new { id = item.fId_Report.ToString() }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("隱蔽發文", "disappearData", "backStage", new { id = item.fId_Report.ToString(),fId = item.fId_Location_Route_Comment_Photo,fIdType = item.fId_Type_Location_Route_Comment_Photo}, new { @class = "btn btn-warning" })
                       }
                     </td>                    
                 </tr>
