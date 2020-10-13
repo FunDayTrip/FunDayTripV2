@@ -1,17 +1,18 @@
 ﻿@using homepage.Models
-<nav class="navbar navbar-inverse" style="background-color:#294C60">
-    <div class="container-fluid">
+<nav class="navbar navbar-inverse" style="background-color:#fff;">
+    @*#1D3557*@
+    <div class="container-fluid menu_self" style="background-color:#1D3557;">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">FunDayTrip</a>
+            <a class="navbar-brand" href="#" onclick="showAdBlock()" style="font-family: Impact; font-size: 22px;">Fun Day Trip</a>
         </div>
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav nav_self">
             <li class="active">
-                <a href="#" onclick="showAdBlock()">探索</a>
+                <a href="#" onclick="showAdBlock()" style="font-size:16px; font-weight:bold;">探索</a>
             </li>
             @if (Session[CDictionary.SK_MemberId].ToString() != CDictionary.SK_anonymous)
             {
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">地點 <span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-size: 16px; font-weight: bold;">地點 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
                         <li>
@@ -24,7 +25,7 @@
                 </li>
 
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">路線 <span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-size: 16px; font-weight: bold;">路線 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
                         <li>
@@ -36,7 +37,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">相簿 <span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-size: 16px; font-weight: bold;">相簿 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
                         <li>
@@ -48,24 +49,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="@Url.Action("Navigation", "Game")" target="_blank">遊戲</a>
+                    <a href="@Url.Action("Navigation", "Game")" target="_blank" style="font-size: 16px; font-weight: bold;">遊戲</a>
                 </li>
                 <li>
-                    <a href="javascript:followcon()" onclick="hideAdBlock(); hideAddRouteButton();">追蹤/粉絲</a>
+                    <a href="javascript:followcon()" onclick="hideAdBlock(); hideAddRouteButton();" style="font-size: 16px; font-weight: bold;">追蹤/粉絲</a>
                     @*<a href="javascript:fansModal()">追蹤/粉絲</a>*@
                 </li>
 
                 <li>
-                    <a id="newAD" style="display:none;" @*href="javascript:showMyLoc()"*@ onclick="makeIdentity(); hideAdBlock(); hideAddRouteButton();">新增廣告</a>
+                    <a id="newAD" style="display:none; font-size:16px; font-weight:bold;" @*href="javascript:showMyLoc()"*@ onclick="makeIdentity(); hideAdBlock(); hideAddRouteButton();">新增廣告</a>
                 </li>
                 <li>
-                    <a href="@Url.Action("ShowHeatMap", "Statistic")">統計與分析</a>
+                    <a href="@Url.Action("ShowHeatMap", "Statistic")" style="font-size: 16px; font-weight: bold;">統計與分析</a>
                 </li>
                 <li>
-                    <a href="javascript:callAdmin()" value="9" name="Fundaytrip管理員" onclick="hideAdBlock(); hideAddRouteButton();">聯絡管理員</a>
+                    <a href="javascript:callAdmin()" value="9" name="Fundaytrip管理員" onclick="hideAdBlock(); hideAddRouteButton(); "style="font-size: 16px; font-weight: bold;">聯絡管理員</a>
                 </li>
                 <li class="dropdown">
-                    <a id="backstage" style="display:none;" class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="hideAddRouteButton();">管理員後台<span class="caret"></span></a>
+                    <a id="backstage" style="display:none; font-size:16px; font-weight:bold;" class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="hideAddRouteButton();">管理員後台<span class="caret"></span></a>
                     @*<a id="backstage" style="display:none;" href="@Url.Action("indexBack", "backStage")">管理員後台</a>*@
                     <ul class="dropdown-menu">
                         <li>
@@ -81,19 +82,19 @@
                 </li>
 
                 <li>
-                    <a href="#" onclick="hideAdBlock(); hideAddRouteButton();">關於我們</a>
+                    <a href="https://drive.google.com/file/d/1tTdzQncMUZPdl19F3CdujaGIWnMhMWNm/view?usp=sharing" onclick="hideAdBlock(); hideAddRouteButton();" style="font-size: 16px; font-weight: bold;">關於我們</a>
                 </li>
             }
             <li style="position:absolute;right:10px">
                 @*開啟個人資料對話方塊*@
-                <a href="#" id="toggle2">user</a>
+                <a href="#" id="toggle2" style="font-size: 16px; font-weight: bold;">使用者</a>
             </li>
         </ul>
         <form class="navbar-form navbar-left" action="/action_page.php" method="post" id="search">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Search" name="txtkeyword" id="key">
             </div>
-            <button type="button" class="btn btn-default" name="查詢" id="post" onclick="SearchLocation(); SearchRount(); locationshow(); Routeshow(); hideAdBlock();">查詢</button>
+            <button type="button" class="btn btn-default btn_search" name="查詢" id="post" onclick="SearchLocation(); SearchRount(); locationshow(); Routeshow(); hideAdBlock();">查詢</button>
         </form>
 
     </div>
@@ -425,6 +426,7 @@
     }
 
     function SearchLocation() {
+        $('#LeftSideMenu').BootSideMenu.open();
         $("#tab_loc").text("查詢地點");
         $("#tab_rou").text("查詢路線");
 

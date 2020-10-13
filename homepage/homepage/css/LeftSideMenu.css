@@ -84,3 +84,13 @@
     padding-top: 0.25em;
     padding-bottom: 0.15em;
 }
+
+/*頂部樣式*/
+.nav_self{
+    font-family: SimHei;
+}
+
+.btn_search {
+    background-color: #E9C46A;
+    font-size:16px;
+}

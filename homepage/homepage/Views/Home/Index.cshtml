@@ -92,7 +92,7 @@
         .footer {
             position: fixed;
             z-index: 1;
-            left: 600px;
+            left: 37.5%;
             bottom: 0;
             height: 20%;
             width: 25%;
@@ -142,17 +142,20 @@
     @*上列選項清單_verna_0930 *@
     @Html.Partial("_topMenuNavigation")
 
-    <div style="position:absolute;top:70px">
+
+    <div style="position:absolute; top:65px; left:45%;">
         @*新增地點*@
-        <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
+        <button id="addNewLocationButton" type="button" class="btn btn-danger" style="width:125px;">放置新增圖釘</button>
 
         @*新增廣告地點*@
-        <button id="addNewAdLocButton" type="button" class="btn btn-danger" style="display:none">放置廣告圖釘</button>
+        <button id="addNewAdLocButton" type="button" class="btn btn-danger" style="display:none; width:125px;">放置廣告圖釘</button>
 
         @*新增路線*@
-        <button id="addNewRouteButton" type="button" class="btn btn-danger">放置新增路線</button>
+        <button id="addNewRouteButton" type="button" class="btn btn-danger" style="width: 125px;">放置新增路線</button>
 
     </div>
+
+
 
     <div id="infoi2" style="display:none">
         @*路線地點詳細資訊*@
@@ -282,7 +285,7 @@
 
     @*  左側內容 _verna_0930  ===========================*@
     <div id="LeftSideMenu">
-        <h7 class="title"><span>FunDayTrip</span></h7>
+        <h7 class="title"><span>Fun Day Trip</span></h7>
 
         <div id="Result_List2" style="width: 100%;">
             @*地點路線資訊*@
@@ -645,7 +648,7 @@
     </script>
 
     @* ===== 新增廣告 by kevin 10/08 ===== *@
-<script>
+    <script>
         function makeIdentity() {
 
             //TODO:新增廣告的地點
@@ -703,7 +706,7 @@
         }
 
 
-</script>
+    </script>
 
     <script>
         //追蹤中地點
@@ -1022,7 +1025,7 @@
         //隱藏新增路線的按鈕
         function hideAddRouteButton() {
             setDivDisplay("addNewRouteButton", "none");
-            
+
         }
 
         //是否刪除路線
@@ -1560,10 +1563,11 @@
             reload();
             $("#toggle2").click(function () {
                 $("#showHide").toggle();
-              
+
             });
             $("#addNewLocationButton").hide();
             $("#addNewRouteButton").hide();
+            $('#LeftSideMenu').BootSideMenu.close();
 
         });
         //左側滑動清單設定
@@ -1573,9 +1577,6 @@
             autoClose: false,
             closeOnClick: false
         });
-        //function closeLeft() {
-        //    $('#LeftSideMenu').css("closeOnClick", "true");
-        //}
 
         //飛躍至該地k
         function fly(Point) {
@@ -1768,14 +1769,14 @@
         //顯示地點資訊，點列表k
         var listLocRoute = document.getElementById("infoi2");
         function zoomToLocation(LocationID) {
-
+            $('#LeftSideMenu').BootSideMenu.close();
             listLocRoute.style.display = "block";
             getLocAjax(LocationID);
         };
 
         //顯示路線&地點資訊，點列表k
         function zoomToRoute(RouteID) {
-
+            $('#LeftSideMenu').BootSideMenu.close();
             listLocRoute.style.display = "block";
             getRouAjax(RouteID);
         }//end zoomToRoute
