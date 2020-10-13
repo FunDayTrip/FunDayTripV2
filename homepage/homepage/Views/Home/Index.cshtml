@@ -144,13 +144,13 @@
 
     <div style="position:absolute;top:70px">
         @*新增地點*@
-        <button id="addNewLocationButton" type="button" class="btn btn-danger">放置新增圖釘</button>
+        <button id="addNewLocationButton" type="button" class="btn btn-danger" style="display:none">放置新增圖釘</button>
 
         @*新增廣告地點*@
         <button id="addNewAdLocButton" type="button" class="btn btn-danger" style="display:none">放置廣告圖釘</button>
 
         @*新增路線*@
-        <button id="addNewRouteButton" type="button" class="btn btn-danger">放置新增路線</button>
+        <button id="addNewRouteButton" type="button" class="btn btn-danger" style="display:none">放置新增路線</button>
 
     </div>
 
@@ -200,7 +200,7 @@
                     dataType: "json",
                     type:"POST",
                     success: function (response) {
-                        console.log(response);
+                        //console.log(response);
                         for (var i = 0; i < response.length; i += 1)
                         {
                             if (i == 0) {
@@ -1019,6 +1019,11 @@
             $("#columns").empty();
         }
 
+        //隱藏新增路線的按鈕
+        function hideAddRouteButton() {
+            setDivDisplay("addNewRouteButton", "none");
+            
+        }
 
         //是否刪除路線
         function IfDeleteRoute() {
@@ -1555,6 +1560,7 @@
             reload();
             $("#toggle2").click(function () {
                 $("#showHide").toggle();
+              
             });
             $("#addNewLocationButton").hide();
             $("#addNewRouteButton").hide();
@@ -1567,7 +1573,9 @@
             autoClose: false,
             closeOnClick: false
         });
-
+        //function closeLeft() {
+        //    $('#LeftSideMenu').css("closeOnClick", "true");
+        //}
 
         //飛躍至該地k
         function fly(Point) {
@@ -2340,9 +2348,9 @@
                 var album = document.getElementById('albumList');
                 if (response.length == 0) {
                     albumInstructions =
-                        '<div class="album">' +
-                        '<button type="button" class="btn btn-info" onclick="addAlbum('+@Session[CDictionary.SK_ActiveRoleId]+')">新增相簿</button>' +
-                        '</div>';
+                        '<div class="album"><div class="btnAddAlbum">' +
+                        '<button type="button" class="btn btnaddA" onclick="addAlbum('+@Session[CDictionary.SK_ActiveRoleId]+')">新增相簿</button>' +
+                        '</div></div>';
                     album.innerHTML += albumInstructions;
                 }
                 else {
@@ -2354,19 +2362,19 @@
                             '<div class="showAlbumPhoto" id="showAlbumPhoto">' +
                             '<img class="albumPhoto" src="' + response[i].fPath_Photo + '"/>' +
                             '</div>' +
-                            '<div class="albumName" id="fName_Album' + i + '"><h6>' + response[i].fName_Album + '</h6></div>' +
-                            '<div class="albumDescript" id="fDescript_Album' + i + '" ><h7>' + response[i].fDescript_Album + '</h7></div>' +
+                            '<div class="albumName" id="fName_Album' + i + '"><h3>' + response[i].fName_Album + '</h3></div>' +
+                            '<div class="albumDescript" id="fDescript_Album' + i + '" ><h4>' + response[i].fDescript_Album + '</h4></div>' +
                             '</div>' +
                             '<div>' +
-                            '<button type="button" class="btn btn-info" onclick="editAlbum(' + @Session[CDictionary.SK_ActiveRoleId] +',' + response[i].fId_Album+')">修改相簿</button>' +
+                            '<button type="button" class="btn btn-info editalbumbtn" onclick="editAlbum(' + @Session[CDictionary.SK_ActiveRoleId] +',' + response[i].fId_Album+')">修改相簿</button>' +
                             '</div>' +
                             '</div>';
                         album.innerHTML += albumInstructions;
                     }
                     album.innerHTML +=
-                        '<div class="album">' +
-                        '<button type="button" class="btn btn-info" onclick="addAlbum(' + @Session[CDictionary.SK_ActiveRoleId] +')">新增相簿</button>' +
-                        '</div>';
+                        '<div class="album"><div class="btnAddAlbum">' +
+                        '<button type="button" class="btn btnaddA" onclick="addAlbum(' + @Session[CDictionary.SK_ActiveRoleId] +')">新增相簿</button>' +
+                        '</div></div>';
                 }
 
             }).fail(function (xhr) {
@@ -2385,6 +2393,11 @@
                 data: { albumId: fId_Album },
             }).done(function (response) {
                 //console.log(response);
+                var showBackToAlbumListButton = document.getElementById("showBackToAlbumListButton");
+                showBackToAlbumListButton.innerHTML = "";
+                showbtn = '<button type="button" class="btn btn-info" onclick="backToAlbumList()">返回相簿列表</button>';
+                showBackToAlbumListButton.innerHTML = showbtn;
+
                 var info = document.getElementById("Info_alist");
                 info.innerHTML = "";
 
@@ -2410,6 +2423,7 @@
         function backToAlbumList() {
             setDivDisplay("albumList", "block");
             setDivDisplay("albumDetail", "none");
+
         }
     </script>
 
@@ -2635,8 +2649,8 @@
                             '<div class="showAlbumPhoto" id="showAlbumPhoto">' +
                             '<img class="albumPhoto" src="' + response[i].fPath_Photo + '"/>' +
                             '</div>' +
-                            '<div class="albumName" id="fName_Album' + i + '"><h6>' + response[i].fName_Album + '</h6></div>' +
-                            '<div class="albumDescript" id="fDescript_Album' + i + '" ><h7>' + response[i].fDescript_Album + '</h7></div>' +
+                            '<div class="albumName" id="fName_Album' + i + '"><h3>' + response[i].fName_Album + '</h3></div>' +
+                            '<div class="albumDescript" id="fDescript_Album' + i + '" ><h4>' + response[i].fDescript_Album + '</h4></div>' +
                             '</div>' +
                             '</div>';
                         album.innerHTML += albumInstructions;
@@ -2659,6 +2673,12 @@
                 data: { albumId: fId_Album },
             }).done(function (response) {
                 //console.log(response);
+
+                var showBackToAlbumListButtonfr = document.getElementById("showBackToAlbumListButtonfr");
+                showBackToAlbumListButtonfr.innerHTML = "";
+                showbtnfr = '<button type="button" class="btn btn-info" onclick="backTofrAlbumList()">返回相簿列表</button>';
+                showBackToAlbumListButtonfr.innerHTML = showbtnfr;
+
                 var info = document.getElementById("Info_alistfr");
                 info.innerHTML = "";
 

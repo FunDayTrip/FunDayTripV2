@@ -51,7 +51,7 @@ namespace homepage.Controllers
         public ActionResult newCommercialData(CAd data)
         {
            
-
+            //座標
             decimal Lng = Convert.ToDecimal( Session["sessionLng"]);
             decimal Lat = Convert.ToDecimal(Session["sessionLat"]);
 
@@ -84,28 +84,44 @@ namespace homepage.Controllers
                 {
                     return RedirectToAction("index");
                 }
-
+                //地點
                 tLocation locationAD = new tLocation();
                 locationAD.fId_Role = Convert.ToInt32(Session[CDictionary.SK_ActiveRoleId]);
                 locationAD.fId_Icon = 3;
                 locationAD.fId_ShareAuth = 3;
-                locationAD.fId_Coordinate = lastestCoordinateFid;
+                locationAD.fId_Coordinate = lastestCoordinateFid;                
+                locationAD.fType_Location = "point";
+                locationAD.fTime_Location = DateTime.Now;
+                locationAD.fName_Location = Convert.ToString(Session[CDictionary.SK_ActiveRoleName]); //商家名稱                
+                locationAD.fDescript_Location = data.fContent_Ad;
+                locationAD.fDelete_Location = 0;                
                 db.tLocations.Add(locationAD);
                 db.SaveChanges();
 
-
-                string lastestLocationFid = (from l in db.tLocations
-                                             orderby l.ID descending
-                                             select l.fId_Location).FirstOrDefault();
+                //照片
 
                 string photoName = Guid.NewGuid().ToString();
                 photoName += Path.GetExtension(data.image.FileName);
                 data.image.SaveAs(Server.MapPath("~/Content/" + photoName));
                 data.fPhoto_Ad = "../Content/" + photoName;
 
+                string lastestLocationFid = (from l in db.tLocations
+                                             orderby l.ID descending
+                                             select l.fId_Location).FirstOrDefault();
+                tPhoto photoAd = new tPhoto();
+                photoAd.fId_Location = lastestLocationFid;
+                photoAd.fId_Role = Convert.ToInt32(Session[CDictionary.SK_ActiveRoleId]);
+                photoAd.fTime_Photo = DateTime.Now;
+                photoAd.fPath_Photo = data.fPhoto_Ad;
+                db.tPhotoes.Add(photoAd);
+                db.SaveChanges();
+
+                //廣告
+
                 tAd tad = new tAd();
-                tad.fId_Role = Convert.ToInt32(Session[CDictionary.SK_ActiveRoleId]);
-                tad.fId_Admin_Role = 7;
+                tad.fId_Role = Convert.ToInt32(Session[CDictionary.SK_ActiveRoleId]);             
+
+                tad.fId_Admin_Role = 7;//有問題
                 tad.fPhoto_Ad = data.fPhoto_Ad;
                 tad.fId_Location = lastestLocationFid;
                 tad.fContent_Ad = data.fContent_Ad;
@@ -117,7 +133,7 @@ namespace homepage.Controllers
 
                 Session["ADok"] = "ok";
 
-                return View();
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -129,6 +145,7 @@ namespace homepage.Controllers
             return "stash done"+lat+lng;
 
         }
+     
 
         
     }
