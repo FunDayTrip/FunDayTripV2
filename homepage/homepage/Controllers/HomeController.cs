@@ -428,6 +428,7 @@ namespace homepage.Controllers
                 loginMember.fNickName_Member = q.FirstOrDefault().fNickName_Member;
                 loginMember.fEmail_Member = q.FirstOrDefault().fEmail_Member;
                 loginMember.fPassword_Member = q.FirstOrDefault().fPassword_Member;
+                loginMember.fPhoto_Member = q.FirstOrDefault().fPhoto_Member;
                 //讀取角色
                 loginMember.fId_FuntionAuth_Member = 1;
 
@@ -477,6 +478,7 @@ namespace homepage.Controllers
                 loginMember.fNickName_Member = q.FirstOrDefault().fNickName_Member;
                 loginMember.fEmail_Member = q.FirstOrDefault().fEmail_Member;
                 loginMember.fPassword_Member = q.FirstOrDefault().fPassword_Member;
+                loginMember.fPhoto_Member = q.FirstOrDefault().fPhoto_Member;
                 //讀取會員權限 by 郭松明
                 loginMember.fId_FuntionAuth_Member = 1;
 

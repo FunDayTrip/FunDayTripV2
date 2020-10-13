@@ -56,7 +56,10 @@
                 }, 3000);
             };
         </script>*@
+    <style>
 
+
+    </style>
 
 </head>
 <body>
@@ -112,7 +115,26 @@
             <span id="content-icon" class="glyphicon glyphicon-chevron-up"></span>
         </div>
         <div id="current_position" value="">目前位置:</div>
-        <div id="inner_content" value="">
+        <div id="inner_content" class="container">
+            <div class="row">
+                <div class="col-xs-6" id="distance"></div>
+                <div class="col-xs-6" id="duration"></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" id="game_photo"></div>
+            </div>
+            <div id="_contents" class="row">
+                <div class="col-xs-12" id="title_descript"></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6" id="play_count"></div>
+                <div class="col-xs-6" id="play_status"></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6" id="reset_button"></div>
+                <div class="col-xs-6" id="enter_button"></div>
+            </div>
+
 
         </div>
     </div>
@@ -378,15 +400,25 @@
                         var distance = data.distance;
                         var duration = data.duration;
 
-                    var content = "您與該點距離: " + (distance / 1000).toFixed(1) + "公里, 步行時間: " + (duration / 60).toFixed(1) + "分鐘<br>";
-                    content += obj.end + "<br>" + obj.descript + "<br>";
-                    content += "<br>一共" + obj.count + "點<br>";
-                    content += "<div>您已遊玩過" + record.fRecords_GameNav.fFinished_GameRecord + "次</div>"
-                    content += "<div id='currentStatus'>目前進度: 第" + record.fStatus_GameNav + "點</div>"
-                    content += "<img src='" + obj.photo + "' / >";
-                    content += "<button name='" + obj.group_name + "' value='" + obj.group_id + "' onclick='beginGame(this)'> 開始遊戲 </button>";
-                    content += "<button name='" + obj.group_name + "' value='" + obj.group_id + "' onclick='resetRecord(this)'>重新開始</button> ";
-                    $("#inner_content").html(content);
+                    $("#distance").html("您與該點距離: " + (distance / 1000).toFixed(1) + "公里");
+                    $("#distance").attr("value", distance);
+
+                    $("#duration").html("步行時間: " + (duration / 60).toFixed(1) + "分鐘");
+                    $("#duration").attr("value", duration);
+
+
+                    $("#title_descript").html("<div><br>" + obj.descript + "<br></div>" + "<br>一共" + obj.count + "點<br>");
+                    $("#game_photo").html("<img src='" + obj.photo + "' / >");
+
+                    $("#play_count").html("您已遊玩過" + record.fRecords_GameNav.fFinished_GameRecord + "次");
+                    $("#play_status").html("目前進度: 第" + record.fStatus_GameNav + "點");
+
+                    $("#reset_button").html("<button name='" + obj.group_name + "' value='" + obj.group_id + "' onclick='resetRecord(this)'>重新開始</button> ");
+                    $("#reset_button").addClass("btn btn-outline-success");
+
+                    $("#enter_button").html("<button name='" + obj.group_name + "' value='" + obj.group_id + "' onclick='beginGame(this)'> 開始遊戲 </button>");
+                    $("#enter_button").addClass("btn btn-outline-success");
+                    //$("#inner_content").html(content);
 
                         var geojson = {
                         type: 'Feature',
@@ -883,28 +915,10 @@
 
         function noteToUser(message) {
 
-            @*var response = $.ajax({
-                url: "@Url.Action("post","Note")",
-                type: "POST",
-                async: false,
-                data: { role_id: role_id, message: message, admin_id: 25 },
-                dataType: "json"
-            }).done(function (response) {
-            }).responseJSON;
-
-            console.log(response);
-
-            Swal.fire({
-                position: 'bottom-end',
-                title: response.fMessage_Note,
-                backdrop: 'rgba(0, 0, 0, 0)',
-                showConfirmButton: false,
-                timer: 1500
-            });*@
-
             hub.server.notes(-1, message);
 
         }
+
         var hub = $.connection.myHub;
         $.connection.hub.start().done();
 

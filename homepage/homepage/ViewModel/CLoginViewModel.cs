@@ -21,6 +21,6 @@ namespace homepage.ViewModel
         public int fId_FuntionAuth_Member { get; set; }
         public int fPointTotal_Member { get; set; }
         
-
+        public string fPhoto_Member { get; set; }
     }
 }
