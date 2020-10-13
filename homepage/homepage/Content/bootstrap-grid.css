@@ -29,7 +29,7 @@ html {
 }
 
 @media (min-width: 576px) {
-  .container, .container-sm {
+    .container, .container-sm {
     max-width: 540px;
   }
 }
