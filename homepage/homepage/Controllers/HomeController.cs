@@ -774,7 +774,7 @@ namespace homepage.Controllers
 
 
             createphoto.fId_Location = lastestLocationFid;
-            createphoto.fId_Role = 3;
+            createphoto.fId_Role = createlocation.fId_Role;
             //照片路徑
             photoname += Path.GetExtension(loadPostPhoto.PostImage.FileName);//取得副檔名
             loadPostPhoto.PostImage.SaveAs(Server.MapPath("../Content/" + photoname)); //根目錄:~(不行),要用..回上一層
@@ -1596,6 +1596,7 @@ namespace homepage.Controllers
                     where myID == q.fId_Role 
                     select z).FirstOrDefault();
             //自己
+
             var q1 = (from p1 in dbFundaytrip.tFollows
                       where p1.fId_Target_Role == q.fId_Role && p1.fId_Self_Role != q.fId_Role
                       select p1).FirstOrDefault();
@@ -1604,7 +1605,7 @@ namespace homepage.Controllers
             if (g != null)
                 return "自己";
             if (q1 != null)
-                return "追隨中";
+                return "已追隨";
             else
                 return "追隨";
         
@@ -1623,7 +1624,22 @@ namespace homepage.Controllers
                 db.tFollows.Add(tf);
                 db.SaveChanges();
 
-                return "追隨中";
+                return "已追隨";
+            }
+            if (statestring == "已追隨")
+            {
+                var q = (from p in dbFundaytrip.tLocations
+                         where p.fId_Location == Loction_Id
+                         select p).FirstOrDefault();
+                tFollow tf = new tFollow();
+                tf.fId_Target_Role = q.fId_Role;
+                tf.fId_Self_Role = myID;
+                var q1 = (from p1 in dbFundaytrip.tFollows
+                          where p1.fId_Self_Role == tf.fId_Self_Role && p1.fId_Target_Role == tf.fId_Target_Role
+                          select p1).FirstOrDefault();
+                dbFundaytrip.tFollows.Remove(q1);
+                dbFundaytrip.SaveChanges();
+                return "追隨";
             }
             else
                 return statestring;

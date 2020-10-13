@@ -1560,6 +1560,7 @@
             reload();
             $("#toggle2").click(function () {
                 $("#showHide").toggle();
+              
             });
             $("#addNewLocationButton").hide();
             $("#addNewRouteButton").hide();
@@ -1572,7 +1573,9 @@
             autoClose: false,
             closeOnClick: false
         });
-
+        //function closeLeft() {
+        //    $('#LeftSideMenu').css("closeOnClick", "true");
+        //}
 
         //飛躍至該地k
         function fly(Point) {
