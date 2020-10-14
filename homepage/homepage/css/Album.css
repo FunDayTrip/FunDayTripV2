@@ -96,9 +96,11 @@
 }
 
 .btnsureedit {
-    margin: 10px;
-    background-color : #F07167;
-    font-size:18px;
+    margin: 8px;
+    background-color: #F07167;
+    font-size: 18px;
+    border-bottom: solid #540B0E 2px;
+    border-right: solid #540B0E 2px;
 }
 
 .btnAddAlbum{
@@ -116,15 +118,31 @@
 
 .albumName {
     color: #227C9D;
+    line-height:1.5;
+    padding:5px;
 }
 
 .albumDescript {
     color: #004643;
+    padding:5px;
 }
 
 .albumDetail {
     padding: 10px;
 }
+
+/*demo鍵*/
+.btndemoa {
+    width:30%;
+    margin: 8px;
+    font-size: 18px;
+    color: rgb(255, 205, 178);
+}
+
+    .btndemoa:hover {
+        color: #540B0E;
+        border: solid #540B0E 2px;
+    }
 
 /*================================================*/
 

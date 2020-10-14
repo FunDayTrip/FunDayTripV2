@@ -233,6 +233,8 @@ body {
 }
 
 .portlet-header {
+    font-size:16px;
+    line-height:1.5;
     padding: 0.2em 0.3em;
     margin-bottom: 0.5em;
     position: relative;
@@ -250,6 +252,7 @@ body {
 .portlet-content {
     padding: 0.4em;
     background-color: #F1DCA7;
+    font-size:14px;
 }
 
 .portlet-placeholder {
@@ -257,6 +260,25 @@ body {
     margin: 0 1em 1em 0;
     height: 50px;
 }
+
+.CreateOrEditRoute{
+    margin-bottom:5px;
+    font-weight:bold;
+    text-align:center;
+}
+
+/*demo鍵*/
+.btndemor {
+    width: 30%;
+    margin: 8px;
+    font-size: 18px;
+    color: #E9C46A;
+}
+
+    .btndemor:hover {
+        color: #532C1E;
+        border: solid #532C1E 2px;
+    }
 /*scroller bar*/
 ::-webkit-scrollbar {
     width: 0px;  /*Remove scrollbar space */
