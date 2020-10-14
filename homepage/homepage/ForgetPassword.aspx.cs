@@ -21,26 +21,29 @@ namespace homepage
             var q = from m in dbFundaytrip.tMembers
                     where m.fEmail_Member == Txtmail.Text
                     select m;
+            var q2 = (from m in dbFundaytrip.tMembers
+                    where m.fEmail_Member == Txtmail.Text
+                    select m.fPassword_Member).FirstOrDefault();
             if (!q.Any())
             {
                 Label.Text = "無此帳號";
             }
             else
             {
-            //MailMessage mm = new MailMessage("msit1271230@gmail.com", Txtmail.Text);
-            //mm.Subject = "驗證碼!";
-            //mm.Body = "你好 請妥善保管你的密碼";
-            //mm.IsBodyHtml = true;
-            //SmtpClient smtp = new SmtpClient();
-            //smtp.Host = "smtp.gmail.com";
-            //smtp.EnableSsl = true;
-            //NetworkCredential nc = new NetworkCredential();
-            //nc.UserName = "msit1271230@gmail.com";
-            //nc.Password = "gijoe1230";
-            //smtp.UseDefaultCredentials = true;
-            //smtp.Credentials = nc;
-            //smtp.Port = 587;
-            //smtp.Send(mm);
+                MailMessage mm = new MailMessage("msit1271230@gmail.com", Txtmail.Text);
+                mm.Subject = "驗證碼!";
+                mm.Body = "你好 請登入之後修改你的密碼"+q2;
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.EnableSsl = true;
+                NetworkCredential nc = new NetworkCredential();
+                nc.UserName = "msit1271230@gmail.com";
+                nc.Password = "gijoe1230";
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = nc;
+                smtp.Port = 587;
+                smtp.Send(mm);
                 Label.Text = "已送出請檢查信箱";
             }
             
