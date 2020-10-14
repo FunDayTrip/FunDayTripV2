@@ -254,3 +254,12 @@ body {
     margin: 0 1em 1em 0;
     height: 50px;
 }
+/*scroller bar*/
+::-webkit-scrollbar {
+    width: 0px;  /*Remove scrollbar space */
+    background: transparent;  /*Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}

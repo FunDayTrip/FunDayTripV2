@@ -74,7 +74,7 @@
         </div>
         <div class="form-group" style="display:inline-block;">
             <div style="margin-left:10px;">
-                <label style="color:whitesmoke;font-size:large;">請寫下您對這張廣告照片的說明</label><br />
+                <label style="color:whitesmoke;font-size:large;" onclick="DemoAD()">請寫下您對這張廣告照片的說明</label><br />
                 <label style="color:whitesmoke;">Please type in advertising slogon for your photos</label><br /><br />
                 <textarea style="height:80px;width:320px;" maxlength="30" placeholder="The limit is up to 30 characters" name="fContent_Ad"></textarea><br /><br />
                 <select class="custom-select" name="fSolution_Ad" style="width:180px;margin-top:-10px;margin-bottom:30px;">
@@ -146,3 +146,11 @@
     </script>
     Session["ADok"] = "";
 }
+
+<script>
+    function DemoAD() {
+        $('textarea[name ="fContent_Ad"]').val("「有青才敢大聲」國農~\n千拜萬拜不如'歸'箱國農拿來拜");
+
+    }
+
+</script>
