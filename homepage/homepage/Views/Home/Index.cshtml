@@ -566,7 +566,7 @@
             });
         </script>*@
     <div id="foot-content" class="footer">
-        <div id="current_position" value="" style="color:black;background-color:#1C558E;border-top-left-radius:20px;border-top-right-radius:20px;opacity:0.6">
+        <div id="current_position" value="" style="color:black;background-color:#1C558E;border-top-left-radius:20px;border-top-right-radius:20px;opacity:0.8">
             <b style="font-size:17px;color:#fdca40;">推薦地點</b>
         </div>
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -1890,7 +1890,7 @@
 
                 if(response[0].fId_Role != @Session[CDictionary.SK_ActiveRoleId]) {
                     locs.innerHTML +=
-                        '<div id="repoort">' +
+                        '<div id="repoort" class="reportbtn">' +
                         '<button id="report" class="btn btn_Rou" onclick="report()">檢舉</button>' +
                         '</div>';
                 }
@@ -1948,7 +1948,7 @@
                     for (let i = 0; i < response.length; i++) {
                         let HCMT = '<div class="comment-box-wrapper">';
                         HCMT += '<div class="comment-box">';
-                        HCMT += ' <img src="https://i.imgur.com/vyWwMlr.png" class="commenter-image" alt="commenter_image">';
+                        HCMT += ' <img src="' + response[i].photo + '"class="commenter - image" style="width:40px;height:40px;border-radius:50%" alt="commenter_image">';
                         HCMT += '<div class="comment-content">';
                         HCMT += ' <div class="commenter-head">';
                         HCMT += '  <span class="commenter-name"><a href="">';
@@ -2133,11 +2133,14 @@
          $('#googlelogin').on('click', onSignIn);
         function onSignIn(googleUser) {
             var profile = googleUser.getBasicProfile();
-            console.log('Full Name: ' + profile.getName());
-            console.log('Given Name: ' + profile.getGivenName());
-            console.log('Family Name: ' + profile.getFamilyName());
-            console.log("Image URL: " + profile.getImageUrl());
-            console.log("Email: " + profile.getEmail());
+            var idToken = googleUser.getAuthResponse().id_token;
+
+                console.log('Full Name: ' + profile.getName());
+                console.log('Given Name: ' + profile.getGivenName());
+                console.log('Family Name: ' + profile.getFamilyName());
+                console.log("Image URL: " + profile.getImageUrl());
+                console.log("Email: " + profile.getEmail());
+            gapi.auth2.getAuthInstance().disconnect();
             var login_data = {
                 email: profile.getEmail(),
                 nickname: profile.getName(),
@@ -2774,57 +2777,6 @@
         }
     </script>
 
-
-
-
-    <script type="text/javascript">
-        //jQuery處理button click event 當畫面DOM都載入時....
-        $(function () {
-            $("#btnSignIn").on("click", function () {
-                GoogleLogin();//Google 登入
-            });
-            $("#logoutBtn").on("click", function () {
-                Google_disconnect();//和Google App斷連
-            });
-        });
-
-        function GoogleClientInit() {
-            //官網範例寫client:auth2，但本人實測由於待會要呼叫gapi.client.init而不是gapi.auth2.init，所以給client即可
-            gapi.load('client', function () {
-                gapi.client.init({
-                    //client_id 和 scope 兩者參數必填
-                    clientId: CLIENT_ID,
-                    //scope列表參考：https://developers.google.com/people/api/rest/v1/people/get
-                    //"profile"是簡寫，要用完整scope名稱也可以
-                    scope: "profile",//"https://www.googleapis.com/auth/userinfo.profile",
-                    discoveryDocs: DISCOVERY_DOCS
-                });
-            });//end gapi.load
-        }//end GoogleClientInit function
-
-        function GoogleLogin() {
-            let auth2 = gapi.auth2.getAuthInstance();//取得GoogleAuth物件
-        }
-        //end function GoogleLogin
-        function Google_disconnect() {
-            let auth2 = gapi.auth2.getAuthInstance(); //取得GoogleAuth物件
-            auth2.disconnect().then(function () {
-                console.log('User disconnect.');
-            });
-        }
-    </script>
-    <script type="text/javascript">
-        let CLIENT_ID = "640701122888-kqkl96t9a7tjtkug7f2ve6pdovm9mrjs.apps.googleusercontent.com";
-        //let API_KEY = '';//Javascript SDK無須 API 金鑰
-        // Array of API discovery doc URLs for APIs
-        let DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/people/v1/rest"];
-    </script>
-    @*執行Google API必須的.js，callback function名稱請自訂
-        ↓https://apis.google.com/js/platform.js 或 https://apis.google.com/js/api.js 兩者網址都行得通 這裡採用跟官網寫法一樣*@
-    <script async defer src="https://apis.google.com/js/api.js"
-            onload="this.onload=function(){};GoogleClientInit()"
-            onreadystatechange="if (this.readyState === 'complete') this.onload()">
-
-    </script>
+   
 </body>
 </html>

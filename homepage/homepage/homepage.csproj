@@ -183,6 +183,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\d8b0de09-fd3e-40e1-9476-c99c09c04484.png" />
+    <Content Include="Content\favicon.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\jquery-ui.structure.css" />
@@ -229,6 +230,7 @@
       <DependentUpon>dbFunDayTripModel.edmx</DependentUpon>
       <LastGenOutput>dbFunDayTripModel.cs</LastGenOutput>
     </Content>
+    <Content Include="favicon.ico" />
     <Content Include="ForgetPassword.aspx" />
     <Content Include="Global.asax" />
     <Content Include="js\BootSideMenu.js" />

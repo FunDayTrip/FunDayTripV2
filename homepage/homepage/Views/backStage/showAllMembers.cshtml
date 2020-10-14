@@ -140,7 +140,15 @@
                     @foreach (var item in Model)
                     {
                         string s = "return confirm('確定停用 " + item.fNickName_Member + " 的帳戶嗎')";
-                <tr>
+                        string bd = item.fBirthday_Member.ToString();
+
+                        string BD = "";
+                        if (bd == "") { BD = bd; }
+                        else if (bd != "")
+                        {
+                            BD = bd.Substring(0,10);
+                        }
+                    <tr>
                     <td id="memberId" class="text-nowrap" style="vertical-align: middle; text-align:left;">
                         @Html.DisplayFor(modelItem => item.fId_Member)
                     </td>
@@ -157,7 +165,7 @@
                         @Html.DisplayFor(modelItem => item.fGender_Member)
                     </td>
                     <td style="vertical-align: middle; text-align:center;">
-                        @Html.DisplayFor(modelItem => item.fBirthday_Member)
+                        @Html.DisplayFor(modelItem => BD)                   
                     </td>
                     <td class="text-nowrap" style="vertical-align: middle; text-align:center;">
                         @Html.DisplayFor(modelItem => item.fPhone_Member)

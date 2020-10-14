@@ -420,6 +420,35 @@ namespace homepage.Controllers
                 };
                 MemberController member = new MemberController();
                 member.signUpFromGoogle(user);
+                var q2 = (from m in dbFundaytrip.tMembers
+                         where m.fEmail_Member == email
+                         select m);
+                loginMember.loginMessage = "歡迎回來! " + q2.FirstOrDefault().fNickName_Member;
+                loginMember.fId_Member = q2.FirstOrDefault().fId_Member;
+                loginMember.fNickName_Member = q2.FirstOrDefault().fNickName_Member;
+                loginMember.fEmail_Member = q2.FirstOrDefault().fEmail_Member;
+                loginMember.fPassword_Member = q2.FirstOrDefault().fPassword_Member;
+                loginMember.fPhoto_Member = q2.FirstOrDefault().fPhoto_Member;
+                //讀取角色
+                loginMember.fId_FuntionAuth_Member = 1;
+
+                List<CRole> rolesList = new CRolesFactory().getRoleList(loginMember.fId_Member);
+                loginMember.fActiveRoleId_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fId_Role;
+                loginMember.fActiveRoleName_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fNickName_Role;
+
+                List<tNote> notesList = new CNotesFactory().readNotes(loginMember.fActiveRoleId_Member);
+                loginMember.fNotesCount_Member = notesList.Count(x => x.fIsRead_Note == 0);
+                //讀取點數
+                var member_point = new CPointFactory().getPoint(loginMember.fActiveRoleId_Member);
+                loginMember.fPointTotal_Member = Convert.ToInt32(member_point.Sum(s => s.fPoint_Point));
+
+                //放入Session
+                Session[CDictionary.SK_MemberId] = loginMember.fId_Member;
+                Session[CDictionary.SK_MemberLogin] = loginMember;
+                Session[CDictionary.SK_ActiveRoleId] = loginMember.fActiveRoleId_Member;
+                Session[CDictionary.SK_ActiveRoleName] = loginMember.fActiveRoleName_Member;
+                Session[CDictionary.SK_AunctionAuth] = 1;
+                return Json(loginMember);
             }
             else
             {
@@ -626,7 +655,7 @@ namespace homepage.Controllers
             CM.fId_From_Role = fId_From_Role;
             CM.fMessage_Message = message;
             CM.fTime_Message = DateTime.Now;
-
+            
             db.tMessages.Add(CM);
 
             db.SaveChanges();
@@ -644,6 +673,7 @@ namespace homepage.Controllers
                 CH.fMessage_From = x.fMessage_Message;
                 CH.fMessage_Time = Convert.ToString(x.fTime_Message);
                 CH.fId = x.fId_Message;
+
                 f.Add(CH);
             }
             var q1 = from z in dbFundaytrip.tMessages
@@ -655,6 +685,8 @@ namespace homepage.Controllers
                 CH.fMessage_To = y.fMessage_Message;
                 CH.fMessage_Time = Convert.ToString(y.fTime_Message);
                 CH.fId = y.fId_Message;
+
+                CH.photo = y.tRole.tMember.fPhoto_Member;
                 f.Add(CH);
             }
             var res = f.OrderBy(x => x.fId);
@@ -726,7 +758,7 @@ namespace homepage.Controllers
                                 s2.fDescript_Photo,
 
                             };
-         
+           
             string InfoJson = JsonConvert.SerializeObject(LocDetail);
 
 
@@ -1506,7 +1538,7 @@ namespace homepage.Controllers
                 CH.fComment_Name = x.tRole.tMember.fNickName_Member;
                 CH.fComment_Comment = x.fComment_Comment;
                 CH.fTime_Comment = Convert.ToString(x.fTime_Comment);
-
+                CH.photo = x.tRole.tMember.fPhoto_Member;
                 f.Add(CH);
             }
             return Json(f);
@@ -1573,6 +1605,8 @@ namespace homepage.Controllers
                 Cchatroom2 CH1 =new Cchatroom2();
                 CH1.fMessage_From = x.fMessage_Message;
                 CH1.fId = x.fId_Message;
+                CH1.photo = x.tRole.tMember.fPhoto_Member;
+
                 L.Add(CH1);
             }
             var q2 = from p in dbFundaytrip.tMessages
