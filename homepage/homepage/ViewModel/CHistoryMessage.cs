@@ -13,7 +13,7 @@ namespace homepage.ViewModel
         public string fMessage_To { get; set; }
 
         public string fMessage_Time { get; set; }
-
+        public string photo;
 
     }
 }

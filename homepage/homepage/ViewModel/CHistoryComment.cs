@@ -12,5 +12,6 @@ namespace homepage.ViewModel
         public string fComment_Name;
         public string fComment_Comment;
         public string fTime_Comment;
+        public string photo;
     }
 }

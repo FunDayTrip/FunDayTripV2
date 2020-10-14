@@ -10,7 +10,6 @@
     }
 
 }
-
 <!DOCTYPE html>
 
 <html>
@@ -133,6 +132,9 @@
             background: none;
             width: 200px;
             text-align:center;
+            height: 30px;
+            font-weight:bold;
+            font-size:18px;
         }
     </style>
 
@@ -559,7 +561,7 @@
             });
         </script>*@
     <div id="foot-content" class="footer">
-        <div id="current_position" value="" style="color:black;background-color:#1C558E;border-top-left-radius:20px;border-top-right-radius:20px;opacity:0.6">
+        <div id="current_position" value="" style="color:black;background-color:#1C558E;border-top-left-radius:20px;border-top-right-radius:20px;opacity:0.8">
             <b style="font-size:17px;color:#fdca40;">推薦地點</b>
         </div>
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -1875,7 +1877,7 @@
 
                 var locs = document.getElementById('descript_lr');
                     loc += '<div>' + Name_Location +
-                        '<div style="font-size:small">' + Descript_Location +
+                        '<div>' + Descript_Location +
                         '</div></div>';
                     locs.innerHTML = loc;
                 //end for
@@ -1883,7 +1885,7 @@
                 if(response[0].fId_Role != @Session[CDictionary.SK_ActiveRoleId]) {
                     locs.innerHTML +=
                         '<div id="repoort">' +
-                        '<button id="report" class="btn btn-info" onclick="report()">檢舉</button>' +
+                        '<button id="report" class="btn btn_Rou" onclick="report()">檢舉</button>' +
                         '</div>';
                 }
 
@@ -1940,7 +1942,7 @@
                     for (let i = 0; i < response.length; i++) {
                         let HCMT = '<div class="comment-box-wrapper">';
                         HCMT += '<div class="comment-box">';
-                        HCMT += ' <img src="https://i.imgur.com/vyWwMlr.png" class="commenter-image" alt="commenter_image">';
+                        HCMT += ' <img src="' + response[i].photo + '"class="commenter - image" style="width:40px;height:40px;border-radius:50%" alt="commenter_image">';
                         HCMT += '<div class="comment-content">';
                         HCMT += ' <div class="commenter-head">';
                         HCMT += '  <span class="commenter-name"><a href="">';
@@ -2025,22 +2027,22 @@
                     //console.log("Time_Location =" + Time_Location);
                     tempIdLoc.push(Id_Location);
                     var locs = document.getElementById('loc');
-                    loc += '<div>' + Name_Location +
-                           '<div style="font-size:small">' + Descript_Location +
+                    loc += '<div class="locd"><div class="locdn">' + Name_Location + '</div>'+
+                           '<div class="locdd">' + Descript_Location +
                            '</div></div>';
                     locs.innerHTML = loc;
                 };//end for
 
                 if (response[0].fId_Role == @Session[CDictionary.SK_ActiveRoleId]) {
                     locs.innerHTML +=
-                        '<div id="editRoute">' +
-                        '<button id="EditExistedRoute" class="btn btn-info" onclick="CallBackThisRouteInfoWhenEditor()">編輯路線</button>' +
+                        '<div id="editRoute" class="editroubtn">' +
+                        '<button id="EditExistedRoute" class="btn btn_Rou" onclick="CallBackThisRouteInfoWhenEditor()">編輯路線</button>' +
                         '</div>';
                 }
                 else if(response[0].fId_Role != @Session[CDictionary.SK_ActiveRoleId]) {
                     locs.innerHTML +=
-                        '<div id="repoort">' +
-                        '<button id="report" class="btn btn-info" onclick="report()">檢舉</button>' +
+                        '<div id="repoort" class="reportbtn">' +
+                        '<button id="report" class="btn btn_Rou" onclick="report()">檢舉</button>' +
                         '</div>';
                 }
 
@@ -2274,7 +2276,7 @@
                     if (response[i].fId_Slave_Type_Role == "b") {
                         role_item += "(營利會員)";
                     };
-                    role_item += "</button></li>";
+                    role_item += "</button></li><hr>";
                //     console.log(response[i].fNickName_Role);
                     $("#role_list").append(role_item)
 

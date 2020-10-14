@@ -36,9 +36,9 @@
         return CHT;
     }
 
-    function messagetextold(content) {
+    function messagetextold(content,photo) {
         let messagetextold = '<div class="messageMe">';
-        messagetextold += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+        messagetextold += ' <img src = "' + photo + '" style = "height:inherit;height:50px;width:50px" alt = "" />';
         messagetextold += '<span>' + content + '</span >';
         messagetextold += '<div class="clearFix" ></div >';
         messagetextold += '</div>';
@@ -100,7 +100,7 @@
                 for (let i = 0; i < response.length; i++) {
                     if (response[i].fMessage_To == null) {
                         let hsmessagetext = '<div class="messageHer">';
-                        hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                        hsmessagetext += ' <img src = ' + '"' + document.getElementById("profile_photo").src + '"' + ' style = "height:inherit;width:50px;height:50px" alt = "" />';
                         hsmessagetext += '<span>' + response[i].fMessage_From + '</span >';
                         hsmessagetext += '<div class="clearFix" ></div >';
                         hsmessagetext += '</div>';
@@ -111,7 +111,7 @@
                     else if (response[i].fMessage_From == null) {
 
                         let hsmessagetext = '<div class="messageMe">';
-                        hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                        hsmessagetext += ' <img src = "' + response[i].photo + '" style = "height:inherit;width:50px;height:50px" alt = "" />';
                         hsmessagetext += '<span>' + response[i].fMessage_To + '</span >';
                         hsmessagetext += '<div class="clearFix" ></div >';
                         hsmessagetext += '</div>';
@@ -154,7 +154,7 @@
         });
 
         var messagetext = '<div class="messageHer">';
-        messagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+        messagetext += ' <img src = "' + document.getElementById("profile_photo").src+'" style = "height:inherit;width:50px;height:50px" alt = "" />';
         messagetext += '<span>' + NewStringValue + '</span >';
         messagetext += '<div class="clearFix" ></div >';
         messagetext += '</div>';
@@ -183,13 +183,15 @@
                     role_id: fromname,
                     to_role_id:name
                 },
-                success: function (response) {                    
+                success: function (response) {          
+
+                    var ppp;
+
                     let bbb = chatroom(response[0]);
                     if ($('#CHAT').text().length == 0) {
 
 
                         $('#CHAT').append(bbb);//想不到變數名稱
-
 
                         ////////////////
                         for (let i = 0; i < response.length; i++) {
@@ -197,20 +199,20 @@
                             if (response[i].fMessage_To == null && response[i].name == null && response[i].value === 0) {
 
                                 console.log(response[i].fMessage_From);
-
+                                ppp = response[i].photo;
                                 let hsmessagetext = '<div class="messageMe">';
-                                hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                                hsmessagetext += ' <img src = "' + response[i].photo+'" style = "height:inherit;width:50px;height:50px" alt = "" />';
                                 hsmessagetext += '<span>' + response[i].fMessage_From + '</span >';
                                 hsmessagetext += '<div class="clearFix" ></div >';
                                 hsmessagetext += '</div>';
 
                                 $('#MSG').append(hsmessagetext);
-                            }
+                            } 
                             else if (response[i].fMessage_From == null && response[i].name == null && response[i].value === 0) {
 
                                 console.log(response[i].fMessage_To);
                                 let hsmessagetext = '<div class="messageHer">';
-                                hsmessagetext += ' <img src = "https://i.imgur.com/vyWwMlr.png" style = "height:inherit" alt = "" />';
+                                hsmessagetext += ' <img src = "' + document.getElementById("profile_photo").src + '" style = "height:inherit;width:50px;height:50px" alt = "" />';
                                 hsmessagetext += '<span>' + response[i].fMessage_To + '</span >';
                                 hsmessagetext += '<div class="clearFix" ></div >';
                                 hsmessagetext += '</div>';
@@ -219,12 +221,19 @@
                             }
                         }
                         //////////////////////////
-                        messagetextold(content);
+                        messagetextold(content, ppp);
 
                         chatroomscrolldown();
                     }
                     else {
-                        messagetextold(content);
+                        for (let i = 0; i < response.length; i++) {
+                            console.log(response[i]);
+                            if (response[i].fMessage_To == null && response[i].name == null && response[i].value === 0) {
+                                var mm = response[i].photo
+                            }
+                        }
+                        messagetextold(content,mm);
+                 
                     }
                     chatroomresizs();
                     chatroomscrolldown();
