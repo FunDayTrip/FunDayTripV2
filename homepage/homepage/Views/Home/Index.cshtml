@@ -315,11 +315,11 @@
 
         })
         function chatroompressEnter() {
-            $(document).on('keyup', '#StringTextBox', function (event) {              
+            $(document).on('keyup', '#StringTextBox', function (event) {
                 if (event.keyCode === 13) {
                     //event.preventDefault;
                         $(".c").click();
-                }             
+                }
             });
         };
         //顯示關閉左邊表單
@@ -1152,7 +1152,7 @@
                 '</div>' +
                 '<div class="form-group">' +
                 '<div>地點描述</div>' +
-                '<input name="fDescript_Location[]" id="fDescript_Location' + CoordinateCnt + '" class="form-control" placeholder="Your Location Descript *" />' +
+            '<textarea name="fDescript_Location[]" id="fDescript_Location' + CoordinateCnt + '" class="form-control" placeholder="Your Location Descript *" style="height:75px;" ></textarea>' +
                 '</div>' +
                 '</div>' +
                 '<div>' +
@@ -1466,23 +1466,23 @@
                         '<div>y</div>' +
                         '<input name="fY_Coordinate[]" id="fy_Coordinate' + i + '" />' +
                         '</div>' +
-                    '<div>' +
-                    '<div class="form-group">' +
+                        '<div>' +
+                        '<div class="form-group">' +
                         '<div>地點名稱</div>' +
-                    '<input name="fName_Location[]" id="fName_Location' + i + '" class="form-control" placeholder="Your Location Name *" />' +
-                    '</div>' +
-                    '<div class="form-group">' +
+                        '<input name="fName_Location[]" id="fName_Location' + i + '" class="form-control" placeholder="Your Location Name *" />' +
+                        '</div>' +
+                        '<div class="form-group">' +
                         '<div>地點描述</div>' +
-                    '<input name="fDescript_Location[]" id="fDescript_Location' + i + '" class="form-control" placeholder="Your Location Descript *" />' +
-                    '</div>' +
-                    '</div>' +
-                    '<div>' +
-                    '<div class="form-group">' +
+                        '<textarea name="fDescript_Location[]" id="fDescript_Location' + i + '" class="form-control" placeholder="Your Location Descript *" style="height:75px;"></textarea>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div>' +
+                        '<div class="form-group">' +
                         '<div>上傳照片</div>' +
                         '<input type="file" accept="image/*" onchange="RoateloadFile(event)" name="PostImages">' +
                         '<img id="output' + i + '" style="width:100%;height:200px" />' +
-                    '</div>' +
-                    '</div>' +
+                        '</div>' +
+                        '</div>' +
                         '</div>' +
                         '</div>' +
                         '</div>';
@@ -2469,6 +2469,7 @@
             setDivDisplay("addAlbum", "block");
             $("#createa").show();
             $("#savea").hide();
+            $("#createOrEditA").text("新增相簿");
 
             //動態生成地點選項
             $.ajax({
@@ -2547,11 +2548,12 @@
         //按編輯帶入相簿資料
         var tempArrLoc = [];
         function editAlbum(roleID, albumID) {
-            console.log("roleID = " + roleID + "albumId = " + albumID);
+            //console.log("roleID = " + roleID + "albumId = " + albumID);
 
             addAlbum(roleID);
             $("#savea").show();
             $("#createa").hide();
+            $("#createOrEditA").text("修改相簿");
 
             $.ajax({
                 url: "/Home/editMyAlbums",
