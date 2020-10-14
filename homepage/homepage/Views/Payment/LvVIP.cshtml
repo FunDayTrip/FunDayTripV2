@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>LvVIP</title>
+    <title>ProfitMember</title>
 
 
     <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
@@ -32,7 +32,7 @@
             <div class="mx-auto text-center">
 
                 <h1 class="mx-auto my-0 text-uppercase" style="color:white">FUNDAYTRIP</h1>
-                <h2 class="text-white-50 mx-auto mt-2 mb-5">A free, responsive, one page Bootstrap theme created by Start Bootstrap.</h2>
+                @*<h2 class="text-white-50 mx-auto mt-2 mb-5">A free, responsive, one page Bootstrap theme created by Start Bootstrap.</h2>*@
                 <form id="addToProfitMember" >
                     <label style="color:aliceblue;font-size:20px;font-weight:bold">官方帳號:</label><br />
                     <input type="text" name="fName_ProfitMember" style="width:500px" placeholder="Enter 官方帳號名稱"/><br />
@@ -42,6 +42,8 @@
                     <input type="text" name="fPhone_ProfitMember"  style="width:500px" placeholder="Enter 官方帳號電話"/><br />
 
                 </form>
+                <br />
+                <br />
                 <form id="formWebATM" method="post" accept-charset="UTF-8"
                       action="https://payment-stage.opay.tw/Cashier/AioCheckOut/V5">
                     <div style="display:none">
@@ -76,7 +78,7 @@
                         <input type="text" name="CheckMacValue" value="@ViewBag.SHA256" /><br />
                     </div>
 
-                    <input type="submit" value="立即升級" id="savetodb" class="btn btn-info" style="font-weight:bold"/>
+                    <input type="submit" value="立即升級" id="savetodb" class="btn btn-info" style="font-weight:bold;font-size:20px"/>
 
                 </form>
 

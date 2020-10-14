@@ -793,8 +793,11 @@
         $("#addNewLocationButton").on("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
 
         //函式:新增地點一開始的畫面
-        function enableAddLocation() {            
-            _marker = new mapboxgl.Marker()
+        function enableAddLocation() {
+            if (_marker == undefined) {
+                _marker = new mapboxgl.Marker();
+            }
+            
             //地圖上點選地點,在此綁定map click 另一個handler
             map.on('click', positioningClickLocate);
             ////地圖上雙擊決定添加的地點
