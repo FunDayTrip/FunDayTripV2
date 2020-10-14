@@ -848,7 +848,8 @@ namespace homepage.Controllers
 
             foreach (var item in location)
             {
-                CLocation clocation = new CLocation(item);
+                
+                CLocation clocation = new CLocation(item);              
                 clocations.Add(clocation);
             }
             return Json(clocations, JsonRequestBehavior.AllowGet);
