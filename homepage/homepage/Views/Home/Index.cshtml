@@ -10,7 +10,6 @@
     }
 
 }
-
 <!DOCTYPE html>
 
 <html>
@@ -1861,7 +1860,7 @@
 
                 var locs = document.getElementById('descript_lr');
                     loc += '<div>' + Name_Location +
-                        '<div style="font-size:small">' + Descript_Location +
+                        '<div>' + Descript_Location +
                         '</div></div>';
                     locs.innerHTML = loc;
                 //end for
@@ -1869,7 +1868,7 @@
                 if(response[0].fId_Role != @Session[CDictionary.SK_ActiveRoleId]) {
                     locs.innerHTML +=
                         '<div id="repoort">' +
-                        '<button id="report" class="btn btn-info" onclick="report()">檢舉</button>' +
+                        '<button id="report" class="btn btn_Rou" onclick="report()">檢舉</button>' +
                         '</div>';
                 }
 
@@ -2011,22 +2010,22 @@
                     //console.log("Time_Location =" + Time_Location);
                     tempIdLoc.push(Id_Location);
                     var locs = document.getElementById('loc');
-                    loc += '<div>' + Name_Location +
-                           '<div style="font-size:small">' + Descript_Location +
+                    loc += '<div class="locd"><div class="locdn">' + Name_Location + '</div>'+
+                           '<div class="locdd">' + Descript_Location +
                            '</div></div>';
                     locs.innerHTML = loc;
                 };//end for
 
                 if (response[0].fId_Role == @Session[CDictionary.SK_ActiveRoleId]) {
                     locs.innerHTML +=
-                        '<div id="editRoute">' +
-                        '<button id="EditExistedRoute" class="btn btn-info" onclick="CallBackThisRouteInfoWhenEditor()">編輯路線</button>' +
+                        '<div id="editRoute" class="editroubtn">' +
+                        '<button id="EditExistedRoute" class="btn btn_Rou" onclick="CallBackThisRouteInfoWhenEditor()">編輯路線</button>' +
                         '</div>';
                 }
                 else if(response[0].fId_Role != @Session[CDictionary.SK_ActiveRoleId]) {
                     locs.innerHTML +=
-                        '<div id="repoort">' +
-                        '<button id="report" class="btn btn-info" onclick="report()">檢舉</button>' +
+                        '<div id="repoort" class="reportbtn">' +
+                        '<button id="report" class="btn btn_Rou" onclick="report()">檢舉</button>' +
                         '</div>';
                 }
 
