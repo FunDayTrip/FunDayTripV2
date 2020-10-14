@@ -1,7 +1,12 @@
 ﻿@using homepage.Models
+
+<link href="~/css/CreateOrEditLocForm.css" rel="stylesheet" />
+
+
 <div>
     <div>
         <h4 id="CreateOrEditRoute">新增路線</h4>
+        @* !!! *@
         <div style="display:none">
             <div>使用者id</div>
             <input name="fId_Role" id="fId_Roles" />@Session[CDictionary.SK_ActiveRoleId]
@@ -10,19 +15,28 @@
             <div>路線path</div>
             <input name="fPath_Route" id="fPath_Route" />
         </div>
-        <div>路線名稱</div>
-        <input name="fName_Route" id="fName_Route" />
-        <div>路線簡介</div>
-        <input name="fDescript_Route" id="fDescript_Route" />
-        <div>與誰分享</div>
-        <select id="selectorR" name="fId_ShareAuth">
-            <option id="Public" value=3 selected="selected">公開</option>
-            <option id="Follower" value=2>粉絲</option>
-            <option id="Private" value=1>私人</option>
-        </select>
-        <div>是否刪除</div>
-        <input type="checkbox" name="fDelete_Route" id="checkboxes" onclick="IfDeleteRoute()">是否刪除(請打勾)
-        <div class="columns" id="columns"></div>
+        @* !!! *@
+        <div class="form-group">
+            <div>路線名稱</div>
+            <input name="fName_Route" id="fName_Route" class="form-control" placeholder="Your Route Name *" />
+        </div>
+        <div class="form-group">
+            <div>路線簡介</div>
+            <textarea name="fDescript_Route" id="fDescript_Route" class="form-control" placeholder="Your Route Descript *" style="height:100px;"></textarea>
+        </div>
+        <div class="form-group">
+            <div>與誰分享</div>
+            <select id="selectorR" name="fId_ShareAuth">
+                <option id="Public" value=3 selected="selected">公開</option>
+                <option id="Follower" value=2>粉絲</option>
+                <option id="Private" value=1>私人</option>
+            </select>
+        </div>
+        <div class="form-group" >
+            <div>是否刪除</div>
+            <input type="checkbox" name="fDelete_Route" id="checkboxes" onclick="IfDeleteRoute()">是否刪除(請打勾)
+        </div>
+            <div class="columns" id="columns"></div>     
     </div>
     <div style="float:right;">
         <button type="button" onclick="CreateLine()" class="btn btnsureedit">預覽路線</button>
