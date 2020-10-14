@@ -171,6 +171,7 @@
     <Content Include="assets\img\demo-image-02.jpg" />
     <Content Include="assets\img\favicon.ico" />
     <Content Include="assets\img\ipad.png" />
+    <Content Include="assets\img\self.jpg" />
     <Content Include="Content\black1.jpeg" />
     <Content Include="Content\black2.jpg" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -210,6 +211,7 @@
     <Content Include="css\Game.css" />
     <Content Include="css\Login.css" />
     <Content Include="css\LeftSideMenu.css" />
+    <Content Include="css\PROFILE.css" />
     <Content Include="css\styles.css" />
     <Content Include="css\test.css" />
     <Content Include="css\theme\darkblue.css" />
