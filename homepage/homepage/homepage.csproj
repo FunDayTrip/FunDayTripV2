@@ -184,6 +184,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\d8b0de09-fd3e-40e1-9476-c99c09c04484.png" />
     <Content Include="Content\favicon.png" />
+    <Content Include="Content\game_icon.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\jquery-ui.structure.css" />
@@ -234,6 +235,8 @@
     <Content Include="ForgetPassword.aspx" />
     <Content Include="Global.asax" />
     <Content Include="js\BootSideMenu.js" />
+    <Content Include="js\gesture-detector.js" />
+    <Content Include="js\gesture-handler.js" />
     <Content Include="js\scripts.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -267,6 +270,8 @@
     <Content Include="Content\ARmodels\banana.glb" />
     <Content Include="Content\ARmodels\spaghetti.glb" />
     <Content Include="Content\ARmodels\duck.glb" />
+    <Content Include="Content\ARmodels\jiufen.glb" />
+    <Content Include="Content\ARmodels\eagle.glb" />
     <None Include="Properties\PublishProfiles\FunDayTrip - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />

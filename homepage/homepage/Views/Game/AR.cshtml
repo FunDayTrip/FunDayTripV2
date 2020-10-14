@@ -15,21 +15,23 @@
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
     @*sweet alert cdn _verna_0930*@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
+    <link href="~/css/Game.css" rel="stylesheet" />
+    <script src="~/js/gesture-handler.js"></script>
+    <script src="~/js/gesture-detector.js"></script>
 
-    <script>
-    </script>
     <style>
         .buttons {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 5em;
+            height: 6em;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -42,33 +44,70 @@
             border: 5px black;
             background: white;
             color: black;
-            width: 6em;
-            height: 6em;
+            width: 5em;
+            height: 5em;
+            font-size:16px;
+            font-weight:bold;
         }
+
+        .in-buttons {
+            position: absolute;
+            top: 5px;
+            right: -5px;
+            width: 100%;
+            height: 2em;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            z-index: 10;
+        }
+        .info-button {
+            padding: 0.25em;
+            border-radius: 50%;
+            border: 5px black;
+            background: #2263c8;
+            color: white;
+            width: 2em;
+            height: 2em;
+        }
+
     </style>
 
 </head>
 
 <body style="margin: 0; overflow: hidden;">
-    <a-scene renderer="logarithmicDepthBuffer: true;"
+    <div class="in-buttons">
+        <button id="info-button" class="info-button" onclick="showInfo()">?</button>
+    </div>
+
+    <a-scene arjs
              embedded
+             renderer="logarithmicDepthBuffer: true;"
              vr-mode-ui="enabled: false"
              gesture-detector
-             loading-screen="enabled: false;"
-             arjs="sourceType: webcam; debugUIEnabled: false;">
+             id="scene">
         <a-assets>
-            <a-asset-item id="animated-asset"
-                          src="@Model.fItems_GameNav[Model.fStatus_GameNav].fSource_Game"></a-asset-item>
+            <a-asset-item id="game_item"
+                          src="@Model.fItems_GameNav[Model.fStatus_GameNav].fSource_Game">
+            </a-asset-item>
         </a-assets>
-        <a-entity look-at="[gps-camera]"
-                  animation-mixer="loop: repeat"
-                  gltf-model="#animated-asset"
-                  scale="2 2 2"
-                  gps-entity-place="latitude: 25.033552; longitude: 121.5427783;"
-                  position="1 1 0"
-                  gesture-handler></a-entity>
 
-        <a-camera gps-camera="simulateLatitude: 25.033550; simulateLongitude:121.542778" rotation-reader></a-camera>
+        <a-marker preset="hiro"
+                  raycaster="objects: .clickable"
+                  emitevents="true"
+                  cursor="fuse: false; rayOrigin: mouse;"
+                  id="markerA">
+            <a-entity id="bowser-model"
+                      gltf-model="#game_item"
+                      position="0 0 0"
+                      scale="1 1 1"
+                      class="clickable"
+                      gesture-handler>
+            </a-entity>
+        </a-marker>
+        <a-entity light="color: #FFF; intensity: 2" position="1 1 1"></a-entity>
+
+        <a-entity camera></a-entity>
     </a-scene>
 
     <div class="buttons">
@@ -87,6 +126,16 @@
             } else if (ARitem.fItems_GameNav[order].fType_Game == 2) {
                 fireQA(ARitem);
             }
+        };
+
+        function showInfo() {
+            Swal.fire({
+                title: '請找尋並掃描圖片',
+                imageUrl: 'https://killcloud.nyc3.digitaloceanspaces.com/assets/Hiro_marker_ARjs.png',
+                imageWidth: 400,
+                imageAlt: '掃描圖片',
+                confirmButtonText: '確定'                
+            })
         };
 
         function fireSteps(ARitem) {
@@ -140,17 +189,20 @@
                 });
 
         let { value: answer } = await Swal.fire({
-        title: question,
-                    text: '請選擇答案',
-                    input: 'radio',
-                    confirmButtonText: '確定',
-                    inputOptions: inputOptions,
-                    inputValidator: (value) => {
-                        if (!value) {
-                            return '請選擇一個答案!'
-                        }
-                    },
-                });
+            title: question,
+            text: '請選擇答案',
+            input: 'radio',
+            customClass: {
+                input: 'my-radio'
+            },
+            confirmButtonText: '確定',
+            inputOptions: inputOptions,
+            inputValidator: (value) => {
+                if (!value) {
+                    return '請選擇一個答案!'
+                }
+            },
+        });
 
         if (answer) {
             var toQA = {
@@ -162,9 +214,7 @@
                     };
 
         checkQA(toQA);
-                };
-
-
+            };
         };
 
         function checkQA(toQA) {

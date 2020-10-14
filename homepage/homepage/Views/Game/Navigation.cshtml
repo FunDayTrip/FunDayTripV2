@@ -65,14 +65,14 @@
 <body>
     @*Navbar*@
     <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
+        <div class="container-fluid" style="background-color:#1C558E;">
+            <div class="navbar-header" style="color: #fdca40">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="javascript:void(0)">FunDayTrip 探索遊戲</a>
+                <a class="navbar-brand" href="javascript:void(0)" style="font-family: Impact; font-size: 24px; color:#fdca40;">FunDayTrip 探索遊戲</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav" style="display:none">
@@ -94,7 +94,7 @@
                     </li>
                     @*<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>*@
                     <li>
-                        <a href="javascript:showResponse()"><span class="glyphicon glyphicon-refresh"></span> AR Demo</a>
+                        <a href="javascript:forDemo()"><span class="glyphicon glyphicon-refresh"></span>Demo</a>
                     </li>
                     <li>
                         <a href="javascript:exitGame()"><span class="glyphicon glyphicon-remove"></span>退出遊戲</a>
@@ -113,12 +113,11 @@
     <div id="now_play" name="group_name" value="-1" style="display:none"></div>
     <div id="content-toggle" class="toggleUp row">
         <span class="col-xs-3"></span>
-        <span id="content-icon" class="glyphicon glyphicon-chevron-up col-xs-6">
+        <span id="content-icon" class="glyphicon glyphicon-chevron-up col-xs-6" style="color: #1C558E;font-size:16px;">
             <br />
             <span id="current_position" value="" style="display:none"></span>
         </span>
         <span class="col-xs-3"></span>
-
     </div>
     <div id="inner_content" class="container-fluid">
         <div class="row" style="height:5%"></div>
@@ -128,18 +127,18 @@
         </div>
         <div class="row" style="height:10%"></div>
         <div class="row main_content" >
-            <div class="col-xs-6">                
+            <span class="col-xs-6" style="text-align:center">                
                 <img id="game_photo" src="" />
-            </div>
+            </span>
             <div class="col-xs-6" id="other_content">
-                <div id="group_title" style="text-align:center;font-size:20px;font-weight:bold"></div>
-                <div id="group_descript" style="text-align:center;font-size:16px" class="detail"></div>
+                <div id="group_title" style="text-align:center;font-size:18px;font-weight:bold"></div>
+                <div id="group_descript" style="text-align:center;font-size:14px" class="detail"></div>
             </div>
         </div>
         <div style="height:15%"></div>
-        <div id="other_info" class="row" style="bottom:0px;font-size:16px;text-align:center;">
+        <div id="other_info" class="row" style="bottom:0px;font-size:14px;text-align:center;">
             <div class="col-xs-6">
-                <div class="glyphicon glyphicon-info-sign"> </div>
+                <div id="info_icon" class="glyphicon glyphicon-info-sign"> </div>
                 <div id="play_count" class="detail"></div>
             </div>
             <div class="col-xs-6">
@@ -147,44 +146,77 @@
                 <div id="play_status" class="detail"></div>
             </div>
         </div>
-        <div class="row">
-            @*<div class="col-xs-3" id="play_count"></div>
-            <div class="col-xs-3" id="play_status"></div>*@
-        </div>
-        <div class="row">
-            @*<div class="col-xs-6" id="reset_button"></div>
-            <div class="col-xs-6" id="enter_button"></div>*@
-        </div>
-
     </div>
     <div class="container enter_button">
         <input id="play_group" name="group_name" value="-1" style="display:none"/>
         <input id="play_game" name="game_name" value="-1" style="display:none"/>
-        <a id="enter_game" href="" class="btn btn-primary btn-block" >GO</a>
+        <a id="enter_game" href="" class="btn btn-primary btn-block" style="font-size:24px" >GO</a>
     </div>
 </div>
 
-    <script>
+    <script>        
         const role_id = @Session[CDictionary.SK_ActiveRoleId];
-            var now_x = 0;
-            var now_y = 0;
-        var position_now = setInterval(function () {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                let x = position.coords.longitude;
-                let y = position.coords.latitude;
-                $("#current_position").attr("value", [x.toFixed(6), y.toFixed(6)]);
-                now_x = x;
-                now_y = y;
-                console.log("目前座標:"+[now_x, now_y]);
-            });
-        }, 3000);
+        var now_x = 0;
+        var now_y = 0;
+        var trigger_distance = 100;
+
+        //更新並追蹤使用者定位，變更導航
+        var trackLocation, targetEnd, trackOptions, position_now;
+        var trackToRefresh = false; //更新開關
+
+
+        function trackOK(pos) {
+            var crd = pos.coords;
+            now_x = pos.coords.longitude;
+            now_y = pos.coords.latitude;
+            console.log([now_x, now_y]); 
+
+            var obj = {
+                start: [now_x, now_y],
+                end: targetEnd,
+                }
+
+            if (trackToRefresh == true) {
+                console.log(obj);
+                routeFresh(obj);
+            } else {
+                console.log(obj);
+            }
+        }
+
+        function trackFail(err) {
+            console.warn('ERROR(' + err.code + '): ' + err.message);
+        }
+
+
+        targetEnd = [0,0];
+
+        trackOptions = {
+            enableHighAccuracy: false,
+            timeout: 5000,
+            maximumAge: 0
+        };
+
+        trackLocation = navigator.geolocation.watchPosition(trackOK, trackFail, trackOptions);
+
+        //var position_now = setInterval(function () {
+        //    navigator.geolocation.watchPosition(function (position) {
+        //        let x = position.coords.longitude;
+        //        let y = position.coords.latitude;
+        //        $("#current_position").attr("value", [x.toFixed(6), y.toFixed(6)]);
+        //        now_x = x;
+        //        now_y = y;
+        //        console.log("目前座標:"+[now_x, now_y]);
+        //    });
+        //}, 3000);
+
 
         //地圖初始化==========================
         mapboxgl.accessToken = 'pk.eyJ1IjoicGVhY2V3YW5nIiwiYSI6ImNrZmx6YWl6cTB6YWcyd21xMzFqNTZ5YzYifQ.WxjLSvp5k6yCWELcbMWeMw';
         //顯示中文地圖
         var map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v10',
+            style: 'mapbox://styles/mapbox/streets-v11',
             center: [121.5173115, 25.045181],
             zoom: 11
         });
@@ -226,7 +258,7 @@
             map.on("load", function () {
                 //地點加入地圖====================
                 map.loadImage(
-                'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+                    '../Content/game_icon.png',
                 function (error, image) {
                     if (error) throw error;
                     map.addImage('custom-marker', image);
@@ -421,7 +453,7 @@
                         var distance = data.distance;
                         var duration = data.duration;
 
-                    $("#distance").html("您與該點距離: " + (distance / 1000).toFixed(1) + "公里");
+                    $("#distance").html("目標距離: " + (distance / 1000).toFixed(1) + "公里");
                     $("#distance").attr("value", distance);
 
                     $("#duration").html("步行時間: " + (duration / 60).toFixed(1) + "分鐘");
@@ -452,6 +484,8 @@
                     // if the route already exists on the map, reset it using setData
                     if (map.getSource('route')) {
                         map.getSource('route').setData(geojson);
+                        map.setLayoutProperty('route', 'visibility', 'visible');
+
                 } else { // otherwise, make a new request
                     map.addLayer({
                     id: 'route',
@@ -477,13 +511,13 @@
                                 'line-opacity': 0.75
                             }
                     });
-                    map.getSource('route').setData(geojson);
+                        map.getSource('route').setData(geojson);
+                        map.setLayoutProperty('route', 'visibility', 'visible');
 
                 }
                     // add turn instructions here at the end
                 };
                 req.send();
-                map.setLayoutProperty('route', 'visibility', 'visible');
             };
                 //開始遊戲
         function beginGame() {
@@ -504,12 +538,14 @@
             var order = response.fStatus_GameNav;
                 var game_id = response.fItems_GameNav[order].fId_Game;
                 var end = [response.fItems_GameNav[order].fX_Coordinate, response.fItems_GameNav[order].fY_Coordinate];
-                var name = response.fItems_GameNav[order].fName_Game;
+            var name = response.fItems_GameNav[order].fName_Game;
+            var type = response.fItems_GameNav[order].fType_Game;
 
                 var toGuideObj = {
                     game_id: game_id,
                     end: end,
-                    name: name
+                    name: name,
+                    type: type
                 };
 
             guideRoute(toGuideObj);
@@ -517,9 +553,14 @@
             $("#group_title").html(obj.name);
             $("#play_game").attr("value", obj.value);
             $("#play_game").attr("name", obj.name);
-            $("#enter_game").attr("href", "javascript:enterGame()")
+            $("#enter_game").attr("href", "javascript:enterGame()");
+            $("#info_icon").hide();
+            if (type == 1) {
+                $("#game_photo").attr("src", "https://i.imgur.com/nVErj8m.png");
+            } else if (type == 2) {
+                $("#game_photo").attr("src", "https://cdn.onlinewebfonts.com/svg/img_465662.png");
+            }
         };
-
 
                 //遊戲進行導引路線
         function guideRoute(obj) {
@@ -545,7 +586,7 @@
                         ////content += "<img src='" + photo + "' / >";
                         //content += "<button value='" + obj.game_id + "' onclick='enterGame(this)'> 進入 </button>";
 
-                        $("#distance").html("您與該點距離: " + (distance / 1000).toFixed(1) + "公里");
+                        $("#distance").html("目標距離: " + (distance / 1000).toFixed(1) + "公里");
                         $("#distance").attr("value", distance);
 
                         $("#duration").html("步行時間: " + (duration / 60).toFixed(1) + "分鐘");
@@ -555,6 +596,11 @@
                         $("#play_game").attr("value", obj.game_id);
                         $("#play_game").attr("name", obj.name);
 
+                        if (obj.type == 1) {
+                            $("#game_photo").attr("src", "https://i.imgur.com/nVErj8m.png");
+                        } else if (obj.type == 2) {
+                            $("#game_photo").attr("src", "https://cdn.onlinewebfonts.com/svg/img_465662.png");
+                        };
 
                         var geojson = {
                             type: 'Feature',
@@ -599,77 +645,76 @@
                 // add turn instructions here at the end
             };
                     req.send();
-                    map.setLayoutProperty('route', 'visibility', 'visible');
-                    //routeFresh(obj);
+            map.setLayoutProperty('route', 'visibility', 'visible');
+            targetEnd = [obj.end[0], obj.end[1]];
+            trackToRefresh = true;
         };
 
 
         //更新導航路線每3秒
-        //var routeFresh = setInterval(function (obj) {
-        //    geolocate.trigger();
-        //    var start = [now_x, now_y];
+        function routeFresh(obj) {
 
-        //    let url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + start[0] + ',' + start[1] + ';' + obj.end[0] + ',' + obj.end[1] + '?steps=false&geometries=geojson&access_token=' + mapboxgl.accessToken;
-        //    var req = new XMLHttpRequest();
+            let url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + obj.start[0] + ',' + obj.start[1] + ';' + obj.end[0] + ',' + obj.end[1] + '?steps=false&geometries=geojson&access_token=' + mapboxgl.accessToken;
+            var req = new XMLHttpRequest();
 
-        //    req.open('GET', url, true);
-        //    req.onload = function () {
-        //        var json = JSON.parse(req.response);
-        //        var data = json.routes[0];
-        //        var route = data.geometry.coordinates;
-        //        var distance = data.distance;
-        //        var duration = data.duration;
+            req.open('GET', url, true);
+            req.onload = function () {
+                var json = JSON.parse(req.response);
+                var data = json.routes[0];
+                var route = data.geometry.coordinates;
+                var distance = data.distance;
+                var duration = data.duration;
 
-        //        $("#distance").val(distance);
-        //        $("#distance").html("您與該點距離: " + (distance / 1000).toFixed(1) + "公里");
-        //        $("#duration").val(duration);
-        //        $("#duration").html("步行時間: " + (duration / 60).toFixed(1) + "分鐘");
+                $("#distance").attr("value",distance);
+                $("#distance").html("目標距離: " + (distance / 1000).toFixed(1) + "公里");
+                $("#duration").attr("value",duration);
+                $("#duration").html("步行時間: " + (duration / 60).toFixed(1) + "分鐘");
 
-        //        var geojson = {
-        //            type: 'Feature',
-        //            properties: {},
-        //            geometry: {
-        //                type: 'LineString',
-        //                coordinates: route
-        //            }
-        //        };
+                var geojson = {
+                    type: 'Feature',
+                    properties: {},
+                    geometry: {
+                        type: 'LineString',
+                        coordinates: route
+                    }
+                };
 
-        //        // if the route already exists on the map, reset it using setData
-        //        if (map.getSource('route')) {
-        //            map.getSource('route').setData(geojson);
+                // if the route already exists on the map, reset it using setData
+                if (map.getSource('route')) {
+                    map.getSource('route').setData(geojson);
 
-        //        } else { // otherwise, make a new request
-        //            map.addLayer({
-        //                id: 'route',
-        //                type: 'line',
-        //                source: {
-        //                    type: 'geojson',
-        //                    data: {
-        //                        type: 'Feature',
-        //                        properties: {},
-        //                        geometry: {
-        //                            type: 'LineString',
-        //                            coordinates: geojson
-        //                        }
-        //                    }
-        //                },
-        //                layout: {
-        //                    'line-join': 'round',
-        //                    'line-cap': 'round'
-        //                },
-        //                paint: {
-        //                    'line-color': '#3887be',
-        //                    'line-width': 5,
-        //                    'line-opacity': 0.75
-        //                }
-        //            });
-        //            map.getSource('route').setData(geojson);
+                } else { // otherwise, make a new request
+                    map.addLayer({
+                        id: 'route',
+                        type: 'line',
+                        source: {
+                            type: 'geojson',
+                            data: {
+                                type: 'Feature',
+                                properties: {},
+                                geometry: {
+                                    type: 'LineString',
+                                    coordinates: geojson
+                                }
+                            }
+                        },
+                        layout: {
+                            'line-join': 'round',
+                            'line-cap': 'round'
+                        },
+                        paint: {
+                            'line-color': '#3887be',
+                            'line-width': 5,
+                            'line-opacity': 0.75
+                        }
+                    });
+                    map.getSource('route').setData(geojson);
 
-        //        }
-        //        // add turn instructions here at the end
-        //    };
-        //    req.send();
-        //}, 3000);
+                }
+                // add turn instructions here at the end
+            };
+            req.send();
+        }
 
         //=======進入遊戲=====================
         function enterGame() {
@@ -681,10 +726,10 @@
                         role_id: @Session[CDictionary.SK_ActiveRoleId],
                     };
 
-                    var distance = $("#distance").val();
+            var distance = $("#distance").attr("value");
 
-                    //判斷使用者距離是否靠近
-                if (distance > 50000) {
+            //判斷使用者距離是否靠近
+            if (distance > trigger_distance) {
                     Swal.fire({
                     title: "尚未到達目的地",
                     showClass: {
@@ -742,11 +787,13 @@
                 var nextGame = response.fItems_GameNav[next_play].fId_Game;
                 var nextPoint = [response.fItems_GameNav[next_play].fX_Coordinate, response.fItems_GameNav[next_play].fY_Coordinate];
                 var nextName = response.fItems_GameNav[next_play].fName_Game;
+                var nextType = response.fItems_GameNav[next_play].fType_Game;
                 //導去下一個點
                 var toGuideObj = {
                     game_id: nextGame,
                     end: nextPoint,
-                    name: nextName
+                    name: nextName,
+                    type: nextType
                 };
                 showGameItems(now_play_group);
                 guideRoute(toGuideObj);
@@ -775,6 +822,10 @@
             $("#game_photo").attr("src", "");
             $("#enter_game").attr("href", "");
             $(".detail").html("");
+            trackToRefresh = true;
+            $("#info_icon").show();
+
+
                 };
 
 
@@ -861,6 +912,9 @@
                     imageWidth: 400,
                     text: '請選擇答案',
                     input: 'radio',
+                    customClass: {
+                        input: 'my-radio'
+                    },
                     icon:'question',
                     confirmButtonText: '確定',
                     inputOptions: inputOptions,
@@ -946,19 +1000,30 @@
 
         };
 
-        function showResponse() {
+        function forDemo() {
             //$("#map").toggle();
             //loadARcontent();
             //$("#AR").toggle();
-            noteToUser("Hi!");
-
-        };
+            Swal.fire({
+                title: "Demo模式",
+                text: '開啟之後將不限距離遊玩',
+                showDenyButton: true,
+                confirmButtonText: '開啟',
+                denyButtonText: '關閉',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    trigger_distance = 100000000;
+                } else if (result.isDenied) {
+                    trigger_distance = 100;
+                }
+            });
+        }
 
         function noteToUser(message) {
 
             hub.server.notes(-1, message);
 
-        }
+            };
 
         var hub = $.connection.myHub;
         $.connection.hub.start().done();
