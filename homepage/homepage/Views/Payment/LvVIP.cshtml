@@ -34,11 +34,11 @@
                 <h1 class="mx-auto my-0 text-uppercase">Grayscale</h1>
                 <h2 class="text-white-50 mx-auto mt-2 mb-5">A free, responsive, one page Bootstrap theme created by Start Bootstrap.</h2>
                 <form id="addToProfitMember">
-                    fName_ProfitMember:
+                    官方帳號:
                     <input type="text" name="fName_ProfitMember" /><br />
-                    fEmail_ProfitMember:
+                    官方Email:
                     <input type="text" name="fEmail_ProfitMember" /><br />
-                    fPhone_ProfitMember:
+                    官方連絡電話:
                     <input type="text" name="fPhone_ProfitMember" /><br />
 
                 </form>
@@ -76,7 +76,7 @@
                         <input type="text" name="CheckMacValue" value="@ViewBag.SHA256" /><br />
                     </div>
 
-                    <input type="submit" value="送出訂單" id="savetodb" />
+                    <input type="submit" value="立即升級" id="savetodb" class="btn btn-info"/>
 
                 </form>
 
@@ -87,12 +87,6 @@
     <script>
 
         $('#formWebATM').submit(function (event) {
-
-            //$.ajax({
-            //    url: "/Payment/takeOver",
-            //    type: "POST",
-            //    data: { profitMember: "ss1" },
-            //})
 
             $("#addToProfitMember").ajaxSubmit({
                 type: "POST",
