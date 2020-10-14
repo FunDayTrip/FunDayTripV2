@@ -420,6 +420,35 @@ namespace homepage.Controllers
                 };
                 MemberController member = new MemberController();
                 member.signUpFromGoogle(user);
+                var q2 = (from m in dbFundaytrip.tMembers
+                         where m.fEmail_Member == email
+                         select m);
+                loginMember.loginMessage = "歡迎回來! " + q2.FirstOrDefault().fNickName_Member;
+                loginMember.fId_Member = q2.FirstOrDefault().fId_Member;
+                loginMember.fNickName_Member = q2.FirstOrDefault().fNickName_Member;
+                loginMember.fEmail_Member = q2.FirstOrDefault().fEmail_Member;
+                loginMember.fPassword_Member = q2.FirstOrDefault().fPassword_Member;
+                loginMember.fPhoto_Member = q2.FirstOrDefault().fPhoto_Member;
+                //讀取角色
+                loginMember.fId_FuntionAuth_Member = 1;
+
+                List<CRole> rolesList = new CRolesFactory().getRoleList(loginMember.fId_Member);
+                loginMember.fActiveRoleId_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fId_Role;
+                loginMember.fActiveRoleName_Member = rolesList.FirstOrDefault(a => a.fId_Master_Role == loginMember.fId_Member).fNickName_Role;
+
+                List<tNote> notesList = new CNotesFactory().readNotes(loginMember.fActiveRoleId_Member);
+                loginMember.fNotesCount_Member = notesList.Count(x => x.fIsRead_Note == 0);
+                //讀取點數
+                var member_point = new CPointFactory().getPoint(loginMember.fActiveRoleId_Member);
+                loginMember.fPointTotal_Member = Convert.ToInt32(member_point.Sum(s => s.fPoint_Point));
+
+                //放入Session
+                Session[CDictionary.SK_MemberId] = loginMember.fId_Member;
+                Session[CDictionary.SK_MemberLogin] = loginMember;
+                Session[CDictionary.SK_ActiveRoleId] = loginMember.fActiveRoleId_Member;
+                Session[CDictionary.SK_ActiveRoleName] = loginMember.fActiveRoleName_Member;
+                Session[CDictionary.SK_AunctionAuth] = 1;
+                return Json(loginMember);
             }
             else
             {
