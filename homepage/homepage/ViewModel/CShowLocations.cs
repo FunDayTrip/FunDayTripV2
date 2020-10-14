@@ -31,6 +31,7 @@ namespace homepage.ViewModel
 
     public class CLocation
     {
+        public string futime;
         public int ID { get; set; }
         public string fId_Location { get; set; }
         public int fId_Role { get; set; }
@@ -74,6 +75,7 @@ namespace homepage.ViewModel
 
     public class CRoute
     {
+        public string putime;
         public string fId_Route { get; set; }
         public Nullable<int> fId_Role { get; set; }
         public Nullable<int> fId_ShareAuth { get; set; }
