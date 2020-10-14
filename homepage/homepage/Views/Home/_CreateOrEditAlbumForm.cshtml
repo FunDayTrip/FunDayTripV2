@@ -1,12 +1,17 @@
-﻿
-<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+﻿@using homepage.Models
+
+<div class="wrap-input2">
+    <div id="createOrEditA" style="text-align:center;font-weight:bold; font-size:22px;">
+        <h3>新增相簿</h3>
+    </div>
+</div>
+
 
 
 <div style="display:none">
     <div>相簿id</div>
     <input name="fId_Album" id="fId_Album" />
 </div>
-
 
 <div class="wrap-input2">
     <div>
@@ -50,3 +55,16 @@
     <button type="button" onclick="addAlbumFormButton()" id="createa" class="btn btnsureedit">確定</button>
     <button type="button" onclick="editAlbumFormButton()" id="savea" class="btn btnsureedit">編輯儲存</button>
 </div>
+
+<div>
+    <button type="button"  id="demoAlbum" class="btn btndemoa">Demo</button>
+</div>
+
+<script>
+//demo相簿
+    $("#demoAlbum").click(function () {
+        $("#fDescript_Album").val("demo相簿1");
+        $("#fName_Album").val("demo相簿1");
+        $("#fId_Role").val(@Session[CDictionary.SK_ActiveRoleId]);
+    });   
+</script>

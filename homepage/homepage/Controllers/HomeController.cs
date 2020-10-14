@@ -626,7 +626,7 @@ namespace homepage.Controllers
             CM.fId_From_Role = fId_From_Role;
             CM.fMessage_Message = message;
             CM.fTime_Message = DateTime.Now;
-
+            
             db.tMessages.Add(CM);
 
             db.SaveChanges();
@@ -644,6 +644,7 @@ namespace homepage.Controllers
                 CH.fMessage_From = x.fMessage_Message;
                 CH.fMessage_Time = Convert.ToString(x.fTime_Message);
                 CH.fId = x.fId_Message;
+
                 f.Add(CH);
             }
             var q1 = from z in dbFundaytrip.tMessages
@@ -655,6 +656,8 @@ namespace homepage.Controllers
                 CH.fMessage_To = y.fMessage_Message;
                 CH.fMessage_Time = Convert.ToString(y.fTime_Message);
                 CH.fId = y.fId_Message;
+
+                CH.photo = y.tRole.tMember.fPhoto_Member;
                 f.Add(CH);
             }
             var res = f.OrderBy(x => x.fId);
@@ -726,6 +729,7 @@ namespace homepage.Controllers
                                 s2.fDescript_Photo,
 
                             };
+           
             string InfoJson = JsonConvert.SerializeObject(LocDetail);
 
 
@@ -849,6 +853,7 @@ namespace homepage.Controllers
             foreach (var item in location)
             {
                 CLocation clocation = new CLocation(item);
+                clocation.futime = Convert.ToString(item.fTime_Location);
                 clocations.Add(clocation);
             }
             return Json(clocations, JsonRequestBehavior.AllowGet);
@@ -861,6 +866,7 @@ namespace homepage.Controllers
                             where s.fId_Route == RouteID
                             select s).FirstOrDefault();
             CRoute cRoute = new CRoute(Route);
+            cRoute.putime = Convert.ToString(Route.fTime_Route);
 
             return Json(cRoute, JsonRequestBehavior.AllowGet);
         }
@@ -1503,7 +1509,7 @@ namespace homepage.Controllers
                 CH.fComment_Name = x.tRole.tMember.fNickName_Member;
                 CH.fComment_Comment = x.fComment_Comment;
                 CH.fTime_Comment = Convert.ToString(x.fTime_Comment);
-
+                CH.photo = x.tRole.tMember.fPhoto_Member;
                 f.Add(CH);
             }
             return Json(f);
@@ -1570,6 +1576,8 @@ namespace homepage.Controllers
                 Cchatroom2 CH1 =new Cchatroom2();
                 CH1.fMessage_From = x.fMessage_Message;
                 CH1.fId = x.fId_Message;
+                CH1.photo = x.tRole.tMember.fPhoto_Member;
+
                 L.Add(CH1);
             }
             var q2 = from p in dbFundaytrip.tMessages

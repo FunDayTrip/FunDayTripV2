@@ -1,11 +1,16 @@
 ﻿@using homepage.Models
 
 <link href="~/css/CreateOrEditLocForm.css" rel="stylesheet" />
-
+<style>
+   
+</style>
 
 <div>
     <div>
-        <h4 id="CreateOrEditRoute">新增路線</h4>
+        <div class="form-group CreateOrEditRoute">
+            <h3 id="CreateOrEditRoute">新增路線</h3>
+        </div>
+
         @* !!! *@
         <div style="display:none">
             <div>使用者id</div>
@@ -17,62 +22,55 @@
         </div>
         @* !!! *@
         <div class="form-group">
-            <div>路線名稱</div>
+            <div style="font-weight:bold"><h4>路線名稱</h4></div>
             <input name="fName_Route" id="fName_Route" class="form-control" placeholder="Your Route Name *" />
         </div>
         <div class="form-group">
-            <div>路線簡介</div>
+            <div style="font-weight:bold"><h4>路線簡介</h4></div>
             <textarea name="fDescript_Route" id="fDescript_Route" class="form-control" placeholder="Your Route Descript *" style="height:100px;"></textarea>
         </div>
         <div class="form-group">
-            <div>與誰分享</div>
+            <div style="font-weight:bold"><h4>與誰分享</h4></div>
             <select id="selectorR" name="fId_ShareAuth">
                 <option id="Public" value=3 selected="selected">公開</option>
                 <option id="Follower" value=2>粉絲</option>
                 <option id="Private" value=1>私人</option>
             </select>
         </div>
-        <div class="form-group" >
-            <div>是否刪除</div>
-            <input type="checkbox" name="fDelete_Route" id="checkboxes" onclick="IfDeleteRoute()">是否刪除(請打勾)
+        <div class="form-group">
+            <div style="font-weight:bold"><h4>是否刪除</h4></div>
+            <input type="checkbox" name="fDelete_Route" id="checkboxes" onclick="IfDeleteRoute()"><span style="font-size:16px;">刪除(請打勾)</span>
         </div>
-            <div class="columns" id="columns"></div>     
+        <div class="columns" id="columns"></div>
     </div>
     <div style="float:right;">
         <button type="button" onclick="CreateLine()" class="btn btnsureedit">預覽路線</button>
         <button type="button" onclick="UpLoadRouteFormButton()" id="create2" class="btn btnsureedit">確定</button>
         <button type="button" onclick="EditRouteFormButton()" id="save2" class="btn btnsureedit">編輯存檔</button>
     </div>
+    <div>
+        <button type="button" id="demoRoute" class="btn btndemor">Demo</button>
+    </div>
 </div>
 
+<script>
+    //demo路線
+    $("#demoRoute").click(function () {
+        $("#fName_Route").val("demo路線0");
+        $("#fDescript_Route").val("demo路線0");
 
+        $("#fName_Location" + 0).val("demo路線0-1");
+        $("#fDescript_Location" + 0).val("demo路線0-1");
+        $("#header" + 0).text("demo路線0-1");
 
-@*<div class="portlet">
-        <div class="portlet-header" id="header' + CoordinateCnt + '" name="header"></div>
-        <div class="portlet-content" id="content" name="content">
-            <div>
-                <h5 id="CreateOrEdit">新增地點</h5>
-                <div style="display:none">
-                    坐標
-                    <div>坐標id</div>
-                    <input name="fId_Coordinate[]" id="fId_Coordinate' + CoordinateCnt + '" />
-                    <div>x</div>
-                    <input name="fX_Coordinate[]" id="fx_Coordinate' + CoordinateCnt + '" />
-                    <div>y</div>
-                    <input name="fY_Coordinate[]" id="fy_Coordinate' + CoordinateCnt + '" />
-                </div>
-                <div>
-                    地點
-                    <div>地名</div>
-                    <input name="fName_Location[]" id="fName_Location' + CoordinateCnt + '" />
-                    <div>地點描述</div>
-                    <input name="fDescript_Location[]" id="fDescript_Location' + CoordinateCnt + '" />
-                </div>
-                <div>
-                    <div>上傳照片</div>
-                    <input type="file" accept="image/*" onchange="RoateloadFile(event)" name="PostImages">
-                    <img id="output' + CoordinateCnt + '" style="width:300px;height:200px" />
-                </div>
-            </div>
-        </div>
-    </div>*@
+        $("#fName_Location" + 1).val("demo路線0-2");
+        $("#fDescript_Location" + 1).val("demo路線0-2");
+        $("#header" + 1).text("demo路線0-2");
+
+        $("#fName_Location" + 2).val("demo路線0-3");
+        $("#fDescript_Location" + 2).val("demo路線0-3");
+        $("#header" + 2).text("demo路線0-3");
+
+        $("#fId_Role").val(@Session[CDictionary.SK_ActiveRoleId]);
+    });
+</script>
