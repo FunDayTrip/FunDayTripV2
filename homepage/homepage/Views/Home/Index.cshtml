@@ -132,6 +132,9 @@
             background: none;
             width: 200px;
             text-align:center;
+            height: 30px;
+            font-weight:bold;
+            font-size:18px;
         }
     </style>
 
@@ -2270,7 +2273,7 @@
                     if (response[i].fId_Slave_Type_Role == "b") {
                         role_item += "(營利會員)";
                     };
-                    role_item += "</button></li>";
+                    role_item += "</button></li><hr>";
                //     console.log(response[i].fNickName_Role);
                     $("#role_list").append(role_item)
 
