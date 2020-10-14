@@ -109,51 +109,75 @@
     <div id="map" class="map"></div>
 
     @*內容框*@
-    <div id="foot-content" class="footer">
-        <div id="now_play" name="group_name" value="-1" style="display:none"></div>
-        <div id="content-toggle" class="toggleUp">
-            <span id="content-icon" class="glyphicon glyphicon-chevron-up"></span>
-        </div>
-        <div id="current_position" value="">目前位置:</div>
-        <div id="inner_content" class="container">
-            <div class="row">
-                <div class="col-xs-6" id="distance"></div>
-                <div class="col-xs-6" id="duration"></div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12" id="game_photo"></div>
-            </div>
-            <div id="_contents" class="row">
-                <div class="col-xs-12" id="title_descript"></div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6" id="play_count"></div>
-                <div class="col-xs-6" id="play_status"></div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6" id="reset_button"></div>
-                <div class="col-xs-6" id="enter_button"></div>
-            </div>
+<div id="foot-content" class="footer">
+    <div id="now_play" name="group_name" value="-1" style="display:none"></div>
+    <div id="content-toggle" class="toggleUp row">
+        <span class="col-xs-3"></span>
+        <span id="content-icon" class="glyphicon glyphicon-chevron-up col-xs-6">
+            <br />
+            <span id="current_position" value="" style="display:none"></span>
+        </span>
+        <span class="col-xs-3"></span>
 
-
-        </div>
     </div>
+    <div id="inner_content" class="container-fluid">
+        <div class="row" style="height:5%"></div>
+        <div class="row">
+            <div class="col-xs-6" id="distance"></div>
+            <div class="col-xs-6" id="duration"></div>
+        </div>
+        <div class="row" style="height:10%"></div>
+        <div class="row main_content" >
+            <div class="col-xs-6">                
+                <img id="game_photo" src="" />
+            </div>
+            <div class="col-xs-6" id="other_content">
+                <div id="group_title" style="text-align:center;font-size:20px;font-weight:bold"></div>
+                <div id="group_descript" style="text-align:center;font-size:16px" class="detail"></div>
+            </div>
+        </div>
+        <div style="height:15%"></div>
+        <div id="other_info" class="row" style="bottom:0px;font-size:16px;text-align:center;">
+            <div class="col-xs-6">
+                <div class="glyphicon glyphicon-info-sign"> </div>
+                <div id="play_count" class="detail"></div>
+            </div>
+            <div class="col-xs-6">
+                <div id="group_points" class="detail"></div>
+                <div id="play_status" class="detail"></div>
+            </div>
+        </div>
+        <div class="row">
+            @*<div class="col-xs-3" id="play_count"></div>
+            <div class="col-xs-3" id="play_status"></div>*@
+        </div>
+        <div class="row">
+            @*<div class="col-xs-6" id="reset_button"></div>
+            <div class="col-xs-6" id="enter_button"></div>*@
+        </div>
+
+    </div>
+    <div class="container enter_button">
+        <input id="play_group" name="group_name" value="-1" style="display:none"/>
+        <input id="play_game" name="game_name" value="-1" style="display:none"/>
+        <a id="enter_game" href="" class="btn btn-primary btn-block" >GO</a>
+    </div>
+</div>
 
     <script>
         const role_id = @Session[CDictionary.SK_ActiveRoleId];
             var now_x = 0;
             var now_y = 0;
-        //目前位置
-        //function position_now() {
-        //    navigator.geolocation.getCurrentPosition(function (position) {
-        //        let x = position.coords.longitude;
-        //        let y = position.coords.latitude;
-        //        $("#current_position").html("目前位置: " + x.toFixed(6) + ", " + y.toFixed(6));
-        //        now_x = x;
-        //        now_y = y;
-        //    });
-        //    };
-        //    position_now();
+        var position_now = setInterval(function () {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                let x = position.coords.longitude;
+                let y = position.coords.latitude;
+                $("#current_position").attr("value", [x.toFixed(6), y.toFixed(6)]);
+                now_x = x;
+                now_y = y;
+                console.log("目前座標:"+[now_x, now_y]);
+            });
+        }, 3000);
 
         //地圖初始化==========================
         mapboxgl.accessToken = 'pk.eyJ1IjoicGVhY2V3YW5nIiwiYSI6ImNrZmx6YWl6cTB6YWcyd21xMzFqNTZ5YzYifQ.WxjLSvp5k6yCWELcbMWeMw';
@@ -189,7 +213,7 @@
                             'group_name': Name_Group,
                             'photo': Photo_Group,
                             'count': Count_Group,
-                            'description': '<strong>' + Name_Group + '</strong><p>' + Description_Group + '</p>'
+                            'description': Description_Group
                         },
                         'geometry': {
                             'type': 'Point',
@@ -231,7 +255,7 @@
                 geolocate.on('geolocate', function (data) {
                     now_x = data.coords.longitude;
                     now_y = data.coords.latitude;
-                    $("#current_position").html("目前位置: " + now_x.toFixed(6) + ", " + now_y.toFixed(6));
+                    $("#current_position").attr("value",now_x.toFixed(4) + ", " + now_y.toFixed(4));
                 });
         });
         };
@@ -273,7 +297,6 @@
 
             //點擊遊戲群組圖標
         map.on('click', 'game_group', function (e) {
-            geolocate.trigger();
             var coordinates = e.features[0].geometry.coordinates.slice();
             var group_name = e.features[0].properties.group_name;
             var description = e.features[0].properties.description;
@@ -318,7 +341,6 @@
 
             //show 地點路線
         function showGameItems(id) {
-            geolocate.trigger();
             var gamegroup = { group_id: id, role_id: @Session[CDictionary.SK_ActiveRoleId] };
             var response = getGameRecord(gamegroup);
             var itemArray = {
@@ -384,7 +406,6 @@
                 $("#foot-content").toggleClass("footer_withcontent", 1000, "swing", function () {
                     $("#content-icon").toggleClass("glyphicon-chevron-down", 1500, "swing");
                 });
-                geolocate.trigger();
                 var start = [now_x, now_y];
                 //導引使用者到該地點
                 var reqRecord = { group_id: obj.group_id, role_id:@Session[CDictionary.SK_ActiveRoleId] }
@@ -406,18 +427,17 @@
                     $("#duration").html("步行時間: " + (duration / 60).toFixed(1) + "分鐘");
                     $("#duration").attr("value", duration);
 
-
-                    $("#title_descript").html("<div><br>" + obj.descript + "<br></div>" + "<br>一共" + obj.count + "點<br>");
-                    $("#game_photo").html("<img src='" + obj.photo + "' / >");
+                    $("#group_title").html(obj.group_name);
+                    $("#group_descript").html(obj.descript);
+                    $("#group_points").html("一共" + obj.count + "點");
+                    $("#game_photo").attr("src",obj.photo);
 
                     $("#play_count").html("您已遊玩過" + record.fRecords_GameNav.fFinished_GameRecord + "次");
                     $("#play_status").html("目前進度: 第" + record.fStatus_GameNav + "點");
 
-                    $("#reset_button").html("<button name='" + obj.group_name + "' value='" + obj.group_id + "' onclick='resetRecord(this)'>重新開始</button> ");
-                    $("#reset_button").addClass("btn btn-outline-success");
-
-                    $("#enter_button").html("<button name='" + obj.group_name + "' value='" + obj.group_id + "' onclick='beginGame(this)'> 開始遊戲 </button>");
-                    $("#enter_button").addClass("btn btn-outline-success");
+                    $("#play_group").attr("name", obj.group_name);
+                    $("#play_group").attr("value", obj.group_id);
+                    $("#enter_game").attr("href", "javascript:beginGame()")
                     //$("#inner_content").html(content);
 
                         var geojson = {
@@ -466,11 +486,15 @@
                 map.setLayoutProperty('route', 'visibility', 'visible');
             };
                 //開始遊戲
-                function beginGame(obj) {
-                    showGameItems(obj.value);
-                    map.setLayoutProperty('game_group', 'visibility', 'none');
-                    var userPosition = [now_x, now_y];
-                    var toRecordObj = {
+        function beginGame() {
+            var obj = {
+                value: $("#play_group").attr("value"),
+                name: $("#play_group").attr("name")
+            };
+            showGameItems(obj.value);
+            map.setLayoutProperty('game_group', 'visibility', 'none');
+            var userPosition = [now_x, now_y];
+            var toRecordObj = {
                 group_id: obj.value,
                 role_id: @Session[CDictionary.SK_ActiveRoleId], //記得改成Session的role_id
             };
@@ -488,15 +512,17 @@
                     name: name
                 };
 
-                guideRoute(toGuideObj);
-                    $("#now_play").attr("value", obj.value);
-                    $("#now_play").attr("name", obj.name);
+            guideRoute(toGuideObj);
+            $(".detail").html("");
+            $("#group_title").html(obj.name);
+            $("#play_game").attr("value", obj.value);
+            $("#play_game").attr("name", obj.name);
+            $("#enter_game").attr("href", "javascript:enterGame()")
         };
 
 
                 //遊戲進行導引路線
         function guideRoute(obj) {
-            geolocate.trigger();
                     //導引下個地點
                     var start = [now_x, now_y];
 
@@ -511,13 +537,24 @@
                         var distance = data.distance;
                         var duration = data.duration;
                         console.log(json);
-                        var content = "<div id='distance' value='" + distance + "'>您與該點距離: " + (distance / 1000).toFixed(1) + "公里</div>";
-                        content += "<div id='duration' value'" + duration + "'>步行時間: " + (duration / 60).toFixed(1) + "分鐘</div><br>";
-                        content += obj.end;
-                        content += "<br>" + obj.name + "<br>";
-                        //content += "<img src='" + photo + "' / >";
-                        content += "<button value='" + obj.game_id + "' onclick='enterGame(this)'> 進入 </button>";
-                        $("#inner_content").html(content);
+
+                        //var content = "<div id='distance' value='" + distance + "'>您與該點距離: " + (distance / 1000).toFixed(1) + "公里</div>";
+                        //content += "<div id='duration' value'" + duration + "'>步行時間: " + (duration / 60).toFixed(1) + "分鐘</div><br>";
+                        //content += obj.end;
+                        //content += "<br>" + obj.name + "<br>";
+                        ////content += "<img src='" + photo + "' / >";
+                        //content += "<button value='" + obj.game_id + "' onclick='enterGame(this)'> 進入 </button>";
+
+                        $("#distance").html("您與該點距離: " + (distance / 1000).toFixed(1) + "公里");
+                        $("#distance").attr("value", distance);
+
+                        $("#duration").html("步行時間: " + (duration / 60).toFixed(1) + "分鐘");
+                        $("#duration").attr("value", duration);
+
+                        $("#group_title").html(obj.name);
+                        $("#play_game").attr("value", obj.game_id);
+                        $("#play_game").attr("name", obj.name);
+
 
                         var geojson = {
                             type: 'Feature',
@@ -635,10 +672,10 @@
         //}, 3000);
 
         //=======進入遊戲=====================
-                function enterGame(game_id) {
+        function enterGame() {
 
                     var role_id = @Session[CDictionary.SK_ActiveRoleId];
-                    var group_id = $("#now_play").attr("value");
+                    var group_id = $("#play_group").attr("value");
                     var toRecordObj = {
                         group_id: group_id,
                         role_id: @Session[CDictionary.SK_ActiveRoleId],
@@ -647,7 +684,7 @@
                     var distance = $("#distance").val();
 
                     //判斷使用者距離是否靠近
-                if (distance > 500) {
+                if (distance > 50000) {
                     Swal.fire({
                     title: "尚未到達目的地",
                     showClass: {
@@ -680,8 +717,8 @@
 
         function finishItem(now_play) {
             //得到目前遊玩的group
-            var now_play_group = $("#now_play").attr("value");
-            var now_play_group_name = $("#now_play").attr("name");
+            var now_play_group = $("#play_group").attr("value");
+            var now_play_group_name = $("#play_group").attr("name");
             var next_play = now_play;
             //更新資料
             var response = $.ajax({
@@ -732,9 +769,12 @@
             map.setLayoutProperty('game_group', 'visibility', 'visible');
             map.setLayoutProperty('game_items', 'visibility', 'none');
             map.setLayoutProperty('route', 'visibility', 'none');
-            $("#now_play").attr("value", "-1");
-            $("#now_play").attr("name", "group_name");
-            $("#inner_content").html("");
+            $("#play_group").attr("value", "-1");
+            $("#play_group").attr("name", "group_name");
+            $("#group_title").html("");
+            $("#game_photo").attr("src", "");
+            $("#enter_game").attr("href", "");
+            $(".detail").html("");
                 };
 
 
@@ -821,6 +861,7 @@
                     imageWidth: 400,
                     text: '請選擇答案',
                     input: 'radio',
+                    icon:'question',
                     confirmButtonText: '確定',
                     inputOptions: inputOptions,
                     inputValidator: (value) => {
