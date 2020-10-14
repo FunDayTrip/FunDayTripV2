@@ -512,10 +512,15 @@
 
                         if (e.target.className == "modal-content") {
                             console.log("u");
-                            $(".modal").show();
+                            $("#follow_modal").show();
                         } else if (e.target.className == "modal") {
                             console.log("u2");
-                            $(".modal").hide();
+                            $("#follow_modal").hide();
+                            $("#myModal").hide();
+                            if (_marker != undefined) {
+                                _marker.remove();
+                            };
+                            $("#addNewLocationButton").on("click", enableAddLocation);
                         }
                        
                     })
@@ -779,16 +784,16 @@
                 _marker.remove();
             };
 
-            $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
+            $("#addNewLocationButton").on("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
         });
 
 
         //點選新增地點,才可添加marker
         var _marker;//地圖上marker變數
-        $("#addNewLocationButton").one("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
+        $("#addNewLocationButton").on("click", enableAddLocation);//click(enableAddLocation); //呼叫函式:新增地點一開始的畫面
 
         //函式:新增地點一開始的畫面
-        function enableAddLocation() {
+        function enableAddLocation() {            
             _marker = new mapboxgl.Marker()
             //地圖上點選地點,在此綁定map click 另一個handler
             map.on('click', positioningClickLocate);
@@ -842,6 +847,7 @@
         var X_Coordinate = [];
         var Y_Coordinate = [];
         var CoordinateCnt = 0;
+        var _locName;
 
         function positioningClickLocate(e) {
             var x = parseFloat(e.lngLat.lng);
@@ -902,7 +908,7 @@
                     $("#fy_Coordinate").val(item.fY_Coordinate);
                     $("#CoordinateName").val(item.fName_Coordinate);
                     //console.log(item.fName_Coordinate);
-                    $("#LocationName").val(item.fName_Location);
+                    $("#LocationName").val(item.fName_Location);                    
                     //$("#fAdd_Location").val(item.fAdd_Location);
                     $("#fDescript_Location").val(item.fDescript_Location);
                     //console.log(item.fDescript_Location);
@@ -1870,7 +1876,7 @@
                 $("#descript_lr").html(Descript_Location);
                 $("#time_lr").html(Time_Location);
                 $("#loc").empty();
-
+                _locName = Name_Location;//地點名稱
                 //*****/////
                 var Name_Location = "";
                 var loc = [];

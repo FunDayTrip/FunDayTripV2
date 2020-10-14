@@ -46,10 +46,10 @@
     };
 
     function deleteLoc() {
-        console.log("delete:" + _LocationID);
+        console.log("delete:" + _LocationID + _locName);
 
         Swal.fire({
-            title: '要刪除此' + _LocationID + '地點嗎?',           
+            title: '要刪除此' + _locName + '地點嗎?',           
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
