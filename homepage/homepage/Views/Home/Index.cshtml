@@ -2086,37 +2086,19 @@
             //////////
 
             //////
-            document.getElementById("Comment").innerHTML = '';
             $.ajax({
-                url: "/Home/HistoryRouteComment",
+                url: "/Home/followOrNotRoute",
                 type: "POST",
-                dataType: "json",
-                data: { RouteID: RouteID },
+                data: {
+                    RouteID: RouteID,
+                    myID: $("#active_role").val()
+                },
                 success: function (response) {
-                    for (let i = 0; i < response.length; i++) {
-                        let HCMT = '<div class="comment-box-wrapper">';
-                        HCMT += '<div class="comment-box">';
-                        HCMT += ' <img src="https://i.imgur.com/vyWwMlr.png" class="commenter-image" alt="commenter_image">';
-                        HCMT += '<div class="comment-content">';
-                        HCMT += ' <div class="commenter-head">';
-                        HCMT += '  <span class="commenter-name"><a href="">';
-                        HCMT += response[i].fComment_Name
-                        HCMT += '</a ></span > ';
-                        HCMT += ' <span class="comment-date"><i class="far fa-clock"></i>';
-                        HCMT += response[i].fTime_Comment;
-                        HCMT += '</span > ';
-                        HCMT += '    </div>';
-                        HCMT += ' <div class="comment-body">';
-                        HCMT += '<span class="comment">' + response[i].fComment_Comment + '</span>';
-                        HCMT += '</div>';
-                        HCMT += '  <div class="comment-footer">';
-                        HCMT += '</div>';
-                        HCMT += ' </div>';
-                        HCMT += '</div>';
-                        HCMT += '  </div>';
-                        $("#Comment").append(HCMT);
-                    }
+                    console.log(response);
+                    $("#addfollowbtn").html(response);
+
                 }
+
             });
             //////////
         }

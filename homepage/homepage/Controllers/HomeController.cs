@@ -1621,6 +1621,32 @@ namespace homepage.Controllers
                 return "追隨";
         
         }
+        public string followOrNotRoute(string RouteID, int myID)
+        {
+
+            var q = (from p in dbFundaytrip.tRoutes
+                     where p.fId_Route == RouteID
+                     select p).FirstOrDefault();
+
+
+            var g = (from z in dbFundaytrip.tFollows
+                     where myID == q.fId_Role
+                     select z).FirstOrDefault();
+            //自己
+
+            var q1 = (from p1 in dbFundaytrip.tFollows
+                      where p1.fId_Target_Role == q.fId_Role && p1.fId_Self_Role == myID
+                      select p1).FirstOrDefault();
+
+
+            if (g != null)
+                return "自己";
+            if (q1 != null)
+                return "已追隨";
+            else
+                return "追隨";
+
+        }
         public string addfollower(string statestring,int myID,string Loction_Id)
         {
             if (statestring == "追隨")
