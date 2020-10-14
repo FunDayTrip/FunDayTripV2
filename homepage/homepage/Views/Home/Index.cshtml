@@ -1555,10 +1555,10 @@
                     }).done(function (response) {
 
                         if (response.length) {
-                            //console.log(response);
+                            console.log(response);
                             $("#output" + i).attr("src", response[0].fPath_Photo);
-                            $("#fTitle_Photo" + i).val(response[0].fTitle_Photo);
-                            $("#fDescript_Photo" + i).val(response[0].fDescript_Photo);
+                            //$("#fTitle_Photo" + i).val(response[0].fTitle_Photo);
+                            //$("#fDescript_Photo" + i).val(response[0].fDescript_Photo);
                         }
                         else {
                             alert("沒照片");
@@ -1920,7 +1920,7 @@
                 $("#photo_lr").attr("src", "");
                 if (response.length) {
                     Path_Photo = response[0].fPath_Photo
-                    //console.log("Path_Photo = " + Path_Photo);
+                    console.log("Path_Photo = " + Path_Photo);
                     $("#photo_lr").attr("src", Path_Photo);
                 }
                 else {
@@ -1987,6 +1987,7 @@
                 Auth_ShareAuth = response.fAuth_ShareAuth;
                 Descript_Route = response.fDescript_Route;
                 Time_Route = response.putime;
+                photo = response.fPath_Photo
                 //console.log("Route = " + Route);
                 //console.log("NickName_Role = " + NickName_Role);
                 //console.log("Name_Route = " + Name_Route);
@@ -2001,6 +2002,7 @@
                 $("#auth_lr").html(Auth_ShareAuth);
                 $("#descript_lr").html(Descript_Route);
                 $("#time_lr").html(Time_Route);
+
             }).fail(function (xhr) {
                 console.log(xhr.status + xhr.responseText);
             });//end ajax
@@ -2050,6 +2052,28 @@
                 console.log(xhr.status + xhr.responseText);
             });//end ajax
             //////
+
+            $.ajax({
+                url: "/Home/GetLocationPhoto",
+                type: "POST",
+                dataType: "json",
+                data: { LocationID: tempIdLoc }
+            }).done(function (response) {
+                //console.log(response);
+                $("#photo_lr").attr("src", "");
+                if (response.length) {
+                    Path_Photo = response[0].fPath_Photo
+                    console.log("Path_Photo = " + Path_Photo);
+                    $("#photo_lr").attr("src", Path_Photo);
+                }
+                else {
+                    alert("沒照片");
+                }
+
+            }).fail(function (xhr) {
+                console.log(xhr.status + xhr.responseText);
+            });//end ajax
+
             //////
             document.getElementById("Comment").innerHTML = '';
             $.ajax({
