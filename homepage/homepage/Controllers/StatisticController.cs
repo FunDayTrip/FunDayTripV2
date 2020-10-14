@@ -62,6 +62,7 @@ namespace homepage.Controllers
 
             if (gender == "所有") {
                 List<tLocation> location = (from l in dbFundaytrip.tLocations
+                                            where (DateTime.Now.Year - l.tRole.tMember.fBirthday_Member.Value.Year) > lower && (DateTime.Now.Year - l.tRole.tMember.fBirthday_Member.Value.Year) < upper
                                             select l).ToList();
                 _location = location;
 

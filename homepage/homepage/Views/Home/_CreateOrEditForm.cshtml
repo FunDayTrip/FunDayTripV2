@@ -58,7 +58,7 @@
 
 <div class="container contact-form" style="margin:0px 0px 20px 0px;width:920px;height:500px">
     <div class="contact-image">
-        <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact" />
+        <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact" onclick="DemoLoc()"/>
         <span class="close" id="closeAddLocationForm" style="float:right">&times;</span>
     </div>
     <form method="post">
@@ -71,17 +71,17 @@
                     <input name="fId_Role" id="fId_Role" value="@Session[CDictionary.SK_ActiveRoleId]" readonly />
                     <span>地點id: </span>
                     <input id="fId_Location" class="fId_LocationClass" style="color: green" name="fId_Location" readonly />
-                    <span>座標</span>
+                    <span>坐標</span>
                     <span id="info3" style="background-color:bisque"></span>
                     x :<input name="fX_Coordinate" id="fx_Coordinate" readonly />
                     y :<input name="fY_Coordinate" id="fy_Coordinate" readonly />
                 </div>
                 @*///*@
                 <div class="form-group">
-                    <input type="text" name="fName_Location" class="form-control" placeholder="Your LocName *" id="LocationName" />
+                    <input type="text" name="fName_Location" class="form-control" placeholder="Your Location Name *" id="LocationName" />
                 </div>
                 <div class="form-group">
-                    <textarea type="text" name="fDescript_Location" class="form-control" placeholder="Descript_Location *" id="fDescript_Location" style="width: 100%; height: 150px;"></textarea>
+                    <textarea type="text" name="fDescript_Location" class="form-control" placeholder="Your Location Descript *" id="fDescript_Location" style="width: 100%; height: 150px;"></textarea>
                 </div>
                 <div class="form-group">
                     <select id="selector" name="fId_ShareAuth">
@@ -97,7 +97,7 @@
                 <div class="form-group">
                     @*<input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />*@
                     <button type="button" onclick="UpLoadLoctionFormButton()" id="create" style="position:relative; bottom: 10px; right: 10px" class="btnContact">確定</button>
-                    <button type="button" onclick="EditLoctionFormButton()" id="save" style="position:relative; bottom: 10px; right: 10px" class="btnContact">編輯存檔</button>
+                    <button type="button" onclick="EditLoctionFormButton()" id="save" style="position:relative; bottom: 10px; right: 10px" class="btnContact">編輯存檔</button>                    
                 </div>
             </div>
             <div class="col-md-6" style="padding-right:80px;padding-right:80px;height:100px">
@@ -110,3 +110,12 @@
         </div>
     </form>
 </div>
+<script>
+    //按火箭圖示
+    function DemoLoc() { 
+        $("#LocationName").val("北極");
+        $("#fDescript_Location").val("研究發現，到了2300年，北極基地湖泊、濕地和山區的丘陵的永凍土，將釋放600億至1000億噸碳。\n此外，其它地區的永凍土將釋放2000億噸，而土壤的崩解是持續性、一環扣著一環的，因為被破壞的地方就無法再恢復。"+
+            "而目前唯一的緩解辦法，就是全球必須努力降低溫室氣體的排放，只要能延緩全球均溫不斷上升，便能有效不讓永凍土日漸崩解……");
+    }
+
+</script>
