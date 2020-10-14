@@ -300,15 +300,16 @@
     </script>
 
     @*  左側內容 _verna_0930  ===========================*@
-    <div id="LeftSideMenu">
-        <h7 class="title"><span>Fun Day Trip</span></h7>
-
-        <div id="Result_List2" style="width: 100%;">
-            @*地點路線資訊*@
-            @Html.Partial("_firstLoadAllListPartialView");
-        </div>
+<div id="LeftSideMenu">
+    
+    <h7 class="title"><span>Fun Day Trip</span></h7>
+    <div id="Result_List2" style="width: 100%;">
+        @*地點路線資訊*@
+        @Html.Partial("_firstLoadAllListPartialView")
     </div>
 
+</div>
+   
 
     <script>
         var LogIn;
@@ -323,11 +324,11 @@
 
         })
         function chatroompressEnter() {
-            $(document).on('keyup', '#StringTextBox', function (event) {              
+            $(document).on('keyup', '#StringTextBox', function (event) {
                 if (event.keyCode === 13) {
                     //event.preventDefault;
                         $(".c").click();
-                }             
+                }
             });
         };
         //顯示關閉左邊表單
@@ -504,7 +505,20 @@
                     </div>
                 </div>
                 @*-----------------------------------追蹤粉絲頁面 by曾開誠09/23-------------------------------*@
+                <script>                   
+                    $("body").on("click", function (e) {
 
+                        if (e.target.className == "modal-content") {
+                            console.log("u");
+                            $(".modal").show();
+                        } else if (e.target.className == "modal") {
+                            console.log("u2");
+                            $(".modal").hide();
+                        }
+                       
+                    })
+                 
+                </script>
             </div>
         </div>
         @*跳出新增/編輯視窗*@
@@ -1474,23 +1488,23 @@
                         '<div>y</div>' +
                         '<input name="fY_Coordinate[]" id="fy_Coordinate' + i + '" />' +
                         '</div>' +
-                    '<div>' +
-                    '<div class="form-group">' +
+                        '<div>' +
+                        '<div class="form-group">' +
                         '<div>地點名稱</div>' +
-                    '<input name="fName_Location[]" id="fName_Location' + i + '" class="form-control" placeholder="Your Location Name *" />' +
-                    '</div>' +
-                    '<div class="form-group">' +
+                        '<input name="fName_Location[]" id="fName_Location' + i + '" class="form-control" placeholder="Your Location Name *" />' +
+                        '</div>' +
+                        '<div class="form-group">' +
                         '<div>地點描述</div>' +
-                    '<input name="fDescript_Location[]" id="fDescript_Location' + i + '" class="form-control" placeholder="Your Location Descript *" />' +
-                    '</div>' +
-                    '</div>' +
-                    '<div>' +
-                    '<div class="form-group">' +
+                        '<input name="fDescript_Location[]" id="fDescript_Location' + i + '" class="form-control" placeholder="Your Location Descript *" />' +
+                        '</div>' +
+                        '</div>' +
+                        '<div>' +
+                        '<div class="form-group">' +
                         '<div>上傳照片</div>' +
                         '<input type="file" accept="image/*" onchange="RoateloadFile(event)" name="PostImages">' +
                         '<img id="output' + i + '" style="width:100%;height:200px" />' +
-                    '</div>' +
-                    '</div>' +
+                        '</div>' +
+                        '</div>' +
                         '</div>' +
                         '</div>' +
                         '</div>';

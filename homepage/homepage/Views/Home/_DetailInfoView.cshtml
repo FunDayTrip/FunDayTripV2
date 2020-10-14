@@ -130,6 +130,12 @@
     .nested-comments {
         margin-left: 30px;
     }
+
+
+    #infoi {
+        padding: 10px;
+        box-shadow: 5px 10px 18px #888888;
+    }
 </style>
 
 <div style="position:absolute;top:120px;width:600px;height:600px;" class="Info_lr" id="infoi">
@@ -177,7 +183,24 @@
             </div>
         </div>
     </div>
+    <button id="LocRouToTop" style="background-color:red;">toTop</button>
 </div>
+
+<script>
+
+    $("#infoi").scroll(function () {
+        if ($(this).scrollTop()) {
+            $('#LocRouToTop').fadeIn();
+        } else {
+            $('#LocRouToTop').fadeOut();
+        }
+    });
+
+    $("#LocRouToTop").click(function () {
+        $("#infoi").animate({ scrollTop: 0 }, 200);
+    });
+</script>
+
 <script>
     function addfollower() {        
         $.ajax({
