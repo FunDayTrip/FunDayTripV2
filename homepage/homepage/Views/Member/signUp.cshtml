@@ -84,14 +84,14 @@
             font-size: 36px;
             font-family: "cwTeXYen", sans-serif;
             color: slategray;
-            margin-left: 670px;
+            margin-left: 48%;
         }
 
         /*164行表單*/
         form {
             width: 700px;
-            /* height: 710px;*/
-            margin-left: 400px;
+            margin-left: 34%;
+            /*margin-right: 25%;*/
             border: solid 1px;
             border-color: black;
             border-radius: 20px;
@@ -163,172 +163,159 @@
             border-bottom-right-radius: 20px;
             background-image: url(../../Content/灑紅節改.jpg)
         }
-
-        /*#bt {
-            font-family: "Grandstander";
-        }*/
-
-        /*
-        label標籤與input標籤並排語法
-        .address {
-            float:left;
-        }*/
-
     </style>
     @*說明:連結google字體*@
     <link href="https://fonts.googleapis.com/css2?family=Grandstander:wght@300&family=Noto+Sans+TC&display=swap" rel="stylesheet">
 
 </head>
 <body id="BODY">
+            @*說明:頁面右上角DEMO按鈕*@
+            <div style="margin-left:67%; width:80px;height:30px;">
+                <button id="bt" style="margin-top:10px; background-color:transparent;">DEMO</button>
+            </div>
 
-    @*說明:頁面右上角DEMO按鈕*@
-    <div style="margin-left:1025px; width:80px;height:30px;">
-        <button id="bt" style="margin-top:10px; background-color:transparent;">DEMO</button>
-    </div>
+            <p><b class="b1">建立會員</b></p>
 
-    <p><b class="b1">建立會員</b></p>
+            @*說明:註冊主表單*@
+            <form id="register" method="post" action="signUp" enctype="multipart/form-data">
 
-    @*說明:註冊主表單*@
-    <form id="register" method="post" action="signUp" enctype="multipart/form-data">
+                @*說明:表單最上層彩色填滿效果*@
+                <div class="TopDiv"></div>
 
-    @*說明:表單最上層彩色填滿效果*@
-    <div class="TopDiv"></div>
+                @*說明:使用者照片顯示圓框*@
+                <div class="memberPhoto2">
+                    <img id="output" class="IMG" src="../Content/userPhoto.png" />
+                </div>
 
-    @*說明:使用者照片顯示圓框*@
-    <div class="memberPhoto2">
-        <img id="output" class="IMG" src="../Content/userPhoto.png" />
-    </div>
+                @*說明:上傳圖片*@
+                <div class="memberInput">
+                    <input id="memberPhotoFile2" type="file" accept="image/*" onchange="loadFile(event)" class="form-control btn btn-info" name="image" value="上傳大頭貼">
+                </div>
 
-    @*說明:上傳圖片*@
-    <div class="memberInput">
-        <input id="memberPhotoFile2" type="file" accept="image/*" onchange="loadFile(event)" class="form-control btn btn-info" name="image" value="上傳大頭貼">
-    </div>
+                @*說明:表單中間*字號與文字說明*@
+                <p style="display:inline-block;color:crimson;margin-left:35px;font-size:20px;">*</p>
+                <p style="display:inline-block;font-size:14px;font-weight:bold;">此區為必填</p>
 
-    @*說明:表單中間*字號與文字說明*@
-    <p style="display:inline-block;color:crimson;margin-left:35px;font-size:20px;">*</p>
-    <p style="display:inline-block;font-size:14px;font-weight:bold;">此區為必填</p>
+                @*說明:fNickName_Member欄位*@
+                <div class="form-group" style="margin-left:50px; margin-top:15px;">
+                    <label>暱稱</label>
+                    <input id="memberName" class="form-control" type="text" name="fNickName_Member" style="width:265px;" />
+                    @Html.ValidationMessageFor(model => model.fNickName_Member, "", new { @class = "text-danger" })
+                </div>
 
-    @*說明:fNickName_Member欄位*@
-    <div class="form-group" style="margin-left:50px; margin-top:15px;">
-        <label>暱稱</label>
-        <input id="memberName" class="form-control" type="text" name="fNickName_Member" style="width:265px;" />
-        @Html.ValidationMessageFor(model => model.fNickName_Member, "", new { @class = "text-danger" })
-    </div>
+                @*說明:fEmail_Member欄位*@
+                <div class="form-row" style="margin-left:45px;">
+                    <div class="form-group col-md-5">
+                        <label>Email</label>
+                        <input id="email" class="form-control" type="text" name="fEmail_Member" />
+                        @Html.ValidationMessageFor(model => model.fEmail_Member, "", new { @class = "text-danger" })
+                        <span id="email_warn"></span>
+                    </div>
+                </div>
 
-    @*說明:fEmail_Member欄位*@
-    <div class="form-row" style="margin-left:45px;">
-        <div class="form-group col-md-5">
-            <label>Email</label>
-            <input id="email" class="form-control" type="text" name="fEmail_Member" />
-            @Html.ValidationMessageFor(model => model.fEmail_Member, "", new { @class = "text-danger" })
-            <span id="email_warn"></span>
-        </div>
-    </div>
+                @*說明:fPassword_Member欄位*@
+                <div class="form-row" style="margin-left:45px;">
+                    <div class="form-group col-md-5">
+                        <label>密碼</label>
+                        <input id="pw" class="form-control" type="password" name="fPassword_Member" />
+                        @Html.ValidationMessageFor(model => model.fPassword_Member, "", new { @class = "text-danger" })
+                    </div>
 
-    @*說明:fPassword_Member欄位*@
-    <div class="form-row" style="margin-left:45px;">
-        <div class="form-group col-md-5">
-            <label>密碼</label>
-            <input id="pw" class="form-control" type="password" name="fPassword_Member" />
-            @Html.ValidationMessageFor(model => model.fPassword_Member, "", new { @class = "text-danger" })
-        </div>
+                    @*說明:確認密碼欄位*@
+                    <div class="form-group col-md-5" style="margin-left:30px;">
+                        <label>確認密碼</label>
+                        <input id="pw2" class="form-control" type="password" name="confirmPW" />
+                        @Html.ValidationMessageFor(model => model.confirmPW, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-        @*說明:確認密碼欄位*@
-        <div class="form-group col-md-5" style="margin-left:30px;">
-            <label>確認密碼</label>
-            <input id="pw2" class="form-control" type="password" name="confirmPW" />
-            @Html.ValidationMessageFor(model => model.confirmPW, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    @*說明:表單中間分隔虛線*@
-    <div class="form-group" style="height:1px; width:600px;border:0.5px dashed;margin-top:20px;margin-left:35px; border-color:darkgrey;"></div>
+                @*說明:表單中間分隔虛線*@
+                <div class="form-group" style="height:1px; width:600px;border:0.5px dashed;margin-top:20px;margin-left:35px; border-color:darkgrey;"></div>
 
 
-    @*說明:姓氏與名字欄位*@
-    <div class="form-row" style="margin-left:45px; margin-top:5px;">
-        <div class="form-group col-md-5">
-            <label>姓氏</label>
-            <input id="fn" class="form-control" type="text" name="fLastName_Member" />
-        </div>
-        <div class="form-group col-md-5" style="margin-left:30px;">
-            <label>名字</label>
-            <input id="ln" class="form-control" type="text" name="fFirstName_Member" />
-        </div>
-    </div>
+                @*說明:姓氏與名字欄位*@
+                <div class="form-row" style="margin-left:45px; margin-top:5px;">
+                    <div class="form-group col-md-5">
+                        <label>姓氏</label>
+                        <input id="fn" class="form-control" type="text" name="fLastName_Member" />
+                    </div>
+                    <div class="form-group col-md-5" style="margin-left:30px;">
+                        <label>名字</label>
+                        <input id="ln" class="form-control" type="text" name="fFirstName_Member" />
+                    </div>
+                </div>
 
-    @*說明:電話與地址欄位*@
-    <div class="form-row" style="margin-left:45px;">
-        <div class="form-group col-md-5">
-            <label>電話</label>
-            <input id="phone" class="form-control" type="text" name="fPhone_Member" />
-        </div>
-        <div class="form-group col-md-5" style="margin-left:30px;">
-            <label class="address">地址</label>
-            <input id="add" class="form-control" type="text" name="fAdd_Member" />
-        </div>
-    </div>
+                @*說明:電話與地址欄位*@
+                <div class="form-row" style="margin-left:45px;">
+                    <div class="form-group col-md-5">
+                        <label>電話</label>
+                        <input id="phone" class="form-control" type="text" name="fPhone_Member" />
+                    </div>
+                    <div class="form-group col-md-5" style="margin-left:30px;">
+                        <label class="address">地址</label>
+                        <input id="add" class="form-control" type="text" name="fAdd_Member" />
+                    </div>
+                </div>
 
-    @*說明:生日與國家欄位*@
-    <div class="form-row" style="margin-bottom:15px;margin-left:45px;">
-        <div class="form-group col-md-5">
-            <label>生日</label>
-            <input id="birthD" class="form-control" type="date" name="fBirthday_Member" />
-        </div>
-        <div class="form-group col-md-5" style="margin-left:30px;">
-            <label>國家</label>
-            <select id="country" class="form-control" name="fCountry_Member" style="width:100px;">
-                <option value="台灣">台灣</option>
-                <option value="香港">香港</option>
-                <option value="中國大陸">中國大陸</option>
-                <option value="日本">日本</option>
-                <option value="韓國">韓國</option>
-                <option value="越南">越南</option>
-                <option value="泰國">泰國</option>
-                <option value="菲律賓">菲律賓</option>
-                <option value="馬來西亞">馬來西亞</option>
-                <option value="新加坡">新加坡</option>
-                <option value="印尼">印尼</option>
-                <option value="印度">印度</option>
-                <option value="俄羅斯">俄羅斯</option>
-                <option value="捷克">捷克</option>
-                <option value="德國">德國</option>
-                <option value="法國">法國</option>
-                <option value="義大利">義大利</option>
-                <option value="挪威">挪威</option>
-                <option value="西班牙">西班牙</option>
-                <option value="英國">英國</option>
-                <option value="美國">美國</option>
-                <option value="加拿大">加拿大</option>
-                <option value="墨西哥">墨西哥</option>
-                <option value="巴西">巴西</option>
-                <option value="澳大力亞">澳大力亞</option>
-                <option value="紐西蘭">紐西蘭</option>
-            </select>
-        </div>
-    </div>
+                @*說明:生日與國家欄位*@
+                <div class="form-row" style="margin-bottom:15px;margin-left:45px;">
+                    <div class="form-group col-md-5">
+                        <label>生日</label>
+                        <input id="birthD" class="form-control" type="date" name="fBirthday_Member" />
+                    </div>
+                    <div class="form-group col-md-5" style="margin-left:30px;">
+                        <label>國家</label>
+                        <select id="country" class="form-control" name="fCountry_Member" style="width:100px;">
+                            <option value="台灣">台灣</option>
+                            <option value="香港">香港</option>
+                            <option value="中國大陸">中國大陸</option>
+                            <option value="日本">日本</option>
+                            <option value="韓國">韓國</option>
+                            <option value="越南">越南</option>
+                            <option value="泰國">泰國</option>
+                            <option value="菲律賓">菲律賓</option>
+                            <option value="馬來西亞">馬來西亞</option>
+                            <option value="新加坡">新加坡</option>
+                            <option value="印尼">印尼</option>
+                            <option value="印度">印度</option>
+                            <option value="俄羅斯">俄羅斯</option>
+                            <option value="捷克">捷克</option>
+                            <option value="德國">德國</option>
+                            <option value="法國">法國</option>
+                            <option value="義大利">義大利</option>
+                            <option value="挪威">挪威</option>
+                            <option value="西班牙">西班牙</option>
+                            <option value="英國">英國</option>
+                            <option value="美國">美國</option>
+                            <option value="加拿大">加拿大</option>
+                            <option value="墨西哥">墨西哥</option>
+                            <option value="巴西">巴西</option>
+                            <option value="澳大力亞">澳大力亞</option>
+                            <option value="紐西蘭">紐西蘭</option>
+                        </select>
+                    </div>
+                </div>
 
-    @*說明:性別欄位*@
-    <div class="form-group" style="margin-left:50px;margin-bottom:25px;">
-        <label>性別</label>
-        <select id="gen" class="form-control" name="fGender_Member" style="width:63px;">
-            <option value="男">男</option>
-            <option value="女">女</option>
-        </select>
-    </div>
+                @*說明:性別欄位*@
+                <div class="form-group" style="margin-left:50px;margin-bottom:25px;">
+                    <label>性別</label>
+                    <select id="gen" class="form-control" name="fGender_Member" style="width:63px;">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
 
-    @*說明:隱藏代入會員權限欄位，預設值為1*@
-    <input type="hidden" name="fId_FunctionAuth" value="1" />
+                @*說明:隱藏代入會員權限欄位，預設值為1*@
+                <input type="hidden" name="fId_FunctionAuth" value="1" />
 
-    @*表單下面送出按鈕*@
-    <div id="SubBtn">
-        <button id="SUBMIT" class="INPUT btn btn-info" type="submit" form="register" onclick="Alert()">註冊</button>
-    </div>
+                @*表單下面送出按鈕*@
+                <div id="SubBtn">
+                    <button id="SUBMIT" class="INPUT btn btn-info" type="submit" form="register" onclick="Alert()">註冊</button>
+                </div>
 
-    @*表單最下層圖片填滿效果*@
-    <div id="ButtomDiv"></div>
-
-</form>
+                @*表單最下層圖片填滿效果*@
+                <div id="ButtomDiv"></div>
+            </form>
     <script>
         //判斷email是否重複
         $('#email').on('change', checkEmail);

@@ -1503,6 +1503,7 @@ namespace homepage.Controllers
                 CH.fComment_Name = x.tRole.tMember.fNickName_Member;
                 CH.fComment_Comment = x.fComment_Comment;
                 CH.fTime_Comment = Convert.ToString(x.fTime_Comment);
+
                 f.Add(CH);
             }
             return Json(f);
@@ -1600,7 +1601,7 @@ namespace homepage.Controllers
             //自己
 
             var q1 = (from p1 in dbFundaytrip.tFollows
-                      where p1.fId_Target_Role == q.fId_Role && p1.fId_Self_Role != q.fId_Role
+                      where p1.fId_Target_Role == q.fId_Role && p1.fId_Self_Role == myID
                       select p1).FirstOrDefault();
 
          

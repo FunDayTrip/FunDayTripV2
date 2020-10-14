@@ -75,9 +75,17 @@ namespace homepage.Controllers
         }
 
         //審核控制器
-        public ActionResult disappearData(string id)
+        public ActionResult disappearData(string id, string fId, string fIdType)
         {
             string result = "";
+            if (fIdType == "L" || fIdType == "l")
+            {
+                new CReportFactory().getLocationDelete(fId);
+            }
+            else if (fIdType == "R" || fIdType == "r") 
+            {
+                new CReportFactory().getRouteDelete(fId);
+            }
             result = (new CReportFactory().getDisappear(id));
             Session["disappered"] = result;
             return RedirectToAction("reportedList");
