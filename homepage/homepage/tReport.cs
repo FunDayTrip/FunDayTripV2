@@ -22,6 +22,7 @@ namespace homepage
         public string fId_Type_Location_Route_Comment_Photo { get; set; }
         public string fReason_Report { get; set; }
         public Nullable<System.DateTime> fTimeReport_Report { get; set; }
+        
         public Nullable<System.DateTime> fTimeModify_Report { get; set; }
         public string fStatus_Report { get; set; }
     

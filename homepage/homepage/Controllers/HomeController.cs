@@ -726,6 +726,7 @@ namespace homepage.Controllers
                                 s2.fDescript_Photo,
 
                             };
+         
             string InfoJson = JsonConvert.SerializeObject(LocDetail);
 
 
@@ -848,8 +849,8 @@ namespace homepage.Controllers
 
             foreach (var item in location)
             {
-                
-                CLocation clocation = new CLocation(item);              
+                CLocation clocation = new CLocation(item);
+                clocation.futime = Convert.ToString(item.fTime_Location);
                 clocations.Add(clocation);
             }
             return Json(clocations, JsonRequestBehavior.AllowGet);
@@ -862,6 +863,7 @@ namespace homepage.Controllers
                             where s.fId_Route == RouteID
                             select s).FirstOrDefault();
             CRoute cRoute = new CRoute(Route);
+            cRoute.putime = Convert.ToString(Route.fTime_Route);
 
             return Json(cRoute, JsonRequestBehavior.AllowGet);
         }

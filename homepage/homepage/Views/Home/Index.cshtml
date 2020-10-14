@@ -10,7 +10,6 @@
     }
 
 }
-
 <!DOCTYPE html>
 
 <html>
@@ -1464,7 +1463,7 @@
                 for (var i = 0; i < response.length; i++) {
                     Name_Location.push(response[i].fName_Location);
                     Descript_Location.push(response[i].fDescript_Location);
-                    Time_Location.push(response[i].fTime_Location);
+                    Time_Location.push(response[i].futime);
                     Add_Location.push(response[i].fAdd_Location);
                     Id_Coordinate.push(response[i].fId_Coordinate);
                     X_Coordinate.push(response[i].fX_Coordinate);
@@ -1852,8 +1851,8 @@
                 Name_Location = response[0].fName_Location;
                 Auth_ShareAuth = response[0].fAuth_ShareAuth;
                 Descript_Location = response[0].fDescript_Location;
-                Time_Location = response[0].fTime_Location;
-
+                Time_Location = response[0].futime;
+                
                 //console.log("Coords_Location = " + Coords_Location);
                 //console.log("NickName_Role = " + NickName_Role);
                 //console.log("Name_Location = " + Name_Location);
@@ -1875,7 +1874,7 @@
 
                 var locs = document.getElementById('descript_lr');
                     loc += '<div>' + Name_Location +
-                        '<div style="font-size:small">' + Descript_Location +
+                        '<div>' + Descript_Location +
                         '</div></div>';
                     locs.innerHTML = loc;
                 //end for
@@ -1883,7 +1882,7 @@
                 if(response[0].fId_Role != @Session[CDictionary.SK_ActiveRoleId]) {
                     locs.innerHTML +=
                         '<div id="repoort">' +
-                        '<button id="report" class="btn btn-info" onclick="report()">檢舉</button>' +
+                        '<button id="report" class="btn btn_Rou" onclick="report()">檢舉</button>' +
                         '</div>';
                 }
 
@@ -1984,7 +1983,7 @@
                 Name_Route = response.fName_Route;
                 Auth_ShareAuth = response.fAuth_ShareAuth;
                 Descript_Route = response.fDescript_Route;
-                Time_Route = response.fTime_Route;
+                Time_Route = response.putime;
                 //console.log("Route = " + Route);
                 //console.log("NickName_Role = " + NickName_Role);
                 //console.log("Name_Route = " + Name_Route);
@@ -2019,28 +2018,28 @@
                     Id_Location = response[i].fId_Location;
                     Name_Location = response[i].fName_Location;
                     Descript_Location = response[i].fDescript_Location;
-                    Time_Location = response[i].fTime_Location;
+                    Time_Location = response[i].futime;
                     //console.log("Name_Location =" + Name_Location);
                     //console.log("Descript_Location =" + Descript_Location);
                     //console.log("Time_Location =" + Time_Location);
                     tempIdLoc.push(Id_Location);
                     var locs = document.getElementById('loc');
-                    loc += '<div>' + Name_Location +
-                           '<div style="font-size:small">' + Descript_Location +
+                    loc += '<div class="locd"><div class="locdn">' + Name_Location + '</div>'+
+                           '<div class="locdd">' + Descript_Location +
                            '</div></div>';
                     locs.innerHTML = loc;
                 };//end for
 
                 if (response[0].fId_Role == @Session[CDictionary.SK_ActiveRoleId]) {
                     locs.innerHTML +=
-                        '<div id="editRoute">' +
-                        '<button id="EditExistedRoute" class="btn btn-info" onclick="CallBackThisRouteInfoWhenEditor()">編輯路線</button>' +
+                        '<div id="editRoute" class="editroubtn">' +
+                        '<button id="EditExistedRoute" class="btn btn_Rou" onclick="CallBackThisRouteInfoWhenEditor()">編輯路線</button>' +
                         '</div>';
                 }
                 else if(response[0].fId_Role != @Session[CDictionary.SK_ActiveRoleId]) {
                     locs.innerHTML +=
-                        '<div id="repoort">' +
-                        '<button id="report" class="btn btn-info" onclick="report()">檢舉</button>' +
+                        '<div id="repoort" class="reportbtn">' +
+                        '<button id="report" class="btn btn_Rou" onclick="report()">檢舉</button>' +
                         '</div>';
                 }
 
@@ -2228,12 +2227,14 @@
                 dataType: "json",
                 data: role_id
             }).done(function (response) {
-                $("#info_panel").html('<ul id="note_list"></ul>');
+                $("#info_panel").html('<ul style="margin-right:10%" id="note_list"></ul>');
                 for (let i = 0; i < response.length; i++) {
-                    let note_item = "<li id='note_li" + i +"' style='list-style-type:none'>";
-                    note_item += "" + response[i].fMessage_Note + "<br>";
-                    note_item += "[" + response[i].fTimeReadable_Note + "]";
+                    let note_item = "<div style='border-bottom:1px dotted gray;margin-bottom:10px;'>";
+                        note_item +=  "<li id='note_li" + i +"' style='list-style-type:none'>";
+                    note_item += response[i].fMessage_Note + "</li>" ;
+                    note_item += "<div style='font-size:10px;text-align:right'>" + response[i].fTimeReadable_Note + "</div>";
                     note_item += "</li>";
+                    note_item += "</div>" ;
                     $("#note_list").append(note_item);
                     $("#noteNum").hide();
                    // console.log(response[i].fMessage_Note);
