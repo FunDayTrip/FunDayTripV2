@@ -31,15 +31,16 @@
         <div class="container d-flex h-100 align-items-center">
             <div class="mx-auto text-center">
 
-                <h1 class="mx-auto my-0 text-uppercase" style="color:white">FUNDAYTRIP</h1>
+                <h1 class="mx-auto my-0 text-uppercase" style="color:white" ">FUNDAYTRIP</h1>
+                <button onclick="demoUpgrade()" style="background-color:rebeccapurple">DEMO</button>
                 @*<h2 class="text-white-50 mx-auto mt-2 mb-5">A free, responsive, one page Bootstrap theme created by Start Bootstrap.</h2>*@
-                <form id="addToProfitMember" >
+                <form id="addToProfitMember">
                     <label style="color:aliceblue;font-size:20px;font-weight:bold">官方帳號:</label><br />
-                    <input type="text" name="fName_ProfitMember" style="width:500px" placeholder="Enter 官方帳號名稱"/><br />
+                    <input type="text" name="fName_ProfitMember" style="width:500px" placeholder="Enter 官方帳號名稱" /><br />
                     <label style="color:aliceblue;font-size:20px;font-weight:bold">官方Email:</label><br />
-                    <input type="text" name="fEmail_ProfitMember"style="width:500px" placeholder="Enter name@example.com"/><br />
-                    <label  style="color:aliceblue;font-size:20px;font-weight:bold">官方連絡電話:</label><br />
-                    <input type="text" name="fPhone_ProfitMember"  style="width:500px" placeholder="Enter 官方帳號電話"/><br />
+                    <input type="text" name="fEmail_ProfitMember" style="width:500px" placeholder="Enter name@example.com" /><br />
+                    <label style="color:aliceblue;font-size:20px;font-weight:bold">官方連絡電話:</label><br />
+                    <input type="text" name="fPhone_ProfitMember" style="width:500px" placeholder="Enter 官方帳號電話" /><br />
 
                 </form>
                 <br />
@@ -78,7 +79,7 @@
                         <input type="text" name="CheckMacValue" value="@ViewBag.SHA256" /><br />
                     </div>
 
-                    <input type="submit" value="立即升級" id="savetodb" class="btn btn-info" style="font-weight:bold;font-size:20px"/>
+                    <input type="submit" value="立即升級" id="savetodb" class="btn btn-info" style="font-weight:bold;font-size:20px" />
 
                 </form>
 
@@ -101,10 +102,13 @@
                 }
 
             });
-
-
-
         });
+
+        function demoUpgrade() {
+            $('input[name="fName_ProfitMember"]').val("好記擔仔麵");
+            $('input[name="fEmail_ProfitMember"]').val("HaoJiDanZaiMian@@gmail.com");
+            $('input[name="fPhone_ProfitMember"]').val("02-7894561");
+        };
 
     </script>
 </body>

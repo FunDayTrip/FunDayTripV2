@@ -42,7 +42,7 @@ namespace homepage.Controllers
             string MerchantTradeDate = DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
             string ReturnUrl = "http://localhost:53676/Home/Index/?id="+ MerchantTradeNo;
             string ProductName = "升級成為營利會員";
-            int Amount = 6000;
+            int Amount = 9000;
             //把需要的資料作串接
             string Url = "HashKey=5294y06JbISpM5x9&ChoosePayment=ALL&ChooseSubPayment=&ClientBackURL=" + ReturnUrl + "&EncryptType=1&ItemName="
                 + ProductName

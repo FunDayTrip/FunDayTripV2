@@ -693,7 +693,7 @@
     </script>
 
     @* ===== 新增廣告 by kevin 10/08 ===== *@
-    <script>
+<script>
         function makeIdentity() {
 
             //TODO:新增廣告的地點
@@ -730,7 +730,7 @@
                     console.log("yes");
 
                     $.ajax({
-                        url: "../Advertisement/StashAdCoordinate",
+                        url: "@Url.Action("StashAdCoordinate", "Advertisement")",
                         type: "POST",
                         data: { lng: _lng, lat: _lat }
                     }).done(function (response) {
@@ -751,7 +751,7 @@
         }
 
 
-    </script>
+</script>
 
     <script>
         //追蹤中地點

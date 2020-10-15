@@ -60,7 +60,7 @@
         <label style="font-size:18px;color:whitesmoke;">@Html.ActionLink("回首頁", "Index", "Home", null, new { style = "color:whitesmoke;" })</label>
     </div>
     <form method="post" enctype="multipart/form-data">
-
+        
         <div class="form-group" style="display:inline-block;">
             <div>
                 <img id="output" class="IMG" src="../../Content/相機圖示.png" />
@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="form-group" style="display:inline-block;">
-            <div style="margin-left:10px;">
+            <div style="margin-left:10px;">                
                 <label style="color:whitesmoke;font-size:large;" onclick="DemoAD()">請寫下您對這張廣告照片的說明</label><br />
                 <label style="color:whitesmoke;">Please type in advertising slogon for your photos</label><br /><br />
                 <textarea style="height:80px;width:320px;" maxlength="30" placeholder="The limit is up to 30 characters" name="fContent_Ad"></textarea><br /><br />
@@ -82,7 +82,9 @@
                     <option value="P">尊榮方案(Premium)</option>
                     <option value="A">進階方案(Advanced)</option>
                     <option value="E">實惠方案(Economic)</option>
-                </select><br />
+                </select>
+                <br />
+
             </div>
         </div>
         <div style="margin-left:745px;margin-top:-85px;position:relative;">

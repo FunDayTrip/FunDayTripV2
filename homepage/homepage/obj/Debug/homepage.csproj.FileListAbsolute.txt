@@ -2967,3 +2967,5 @@ C:\Users\peace\OneDrive - implement viral e-services\Desktop\FinalFundaytrip\hom
 C:\Users\peace\OneDrive - implement viral e-services\Desktop\FinalFundaytrip\homepage\homepage\obj\Debug\homepage.pdb
 C:\Users\peace\OneDrive - implement viral e-services\Desktop\FinalFundaytrip\homepage\homepage\obj\Debug\homepage.Properties.Resources.resources
 C:\Users\peace\OneDrive - implement viral e-services\Desktop\FinalFundaytrip\homepage\homepage\obj\Debug\homepage.csproj.GenerateResource.cache
+C:\Users\User\Documents\GitHub\FunDayTripV2\homepage\homepage\obj\Debug\homepage.Properties.Resources.resources
+C:\Users\User\Documents\GitHub\FunDayTripV2\homepage\homepage\obj\Debug\homepage.csproj.GenerateResource.cache
