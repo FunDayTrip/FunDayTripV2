@@ -116,7 +116,11 @@ namespace homepage.Controllers
             DB_FunDayTrip.tRoles.Add(role);
             DB_FunDayTrip.SaveChanges();
 
-
+            //var RID = (from r in DB_FunDayTrip.tRoles
+            //              where r.tMember.fId_Member == role.fId_Master_Role 
+            //              select r).FirstOrDefault();
+            //RID.tMember.fId_FunctionAuth = 4;
+            //DB_FunDayTrip.SaveChanges();
 
         }
     }
