@@ -221,9 +221,11 @@
                             }
                         }
                         //////////////////////////
-                        messagetextold(content, ppp);
-
-                        chatroomscrolldown();
+                        setTimeout(function () {
+                            messagetextold(content, ppp);
+                            chatroomscrolldown();
+                        }, 1000);
+                        chatroomresizs();
                     }
                     else {
                         for (let i = 0; i < response.length; i++) {
@@ -232,11 +234,12 @@
                                 var mm = response[i].photo
                             }
                         }
-                        messagetextold(content,mm);
+                        messagetextold(content, mm);
+
+                        chatroomresizs();
+                        chatroomscrolldown();
                  
                     }
-                    chatroomresizs();
-                    chatroomscrolldown();
                 }
             });
         }
