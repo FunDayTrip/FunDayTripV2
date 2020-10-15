@@ -3100,3 +3100,5 @@ C:\Users\ken\Desktop\1015v2\FunDayTrip\FunDayTripV2\homepage\homepage\obj\Debug\
 C:\Users\ken\Desktop\1015v2\FunDayTrip\FunDayTripV2\homepage\homepage\obj\Debug\homepage.csproj.CopyComplete
 C:\Users\ken\Desktop\1015v2\FunDayTrip\FunDayTripV2\homepage\homepage\obj\Debug\homepage.dll
 C:\Users\ken\Desktop\1015v2\FunDayTrip\FunDayTripV2\homepage\homepage\obj\Debug\homepage.pdb
+C:\Users\User\Source\Repos\FunDayTripV2\homepage\homepage\obj\Debug\homepage.Properties.Resources.resources
+C:\Users\User\Source\Repos\FunDayTripV2\homepage\homepage\obj\Debug\homepage.csproj.GenerateResource.cache
