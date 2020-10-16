@@ -970,121 +970,129 @@ namespace homepage.Controllers
                 alert = "photoIsnotUploaded";
                 return alert;
             };
-
-            //新增坐標
-            tCoordinate createCoordinate = new tCoordinate();
-            for (int i = 0; i < Coordinate.fX_Coordinate.Length; i++)
+            try
             {
-                if (Coordinate.fId_Coordinate[i] != 0)
+                //新增坐標
+                tCoordinate createCoordinate = new tCoordinate();
+                for (int i = 0; i < Coordinate.fX_Coordinate.Length; i++)
                 {
-                    createCoordinate.fId_Coordinate = Coordinate.fId_Coordinate[i];
+                    if (Coordinate.fId_Coordinate[i] != 0)
+                    {
+                        createCoordinate.fId_Coordinate = Coordinate.fId_Coordinate[i];
+                    }
+                    else
+                    {
+                        createCoordinate.fX_Coordinate = Coordinate.fX_Coordinate[i];
+                        createCoordinate.fY_Coordinate = Coordinate.fY_Coordinate[i];
+                        createCoordinate.fName_Coordinate = Coordinate.fName_Location[i];
+                        dbFundaytrip.tCoordinates.Add(createCoordinate);
+                        dbFundaytrip.SaveChanges();
+                    }
                 }
-                else
+
+                //新增地點
+                tLocation createlocation = new tLocation();
+                tPhoto createphoto = new tPhoto();
+                List<int> coordFid = new List<int>();
+                for (int i = 0; i < Coordinate.fX_Coordinate.Length; i++)
                 {
-                    createCoordinate.fX_Coordinate = Coordinate.fX_Coordinate[i];
-                    createCoordinate.fY_Coordinate = Coordinate.fY_Coordinate[i];
-                    createCoordinate.fName_Coordinate = Coordinate.fName_Location[i];
-                    dbFundaytrip.tCoordinates.Add(createCoordinate);
+                    decimal x = Convert.ToDecimal(Coordinate.fX_Coordinate[i]);
+                    decimal y = Convert.ToDecimal(Coordinate.fY_Coordinate[i]);
+
+                    decimal offset = 0.0000225M;
+                    coordFid.Add((from c in dbFundaytrip.tCoordinates.AsEnumerable()
+                                  where c.fX_Coordinate < x + offset && c.fX_Coordinate > x - offset
+                                 && c.fY_Coordinate < y + offset && c.fY_Coordinate > y - offset
+                                  select c.fId_Coordinate).FirstOrDefault());
+                    if (coordFid.Count == 0)
+                        return "新增地點失敗";
+
+                    //createlocation.fAdd_Location = Coordinate.fAdd_Location[i];
+                    createlocation.fDescript_Location = Coordinate.fDescript_Location[i];
+                    createlocation.fName_Location = Coordinate.fName_Location[i];
+
+                    //createlocation.fId_Coordinate = 100;
+                    createlocation.fId_Role = Coordinate.fId_Role;
+                    createlocation.fId_Coordinate = coordFid[i];
+                    createlocation.fId_ShareAuth = Coordinate.fId_ShareAuth[0];
+                    createlocation.fId_Icon = Coordinate.fId_ShareAuth[0];
+                    createlocation.fType_Location = "point";
+                    createlocation.fTime_Location = DateTime.Now;
+
+                    if (Coordinate.fDelete_Route != null)
+                    {
+                        createlocation.fDelete_Location = (int)Coordinate.fDelete_Route;
+                    }
+
+                    dbFundaytrip.tLocations.Add(createlocation);
+                    
                     dbFundaytrip.SaveChanges();
                 }
-            }
 
-            //新增地點
-            tLocation createlocation = new tLocation();
-            tPhoto createphoto = new tPhoto();
-            List<int> coordFid = new List<int>();
-            for (int i = 0; i < Coordinate.fX_Coordinate.Length; i++)
-            {
-                decimal x = Convert.ToDecimal(Coordinate.fX_Coordinate[i]);
-                decimal y = Convert.ToDecimal(Coordinate.fY_Coordinate[i]);
 
-                decimal offset = 0.0000225M;
-                coordFid.Add((from c in dbFundaytrip.tCoordinates.AsEnumerable()
-                              where c.fX_Coordinate < x + offset && c.fX_Coordinate > x - offset
-                             && c.fY_Coordinate < y + offset && c.fY_Coordinate > y - offset
-                              select c.fId_Coordinate).FirstOrDefault());
-                if (coordFid.Count == 0)
-                    return "新增地點失敗";
+                //新增照片
+                int tempi = 0;
+                foreach (int item in coordFid)
+                {
+                    List<string> lastestLocationFid = (from l in dbFundaytrip.tLocations
+                                                       where l.fId_Coordinate == item
+                                                       select l.fId_Location).ToList();
 
-                //createlocation.fAdd_Location = Coordinate.fAdd_Location[i];
-                createlocation.fDescript_Location = Coordinate.fDescript_Location[i];
-                createlocation.fName_Location = Coordinate.fName_Location[i];
+                    string photoname = Guid.NewGuid().ToString(); //重新命名一個不會重複的照片ID進資料庫
+                    createphoto.fId_Location = lastestLocationFid[0];
+                    createphoto.fId_Role = 3;
+                    //照片路徑
+                    photoname += Path.GetExtension(Coordinate.PostImages[tempi].FileName);//取得副檔名
+                    Coordinate.PostImages[tempi].SaveAs(Server.MapPath("../Content/" + photoname)); //根目錄:~(不行),要用..回上一層
+                    createphoto.fPath_Photo = "../Content/" + photoname;
+                    //createphoto.fTitle_Photo = Coordinate.fTitle_Photo[tempi];
+                    //createphoto.fDescript_Photo = Coordinate.fDescript_Photo[tempi];
+                    createphoto.fTime_Photo = DateTime.Now;
+                    dbFundaytrip.tPhotoes.Add(createphoto);
+                    dbFundaytrip.SaveChanges();
+                    tempi++;
+                }
 
-                createlocation.fId_Role = Coordinate.fId_Role;
-                createlocation.fId_Coordinate = coordFid[i];
-                createlocation.fId_ShareAuth = Coordinate.fId_ShareAuth[0];
-                createlocation.fId_Icon = Coordinate.fId_ShareAuth[0];
-                createlocation.fType_Location = "point";
-                createlocation.fTime_Location = DateTime.Now;
+                //新增路線
+                createroute.fId_Role = Coordinate.fId_Role;
+                createroute.fId_Icon = Coordinate.fId_ShareAuth[0];
+                createroute.fId_ShareAuth = Coordinate.fId_ShareAuth[0];
+                createroute.fTime_Route = DateTime.Now;
+                createroute.fType_Route = "line";
+                createroute.fDescript_Route = Coordinate.fDescript_Route;
+                createroute.fName_Route = Coordinate.fName_Route;
+                createroute.fPath_Route = Coordinate.fPath_Route;
 
                 if (Coordinate.fDelete_Route != null)
                 {
-                    createlocation.fDelete_Location = (int)Coordinate.fDelete_Route;
+                    createroute.fDelete_Route = (int)Coordinate.fDelete_Route;
                 }
-                
-                dbFundaytrip.tLocations.Add(createlocation);
+
+                dbFundaytrip.tRoutes.Add(createroute);
                 dbFundaytrip.SaveChanges();
+
+                //新增地點路線關聯
+                foreach (int item in coordFid)
+                {
+                    int i = 0;
+                    List<string> lastestLocationFid = (from l in dbFundaytrip.tLocations
+                                                       where l.fId_Coordinate == item
+                                                       select l.fId_Location).ToList();
+
+                    string lastestRouteFid = (from t in dbFundaytrip.tRoutes
+                                              orderby t.ID descending
+                                              select t.fId_Route).FirstOrDefault();
+
+                    createLRrelation.fId_Location = lastestLocationFid[i];
+                    createLRrelation.fId_Route = lastestRouteFid;
+                    dbFundaytrip.tLR_Relation.Add(createLRrelation);
+                    dbFundaytrip.SaveChanges();
+                    i++;
+                }
+
             }
-
-
-            //新增照片
-            int tempi = 0;
-            foreach (int item in coordFid)
-            {
-                List<string> lastestLocationFid = (from l in dbFundaytrip.tLocations
-                                                   where l.fId_Coordinate == item
-                                                   select l.fId_Location).ToList();
-
-                string photoname = Guid.NewGuid().ToString(); //重新命名一個不會重複的照片ID進資料庫
-                createphoto.fId_Location = lastestLocationFid[0];
-                createphoto.fId_Role = 3;
-                //照片路徑
-                photoname += Path.GetExtension(Coordinate.PostImages[tempi].FileName);//取得副檔名
-                Coordinate.PostImages[tempi].SaveAs(Server.MapPath("../Content/" + photoname)); //根目錄:~(不行),要用..回上一層
-                createphoto.fPath_Photo = "../Content/" + photoname;
-                //createphoto.fTitle_Photo = Coordinate.fTitle_Photo[tempi];
-                //createphoto.fDescript_Photo = Coordinate.fDescript_Photo[tempi];
-                createphoto.fTime_Photo = DateTime.Now;
-                dbFundaytrip.tPhotoes.Add(createphoto);
-                dbFundaytrip.SaveChanges();
-                tempi++;
-            }
-
-            //新增路線
-            createroute.fId_Role = Coordinate.fId_Role;
-            createroute.fId_Icon = Coordinate.fId_ShareAuth[0];            
-            createroute.fId_ShareAuth = Coordinate.fId_ShareAuth[0];
-            createroute.fTime_Route = DateTime.Now;
-            createroute.fType_Route = "line";
-            createroute.fDescript_Route = Coordinate.fDescript_Route;
-            createroute.fName_Route = Coordinate.fName_Route;
-            createroute.fPath_Route = Coordinate.fPath_Route;
-
-            if (Coordinate.fDelete_Route != null)
-            {
-                createroute.fDelete_Route = (int)Coordinate.fDelete_Route;
-            }
-
-            dbFundaytrip.tRoutes.Add(createroute);
-            dbFundaytrip.SaveChanges();
-
-            //新增地點路線關聯
-            foreach (int item in coordFid)
-            {
-                int i = 0;
-                List<string> lastestLocationFid = (from l in dbFundaytrip.tLocations
-                                                   where l.fId_Coordinate == item
-                                                   select l.fId_Location).ToList();
-
-                string lastestRouteFid = (from t in dbFundaytrip.tRoutes
-                                          orderby t.ID descending
-                                          select t.fId_Route).FirstOrDefault();
-
-                createLRrelation.fId_Location = lastestLocationFid[i];
-                createLRrelation.fId_Route = lastestRouteFid;
-                dbFundaytrip.tLR_Relation.Add(createLRrelation);
-                dbFundaytrip.SaveChanges();
-                i++;
+            catch {
+                RedirectToAction("Index","Home");
             }
             return "checkfordbCoordinate";
         }
@@ -1324,34 +1332,43 @@ namespace homepage.Controllers
         // ===== 新增相簿 by kevin 10/06 =====//
         public string addAlbum(tLA_Relation tLA_Relation, tAlbum tAlbum, tLocation tLocation, CCreateAlbumAjax CCreateAlbumAjax)
         {
-            tAlbum createAlbum = new tAlbum();
-            createAlbum.fDelete_Album = 0;
-            createAlbum.fDescript_Album = tAlbum.fDescript_Album;
-            createAlbum.fId_ShareAuth = tAlbum.fId_ShareAuth;
-            createAlbum.fName_Album = tAlbum.fName_Album;
-
-            dbFundaytrip.tAlbums.Add(createAlbum);
-            dbFundaytrip.SaveChanges();
-
-            tLA_Relation createLArelation = new tLA_Relation();
-
-            tAlbum als = (from a in dbFundaytrip.tAlbums
-                          orderby a.fId_Album descending
-                          select a).FirstOrDefault();
-
-            tLocation locs = new tLocation();
-
-            for (int i = 0; i < CCreateAlbumAjax.fId_Location.Length; i++)
+            try
             {
-                var templid = CCreateAlbumAjax.fId_Location[i];
-                locs = (from l in dbFundaytrip.tLocations
-                        where l.fId_Location == templid
-                        select l).FirstOrDefault();
 
-                createLArelation.fId_Location = locs.fId_Location;
-                createLArelation.fId_Album = als.fId_Album;
-                dbFundaytrip.tLA_Relation.Add(createLArelation);
+                tAlbum createAlbum = new tAlbum();
+                createAlbum.fDelete_Album = 0;
+                createAlbum.fDescript_Album = tAlbum.fDescript_Album;
+                createAlbum.fId_ShareAuth = tAlbum.fId_ShareAuth;
+                createAlbum.fName_Album = tAlbum.fName_Album;
+
+                dbFundaytrip.tAlbums.Add(createAlbum);
                 dbFundaytrip.SaveChanges();
+
+                tLA_Relation createLArelation = new tLA_Relation();
+
+                tAlbum als = (from a in dbFundaytrip.tAlbums
+                              orderby a.fId_Album descending
+                              select a).FirstOrDefault();
+
+                tLocation locs = new tLocation();
+
+                for (int i = 0; i < CCreateAlbumAjax.fId_Location.Length; i++)
+                {
+                    var templid = CCreateAlbumAjax.fId_Location[i];
+                    locs = (from l in dbFundaytrip.tLocations
+                            where l.fId_Location == templid
+                            select l).FirstOrDefault();
+
+                    createLArelation.fId_Location = locs.fId_Location;
+                    createLArelation.fId_Album = als.fId_Album;
+                    dbFundaytrip.tLA_Relation.Add(createLArelation);
+                    dbFundaytrip.SaveChanges();
+                }
+
+            }
+            catch
+            {
+                RedirectToAction("Index", "Home");
             }
             return "新增相簿成功";
         }
